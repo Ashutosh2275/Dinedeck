@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #1E293B;
+  background: #fff;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Dot grid background */
+.dot-grid {
+  background-image: radial-gradient(circle, #4F46E5 0.8px, transparent 0.8px);
+  background-size: 24px 24px;
+}
+
+/* KOT flash animation */
+@keyframes kot-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.kot-flash {
+  animation: kot-flash 1s ease-in-out infinite;
+}
+
+/* Form shake */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Progress fill */
+@keyframes slideProgress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Glow button */
+.glow-btn {
+  transition: all 0.3s ease;
+}
+.glow-btn:hover {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
