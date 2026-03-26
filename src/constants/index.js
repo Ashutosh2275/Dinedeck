@@ -1,6 +1,6 @@
 import {
   CreditCard, QrCode, Ticket, Globe, BarChart3, Users, LayoutGrid, Package,
-  MapPin, Mail, Phone, Clock, Check
+  MapPin, Mail, Phone, Clock, Check, TrendingUp, Sparkles, Smartphone, Monitor
 } from 'lucide-react'
 
 // ─── NAV ───
@@ -12,139 +12,292 @@ export const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ]
 
-// ─── FEATURES ───
+// ─── FEATURES GRID OVERHAUL (CHANGE 3) ───
 export const FEATURES = [
-  { icon: CreditCard, title: 'Smart POS Billing', description: 'GST-ready billing, split payments, thermal print', color: 'from-[#4F46E5] to-[#818cf8]' },
-  { icon: QrCode, title: 'QR-Based Ordering', description: 'Guests scan, order, pay — no staff needed', color: 'from-[#F97316] to-[#fb923c]' },
-  { icon: Ticket, title: 'Kitchen Order Tickets', description: 'Live KOT with priority alerts, zero confusion', color: 'from-[#10b981] to-[#34d399]' },
-  { icon: Globe, title: 'Website Builder', description: 'Your own branded online menu page, live in minutes', color: 'from-[#8b5cf6] to-[#a78bfa]' },
-  { icon: BarChart3, title: 'Real-Time Analytics', description: 'Revenue, top dishes, peak hours — live', color: 'from-[#ec4899] to-[#f472b6]' },
-  { icon: Users, title: 'Staff Management', description: 'Roles, shifts, access control per staff', color: 'from-[#0ea5e9] to-[#38bdf8]' },
-  { icon: LayoutGrid, title: 'Table Management', description: 'Visual table map, occupancy tracking', color: 'from-[#14b8a6] to-[#2dd4bf]' },
-  { icon: Package, title: 'Inventory Alerts', description: 'Stock tracking, low-inventory notifications', color: 'from-[#f43f5e] to-[#fb7185]' },
+  { 
+    id: 'pos',
+    icon: CreditCard, 
+    title: 'Smart POS Billing', 
+    description: 'Bill faster, make zero errors, and track every rupee.',
+    color: 'from-indigo-600 to-indigo-400',
+    expansion: {
+      headline: 'Stop losing money to billing mistakes',
+      problem: 'Most restaurants lose ₹3,000–₹8,000/month to billing errors, wrong GST calculations, and slow checkout. Your staff is human — they make mistakes.',
+      solution: 'DineDeck POS handles every calculation automatically. GST, discounts, split bills — done in seconds, not minutes.',
+      stats: 'Average billing time reduced from 4 minutes to 47 seconds',
+      cta: 'See POS in Action',
+      target: '#demo'
+    }
+  },
+  { 
+    id: 'qr',
+    icon: QrCode, 
+    title: 'QR-Based Ordering', 
+    description: 'Let guests order themselves and skip the wait.',
+    color: 'from-orange-500 to-orange-400',
+    expansion: {
+      headline: 'Your busiest nights, handled without extra staff',
+      problem: 'During peak hours, 1 waiter handles 6 tables. Orders get mixed up. Customers wait. They leave unhappy and don\'t come back.',
+      solution: 'With DineDeck QR ordering, guests browse your full menu, customize their order, and send it directly to the kitchen — without involving your staff.',
+      stats: 'Restaurants using QR ordering serve 30% more tables in the same time',
+      cta: 'Watch the QR Demo',
+      target: '#demo'
+    }
+  },
+  { 
+    id: 'kot',
+    icon: Ticket, 
+    title: 'Kitchen Order Tickets', 
+    description: 'Zero missed orders with live kitchen display.',
+    color: 'from-emerald-500 to-emerald-400',
+    expansion: {
+      headline: 'No more "what was that order?" moments',
+      problem: 'Verbal orders get forgotten. Handwritten tickets get lost or misread. One missed order can ruin a customer\'s entire experience.',
+      solution: 'Every order from POS or QR goes directly to the kitchen screen. Color-coded, prioritized, and impossible to miss.',
+      stats: '98% reduction in wrong or missed orders',
+      cta: 'See How KOT Works',
+      target: '#demo'
+    }
+  },
+  { 
+    id: 'web',
+    icon: Globe, 
+    title: 'Website Builder', 
+    description: 'Get your restaurant online in under 30 minutes.',
+    color: 'from-violet-600 to-violet-400',
+    expansion: {
+      headline: 'Get online before your competitor does',
+      problem: 'Your restaurant doesn\'t show up when someone Googles "restaurants in [your city]". You\'re invisible to an entire generation of customers who decide where to eat online.',
+      solution: 'DineDeck gives you a beautiful, mobile-optimized restaurant website with your full menu, photos, and an online ordering option — live in under 30 minutes.',
+      stats: 'Restaurants with online presence get 2.4x more new customers per month',
+      cta: 'Get Your Restaurant Online',
+      target: '#contact'
+    }
+  },
+  { 
+    id: 'analytics',
+    icon: BarChart3, 
+    title: 'Real-Time Analytics', 
+    description: 'Know which dish makes you the most money.',
+    color: 'from-pink-500 to-pink-400',
+    expansion: {
+      headline: 'Run your restaurant on data, not gut feeling',
+      problem: 'You know your restaurant is busy on weekends — but do you know WHICH dishes make you the most profit? Which table has the best turnover? What time your revenue drops?',
+      solution: 'DineDeck shows you everything: daily revenue, top 10 dishes, peak hours heatmap, average order value, and weekly trends — all in one screen.',
+      stats: 'Restaurants using analytics grow revenue 23% faster in the first 3 months',
+      cta: 'See Your Dashboard',
+      target: '#demo'
+    }
+  },
+  { 
+    id: 'staff',
+    icon: Users, 
+    title: 'Staff Management', 
+    description: 'Control who sees what, even when you aren\'t there.',
+    color: 'from-sky-500 to-sky-400',
+    expansion: {
+      headline: 'Know your team is doing their job — without watching them',
+      problem: 'You can\'t be in the restaurant 24/7. Staff take shortcuts when you\'re not watching. Orders get delayed. Customers get ignored.',
+      solution: 'Set roles, permissions, and access levels for every staff member. See who handled which order, track shift timings, and control what each person can see or edit.',
+      stats: 'Owners report 40% less staff conflict after implementing role-based access',
+      cta: 'See Staff Features',
+      target: '#contact'
+    }
+  },
+  { 
+    id: 'tables',
+    icon: LayoutGrid, 
+    title: 'Table Management', 
+    description: 'Live visual map of every table in your restaurant.',
+    color: 'from-teal-500 to-teal-400',
+    expansion: {
+      headline: 'Stop guessing which tables are free',
+      problem: 'During a rush, your staff doesn\'t know which tables are occupied, billed, or waiting for food. Customers stand at the entrance while empty tables sit unnoticed.',
+      solution: 'Live visual table map shows every table\'s status in real-time: Free, Occupied, Bill Requested, or Reserved. One glance tells your staff everything.',
+      stats: '25% faster table turnover in the first week',
+      cta: 'See Table Management',
+      target: '#demo'
+    }
+  },
+  { 
+    id: 'inventory',
+    icon: Package, 
+    title: 'Inventory Tracking', 
+    description: 'Never run out of a dish mid-service again.',
+    color: 'from-rose-500 to-rose-400',
+    expansion: {
+      headline: 'Never 86 a dish mid-service again',
+      problem: 'Running out of key ingredients mid-service is embarrassing and costly. Customers order a dish, you have to turn them away. They don\'t forget it.',
+      solution: 'Track ingredient levels in real-time. Get low-stock alerts before service starts. Know exactly when to reorder and how much — automatically.',
+      stats: 'Average food waste reduced by 18% in the first month',
+      cta: 'See Inventory Features',
+      target: '#contact'
+    }
+  },
+]
+
+// ─── PRICING OVERHAUL (CHANGE 1) ───
+export const PRICING_PLANS = [
+  {
+    id: 'starter',
+    name: 'Starter',
+    price: 1999,
+    tagline: 'Everything you need to go digital today',
+    bestFor: 'Single-outlet restaurants just starting out',
+    features: [
+      'Smart POS — Bill faster, make zero errors',
+      'QR Ordering — Let guests order themselves',
+      'Kitchen Order Tickets — Zero missed orders',
+      'Digital Menu — Always up to date, zero printing cost',
+      'Basic Analytics — See today\'s revenue and top dishes',
+      '2 Staff Accounts — Owner + 1 manager',
+      'WhatsApp bill sharing — Professional receipts instantly',
+      'Email support — Response within 24 hours',
+      '14-day free trial included',
+    ],
+    cta: 'Start Free — No Card Needed',
+    note: 'Setup done by our team. You just show up.',
+    popular: false,
+  },
+  {
+    id: 'growth',
+    name: 'Growth',
+    price: 4999,
+    tagline: 'For restaurants ready to grow beyond walk-ins',
+    bestFor: 'Restaurants wanting online presence + deeper control',
+    features: [
+      'Everything in Starter, plus:',
+      'Your own restaurant website — Take online orders directly',
+      'Advanced Analytics — Know which dish makes you money',
+      'Inventory Tracking — Never run out of a dish again',
+      'Unlimited Staff Accounts — Full team, full control',
+      'Staff Roles & Permissions — Control who sees what',
+      'Table Management — Visual map, live occupancy',
+      'Priority WhatsApp Support — Real human, under 2 hours',
+      'Monthly Growth Review Call — We look at your numbers',
+      'Early access to new features — Always first',
+    ],
+    cta: 'Start Free — No Card Needed',
+    note: 'Includes everything in Starter. Upgrade or cancel anytime.',
+    popular: true,
+  },
+]
+
+// ─── OUR STORY JOURNEY (CHANGE 5) ───
+export const JOURNEY_ITEMS = [
+  { date: 'Dec 2024', text: 'DineDeck founded in Bhubaneswar, Odisha', type: 'completed' },
+  { date: 'Jan 2025', text: 'First restaurant onboarded. First order placed. First lesson learned.', type: 'completed' },
+  { date: 'Mar 2025', text: 'Live in Bhubaneswar & Cuttack', type: 'completed' },
+  { date: '2025 (ongoing)', text: 'Building with our first partner restaurant, refining every feature', type: 'active' },
+  { date: 'Coming Soon', text: 'Expanding to 10 restaurants across Odisha', type: 'future' },
+]
+
+export const TESTIMONIALS = [
+  {
+    stars: 5,
+    quote: 'Being DineDeck\'s first restaurant was the best decision we made. The QR ordering changed how our guests experience dining. Our kitchen runs smoother and billing takes seconds now. The team personally set everything up for us and they\'re always available.',
+    name: 'Our First Partner Restaurant',
+    location: 'Bhubaneswar, Odisha',
+    badge: '✓ Verified · DineDeck Partner Since Day 1',
+    real: true,
+  },
+]
+
+// ─── CONTACT INFO OVERHAUL (CHANGE 2) ───
+export const CONTACT_INFO = {
+  header: 'Get In Touch',
+  subtitle: 'We respond within 2 hours · Mon–Sat, 9am–8pm',
+  email: 'contact.dinedeck@gmail.com',
+  whatsapp_note: "We'll WhatsApp you back",
+}
+
+// ─── LIVE DEMO STEPS ───
+export const DEMO_STEPS = [
+  { 
+    id: 'scan', 
+    tab: '1. Scan', 
+    title: 'Customer Scans QR', 
+    subtitle: 'No apps to download. Guests scan the unique QR on their table to open your digital menu instantly.',
+    badge: 'Frictionless Entry'
+  },
+  { 
+    id: 'menu', 
+    tab: '2. Order', 
+    title: 'Browse & Customize', 
+    subtitle: 'High-quality photos and real-time availability. Guests add items to their cart and customize toppings with ease.',
+    badge: 'Interactive Menu'
+  },
+  { 
+    id: 'cart', 
+    tab: '3. Pay', 
+    title: 'Place & Pay', 
+    subtitle: 'Orders go straight to the kitchen. Optional UPI integration lets guests pay safely from their phones.',
+    badge: 'Instant Checkout'
+  },
+  { 
+    id: 'kot', 
+    tab: '4. Serve', 
+    title: 'Kitchen Sync', 
+    subtitle: 'The kitchen gets a digital ticket immediately. No more shouting orders or lost handwritten paper slips.',
+    badge: 'Kitchen Harmony'
+  },
 ]
 
 // ─── FEATURE DEEP DIVES ───
 export const FEATURE_DEEPDIVES = [
   {
-    label: 'POS Billing',
-    title: 'Bill in Seconds. Not Minutes.',
+    title: "The Smartest Billing Experience in India",
+    subtitle: "Stop using slow, clunky POS software. Experience DineDeck's lightning-fast checkout built for the modern Indian restaurant.",
     bullets: [
-      'GST-compliant invoice in one tap',
-      'UPI, card, cash, split payments',
-      'Print or WhatsApp bill instantly',
+      "Process bills in under 10 seconds",
+      "Automatic GST & Service Charge calculations",
+      "Split bills and handle partial payments",
+      "Print to thermal printers or share via WhatsApp"
     ],
-    visual: 'pos',
+    visual: 'POSVisual'
   },
   {
-    label: 'QR Ordering',
-    title: 'Your Menu in Every Guest\'s Hand',
+    title: "Kitchen Sync: Zero Errors, Maximum Speed",
+    subtitle: "Bridge the gap between your waiters and your chefs. Every order is tracked, timed, and prioritized automatically.",
     bullets: [
-      'Scan QR → browse → order → pay',
-      'Auto-syncs with KOT and POS',
-      'Real-time menu editing',
+      "Direct KOT printing to multiple kitchen stations",
+      "Color-coded urgency alerts for delayed orders",
+      "Real-time item availability sync with menu",
+      "Detailed prep-time analytics for every dish"
     ],
-    visual: 'qr',
+    visual: 'KitchenVisual'
   },
   {
-    label: 'Kitchen Management',
-    title: 'Kitchen Runs Itself',
+    title: "Data That Actually Grows Your Profits",
+    subtitle: "Stop guessing. Start knowing. Our analytics dashboard gives you the insights you need to optimize your menu and staff.",
     bullets: [
-      'Live order queue on display',
-      'Color-coded: New / Preparing / Ready',
-      'Sound alerts, never miss an order',
+      "Identify high-profit vs high-volume dishes",
+      "Track peak-hour heatmaps for better scheduling",
+      "Monitor stock levels and prevent inventory leakage",
+      "Daily automated revenue reports to your WhatsApp"
     ],
-    visual: 'kitchen',
-  },
-  {
-    label: 'Analytics',
-    title: 'Know What\'s Working. Fix What\'s Not.',
-    bullets: [
-      'Daily, weekly, monthly revenue',
-      'Best-selling and slow-moving dishes',
-      'Peak hour heatmap',
-    ],
-    visual: 'analytics',
-  },
+    visual: 'AnalyticsVisual'
+  }
 ]
 
-// ─── HOW IT WORKS ───
+// ─── HOW IT WORKS STEPS ───
 export const HOW_IT_WORKS_STEPS = [
-  { number: 1, title: 'Setup Your Restaurant', description: 'Add menu, tables, staff. We help you onboard.' },
-  { number: 2, title: 'Start Taking Orders', description: 'POS, QR, KOT work together from day one.' },
-  { number: 3, title: 'Grow Smarter', description: 'Use analytics to make better decisions every week.' },
+  {
+    number: '01',
+    title: 'Onboarding',
+    description: 'We set up your digital menu and hardware in under 60 minutes. Your staff gets trained on the spot.'
+  },
+  {
+    number: '02',
+    title: 'Go Live',
+    description: 'Guests start scanning and ordering. Your kitchen starts receiving digital tickets immediately.'
+  },
+  {
+    number: '03',
+    title: 'Grow',
+    description: 'Use real-time data to optimize your menu and increase turnover. We support you 24/7 as you scale.'
+  }
 ]
 
-// ─── DEMO STEPS ───
-export const DEMO_STEPS = [
-  { id: 0, tab: '1. Scan QR', badge: 'Works on any smartphone', title: 'Guest scans the table QR code', subtitle: 'No app download. No waiting. Just scan.' },
-  { id: 1, tab: '2. View Menu', badge: 'Live menu updates', title: 'Instant digital menu loads in seconds', subtitle: 'Menu updates reflect in real-time. Add specials, mark items sold out.' },
-  { id: 2, tab: '3. Place Order', badge: 'Instant order confirmation', title: 'Guest adds items and places order', subtitle: 'Payment via UPI, card, or pay at counter. Order confirmed instantly.' },
-  { id: 3, tab: '4. Kitchen KOT', badge: 'Zero missed orders', title: 'Kitchen gets the order instantly', subtitle: 'No shouting, no paper tickets, no missed orders. Every order tracked live.' },
-]
 
-// ─── PRICING ───
-export const PRICING_PLANS = [
-  {
-    name: 'Starter',
-    subtitle: 'For single-outlet restaurants',
-    monthly: 2999,
-    annual: 2399,
-    popular: false,
-    features: [
-      'POS System (unlimited transactions)',
-      'QR-Based Ordering',
-      'Kitchen Order Tickets',
-      'Basic Analytics (30 days)',
-      '1 Staff Account',
-      'Email Support',
-    ],
-  },
-  {
-    name: 'Growth',
-    subtitle: 'For restaurants ready to grow',
-    monthly: 5999,
-    annual: 4799,
-    popular: true,
-    features: [
-      'Everything in Starter',
-      'Restaurant Website Builder',
-      'Advanced Analytics (unlimited)',
-      'Unlimited Staff Accounts',
-      'Inventory Tracking',
-      'WhatsApp Bill Sharing',
-      'Priority Phone + Chat Support',
-      'Multi-device Access',
-    ],
-  },
-]
 
-// ─── TESTIMONIALS ───
-export const TESTIMONIALS = [
-  {
-    stars: 5,
-    quote: 'DineDeck completely changed how we manage orders. No more shouting at the kitchen, no more billing mistakes. Everything just works.',
-    name: 'Verified Restaurant Owner',
-    city: 'Bhubaneswar',
-  },
-  {
-    stars: 5,
-    quote: 'The QR ordering is genius. Customers love scanning and ordering themselves. Our staff can now focus on service, not taking orders.',
-    name: 'Early Tester',
-    city: 'Cuttack',
-  },
-  {
-    stars: 5,
-    quote: 'Setup was surprisingly fast. The team helped us go live the same day. The analytics alone is worth the subscription.',
-    name: 'Early Tester',
-    city: 'Bhubaneswar',
-  },
-]
-
-// ─── CONTACT ───
-export const CONTACT_INFO = {
-  email: 'hello@dinedeck.in',
-  phone: '+91 XXXXX XXXXX',
-  location: 'Bhubaneswar, Odisha, India',
-  hours: 'Within 2 hours (Mon–Sat, 9am–8pm)',
-}

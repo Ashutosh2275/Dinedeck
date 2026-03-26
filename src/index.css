@@ -2,70 +2,138 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  color: #1E293B;
-  background: #fff;
-  overflow-x: hidden;
+:root {
+  --brand-indigo: #4f46e5;
+  --brand-orange: #f97316;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+/* CHANGE 6 — GLOBAL MOBILE OPTIMIZATION */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  max-width: 100%; /* Prevent horizontal overflow */
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Dot grid background */
-.dot-grid {
-  background-image: radial-gradient(circle, #4F46E5 0.8px, transparent 0.8px);
-  background-size: 24px 24px;
-}
-
-/* KOT flash animation */
-@keyframes kot-flash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-.kot-flash {
-  animation: kot-flash 1s ease-in-out infinite;
-}
-
-/* Form shake */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  75% { transform: translateX(6px); }
-}
-.shake {
-  animation: shake 0.4s ease-in-out;
-}
-
-/* Progress fill */
-@keyframes slideProgress {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-/* Smooth scroll */
-html {
+html { 
+  -webkit-text-size-adjust: 100%; /* Prevent iOS font size inflation */
   scroll-behavior: smooth;
 }
 
-/* Glow button */
-.glow-btn {
-  transition: all 0.3s ease;
-}
-.glow-btn:hover {
-  box-shadow: 0 0 30px rgba(249, 115, 22, 0.5);
-  transform: translateY(-2px);
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #1E293B;
+  background: #fff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
+/* Minimum tap target size everywhere */
+button, a, [role="button"], input, select, textarea { 
+  min-height: 44px; 
+}
+
+/* Input zoom prevention on iOS */
+input, select, textarea { 
+  font-size: 16px !important; 
+}
+
+/* Custom Selection */
+::selection {
+  background-color: rgba(79, 70, 229, 0.1);
+  color: #4f46e5;
+}
+
+/* Smoother Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
+
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f8fafc;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: #e2e8f0;
+  border: 3px solid #f8fafc;
+  border-radius: 10px;
 }
+
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Base Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Utilities */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Lenis Smooth Scroll Root */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Aurora Background Pattern */
+.bg-aurora {
+  background-image: radial-gradient(circle at 100% 100%, #4f46e520 0, transparent 50%),
+                    radial-gradient(circle at 0 0, #f9731610 0, transparent 50%);
+}
+
+/* Glow button transition */
+.glow-btn {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Mobile-specific padding and typography */
+@media (max-width: 768px) {
+  section { 
+    padding-top: 64px !important; 
+    padding-bottom: 64px !important; 
+  }
+  h1 { font-size: clamp(32px, 8vw, 56px) !important; }
+  h2 { font-size: clamp(26px, 6vw, 40px) !important; }
+  h3 { font-size: clamp(20px, 5vw, 28px) !important; }
+  p { font-size: 16px !important; line-height: 1.7 !important; }
+}
+
+/* Smooth scroll on iOS */
+* { -webkit-overflow-scrolling: touch; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
