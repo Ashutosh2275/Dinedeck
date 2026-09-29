@@ -20,60 +20,17 @@ export const Login: React.FC = () => {
     transition: 'none',
     isCenter: true
   });
-  const [showContent, setShowContent] = useState(false);
-  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+  const [showContent, setShowContent] = useState(true);
+  const [isAnimationComplete, setIsAnimationComplete] = useState(true);
 
   useEffect(() => {
-    // 1. Calculate the exact delta from destination to screen center
+    // Graceful micro-glide on mount
     if (logoRef.current) {
-      const rect = logoRef.current.getBoundingClientRect();
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const elementCenterX = rect.left + rect.width / 2;
-      const elementCenterY = rect.top + rect.height / 2;
-
-      const deltaX = centerX - elementCenterX;
-      const deltaY = centerY - elementCenterY;
-
-      // Position in center at 2.3x scale initially
       setLogoTransform({
-        transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(2.2)`,
-        transition: 'none',
-        isCenter: true
+        transform: 'none',
+        transition: 'all 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+        isCenter: false
       });
-
-      // 2. After a graceful pause (750ms), smoothly glide to destination over 1600ms
-      const glideTimer = setTimeout(() => {
-        setLogoTransform({
-          transform: 'translate3d(0px, 0px, 0px) scale(1)',
-          transition: 'transform 1600ms cubic-bezier(0.16, 1, 0.3, 1)',
-          isCenter: false
-        });
-      }, 750);
-
-      // 3. Synchronized cascade: Fade in surrounding text & login card as logo arrives
-      const contentTimer = setTimeout(() => {
-        setShowContent(true);
-      }, 1250);
-
-      // 4. Settle into natural DOM flow
-      const completeTimer = setTimeout(() => {
-        setIsAnimationComplete(true);
-        setLogoTransform({
-          transform: 'none',
-          transition: 'none',
-          isCenter: false
-        });
-      }, 2600);
-
-      return () => {
-        clearTimeout(glideTimer);
-        clearTimeout(contentTimer);
-        clearTimeout(completeTimer);
-      };
-    } else {
-      setShowContent(true);
-      setIsAnimationComplete(true);
     }
   }, []);
 
@@ -97,48 +54,60 @@ export const Login: React.FC = () => {
     }
   };
 
-  const personas = [
+  const quickRoles = [
     {
-      title: '👑 Owner (Punjab Heritage)',
+      id: 'owner',
+      title: 'Restaurant Owner',
+      desc: 'Punjab Heritage • Full Access',
+      icon: '👑',
       email: 'owner.punjab@dinedeck.in',
-      role: 'RESTAURANT_OWNER',
-      color: 'border-orange-500/40 text-orange-400 bg-orange-500/10'
+      tag: 'OWNER',
+      accent: 'border-orange-500/30 text-orange-400 bg-orange-500/10 hover:border-orange-500/60'
     },
     {
-      title: '👔 General Manager (Punjab Heritage)',
+      id: 'manager',
+      title: 'General Manager',
+      desc: 'Floor Ops & Staff Lead',
+      icon: '👔',
       email: 'manager.sunil@punjabheritage.in',
-      role: 'GENERAL_MANAGER',
-      color: 'border-blue-500/40 text-blue-400 bg-blue-500/10'
+      tag: 'MANAGER',
+      accent: 'border-blue-500/30 text-blue-400 bg-blue-500/10 hover:border-blue-500/60'
     },
     {
-      title: '👨‍🍳 Head Chef (Punjab Heritage)',
+      id: 'chef',
+      title: 'Head Chef',
+      desc: 'Kitchen Display (KDS)',
+      icon: '👨‍🍳',
       email: 'chef.vikram@punjabheritage.in',
-      role: 'CHEF',
-      color: 'border-emerald-500/40 text-emerald-400 bg-emerald-500/10'
+      tag: 'CHEF',
+      accent: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10 hover:border-emerald-500/60'
     },
     {
-      title: '🛎️ Head Waiter / Captain (Punjab - T1..T4)',
+      id: 'waiter',
+      title: 'Floor Captain',
+      desc: 'Table Service T1–T4',
+      icon: '🛎️',
       email: 'waiter.ramesh@punjabheritage.in',
-      role: 'WAITER',
-      color: 'border-amber-500/40 text-amber-400 bg-amber-500/10'
+      tag: 'WAITER',
+      accent: 'border-amber-500/30 text-amber-400 bg-amber-500/10 hover:border-amber-500/60'
     },
     {
-      title: '🧾 Cashier (Punjab Heritage)',
+      id: 'cashier',
+      title: 'Cashier Desk',
+      desc: 'Billing & Shift POS',
+      icon: '🧾',
       email: 'cashier.priya@punjabheritage.in',
-      role: 'CASHIER',
-      color: 'border-purple-500/40 text-purple-400 bg-purple-500/10'
+      tag: 'CASHIER',
+      accent: 'border-purple-500/30 text-purple-400 bg-purple-500/10 hover:border-purple-500/60'
     },
     {
-      title: '🏢 Tenant B Owner (Peshawari Grill)',
+      id: 'tenant_b',
+      title: 'Multi-Store Chain',
+      desc: 'Peshawari Grill',
+      icon: '🏢',
       email: 'owner.peshawari@dinedeck.in',
-      role: 'RESTAURANT_OWNER',
-      color: 'border-cyan-500/40 text-cyan-400 bg-cyan-500/10'
-    },
-    {
-      title: '🛡️ Platform SuperAdmin',
-      email: 'superadmin@dinedeck.in',
-      role: 'DINEDECK_SUPER_ADMIN',
-      color: 'border-rose-500/40 text-rose-400 bg-rose-500/10'
+      tag: 'CHAIN',
+      accent: 'border-cyan-500/30 text-cyan-400 bg-cyan-500/10 hover:border-cyan-500/60'
     }
   ];
 
@@ -166,10 +135,10 @@ export const Login: React.FC = () => {
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDelay: '1s' }} />
 
       {/* MAIN CONTAINER */}
-      <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10">
-        {/* Left Column: Branding, Title & Value Propositions */}
-        <div className="space-y-6">
-          {/* Animated Branding Header: Continuous smooth FLIP transform from screen center to destination */}
+      <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+        {/* Left Column: Branding, Title & Optimized Value Propositions */}
+        <div className="lg:col-span-5 space-y-6">
+          {/* Animated Branding Header */}
           <div
             ref={logoRef}
             style={{
@@ -198,73 +167,87 @@ export const Login: React.FC = () => {
             </div>
           </div>
 
-          {/* Value Prop & Details (Synchronized Fade & Slide in) */}
+          {/* Value Prop & Clean Headings */}
           <div
-            className={`space-y-3 transition-all duration-[1200ms] ease-out ${
+            className={`space-y-2.5 transition-all duration-[1200ms] ease-out ${
               !showContent ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'
             }`}
           >
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
-              Everything you need to run your restaurant.
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug">
+              Unified Restaurant <br />
+              <span className="bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent">
+                Operations Terminal.
+              </span>
             </h2>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Sign in to manage your daily tasks, kitchen orders, table service, and billing counter as per your assigned role.
+            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Real-time floor dispatch, live kitchen display, and express billing in one streamlined workspace.
             </p>
           </div>
 
-          {/* Daily Operations Highlights */}
+          {/* Clean Minimal Operations Highlights */}
           <div
-            className={`space-y-3 pt-1 transition-all duration-[1400ms] delay-100 ease-out ${
+            className={`space-y-2.5 transition-all duration-[1400ms] delay-100 ease-out ${
               !showContent ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'
             }`}
           >
-            <div className="flex items-start space-x-3 text-xs text-slate-300">
-              <div className="p-2 rounded-xl bg-orange-500/10 text-orange-400 border border-orange-500/20 shadow-sm shrink-0 mt-0.5">
+            <div className="flex items-center space-x-3 p-3 rounded-2xl bg-slate-900/40 border border-slate-800/80 hover:border-slate-700/80 transition">
+              <div className="p-2 rounded-xl bg-orange-500/10 text-orange-400 border border-orange-500/20 shrink-0">
                 <UtensilsCrossed className="w-4 h-4" />
               </div>
-              <div>
-                <span className="font-bold text-white block text-xs">Live Orders & Table Service</span>
-                <span className="text-slate-400 text-[11px] leading-relaxed">
-                  Accept new orders, manage active dining tables, and respond to guest service calls.
-                </span>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-white">Live Floor & Table Service</div>
+                <div className="text-[11px] text-slate-400 truncate">QR order dispatch and instant waiter call paging</div>
               </div>
             </div>
 
-            <div className="flex items-start space-x-3 text-xs text-slate-300">
-              <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-sm shrink-0 mt-0.5">
+            <div className="flex items-center space-x-3 p-3 rounded-2xl bg-slate-900/40 border border-slate-800/80 hover:border-slate-700/80 transition">
+              <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
                 <ChefHat className="w-4 h-4" />
               </div>
-              <div>
-                <span className="font-bold text-white block text-xs">Kitchen Display (KDS)</span>
-                <span className="text-slate-400 text-[11px] leading-relaxed">
-                  Track cooking tickets, preparation times, and mark dishes ready for table pickup.
-                </span>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-white">Kitchen Display System (KDS)</div>
+                <div className="text-[11px] text-slate-400 truncate">Live preparation tickets and station routing</div>
               </div>
             </div>
 
-            <div className="flex items-start space-x-3 text-xs text-slate-300">
-              <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-sm shrink-0 mt-0.5">
+            <div className="flex items-center space-x-3 p-3 rounded-2xl bg-slate-900/40 border border-slate-800/80 hover:border-slate-700/80 transition">
+              <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20 shrink-0">
                 <Receipt className="w-4 h-4" />
               </div>
-              <div>
-                <span className="font-bold text-white block text-xs">Cashier & Quick Billing</span>
-                <span className="text-slate-400 text-[11px] leading-relaxed">
-                  Fast bill generation, payment settlements, and daily shift cash tracking.
-                </span>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-white">Express Billing & POS</div>
+                <div className="text-[11px] text-slate-400 truncate">Instant settlements and GST thermal invoices</div>
               </div>
             </div>
           </div>
+
+          {/* Minimal Trust Badge */}
+          <div
+            className={`pt-1 flex items-center space-x-4 text-[11px] text-slate-400 font-medium transition-all duration-[1600ms] delay-200 ease-out ${
+              !showContent ? 'opacity-0' : 'opacity-100'
+            }`}
+          >
+            <span className="flex items-center space-x-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Role-Governed</span>
+            </span>
+            <span className="w-1 h-1 rounded-full bg-slate-700" />
+            <span className="flex items-center space-x-1.5">
+              <Zap className="w-3.5 h-3.5 text-amber-400" />
+              <span>Real-Time Synced</span>
+            </span>
+          </div>
         </div>
 
-        {/* Right Column: Login Card & Quick Personas (Synchronized Fade & Glide in) */}
+        {/* Right Column: Clean Login Card & Optimized 2-Column Role Grid */}
         <div
-          className={`bg-[#1E293B]/90 backdrop-blur-md rounded-2xl border border-slate-700/80 p-6 md:p-7 shadow-2xl shadow-black/50 space-y-6 transition-all duration-[1400ms] delay-150 ease-out ${
-            !showContent ? 'opacity-0 translate-y-10 scale-[0.97]' : 'opacity-100 translate-y-0 scale-100'
+          className={`lg:col-span-7 bg-[#1E293B]/90 backdrop-blur-md rounded-3xl border border-slate-700/80 p-6 sm:p-7 shadow-2xl shadow-black/50 space-y-5 transition-all duration-[1400ms] delay-150 ease-out ${
+            !showContent ? 'opacity-0 translate-y-10 scale-[0.98]' : 'opacity-100 translate-y-0 scale-100'
           }`}
         >
           <div>
-            <h3 className="text-lg font-bold text-white">Staff / Owner Login</h3>
-            <p className="text-xs text-slate-400 mt-1">Authenticate to load your role context and assigned branch</p>
+            <h3 className="text-lg font-black text-white tracking-tight">Staff / Owner Login</h3>
+            <p className="text-xs text-slate-400 mt-0.5">Select a role below for instant 1-click access or enter credentials</p>
           </div>
 
           {error && (
@@ -274,41 +257,93 @@ export const Login: React.FC = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Email Address</label>
-              <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@restaurant.in"
-                  required
-                  className="w-full bg-slate-900/90 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition font-medium"
-                />
-              </div>
+          {/* Optimized Instant 1-Click Role Login (2-Column Grid) */}
+          <div className="space-y-2.5">
+            <div className="text-[10px] font-black text-slate-400 uppercase tracking-wider flex items-center justify-between">
+              <span className="flex items-center gap-1.5 text-amber-400">
+                <Zap className="w-3.5 h-3.5" />
+                <span>Instant 1-Click Role Login</span>
+              </span>
+              <span className="text-[10px] font-mono text-slate-500">Fast-switch</span>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
-              <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="w-full bg-slate-900/90 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
-                />
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {quickRoles.map((role) => {
+                const isSelected = submittingEmail === role.email;
+                return (
+                  <button
+                    key={role.id}
+                    type="button"
+                    onClick={() => handleQuickPersona(role.email)}
+                    disabled={isLoading || submittingEmail !== null}
+                    className={`p-2.5 rounded-xl border text-left transition flex flex-col justify-between group disabled:opacity-50 relative overflow-hidden bg-slate-900/60 hover:bg-slate-800/90 ${role.accent}`}
+                  >
+                    <div className="flex items-center justify-between w-full mb-1">
+                      <span className="text-base">{role.icon}</span>
+                      <span className="text-[9px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase border bg-black/30 border-current opacity-80">
+                        {role.tag}
+                      </span>
+                    </div>
+
+                    <div>
+                      <div className="text-xs font-bold text-white group-hover:text-orange-400 transition flex items-center space-x-1">
+                        <span className="truncate">{role.title}</span>
+                        {isSelected && <Loader2 className="w-3 h-3 animate-spin text-orange-400 shrink-0" />}
+                      </div>
+                      <div className="text-[10px] text-slate-400 truncate mt-0.5">
+                        {role.desc}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="relative flex items-center justify-center my-1">
+            <div className="border-t border-slate-800 w-full" />
+            <span className="bg-[#1E293B] px-3 text-[10px] uppercase font-bold text-slate-500 tracking-widest shrink-0">
+              Or Manual Sign In
+            </span>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+                <div className="relative">
+                  <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@restaurant.in"
+                    required
+                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition font-medium"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
+                  />
+                </div>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={isLoading || submittingEmail !== null}
-              className="w-full bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 active:bg-orange-700 text-white font-black py-3 px-4 rounded-xl text-sm transition shadow-lg shadow-orange-500/20 flex items-center justify-center space-x-2 disabled:opacity-50"
+              className="w-full bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 active:bg-orange-700 text-white font-black py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-orange-500/20 flex items-center justify-center space-x-2 disabled:opacity-50"
             >
               {submittingEmail === email ? (
                 <>
@@ -323,36 +358,6 @@ export const Login: React.FC = () => {
               )}
             </button>
           </form>
-
-          {/* Quick Persona Switcher */}
-          <div className="pt-4 border-t border-slate-700/80">
-            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-              <Zap className="w-3.5 h-3.5 text-amber-400" />
-              <span>Instant 1-Click Role Login</span>
-            </div>
-            <div className="grid grid-cols-1 gap-2 max-h-52 overflow-y-auto pr-1 custom-scrollbar">
-              {personas.map((p) => (
-                <button
-                  key={p.email}
-                  type="button"
-                  onClick={() => handleQuickPersona(p.email)}
-                  disabled={isLoading || submittingEmail !== null}
-                  className="w-full flex items-center justify-between p-2 rounded-lg bg-slate-900/60 hover:bg-slate-800 border border-slate-700/60 hover:border-orange-500/40 text-left transition group disabled:opacity-50"
-                >
-                  <div className="flex-1 pr-2">
-                    <div className="text-xs font-semibold text-slate-200 group-hover:text-orange-400 transition flex items-center space-x-1.5">
-                      <span>{p.title}</span>
-                      {submittingEmail === p.email && <Loader2 className="w-3 h-3 animate-spin text-orange-400" />}
-                    </div>
-                    <div className="text-[10px] text-slate-400 font-mono">{p.email}</div>
-                  </div>
-                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded border shrink-0 ${p.color}`}>
-                    {p.role}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>
