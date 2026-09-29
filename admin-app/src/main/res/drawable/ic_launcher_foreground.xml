@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Top Handle Bar -->
+    <path
+        android:fillColor="#FBA337"
+        android:pathData="M43,30 H65 C66.1,30 67,30.9 67,32 C67,33.1 66.1,34 65,34 H43 C41.9,34 41,33.1 41,32 C41,30.9 41.9,30 43,30 Z" />
+
+    <!-- Top Handle Loop -->
+    <path
+        android:fillColor="#FBA337"
+        android:pathData="M47,34 C47,42 61,42 61,34 H65 C65,46 43,46 43,34 Z" />
+
+    <!-- Cloche Dome -->
+    <path
+        android:fillColor="#FBA337"
+        android:pathData="M26,64 C26,49 38,44 54,44 C70,44 82,49 82,64 Z" />
+
+    <!-- Cloche Inner Highlight -->
+    <path
+        android:fillColor="#FFF275"
+        android:fillAlpha="0.35"
+        android:pathData="M32,62 C34,53 43,47 54,46 C52,49 40,54 36,62 Z" />
+
+    <!-- Platter Middle Rim -->
+    <path
+        android:fillColor="#FBA337"
+        android:pathData="M23,66 H85 C86.1,66 87,66.9 87,68 C87,69.1 86.1,70 85,70 H23 C21.9,70 21,69.1 21,68 C21,66.9 21.9,66 23,66 Z" />
+
+    <!-- Platter Base Deck -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M25,71 H83 C84.1,71 85,71.9 85,73 C85,74.1 84.1,75 83,75 H25 C23.9,75 23,74.1 23,73 C23,71.9 23.9,71 25,71 Z" />
+
+    <!-- Teal Accent Baseline -->
+    <path
+        android:fillColor="#8CB3B2"
+        android:pathData="M28,77 H80 C80.6,77 81,77.4 81,78 C81,78.6 80.6,79 80,79 H28 C27.4,79 27,77.4 27,78 C27,77.4 27.4,77 28,77 Z" />
+</vector>

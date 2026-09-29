@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dinedeck-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-dinedeck_prod}
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dinedeck_prod"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: dinedeck-redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dinedeck-backend
+    restart: unless-stopped
+    environment:
+      PORT: 8080
+      HOST: 0.0.0.0
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/dinedeck_prod?schema=public
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dinedeck_super_secret_jwt_2026
+      NODE_ENV: production
+      CORS_ORIGIN: "*"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+    driver: local
+  redisdata:
+    driver: local

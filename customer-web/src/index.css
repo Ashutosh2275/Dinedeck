@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0B0F19;
+  color: #F8FAFC;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* Globally hide all horizontal and vertical scrollbars while preserving smooth scrolling */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar,
+.scrollbar-none,
+.custom-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* ========================================================================= */
+/* 🖨️ INDIAN RESTAURANT THERMAL PRINTER (80mm / 3-INCH ROLL) CSS             */
+/* ========================================================================= */
+#dinedeck-thermal-print-target {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0mm !important;
+  }
+
+  html,
+  body {
+    width: 80mm !important;
+    max-width: 80mm !important;
+    min-width: 80mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    overflow: visible !important;
+  }
+
+  #root,
+  .no-print,
+  nav,
+  header,
+  button,
+  .fixed {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  #dinedeck-thermal-print-target {
+    display: block !important;
+    visibility: visible !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 76mm !important;
+    max-width: 76mm !important;
+    margin: 0 !important;
+    padding: 2mm 2mm 6mm 2mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: 'Courier New', Courier, monospace, monospace !important;
+    box-sizing: border-box !important;
+  }
+
+  #dinedeck-thermal-print-target * {
+    visibility: visible !important;
+    color: #000000 !important;
+    background: transparent !important;
+  }
+}

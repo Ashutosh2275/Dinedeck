@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DineDeckAdmin" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">#0E131A</item>
+        <item name="android:navigationBarColor">#080B10</item>
+    </style>
+</resources>
