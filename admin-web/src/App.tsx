@@ -25,6 +25,7 @@ import { AdminAudit } from './pages/AdminAudit';
 import { AdminSettings } from './pages/AdminSettings';
 import { AdminCustomerCMS } from './pages/AdminCustomerCMS';
 import { AdminTenantDeepDive } from './pages/AdminTenantDeepDive';
+import { AdminUserDatabase } from './pages/AdminUserDatabase';
 
 import {
   LayoutDashboard,
@@ -177,6 +178,7 @@ const AdminLayout: React.FC = () => {
         <main className="flex-1 p-4 sm:p-6 overflow-y-auto max-h-[calc(100vh-4rem)] pb-20 lg:pb-6 custom-scrollbar">
           {currentTab === 'OVERVIEW' && <AdminOverview onNavigate={setCurrentTab} />}
           {currentTab === 'TENANT_SUITE' && <AdminTenantDeepDive />}
+          {currentTab === 'USER_DATABASE' && <AdminUserDatabase />}
           {currentTab === 'CUSTOMER_CMS' && <AdminCustomerCMS />}
           {currentTab === 'OPERATIONS' && <AdminOperations />}
           {currentTab === 'ORDERS' && <AdminOrders />}

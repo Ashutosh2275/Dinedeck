@@ -19,12 +19,14 @@ import {
   Settings,
   X,
   Sparkles,
-  Store
+  Store,
+  Users
 } from 'lucide-react';
 
 export type AdminTab =
   | 'OVERVIEW'
   | 'TENANT_SUITE'
+  | 'USER_DATABASE'
   | 'CUSTOMER_CMS'
   | 'RESTAURANTS'
   | 'APPROVALS'
@@ -62,6 +64,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       items: [
         { key: 'OVERVIEW' as AdminTab, label: 'Command Center', icon: LayoutDashboard },
         { key: 'TENANT_SUITE' as AdminTab, label: 'All-Restaurant Live Command', icon: Store },
+        { key: 'USER_DATABASE' as AdminTab, label: 'User & Diner Database', icon: Users },
         { key: 'CUSTOMER_CMS' as AdminTab, label: 'Customer Scrolls & CMS', icon: Sparkles },
         { key: 'OPERATIONS' as AdminTab, label: 'Live Operations & KDS', icon: Activity },
         { key: 'ORDERS' as AdminTab, label: 'Orders Command', icon: ShoppingBag }
@@ -165,14 +168,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-1 mt-2">
-          <div className="text-xs font-black text-white flex items-center justify-between">
-            <span>DINEDECK Authority</span>
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-          </div>
-          <p className="text-[10px] text-slate-400">Canonical 15% Settlement Ledger & Global Multi-Tenant OS</p>
         </div>
       </aside>
     </>
