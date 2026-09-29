@@ -3,6 +3,7 @@ import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
 import { AdminNavbar } from './components/AdminNavbar';
 import { AdminSidebar, AdminTab } from './components/AdminSidebar';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
+import { adminWs } from './services/websocket';
 
 // All 17 Domain Command Pages
 import { AdminOverview } from './pages/AdminOverview';
@@ -115,7 +116,7 @@ const AdminLayout: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [targetEntityId, setTargetEntityId] = useState<string | null>(null);
 
-  // Global Keyboard Shortcut for Ctrl+K search
+  // Global Keyboard Shortcut for Ctrl+K search and Realtime WebSocket Connection
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -124,8 +125,15 @@ const AdminLayout: React.FC = () => {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+
+    if (isLoggedIn) {
+      adminWs.connect();
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isLoggedIn]);
 
   if (isLoading) {
     return (

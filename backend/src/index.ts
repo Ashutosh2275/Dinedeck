@@ -21,6 +21,7 @@ import { adminRoutes } from './modules/admin/admin.controller.js';
 import { bannerRoutes } from './modules/banners/banners.controller.js';
 import { recommendationRoutes } from './modules/recommendations/recommendations.controller.js';
 import { realtimeHub } from './realtime/websocket.js';
+import { redisRealtime } from './realtime/redis.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -123,13 +124,28 @@ async function buildServer() {
   // Health Endpoint
   fastify.get('/health', async (req, reply) => {
     try {
+      const dbStart = Date.now();
       await prisma.$queryRaw`SELECT 1`;
+      const dbLatencyMs = Date.now() - dbStart;
+      const redisStatus = redisRealtime.getStatus();
+
       return reply.send({
         status: 'healthy',
         timestamp: new Date().toISOString(),
         version: '1.0.0',
         environment: ENV.NODE_ENV,
-        database: 'connected',
+        database: {
+          status: 'connected',
+          engine: 'PostgreSQL 16',
+          latencyMs: dbLatencyMs
+        },
+        redis: {
+          status: redisStatus.connected ? 'connected' : 'connecting_or_standalone',
+          channel: redisStatus.channel
+        },
+        realtime: {
+          activeConnections: realtimeHub.getActiveConnectionsCount()
+        },
         timezone: 'Asia/Kolkata'
       });
     } catch (e: any) {

@@ -1,5 +1,6 @@
 import { WebSocket } from 'ws';
 import crypto from 'crypto';
+import { redisRealtime } from './redis.js';
 
 export interface CanonicalWsEvent {
   eventId: string;
@@ -30,7 +31,15 @@ class RealtimeHub {
   private clients: Map<string, WsClient> = new Map();
   private eventHistory: CanonicalWsEvent[] = [];
   private eventVersionMap: Map<string, number> = new Map(); // entityId -> version counter
+  private dispatchedEventIds: Set<string> = new Set();
   private readonly MAX_HISTORY = 500;
+
+  constructor() {
+    // Listen for events published from Redis (other instances or external workers)
+    redisRealtime.onMessage((event: CanonicalWsEvent) => {
+      this.dispatchLocalEvent(event);
+    });
+  }
 
   public registerClient(client: { id: string; socket: WebSocket; userId?: string; restaurantId?: string; role?: string; tableNumber?: string }) {
     const fullClient: WsClient = {
@@ -112,7 +121,18 @@ class RealtimeHub {
     return event;
   }
 
-  public dispatchEvent(event: CanonicalWsEvent) {
+  public dispatchLocalEvent(event: CanonicalWsEvent) {
+    if (this.dispatchedEventIds.has(event.eventId)) {
+      return; // Already processed
+    }
+
+    this.dispatchedEventIds.add(event.eventId);
+    // Keep set bounded to last 2000 events
+    if (this.dispatchedEventIds.size > 2000) {
+      const oldest = this.dispatchedEventIds.values().next().value;
+      if (oldest) this.dispatchedEventIds.delete(oldest);
+    }
+
     const serialized = JSON.stringify(event);
 
     for (const client of this.clients.values()) {
@@ -159,6 +179,11 @@ class RealtimeHub {
     }
   }
 
+  // Alias for backward compatibility
+  public dispatchEvent(event: CanonicalWsEvent) {
+    this.dispatchLocalEvent(event);
+  }
+
   public emit(params: {
     eventType: string;
     entityId: string;
@@ -170,7 +195,15 @@ class RealtimeHub {
     payload: any;
   }): CanonicalWsEvent {
     const event = this.createEvent(params);
-    this.dispatchEvent(event);
+    
+    // 1. Dispatch immediately to local WebSocket clients
+    this.dispatchLocalEvent(event);
+
+    // 2. Publish to Redis for multi-instance & cross-worker synchronization
+    redisRealtime.publishEvent(event).catch((err) => {
+      console.warn(`[RealtimeHub] Redis publish deferred: ${err.message}`);
+    });
+
     return event;
   }
 
