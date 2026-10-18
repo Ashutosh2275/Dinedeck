@@ -129,11 +129,17 @@ export async function restaurantRoutes(fastify: FastifyInstance) {
     });
 
     const { realtimeHub } = await import('../../realtime/websocket.js');
-    realtimeHub.broadcastToRestaurant(restaurantId, {
-      event: 'MENU_UPDATED',
+    realtimeHub.emit({
+      eventType: 'MENU_ITEM_UPDATED',
+      entityId: itemId,
       restaurantId,
-      itemId,
-      updatedFields: updateData
+      payload: {
+        event: 'MENU_ITEM_UPDATED',
+        restaurantId,
+        itemId,
+        item,
+        updatedFields: updateData
+      }
     });
 
     return reply.send({

@@ -164,8 +164,8 @@ class RealtimeHub {
       else if (!client.restaurantId && !client.tableNumber && !client.role) {
         shouldSend = true;
       }
-      // 6. Global & Menu broadcasts
-      else if (['RESTAURANT_STATUS_CHANGED', 'MENU_ITEM_AVAILABILITY_CHANGED', 'MENU_AVAILABILITY_CHANGED', 'SYSTEM_BROADCAST', 'BANNER_UPDATED'].includes(event.eventType)) {
+      // 6. Global, Restaurant Profile & Menu broadcasts
+      else if (['RESTAURANT_STATUS_CHANGED', 'RESTAURANT_PROFILE_UPDATED', 'MENU_ITEM_UPDATED', 'MENU_ITEM_AVAILABILITY_CHANGED', 'MENU_AVAILABILITY_CHANGED', 'SYSTEM_BROADCAST', 'BANNER_UPDATED'].includes(event.eventType)) {
         shouldSend = true;
       }
 
