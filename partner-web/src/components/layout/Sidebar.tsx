@@ -14,6 +14,7 @@ import {
   FileBarChart2,
   ShieldCheck,
   Settings,
+  LifeBuoy,
   X
 } from 'lucide-react';
 
@@ -30,7 +31,8 @@ export type TabKey =
   | 'INVENTORY'
   | 'REPORTS'
   | 'AUDIT'
-  | 'SETTINGS';
+  | 'SETTINGS'
+  | 'HELP';
 
 interface SidebarProps {
   currentTab: TabKey;
@@ -100,6 +102,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Settings',
       icon: Settings,
       roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'DINEDECK_SUPER_ADMIN']
+    },
+    {
+      key: 'HELP' as TabKey,
+      label: 'Help & Support',
+      icon: LifeBuoy,
+      roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'ASSISTANT_MANAGER', 'CAPTAIN', 'HEAD_WAITER', 'WAITER', 'CASHIER', 'CHEF', 'KITCHEN_STAFF', 'DINEDECK_SUPER_ADMIN']
     }
   ];
 

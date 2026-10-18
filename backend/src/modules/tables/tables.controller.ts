@@ -433,6 +433,7 @@ export async function tableRoutes(fastify: FastifyInstance) {
         tableNumber: t.tableNumber,
         capacity: t.capacity,
         floor: t.floor,
+        qrCodeToken: t.qrCodeToken,
         isOccupied: t.isOccupied || !!activeSession,
         assignedServer: assigned,
         activeSession: activeSession
@@ -457,6 +458,50 @@ export async function tableRoutes(fastify: FastifyInstance) {
         readyOrdersCount: readyOrders.length,
         allocations
       }
+    });
+  });
+
+  // 5. Query Master Table List with Permanent QR Tokens (Multi-Tenant & Branch Isolated)
+  fastify.get('/', async (req: FastifyRequest, reply: FastifyReply) => {
+    const { restaurantId, branchId } = req.query as { restaurantId?: string; branchId?: string };
+
+    const whereClause: any = {};
+    if (branchId) {
+      whereClause.branchId = branchId;
+    } else if (restaurantId) {
+      whereClause.branch = { restaurantId };
+    }
+
+    const tables = await prisma.table.findMany({
+      where: Object.keys(whereClause).length > 0 ? whereClause : undefined,
+      include: {
+        branch: { select: { id: true, name: true, restaurantId: true } },
+        sessions: {
+          where: { status: 'ACTIVE' },
+          include: {
+            orders: {
+              where: { status: { notIn: ['COMPLETED', 'CANCELLED'] } }
+            }
+          }
+        }
+      },
+      orderBy: { tableNumber: 'asc' }
+    });
+
+    return reply.send({
+      success: true,
+      count: tables.length,
+      data: tables.map((t) => ({
+        id: t.id,
+        branchId: t.branchId,
+        tableNumber: t.tableNumber,
+        capacity: t.capacity,
+        floor: t.floor,
+        qrCodeToken: t.qrCodeToken,
+        isOccupied: t.isOccupied || t.sessions.length > 0,
+        branch: t.branch,
+        activeSession: t.sessions[0] || null
+      }))
     });
   });
 }

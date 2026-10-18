@@ -3,6 +3,7 @@ import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../config/db.js';
 import { iamService } from '../iam/iam.service.js';
+import { realtimeHub } from '../../realtime/websocket.js';
 
 const registerSchema = z.object({
   name: z.string().min(2),
@@ -527,6 +528,113 @@ export async function authRoutes(fastify: FastifyInstance) {
         },
         accessToken
       }
+    });
+  });
+
+  // ==========================================
+  // Public Account Access Help / Login Recovery Workflow
+  // ==========================================
+  fastify.post('/account-recovery', async (req: FastifyRequest, reply: FastifyReply) => {
+    const { identifier, restaurantReference, ownerName, contactPhone, description } = req.body as {
+      identifier?: string;
+      restaurantReference?: string;
+      ownerName?: string;
+      contactPhone?: string;
+      description?: string;
+    };
+
+    if (!identifier || !identifier.trim()) {
+      return reply.status(400).send({
+        success: false,
+        message: 'Please provide your registered email address or phone number.'
+      });
+    }
+
+    const cleanIdentifier = identifier.trim().toLowerCase();
+    const cleanRef = (restaurantReference || '').trim();
+
+    // Anti-enumeration: look up silently
+    let matchedRestaurant: any = null;
+    if (cleanRef) {
+      matchedRestaurant = await prisma.restaurant.findFirst({
+        where: {
+          OR: [
+            { id: cleanRef },
+            { name: { contains: cleanRef, mode: 'insensitive' } }
+          ]
+        }
+      });
+    }
+
+    let matchedUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: cleanIdentifier },
+          { phone: cleanIdentifier }
+        ]
+      }
+    });
+
+    const ticketNumber = `REC-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    const timeline = [
+      {
+        id: `recovery_${Date.now()}`,
+        time: new Date().toISOString(),
+        action: 'ACCOUNT_RECOVERY_REQUESTED',
+        senderName: ownerName?.trim() || 'Restaurant Owner',
+        senderRole: 'OWNER_RECOVERY',
+        message: `Owner account recovery initiated for reference: "${cleanRef}". Contact Phone: ${contactPhone || 'Not provided'}. \nProblem description: ${description || 'Access lost.'}`,
+        isInternal: false,
+        diagnosticContext: {
+          ip: req.ip,
+          userAgent: req.headers['user-agent'],
+          identifierProvided: cleanIdentifier,
+          matchedUserId: matchedUser?.id || null,
+          matchedRestaurantId: matchedRestaurant?.id || null
+        }
+      }
+    ];
+
+    const ticket = await prisma.supportTicket.create({
+      data: {
+        ticketNumber,
+        title: `Account Recovery: ${ownerName?.trim() || 'Owner'} (${cleanIdentifier})`,
+        description: `Restaurant Owner reported login failure. Restaurant Ref: "${cleanRef}". Registered Contact: ${cleanIdentifier}. Notes: ${description || 'Cannot access account.'}`,
+        category: 'LOGIN_RECOVERY',
+        priority: 'HIGH',
+        status: 'OPEN',
+        restaurantId: matchedRestaurant?.id || null,
+        userId: matchedUser?.id || null,
+        timelineJson: JSON.stringify(timeline)
+      }
+    });
+
+    // Notify Super Admin Control Center via WebSocket
+    realtimeHub.broadcast('ACCOUNT_RECOVERY_ALERT', {
+      ticketNumber,
+      identifier: cleanIdentifier,
+      restaurantReference: cleanRef,
+      ownerName: ownerName?.trim() || 'Restaurant Owner',
+      contactPhone: contactPhone || null,
+      timestamp: new Date().toISOString()
+    });
+
+    // Log security audit
+    await iamService.logAuditEvent({
+      actorId: matchedUser?.id || 'anonymous_recovery',
+      actorRole: 'ANONYMOUS',
+      action: 'auth.account_recovery_requested',
+      resource: 'support_ticket',
+      resourceId: ticket.id,
+      scope: matchedRestaurant?.id || undefined,
+      after: { ticketNumber, identifier: cleanIdentifier, restaurantRef: cleanRef }
+    });
+
+    return reply.status(200).send({
+      success: true,
+      ticketNumber,
+      message: `Your account recovery request has been registered under reference #${ticketNumber}. The DineDeck Super Admin Security Team has been dispatched and will verify your entity before reaching out.`
     });
   });
 }

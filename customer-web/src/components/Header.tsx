@@ -22,12 +22,12 @@ export const Header: React.FC = () => {
         </span>
       </div>
 
-      {/* Top Right Controls: Scanner + Download App Option */}
+      {/* Top Right Controls: Scanner (Desktop only) + Download App Option */}
       <div className="flex items-center gap-2">
         <button
           type="button"
           onClick={() => setShowQrScannerModal(true)}
-          className="hidden sm:flex px-3.5 py-2 rounded-full bg-slate-900/90 hover:bg-slate-800 text-orange-400 border border-slate-700/80 transition items-center gap-1.5 cursor-pointer shadow-sm active:scale-95"
+          className="hidden md:flex px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-slate-900/90 hover:bg-slate-800 text-orange-400 border border-slate-700/80 transition items-center gap-1.5 cursor-pointer shadow-sm active:scale-95"
           title="Scan Table QR Code"
         >
           <QrCode className="w-4 h-4 text-orange-400" />

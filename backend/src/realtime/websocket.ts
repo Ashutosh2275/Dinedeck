@@ -215,6 +215,15 @@ class RealtimeHub {
     });
   }
 
+  public broadcast(eventType: string, payload: any, restaurantId?: string): CanonicalWsEvent {
+    return this.emit({
+      eventType,
+      entityId: `broadcast_${Date.now()}`,
+      restaurantId,
+      payload
+    });
+  }
+
   // Get historical events since a given timestamp or eventId for reconnection catch-up
   public getEventsSince(sinceTimestamp?: string, restaurantId?: string, userId?: string): CanonicalWsEvent[] {
     if (!sinceTimestamp) return this.eventHistory.slice(-50);

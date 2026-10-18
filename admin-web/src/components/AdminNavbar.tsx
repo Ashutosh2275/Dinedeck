@@ -5,7 +5,9 @@ import {
   LogOut,
   Search,
   Menu,
-  X
+  X,
+  Maximize2,
+  Power
 } from 'lucide-react';
 
 interface AdminNavbarProps {
@@ -91,9 +93,31 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
             <div className="text-[10px] text-slate-500">superadmin@dinedeck.in</div>
           </div>
 
+          {(window as any).dinedeckDesktop?.isDesktop && (
+            <>
+              <button
+                type="button"
+                onClick={() => (window as any).dinedeckDesktop?.toggleFullScreen()}
+                className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition shrink-0 cursor-pointer"
+                title="Toggle Full-Screen (F11)"
+              >
+                <Maximize2 className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => (window as any).dinedeckDesktop?.exitApp()}
+                className="p-2 rounded-xl bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white transition border border-rose-500/30 shrink-0 cursor-pointer"
+                title="Exit DineDeck Application (Alt+F4)"
+              >
+                <Power className="w-4 h-4" />
+              </button>
+            </>
+          )}
+
           <button
             onClick={logout}
-            className="p-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition border border-rose-500/20"
+            className="p-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition border border-rose-500/20 cursor-pointer"
             title="Sign Out"
           >
             <LogOut className="w-4 h-4" />

@@ -8,11 +8,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-dinedeck_prod}
     ports:
-      - "5433:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d dinedeck_prod"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-dinedeck_prod}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -22,7 +22,7 @@ services:
     container_name: dinedeck-redis
     restart: unless-stopped
     ports:
-      - "6380:6379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redisdata:/data
     healthcheck:
@@ -40,18 +40,25 @@ services:
     environment:
       PORT: 8080
       HOST: 0.0.0.0
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/dinedeck_prod?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-dinedeck_prod}?schema=public
       REDIS_URL: redis://redis:6379
-      JWT_SECRET: dinedeck_super_secret_jwt_2026
+      JWT_SECRET: ${JWT_SECRET:-dinedeck_super_secret_jwt_key_2026_india_production}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-dinedeck_super_secret_refresh_key_2026_india_production}
       NODE_ENV: production
       CORS_ORIGIN: "*"
     ports:
-      - "8080:8080"
+      - "${PORT:-8080}:8080"
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
 
 volumes:
   pgdata:

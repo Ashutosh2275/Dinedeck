@@ -1,0 +1,42 @@
+{
+  "name": "dinedeck-partner-desktop",
+  "version": "1.0.0",
+  "description": "DineDeck Restaurant Operations, POS & Live KDS Terminal for Windows",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
+  },
+  "author": "DineDeck Technologies",
+  "license": "Proprietary",
+  "build": {
+    "appId": "com.dinedeck.partner.desktop",
+    "productName": "DineDeck Partner POS & KDS",
+    "copyright": "Copyright © 2026 DineDeck Technologies",
+    "directories": {
+      "output": "dist-installer"
+    },
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "DineDeck Partner POS & KDS",
+      "artifactName": "DineDeck-Partner-Setup-${version}.exe"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "assets/**/*",
+      "../partner-web/dist/**/*"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

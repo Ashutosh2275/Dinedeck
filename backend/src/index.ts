@@ -178,6 +178,8 @@ async function buildServer() {
   await fastify.register(billingRoutes, { prefix: '/api/billing' });
   await fastify.register(bannerRoutes, { prefix: '/api/banners' });
   await fastify.register(recommendationRoutes, { prefix: '/api/recommendations' });
+  const { supportRoutes } = await import('./modules/support/support.controller.js');
+  await fastify.register(supportRoutes, { prefix: '/api/support' });
 
   return fastify;
 

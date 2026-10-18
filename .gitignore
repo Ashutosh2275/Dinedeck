@@ -9,6 +9,10 @@ dist/
 */dist/
 build/
 */build/
+dist-installer/
+*/dist-installer/
+win-unpacked/
+*/win-unpacked/
 .next/
 .vite/
 .turbo/
@@ -88,10 +92,10 @@ output.json
 ehthumbs.db
 Thumbs.db
 
-# --- Temporary Test Screenshots & Scratch Files ---
+# --- Temporary Test Screenshots, Logs & Quarantine ---
 logs/
 *.log
-scratch/
-/*.png
+_quarantine/
 test-results/
 coverage/
+scratch/

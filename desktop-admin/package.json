@@ -1,0 +1,42 @@
+{
+  "name": "dinedeck-control-center-desktop",
+  "version": "1.0.0",
+  "description": "DineDeck Super Admin & Platform Control Center for Windows",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
+  },
+  "author": "DineDeck Technologies",
+  "license": "Proprietary",
+  "build": {
+    "appId": "com.dinedeck.admin.desktop",
+    "productName": "DineDeck Control Center",
+    "copyright": "Copyright © 2026 DineDeck Technologies",
+    "directories": {
+      "output": "dist-installer"
+    },
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "DineDeck Control Center",
+      "artifactName": "DineDeck-SuperAdmin-Setup-${version}.exe"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "assets/**/*",
+      "../admin-web/dist/**/*"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

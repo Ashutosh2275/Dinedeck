@@ -7,7 +7,10 @@ import {
   Users,
   QrCode,
   CheckCircle2,
-  RefreshCw
+  RefreshCw,
+  Copy,
+  Check,
+  Printer
 } from 'lucide-react';
 
 interface TableManagementProps {
@@ -19,6 +22,26 @@ export const TableManagement: React.FC<TableManagementProps> = ({ tables, onRefr
   const { hasPermission } = useAuth();
   const [selectedTable, setSelectedTable] = useState<TableItem | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [copySuccess, setCopySuccess] = useState<boolean>(false);
+
+  const getTableQrUrl = (table: TableItem) => {
+    let customerOrigin = 'http://localhost:3000';
+    if (typeof window !== 'undefined' && window.location.hostname) {
+      const isDev = window.location.port === '5173' || window.location.port === '5174';
+      customerOrigin = isDev
+        ? `${window.location.protocol}//${window.location.hostname}:3000`
+        : window.location.origin;
+    }
+    const secureToken = table.qrCodeToken || `qr_${table.id}`;
+    return `${customerOrigin}/?qrToken=${encodeURIComponent(secureToken)}`;
+  };
+
+  const copyTableLink = (table: TableItem) => {
+    const url = getTableQrUrl(table);
+    navigator.clipboard.writeText(url);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
+  };
 
   const handleToggleOccupancy = async (table: TableItem) => {
     if (!hasPermission('tables.assign')) return;
@@ -128,42 +151,83 @@ export const TableManagement: React.FC<TableManagementProps> = ({ tables, onRefr
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-[#1E293B] border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-bold text-white">
-                Table #{selectedTable.tableNumber} Dining Hub
-              </h3>
+              <div>
+                <h3 className="text-base font-bold text-white">
+                  Table #{selectedTable.tableNumber} Standee & Details
+                </h3>
+                <p className="text-[11px] text-slate-400">
+                  {selectedTable.floor || 'Ground Floor'} • {selectedTable.capacity} Seats
+                </p>
+              </div>
               <button
                 onClick={() => setSelectedTable(null)}
-                className="text-slate-400 hover:text-white text-xs font-bold"
+                className="text-slate-400 hover:text-white text-xs font-bold px-2 py-1 rounded-lg bg-slate-800"
               >
                 Close
               </button>
             </div>
 
-            <div className="p-4 bg-slate-900 rounded-xl border border-slate-800 flex items-center space-x-4">
-              <div className="p-3 bg-white rounded-xl">
-                <QrCode className="w-12 h-12 text-slate-900" />
+            {/* Persistent QR Standee Display */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center space-y-3 flex flex-col items-center">
+              <div className="p-3 bg-white rounded-2xl shadow-xl">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(
+                    getTableQrUrl(selectedTable)
+                  )}`}
+                  alt={`Table #${selectedTable.tableNumber} QR Code`}
+                  className="w-36 h-36 mx-auto rounded-lg"
+                />
               </div>
+
               <div className="space-y-1">
-                <div className="text-xs font-bold text-white">Smart Table QR Token</div>
-                <div className="font-mono text-[10px] text-slate-400 break-all">
-                  {selectedTable.qrCodeToken || `table_qr_${selectedTable.tableNumber}_auth`}
+                <div className="text-xs font-bold text-white">Permanent Table QR Code</div>
+                <div className="font-mono text-[10px] text-cyan-400 break-all px-2 py-1 rounded bg-slate-950 border border-slate-800">
+                  Token: {selectedTable.qrCodeToken || `qr_${selectedTable.id}`}
                 </div>
-                <div className="text-[11px] text-emerald-400 font-semibold flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Instant Diner Mobile Ordering</span>
-                </div>
+              </div>
+
+              <div className="flex items-center space-x-2 w-full pt-1">
+                <button
+                  type="button"
+                  onClick={() => copyTableLink(selectedTable)}
+                  className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-slate-700 cursor-pointer"
+                >
+                  {copySuccess ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                  <span>{copySuccess ? 'Copied!' : 'Copy Ordering Link'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="flex-1 py-2 bg-orange-500/15 hover:bg-orange-500/25 text-orange-400 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-orange-500/30 cursor-pointer"
+                >
+                  <Printer className="w-3 h-3" />
+                  <span>Print Standee</span>
+                </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-end space-x-3 pt-2">
+            <div className="flex items-center justify-between pt-2">
+              <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
+                selectedTable.isOccupied
+                  ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                  : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+              }`}>
+                {selectedTable.isOccupied ? 'Currently Occupied' : 'Vacant & Available'}
+              </span>
+
               <button
                 onClick={() => {
                   handleToggleOccupancy(selectedTable);
                   setSelectedTable(null);
                 }}
-                className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl text-xs transition"
+                className={`px-4 py-2 text-white font-bold rounded-xl text-xs transition cursor-pointer ${
+                  selectedTable.isOccupied
+                    ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+                    : 'bg-emerald-600 hover:bg-emerald-500'
+                }`}
               >
-                {selectedTable.isOccupied ? 'Vacate & Clean Table' : 'Seat Arrived Party'}
+                {selectedTable.isOccupied ? 'Mark Vacant' : 'Seat Arrived Party'}
               </button>
             </div>
           </div>

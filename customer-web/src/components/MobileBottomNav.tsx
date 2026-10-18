@@ -34,11 +34,13 @@ export const MobileBottomNav: React.FC = () => {
       <button
         type="button"
         onClick={() => setShowQrScannerModal(true)}
-        className="pointer-events-auto flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 text-white font-black text-xs shadow-2xl shadow-orange-500/40 border border-white/20 transform active:scale-95 hover:scale-105 transition cursor-pointer select-none ring-4 ring-black/30"
+        className="pointer-events-auto flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 text-white font-black text-sm shadow-2xl shadow-orange-500/50 border border-white/30 transform active:scale-95 hover:scale-105 transition cursor-pointer select-none ring-4 ring-black/40 min-h-[48px]"
         title="Scan Table QR Code"
       >
-        <QrCode className="w-4 h-4 text-white" />
-        <span>Scan Table QR</span>
+        <div className="w-6 h-6 rounded-lg bg-black/20 flex items-center justify-center">
+          <QrCode className="w-4 h-4 text-white" />
+        </div>
+        <span className="tracking-wide">Scan Table QR</span>
       </button>
     </div>
   );

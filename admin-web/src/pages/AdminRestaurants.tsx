@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { adminApi } from '../services/api';
 import { AdminRestaurant, AdminBranch, AdminTable } from '../types';
 import { BulkOperationsModal } from '../components/BulkOperationsModal';
+import { RestaurantDetailWorkspace } from '../components/RestaurantDetailWorkspace';
 import {
   Building2,
   Search,
@@ -422,194 +423,13 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
         </div>
       </div>
 
-      {/* 360 Restaurant Command Profile Drawer */}
+      {/* 360 Restaurant Command Profile Workspace (17-Tab Full Studio) */}
       {drawerRestaurant && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-[#0E131F] border border-slate-700 rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in zoom-in-95">
-            {/* Drawer Header */}
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
-              <div className="flex items-center space-x-3">
-                <div className="w-11 h-11 rounded-2xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-black">
-                  <Building2 className="w-6 h-6" />
-                </div>
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <h2 className="text-base font-black text-white">{drawerRestaurant.name}</h2>
-                    <span className={`px-2 py-0.5 rounded-lg text-[9px] font-black uppercase ${
-                      drawerRestaurant.isActive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
-                    }`}>
-                      {drawerRestaurant.isActive ? 'ACTIVE' : 'SUSPENDED'}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-400">{drawerRestaurant.city} • {drawerRestaurant.cuisineType} • ID: {drawerRestaurant.id}</p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setDrawerRestaurant(null)}
-                className="p-1.5 rounded-full bg-slate-800 text-slate-400 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Drawer Tabs */}
-            <div className="flex items-center space-x-2 px-5 pt-3 border-b border-slate-800 bg-slate-950">
-              {[
-                { key: 'OVERVIEW', label: '360 Overview & Legal', icon: Building2 },
-                { key: 'BRANCHES', label: 'Branches, Tables & QR', icon: QrCode },
-                { key: 'COMMERCIALS', label: 'Tariffs & Commercials', icon: Percent }
-              ].map((t) => (
-                <button
-                  key={t.key}
-                  onClick={() => setDrawerTab(t.key as any)}
-                  className={`flex items-center space-x-1.5 px-3 py-2 border-b-2 text-xs font-bold transition ${
-                    drawerTab === t.key
-                      ? 'border-cyan-500 text-cyan-400'
-                      : 'border-transparent text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <t.icon className="w-4 h-4" />
-                  <span>{t.label}</span>
-                </button>
-              ))}
-            </div>
-
-            {/* Drawer Body */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
-              {drawerTab === 'OVERVIEW' && (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                    <div className="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-2">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Legal & Registration</span>
-                      <div><span className="text-slate-400">Legal Business Name:</span> <span className="font-bold text-white">{drawerRestaurant.legalBusinessName || drawerRestaurant.name}</span></div>
-                      <div><span className="text-slate-400">GSTIN:</span> <span className="font-mono text-cyan-400 font-bold">{drawerRestaurant.gstin || '27AABCP1234F1Z5'}</span></div>
-                      <div><span className="text-slate-400">FSSAI License:</span> <span className="font-mono text-emerald-400 font-bold">{drawerRestaurant.fssaiNumber || '11521019000342'}</span></div>
-                      <div><span className="text-slate-400">PAN Number:</span> <span className="font-mono text-slate-300">{drawerRestaurant.panNumber || 'AABCP1234F'}</span></div>
-                    </div>
-
-                    <div className="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-2">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Commercial & Financials</span>
-                      <div><span className="text-slate-400">Platform Commission:</span> <span className="font-bold text-cyan-400">{drawerRestaurant.commissionRatePercent || 15.0}%</span></div>
-                      <div><span className="text-slate-400">Tax Setup:</span> <span className="font-bold text-white">CGST {drawerRestaurant.cgstRatePercent || 2.5}% + SGST {drawerRestaurant.sgstRatePercent || 2.5}%</span></div>
-                      <div><span className="text-slate-400">Service Charge:</span> <span className="font-bold text-white">{drawerRestaurant.serviceChargePercent || 5.0}%</span></div>
-                      <div><span className="text-slate-400">Packaging Charge:</span> <span className="font-bold text-white">₹{drawerRestaurant.packagingCharge || 0}</span></div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-2 text-xs">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Contact & Address</span>
-                    <div><span className="text-slate-400">Registered City / State:</span> <span className="font-bold text-white">{drawerRestaurant.city}, {drawerRestaurant.state}</span></div>
-                    <div><span className="text-slate-400">Full Address:</span> <span className="font-medium text-slate-300">{drawerRestaurant.fullAddress || `${drawerRestaurant.city} Main Boulevard, Commercial Sector`}</span></div>
-                  </div>
-                </div>
-              )}
-
-              {drawerTab === 'BRANCHES' && (
-                <div className="space-y-4">
-                  {isBranchesLoading ? (
-                    <div className="text-center py-12 text-slate-500">Loading branch & table topology...</div>
-                  ) : branches.length === 0 ? (
-                    <div className="text-center py-12 text-slate-500">No branches provisioned for this tenant.</div>
-                  ) : (
-                    branches.map((b) => (
-                      <div key={b.id} className="p-4 bg-slate-900 rounded-2xl border border-slate-800 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <div className="font-black text-white text-xs">{b.name}</div>
-                          <span className="text-[10px] font-bold text-emerald-400">ACTIVE BRANCH</span>
-                        </div>
-
-                        {/* Tables */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                          {b.tables?.map((tbl) => (
-                            <div key={tbl.id} className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs space-y-1.5">
-                              <div className="flex justify-between items-center">
-                                <span className="font-black text-white">Table #{tbl.tableNumber}</span>
-                                <span className="text-[9px] text-slate-400">{tbl.capacity} Pax</span>
-                              </div>
-                              <div className="text-[9px] font-mono text-cyan-400 truncate">QR: {tbl.qrCodeToken.slice(0, 12)}...</div>
-                              <button
-                                onClick={() => handleRegenerateQr(tbl.id)}
-                                className="w-full py-1 rounded bg-slate-800 hover:bg-cyan-600 hover:text-white text-[10px] font-bold text-slate-300 transition"
-                              >
-                                Rotate QR
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              )}
-
-              {drawerTab === 'COMMERCIALS' && (
-                <form onSubmit={handleSaveConfig} className="space-y-4 text-xs max-w-md">
-                  <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-amber-300 text-xs font-bold">
-                    Modifying commercial tariffs will immediately affect settlement ledger calculations and create an immutable audit version.
-                  </div>
-
-                  <div>
-                    <label className="block font-bold text-slate-300 mb-1">Platform Commission Rate (%)</label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      value={editCommission}
-                      onChange={(e) => setEditCommission(parseFloat(e.target.value))}
-                      required
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 font-black text-cyan-400 focus:outline-none focus:border-cyan-500"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block font-bold text-slate-300 mb-1">CGST (%)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={editCgst}
-                        onChange={(e) => setEditCgst(parseFloat(e.target.value))}
-                        required
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-cyan-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-bold text-slate-300 mb-1">SGST (%)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={editSgst}
-                        onChange={(e) => setEditSgst(parseFloat(e.target.value))}
-                        required
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-cyan-500"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block font-bold text-slate-300 mb-1">Service Charge (%)</label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      value={editServiceCharge}
-                      onChange={(e) => setEditServiceCharge(parseFloat(e.target.value))}
-                      required
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-cyan-500"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSavingConfig}
-                    className="py-2.5 px-5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold rounded-xl transition shadow-lg"
-                  >
-                    {isSavingConfig ? 'Saving Snapshot...' : 'Save & Publish Tariff Update'}
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
+        <RestaurantDetailWorkspace
+          restaurant={drawerRestaurant}
+          onClose={() => setDrawerRestaurant(null)}
+          onRefresh={loadRestaurants}
+        />
       )}
 
       {/* Bulk Operations Modal */}

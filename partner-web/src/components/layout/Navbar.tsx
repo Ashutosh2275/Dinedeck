@@ -11,7 +11,10 @@ import {
   UserCheck,
   Menu,
   X,
-  Trash2
+  Trash2,
+  Maximize2,
+  Minimize2,
+  Power
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -121,16 +124,38 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
         )}
 
-        {/* User Badge & Logout */}
+        {/* User Badge, Desktop Controls & Logout */}
         <div className="flex items-center space-x-2 pl-2 border-l border-slate-800">
           <div className="text-right hidden xl:block">
             <div className="text-xs font-bold text-white leading-tight">{user?.name}</div>
             <div className="text-[10px] text-slate-500">{user?.email}</div>
           </div>
 
+          {(window as any).dinedeckDesktop?.isDesktop && (
+            <>
+              <button
+                type="button"
+                onClick={() => (window as any).dinedeckDesktop?.toggleFullScreen()}
+                className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition border border-slate-700 shrink-0 cursor-pointer"
+                title="Toggle Full-Screen (F11)"
+              >
+                <Maximize2 className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => (window as any).dinedeckDesktop?.exitApp()}
+                className="p-2 rounded-xl bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white transition border border-rose-500/30 shrink-0 cursor-pointer"
+                title="Exit DineDeck Application (Alt+F4)"
+              >
+                <Power className="w-4 h-4" />
+              </button>
+            </>
+          )}
+
           <button
             onClick={logout}
-            className="p-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition border border-rose-500/20 shrink-0"
+            className="p-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition border border-rose-500/20 shrink-0 cursor-pointer"
             title="Sign Out of Session"
           >
             <LogOut className="w-4 h-4" />

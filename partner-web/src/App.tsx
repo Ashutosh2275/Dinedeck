@@ -16,6 +16,7 @@ import { Inventory } from './pages/Inventory';
 import { Reports } from './pages/Reports';
 import { AuditLogs } from './pages/AuditLogs';
 import { Settings } from './pages/Settings';
+import { HelpSupport } from './pages/HelpSupport';
 import { IncomingOrderModal } from './components/IncomingOrderModal';
 
 import { Order, ServiceCall, MenuCategory, TableItem, ShiftOverview } from './types';
@@ -367,6 +368,7 @@ export const App: React.FC = () => {
           {currentTab === 'AUDIT' && <StaffIAM />}
 
           {currentTab === 'SETTINGS' && <Settings />}
+          {currentTab === 'HELP' && <HelpSupport />}
         </main>
       </div>
 

@@ -94,6 +94,19 @@ export interface DailySalesPrintData {
  * Injects receipt HTML into the dedicated DOM print container and fires direct print
  */
 function executeDirectThermalPrint(receiptHTML: string) {
+  // If running in DineDeck Windows Desktop App, use native Electron direct print
+  if (typeof window !== 'undefined' && (window as any).dinedeckDesktop?.printReceipt) {
+    (window as any).dinedeckDesktop.printReceipt({ html: receiptHTML, silent: false }).catch((err: any) => {
+      console.warn('Native thermal print failed, falling back to standard print:', err);
+      fallbackWebPrint(receiptHTML);
+    });
+    return;
+  }
+
+  fallbackWebPrint(receiptHTML);
+}
+
+function fallbackWebPrint(receiptHTML: string) {
   let target = document.getElementById('dinedeck-thermal-print-target');
   if (!target) {
     target = document.createElement('div');

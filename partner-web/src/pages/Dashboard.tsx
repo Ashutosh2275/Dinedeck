@@ -578,14 +578,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   // Unique Tamper-Proof Cryptographic Table QR Link Generator (Customer App Endpoint)
   const getTableQrUrl = (table: TableItem) => {
-    // customer-web is dedicated on port 5173 in dev
-    const customerPort = '5173';
-    let customerOrigin = `http://localhost:${customerPort}`;
+    let customerOrigin = 'http://localhost:3000';
     if (typeof window !== 'undefined' && window.location.hostname) {
-      customerOrigin = `${window.location.protocol}//${window.location.hostname}:${customerPort}`;
+      const isDev = window.location.port === '5173' || window.location.port === '5174';
+      customerOrigin = isDev
+        ? `${window.location.protocol}//${window.location.hostname}:3000`
+        : window.location.origin;
     }
-    const secureToken =
-      table.qrCodeToken || `token_${restaurant?.id || 'rest_punjab_heritage'}_tbl_${table.tableNumber}_sec9988`;
+    const secureToken = table.qrCodeToken || `qr_${table.id}`;
     return `${customerOrigin}/?qrToken=${encodeURIComponent(secureToken)}`;
   };
 

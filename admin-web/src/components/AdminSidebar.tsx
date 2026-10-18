@@ -60,47 +60,62 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
 }) => {
   const navigationGroups = [
     {
-      group: '01 COMMAND & TELEMETRY',
+      group: 'A. COMMAND CENTER',
       items: [
-        { key: 'OVERVIEW' as AdminTab, label: 'Command Center', icon: LayoutDashboard },
-        { key: 'TENANT_SUITE' as AdminTab, label: 'All-Restaurant Live Command', icon: Store },
-        { key: 'USER_DATABASE' as AdminTab, label: 'User & Diner Database', icon: Users },
-        { key: 'CUSTOMER_CMS' as AdminTab, label: 'Customer Scrolls & CMS', icon: Sparkles },
+        { key: 'OVERVIEW' as AdminTab, label: 'Executive Overview', icon: LayoutDashboard },
         { key: 'OPERATIONS' as AdminTab, label: 'Live Operations & KDS', icon: Activity },
-        { key: 'ORDERS' as AdminTab, label: 'Orders Command', icon: ShoppingBag }
+        { key: 'HEALTH' as AdminTab, label: 'System Health & Killswitch', icon: HeartPulse }
       ]
     },
     {
-      group: '02 MERCHANTS & COMMERCE',
+      group: 'B. BUSINESS & MERCHANTS',
       items: [
         { key: 'RESTAURANTS' as AdminTab, label: 'Merchants & Tenants', icon: Building2 },
         { key: 'APPROVALS' as AdminTab, label: 'Onboarding & Approvals', icon: CheckSquare },
+        { key: 'TENANT_SUITE' as AdminTab, label: 'Tenant Live Workspace', icon: Store },
+        { key: 'COMPLIANCE' as AdminTab, label: 'KYC & Compliance', icon: FileCheck }
+      ]
+    },
+    {
+      group: 'C. COMMERCE & OPERATIONS',
+      items: [
+        { key: 'ORDERS' as AdminTab, label: 'Orders Command', icon: ShoppingBag },
+        { key: 'USER_DATABASE' as AdminTab, label: 'Diners & User Database', icon: Users },
+        { key: 'CUSTOMER_CMS' as AdminTab, label: 'Customer CMS & Banners', icon: Sparkles }
+      ]
+    },
+    {
+      group: 'D. FINANCE & SETTLEMENT',
+      items: [
         { key: 'FINANCE' as AdminTab, label: 'Finance & Settlements', icon: DollarSign },
         { key: 'RECONCILIATION' as AdminTab, label: 'Financial Reconciliation', icon: FileSpreadsheet }
       ]
     },
     {
-      group: '03 GOVERNANCE & RISK',
+      group: 'E. RISK, TRUST & SUPPORT',
       items: [
-        { key: 'COMPLIANCE' as AdminTab, label: 'KYC & Compliance', icon: FileCheck },
         { key: 'RISK' as AdminTab, label: 'Risk Assessment Engine', icon: AlertOctagon },
-        { key: 'AUDIT' as AdminTab, label: 'Audit Logs & Timeline', icon: History }
+        { key: 'SUPPORT' as AdminTab, label: 'Support & Incident Desk', icon: LifeBuoy }
       ]
     },
     {
-      group: '04 PLATFORM & INFRASTRUCTURE',
+      group: 'F. PLATFORM INFRASTRUCTURE',
       items: [
-        { key: 'IAM' as AdminTab, label: 'IAM & Granular Security', icon: ShieldCheck },
         { key: 'DEVICES' as AdminTab, label: 'Hardware Fleet & Printers', icon: Smartphone },
         { key: 'FLAGS' as AdminTab, label: 'Feature Flags & Rollouts', icon: Flag },
         { key: 'CHANGES' as AdminTab, label: 'Config Versioning & Rollback', icon: RotateCcw }
       ]
     },
     {
-      group: '05 OBSERVABILITY & DESK',
+      group: 'G. SECURITY & GOVERNANCE',
       items: [
-        { key: 'HEALTH' as AdminTab, label: 'System Health & Killswitch', icon: HeartPulse },
-        { key: 'SUPPORT' as AdminTab, label: 'Support & Incident Desk', icon: LifeBuoy },
+        { key: 'IAM' as AdminTab, label: 'IAM & Granular Security', icon: ShieldCheck },
+        { key: 'AUDIT' as AdminTab, label: 'Audit Logs & Timeline', icon: History }
+      ]
+    },
+    {
+      group: 'H. ANALYTICS & CONFIG',
+      items: [
         { key: 'SETTINGS' as AdminTab, label: 'Platform Configuration', icon: Settings }
       ]
     }

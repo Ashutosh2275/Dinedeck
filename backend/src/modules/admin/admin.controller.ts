@@ -268,6 +268,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     const table = await prisma.table.findUnique({ where: { id: tableId }, include: { branch: { include: { restaurant: true } } } });
     if (!table) return reply.status(404).send({ success: false, error: 'Table not found' });
 
+    const previousQr = table.qrCodeToken;
     const newQr = `QR_${table.branch.restaurant.slug}_T${table.tableNumber}_${Date.now()}`;
     const updated = await prisma.table.update({
       where: { id: tableId },
@@ -280,16 +281,24 @@ export async function adminRoutes(fastify: FastifyInstance) {
       action: 'table.regenerate_qr',
       resource: 'table',
       resourceId: tableId,
-      after: { qrCodeToken: newQr }
+      scope: `RESTAURANT:${table.branch.restaurantId}`,
+      before: { qrCodeToken: previousQr },
+      after: { qrCodeToken: newQr, previousQrToken: previousQr }
     });
 
     realtimeHub.broadcastToRestaurant(table.branch.restaurantId, {
       event: 'TABLE_QR_REGENERATED',
       tableId,
+      tableNumber: table.tableNumber,
+      previousQrToken: previousQr,
       qrCodeToken: newQr
     });
 
-    return reply.send({ success: true, message: 'QR Code regenerated successfully', data: updated });
+    return reply.send({
+      success: true,
+      message: `QR Code for Table #${table.tableNumber} regenerated successfully. Previously printed physical QR codes are now invalidated.`,
+      data: updated
+    });
   });
 
   // ==========================================
