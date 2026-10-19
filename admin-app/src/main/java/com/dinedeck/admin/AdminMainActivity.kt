@@ -24,6 +24,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dinedeck.admin.data.AdminRestaurant
 import com.dinedeck.admin.presentation.*
 
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import com.dinedeck.admin.R
+
 class AdminMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +68,12 @@ fun AdminControlCenterApp(
             TopAppBar(
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("🛡️", fontSize = 20.sp)
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.dinedeck_emblem),
+                            contentDescription = "DineDeck Emblem",
+                            modifier = Modifier.size(28.dp)
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
                                 "DINEDECK Control Center",

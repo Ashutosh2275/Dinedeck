@@ -18,6 +18,7 @@ import { AuditLogs } from './pages/AuditLogs';
 import { Settings } from './pages/Settings';
 import { HelpSupport } from './pages/HelpSupport';
 import { IncomingOrderModal } from './components/IncomingOrderModal';
+import { DineDeckLoader } from './components/DineDeckLoader';
 
 import { Order, ServiceCall, MenuCategory, TableItem, ShiftOverview } from './types';
 import { api } from './services/api';
@@ -33,7 +34,7 @@ import {
 } from 'lucide-react';
 
 export const App: React.FC = () => {
-  const { isLoggedIn, isLoading: authLoading, restaurant, user } = useAuth();
+  const { isLoggedIn, isLoading: authLoading, isInitializing, restaurant, user } = useAuth();
   const [currentTab, setCurrentTab] = useState<TabKey>('DASHBOARD');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -253,14 +254,15 @@ export const App: React.FC = () => {
     }
   };
 
-  if (authLoading) {
+  if (isInitializing) {
     return (
-      <div className="min-h-screen bg-[#0F172A] flex items-center justify-center">
-        <div className="text-center space-y-3">
-          <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <div className="text-sm font-bold text-slate-300">Loading DINEDECK Partner Platform...</div>
-        </div>
-      </div>
+      <DineDeckLoader
+        fullScreen
+        size="lg"
+        label="Loading Partner Workspace..."
+        sublabel="Connecting to your dining floor, kitchen display & billing terminal..."
+        showWordmark
+      />
     );
   }
 

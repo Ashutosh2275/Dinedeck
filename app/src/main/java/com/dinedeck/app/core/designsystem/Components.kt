@@ -1,9 +1,12 @@
 package com.dinedeck.app.core.designsystem
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.res.painterResource
+import com.dinedeck.app.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -689,19 +692,19 @@ fun DineDeckTopHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Left: DINEDECK Logo
+        // Left: DINEDECK Official Emblem Logo
         Row(verticalAlignment = Alignment.CenterVertically) {
             Surface(
                 shape = RoundedCornerShape(12.dp),
-                color = OrangePrimary,
+                color = Color(0xFF0B1120),
+                border = androidx.compose.foundation.BorderStroke(1.dp, OrangePrimary.copy(alpha = 0.4f)),
                 modifier = Modifier.size(36.dp)
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        imageVector = Icons.Default.Restaurant,
-                        contentDescription = "DINEDECK Logo",
-                        tint = TextPrimary,
-                        modifier = Modifier.size(20.dp)
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(6.dp)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.dinedeck_emblem),
+                        contentDescription = "DineDeck Emblem",
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }

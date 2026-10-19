@@ -6,6 +6,7 @@ import { wsService, WsStatus } from '../services/websocket';
 interface AuthContextType {
   isLoggedIn: boolean;
   isLoading: boolean;
+  isInitializing: boolean;
   user: User | null;
   restaurant: Restaurant | null;
   branch: Branch | null;
@@ -25,7 +26,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isInitializing, setIsInitializing] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [branch, setBranch] = useState<Branch | null>(null);
@@ -39,55 +41,74 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setWsStatus(status);
     });
 
+    let isMounted = true;
+
     const initAuth = async () => {
-      const token = api.getToken();
-      const cached = localStorage.getItem('dinedeck_partner_cached_auth');
+      try {
+        const token = api.getToken();
+        const cached = localStorage.getItem('dinedeck_partner_cached_auth');
 
-      // 1. Immediately hydrate from cache to eliminate UI flicker or bouncing
-      if (token && cached) {
-        try {
-          const parsed = JSON.parse(cached);
-          setUser(parsed.user);
-          setRestaurant(parsed.restaurant);
-          setBranch(parsed.branch);
-          setAssignedRoles(parsed.assignedRoles || ['RESTAURANT_STAFF']);
-          setPermissions(new Set(parsed.permissions || []));
-          setScopes(parsed.scopes || []);
-          setIsLoggedIn(true);
-        } catch (e) {
-          console.warn('[PartnerAuth] Cache hydration notice:', e);
-        }
-      }
-
-      // 2. Validate token in background
-      if (token) {
-        try {
-          const res = await api.fetchMe();
-          if (res.success && res.data) {
-            setAuthData(res.data);
-            wsService.connect({
-              restaurantId: res.data.restaurant?.id,
-              userId: res.data.user?.id,
-              role: res.data.user?.role
-            });
-          } else if (res.message?.includes('401') || res.message?.includes('Unauthorized')) {
-            // Only force logout on authoritative 401
-            api.setToken(null);
-            localStorage.removeItem('dinedeck_partner_cached_auth');
-            setIsLoggedIn(false);
+        // 1. Immediately hydrate from cache to eliminate UI flicker or bouncing
+        if (token && cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            if (parsed.user && parsed.restaurant) {
+              setUser(parsed.user);
+              setRestaurant(parsed.restaurant);
+              setBranch(parsed.branch);
+              setAssignedRoles(parsed.assignedRoles || ['RESTAURANT_STAFF']);
+              setPermissions(new Set(parsed.permissions || []));
+              setScopes(parsed.scopes || []);
+              setIsLoggedIn(true);
+            }
+          } catch (e) {
+            console.warn('[PartnerAuth] Cache hydration notice:', e);
           }
-        } catch (e) {
-          console.warn('[PartnerAuth] Network offline or reconnecting, keeping active session');
         }
-      } else {
-        setIsLoggedIn(false);
+
+        // 2. Validate token in background with 5-second timeout guarantee
+        if (token) {
+          try {
+            const timeoutPromise = new Promise<{ success: false; message: string }>((resolve) =>
+              setTimeout(() => resolve({ success: false, message: 'Auth verification timeout' }), 5000)
+            );
+            const res: any = await Promise.race([api.fetchMe(), timeoutPromise]);
+
+            if (isMounted) {
+              if (res.success && res.data) {
+                setAuthData(res.data);
+                wsService.connect({
+                  restaurantId: res.data.restaurant?.id,
+                  userId: res.data.user?.id,
+                  role: res.data.user?.role
+                });
+              } else if (res.message?.includes('401') || res.message?.includes('Unauthorized')) {
+                // Only force logout on authoritative 401
+                api.setToken(null);
+                localStorage.removeItem('dinedeck_partner_cached_auth');
+                setIsLoggedIn(false);
+              }
+            }
+          } catch (e) {
+            console.warn('[PartnerAuth] Background token verification error:', e);
+          }
+        } else {
+          if (isMounted) setIsLoggedIn(false);
+        }
+      } catch (err) {
+        console.error('[PartnerAuth] Unexpected error during initAuth:', err);
+      } finally {
+        if (isMounted) {
+          setIsInitializing(false);
+          setIsLoading(false);
+        }
       }
-      setIsLoading(false);
     };
 
     initAuth();
 
     return () => {
+      isMounted = false;
       unsubWs();
       wsService.disconnect();
     };
@@ -119,18 +140,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = async (email: string, password: string = 'Dinedeck@2026') => {
     setIsLoading(true);
-    const res = await api.login(email, password);
-    setIsLoading(false);
-    if (res.success && res.data) {
-      setAuthData(res.data);
-      wsService.connect({
-        restaurantId: res.data.restaurant?.id,
-        userId: res.data.user?.id,
-        role: res.data.user?.role
-      });
-      return { success: true };
+    try {
+      const res = await api.login(email, password);
+      if (res.success && res.data) {
+        setAuthData(res.data);
+        wsService.connect({
+          restaurantId: res.data.restaurant?.id,
+          userId: res.data.user?.id,
+          role: res.data.user?.role
+        });
+        return { success: true };
+      }
+      return { success: false, message: res.message || 'Login failed. Please check credentials.' };
+    } catch (err: any) {
+      return { success: false, message: err.message || 'Network connection failed to Fastify server on port 8080.' };
+    } finally {
+      setIsLoading(false);
     }
-    return { success: false, message: res.message || 'Login failed' };
   };
 
   const logout = () => {
@@ -183,6 +209,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       value={{
         isLoggedIn,
         isLoading,
+        isInitializing,
         user,
         restaurant,
         branch,

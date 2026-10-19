@@ -1,75 +1,153 @@
-import React from 'react';
-import { UtensilsCrossed } from 'lucide-react';
+import React, { useId } from 'react';
 
-interface DineDeckLoaderProps {
-  size?: 'sm' | 'md' | 'lg';
+export interface DineDeckLoaderProps {
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   label?: string;
   sublabel?: string;
   className?: string;
   fullScreen?: boolean;
+  theme?: 'dark' | 'light' | 'auto';
+  showWordmark?: boolean;
 }
 
 export const DineDeckLoader: React.FC<DineDeckLoaderProps> = ({
   size = 'md',
-  label = 'Loading DineDeck...',
+  label = 'Preparing Your Dining Experience...',
   sublabel,
   className = '',
-  fullScreen = false
+  fullScreen = false,
+  showWordmark = false
 }) => {
+  const gradientId = useId().replace(/:/g, '');
+
   const sizeMap = {
     sm: {
-      ring: 'w-10 h-10 border-2',
-      box: 'w-6 h-6 rounded-lg',
-      icon: 'w-3.5 h-3.5',
-      text: 'text-xs'
+      container: 'w-12 h-12',
+      emblem: 'w-6 h-6',
+      strokeWidth: 3.5,
+      radius: 43,
+      dasharray: '130 280',
+      text: 'text-xs',
+      subtext: 'text-[10px]'
     },
     md: {
-      ring: 'w-16 h-16 border-[3px]',
-      box: 'w-10 h-10 rounded-2xl',
-      icon: 'w-5 h-5',
-      text: 'text-sm'
+      container: 'w-20 h-20',
+      emblem: 'w-11 h-11',
+      strokeWidth: 4,
+      radius: 43,
+      dasharray: '150 280',
+      text: 'text-sm',
+      subtext: 'text-xs'
     },
     lg: {
-      ring: 'w-24 h-24 border-4',
-      box: 'w-14 h-14 rounded-2xl',
-      icon: 'w-7 h-7',
-      text: 'text-base'
+      container: 'w-28 h-28',
+      emblem: 'w-16 h-16',
+      strokeWidth: 4.5,
+      radius: 43,
+      dasharray: '170 280',
+      text: 'text-base',
+      subtext: 'text-xs'
+    },
+    xl: {
+      container: 'w-36 h-36',
+      emblem: 'w-20 h-20',
+      strokeWidth: 5,
+      radius: 43,
+      dasharray: '180 280',
+      text: 'text-lg',
+      subtext: 'text-sm'
     }
   };
 
   const currentSize = sizeMap[size];
 
   const content = (
-    <div className={`flex flex-col items-center justify-center space-y-3.5 select-none ${className}`}>
-      {/* Official Brand Logo with Smooth Rotating Arc */}
+    <div
+      className={`flex flex-col items-center justify-center space-y-4 select-none ${className}`}
+      role="status"
+      aria-live="polite"
+      aria-label={label || 'Loading DineDeck'}
+    >
+      {/* Centerpiece: Prominent Rotating Orange Arc with Stationary Centered Official Emblem */}
       <div className="relative flex items-center justify-center">
-        {/* Ambient Orange Glow */}
-        <div className="absolute inset-0 bg-orange-500/25 rounded-full blur-xl animate-pulse" />
+        {/* Soft Ambient Brand Glow behind ring */}
+        <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-2xl transform scale-110 pointer-events-none" />
 
-        {/* Rotating Orange Arc Ring */}
-        <div
-          className={`${currentSize.ring} rounded-full border-orange-500 border-t-transparent border-r-orange-400 border-b-transparent border-l-transparent animate-spin`}
-          style={{ animationDuration: '900ms', animationTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}
-        />
-
-        {/* Static Inner DineDeck Center Emblem */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            className={`${currentSize.box} bg-gradient-to-tr from-orange-600 via-orange-500 to-amber-400 flex items-center justify-center shadow-lg shadow-orange-500/30 border border-orange-400/40`}
+        {/* Outer Circular Loader Container with Smooth Rotating Arc */}
+        <div className={`relative ${currentSize.container} flex items-center justify-center`}>
+          <svg
+            className="w-full h-full animate-spin motion-reduce:animate-none"
+            style={{
+              animationDuration: '1.2s',
+              animationTimingFunction: 'linear'
+            }}
+            viewBox="0 0 100 100"
           >
-            <UtensilsCrossed className={`${currentSize.icon} text-white`} />
+            <defs>
+              <linearGradient id={`dinedeckOrangeArc-${gradientId}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFA500" stopOpacity="1" />
+                <stop offset="60%" stopColor="#FF5500" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#FF3300" stopOpacity="0.05" />
+              </linearGradient>
+            </defs>
+
+            {/* Subtle background track */}
+            <circle
+              cx="50"
+              cy="50"
+              r={currentSize.radius}
+              fill="none"
+              stroke="rgba(255, 107, 0, 0.12)"
+              strokeWidth={currentSize.strokeWidth}
+            />
+
+            {/* Continuous Rotating Arc with Trailing Gradient */}
+            <circle
+              cx="50"
+              cy="50"
+              r={currentSize.radius}
+              fill="none"
+              stroke={`url(#dinedeckOrangeArc-${gradientId})`}
+              strokeWidth={currentSize.strokeWidth}
+              strokeLinecap="round"
+              strokeDasharray={currentSize.dasharray}
+            />
+          </svg>
+
+          {/* Crisp, Stationary, Official Center Emblem */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <img
+              src="/dinedeck-emblem.png"
+              alt="DineDeck Emblem"
+              className={`${currentSize.emblem} object-contain drop-shadow-md select-none transition-transform`}
+              draggable={false}
+            />
           </div>
         </div>
       </div>
 
-      {/* Branded Label */}
-      {label && (
-        <div className="text-center space-y-0.5">
-          <div className={`${currentSize.text} font-black text-white tracking-tight`}>
-            {label}
-          </div>
+      {/* Branded Status Typography */}
+      {(label || showWordmark) && (
+        <div className="text-center space-y-1.5 max-w-sm px-4">
+          {showWordmark && (
+            <div className="flex justify-center mb-1">
+              <img
+                src="/dinedeck-logo-dark.png"
+                alt="DineDeck"
+                className="h-6 object-contain"
+                draggable={false}
+              />
+            </div>
+          )}
+
+          {label && (
+            <div className={`${currentSize.text} font-bold text-white tracking-tight leading-snug`}>
+              {label}
+            </div>
+          )}
+
           {sublabel && (
-            <div className="text-[11px] font-semibold text-slate-400">
+            <div className={`${currentSize.subtext} font-medium text-slate-400 leading-relaxed`}>
               {sublabel}
             </div>
           )}
@@ -80,7 +158,7 @@ export const DineDeckLoader: React.FC<DineDeckLoaderProps> = ({
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 z-50 bg-[#0B0F19]/90 backdrop-blur-md flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-50 bg-[#0B1120] flex items-center justify-center p-6 antialiased">
         {content}
       </div>
     );

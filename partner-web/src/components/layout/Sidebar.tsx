@@ -150,6 +150,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
           </div>
 
+          <div className="hidden lg:flex items-center gap-2.5 px-3 py-1 mb-2">
+            <img
+              src="/dinedeck-logo-dark.png"
+              alt="DineDeck"
+              className="h-6 object-contain"
+              draggable={false}
+            />
+            <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30">
+              Partner
+            </span>
+          </div>
+
           <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-3 hidden lg:block">
             Operations & Management
           </div>

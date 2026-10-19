@@ -118,7 +118,7 @@ fun OverviewScreen(
         if (state.isOverviewLoading) {
             item {
                 Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFFFF6B00))
+                    DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Overview...", sublabel = null)
                 }
             }
         } else {
@@ -295,7 +295,7 @@ fun RestaurantsScreen(
         // Restaurant List
         if (state.isRestaurantsLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(color = Color(0xFFFF6B00))
+                DineDeckBrandedLoader(fullScreen = false, sizeDp = 80.dp, label = "Loading Restaurants...", sublabel = null)
             }
         } else if (state.restaurants.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -969,7 +969,7 @@ fun OperationsScreen(
         if (state.isLiveOpsLoading) {
             item {
                 Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFFFF6B00))
+                    DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Live Operations...", sublabel = null)
                 }
             }
         } else {
@@ -1044,7 +1044,7 @@ fun FinanceScreen(
                 if (state.isPaymentsLoading) {
                     item {
                         Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
-                            CircularProgressIndicator(color = Color(0xFFFF6B00))
+                            DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Payments...", sublabel = null)
                         }
                     }
                 } else if (payments.isEmpty()) {
@@ -1109,7 +1109,7 @@ fun FinanceScreen(
                 if (state.isSettlementsLoading) {
                     item {
                         Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
-                            CircularProgressIndicator(color = Color(0xFFFF6B00))
+                            DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Payouts...", sublabel = null)
                         }
                     }
                 } else if (sets.isEmpty()) {
@@ -1226,7 +1226,7 @@ fun MoreCommandCenterScreen(
                     "CUSTOMERS" -> {
                         val custs = state.customers
                         if (state.isCustomersLoading) {
-                            item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = Color(0xFFFF6B00)) } }
+                            item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Customers...", sublabel = null) } }
                         } else {
                             items(custs) { c ->
                                 Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))) {
@@ -1243,7 +1243,7 @@ fun MoreCommandCenterScreen(
                     "GROWTH" -> {
                         val coupons = state.coupons
                         if (state.isCouponsLoading) {
-                            item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = Color(0xFFFF6B00)) } }
+                            item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Offers...", sublabel = null) } }
                         } else {
                             items(coupons) { cp ->
                                 Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))) {
@@ -1261,7 +1261,7 @@ fun MoreCommandCenterScreen(
                     "SUPPORT" -> {
                         val tickets = state.supportTickets
                         if (state.isSupportLoading) {
-                            item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = Color(0xFFFF6B00)) } }
+                            item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Support Tickets...", sublabel = null) } }
                         } else {
                             items(tickets) { tk ->
                                 Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))) {
@@ -1280,7 +1280,7 @@ fun MoreCommandCenterScreen(
                     "SECURITY" -> {
                         val logs = state.auditLogs
                         if (state.isAuditLoading) {
-                            item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = Color(0xFFFF6B00)) } }
+                            item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Audit History...", sublabel = null) } }
                         } else {
                             items(logs) { lg ->
                                 Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))) {

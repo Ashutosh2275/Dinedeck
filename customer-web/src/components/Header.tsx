@@ -10,16 +10,24 @@ export const Header: React.FC = () => {
       {/* Clean Brand Identity */}
       <div
         onClick={() => setActiveView('HOME')}
-        className="flex items-center space-x-3 cursor-pointer select-none group"
-        title="DINEDECK Home"
+        className="flex items-center space-x-2.5 cursor-pointer select-none group"
+        title="DineDeck Home"
       >
-        <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-600 via-orange-500 to-amber-400 flex items-center justify-center shadow-lg shadow-orange-500/25 shrink-0 transform active:scale-95 group-hover:scale-105 transition">
-          <UtensilsCrossed className="w-5 h-5 text-white" />
+        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#0B1120] border border-orange-500/40 flex items-center justify-center shadow-lg shadow-orange-500/20 shrink-0 p-1.5 transform active:scale-95 group-hover:scale-105 transition">
+          <img
+            src="/dinedeck-emblem.png"
+            alt="DineDeck Emblem"
+            className="w-full h-full object-contain"
+            draggable={false}
+          />
         </div>
 
-        <span className="font-black text-lg sm:text-xl text-white tracking-tight leading-tight group-hover:text-orange-400 transition">
-          DINEDECK
-        </span>
+        <img
+          src="/dinedeck-logo-dark.png"
+          alt="DineDeck"
+          className="h-6 sm:h-7 object-contain"
+          draggable={false}
+        />
       </div>
 
       {/* Top Right Controls: Scanner (Desktop only) + Download App Option */}

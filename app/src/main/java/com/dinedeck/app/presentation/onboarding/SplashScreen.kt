@@ -56,41 +56,9 @@ fun SplashScreen(
         viewModel.checkInitialRoute(onNavigate)
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(DarkBackground),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Box(
-                modifier = Modifier
-                    .size(90.dp)
-                    .background(OrangePrimary, shape = MaterialTheme.shapes.medium),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.RestaurantMenu,
-                    contentDescription = "DineDeck Logo",
-                    tint = TextPrimary,
-                    modifier = Modifier.size(54.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "DINEDECK",
-                style = MaterialTheme.typography.headlineLarge,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 3.sp
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                text = "Dynamic Restaurant Intelligence",
-                style = MaterialTheme.typography.bodyMedium,
-                color = OrangePrimary,
-                fontWeight = FontWeight.Medium
-            )
-        }
-    }
+    DineDeckBrandedLoader(
+        fullScreen = true,
+        label = "Preparing Your Experience...",
+        sublabel = "Dynamic Restaurant Intelligence"
+    )
 }

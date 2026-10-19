@@ -66,19 +66,20 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Brand Icon
-            Box(
-                modifier = Modifier
-                    .size(64.dp)
-                    .background(OrangePrimary, shape = MaterialTheme.shapes.medium),
-                contentAlignment = Alignment.Center
+            // Official Brand Emblem
+            Surface(
+                color = Color(0xFF0B1120),
+                shape = RoundedCornerShape(18.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, OrangePrimary.copy(alpha = 0.4f)),
+                modifier = Modifier.size(68.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.RestaurantMenu,
-                    contentDescription = null,
-                    tint = TextPrimary,
-                    modifier = Modifier.size(36.dp)
-                )
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(10.dp)) {
+                    androidx.compose.foundation.Image(
+                        painter = androidx.compose.ui.res.painterResource(id = com.dinedeck.app.R.drawable.dinedeck_emblem),
+                        contentDescription = "DineDeck Emblem",
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(20.dp))

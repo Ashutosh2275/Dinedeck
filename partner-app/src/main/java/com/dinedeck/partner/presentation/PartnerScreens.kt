@@ -1,8 +1,11 @@
 package com.dinedeck.partner.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.res.painterResource
+import com.dinedeck.partner.R
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -74,6 +77,13 @@ fun PartnerAppRoot(viewModel: PartnerViewModel) {
             } else {
                 PartnerMainDashboard(viewModel = viewModel, uiState = uiState)
             }
+            if (uiState.isLoading) {
+                DineDeckBrandedLoader(
+                    fullScreen = true,
+                    label = "Loading Partner Workspace...",
+                    sublabel = "Connecting to dining floor, kitchen display & billing terminal..."
+                )
+            }
         }
     }
 }
@@ -94,18 +104,18 @@ fun PartnerLoginScreen(viewModel: PartnerViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // App Branding
+        // Official App Branding Emblem
         Surface(
-            color = PartnerPrimary.copy(alpha = 0.15f),
-            shape = RoundedCornerShape(20.dp),
-            modifier = Modifier.size(72.dp)
+            color = Color(0xFF0B1120),
+            shape = RoundedCornerShape(22.dp),
+            border = androidx.compose.foundation.BorderStroke(1.dp, PartnerPrimary.copy(alpha = 0.4f)),
+            modifier = Modifier.size(76.dp)
         ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    Icons.Default.RestaurantMenu,
-                    contentDescription = "DineDeck",
-                    tint = PartnerPrimary,
-                    modifier = Modifier.size(40.dp)
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(12.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.dinedeck_emblem),
+                    contentDescription = "DineDeck Emblem",
+                    modifier = Modifier.size(52.dp)
                 )
             }
         }

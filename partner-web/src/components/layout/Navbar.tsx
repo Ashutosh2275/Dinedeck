@@ -46,8 +46,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         </button>
 
         <div className="flex items-center space-x-2.5">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-tr from-orange-600 via-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/20 shrink-0">
-            <UtensilsCrossed className="w-5 h-5 text-white" />
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#0B1120] border border-orange-500/40 flex items-center justify-center shadow-lg shadow-orange-500/20 shrink-0 p-1.5">
+            <img
+              src="/dinedeck-emblem.png"
+              alt="DineDeck Emblem"
+              className="w-full h-full object-contain"
+              draggable={false}
+            />
           </div>
           <div className="min-w-0">
             <div className="flex items-center space-x-2">

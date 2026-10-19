@@ -35,14 +35,25 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
         </button>
 
         <div className="flex items-center space-x-2.5">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-600/20 shrink-0">
-            <Shield className="w-5 h-5 text-white" />
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#090D16] border border-orange-500/40 flex items-center justify-center shadow-lg shadow-orange-500/20 shrink-0 p-1.5">
+            <img
+              src="/dinedeck-emblem.png"
+              alt="DineDeck Emblem"
+              className="w-full h-full object-contain"
+              draggable={false}
+            />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h1 className="font-black text-xs sm:text-sm text-white tracking-tight leading-tight">
-                DINEDECK Control Center
-              </h1>
+              <div className="flex items-center gap-1.5">
+                <img
+                  src="/dinedeck-logo-dark.png"
+                  alt="DineDeck"
+                  className="h-4.5 sm:h-5 object-contain"
+                  draggable={false}
+                />
+                <span className="font-bold text-xs text-slate-300 hidden sm:inline">Control Center</span>
+              </div>
               <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[9px] font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
                 ADMIN
               </span>

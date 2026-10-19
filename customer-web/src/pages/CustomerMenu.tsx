@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useCustomer } from '../context/CustomerContext';
 import { MenuItem, MenuItemVariant, MenuItemAddon, CartCustomization } from '../types';
 import { CustomerTracking } from './CustomerTracking';
+import { DineDeckLoader } from '../components/DineDeckLoader';
 import {
   Search,
   Plus,
@@ -218,14 +219,12 @@ export const CustomerMenu: React.FC = () => {
 
   if (categories.length === 0 && isLoadingMenu) {
     return (
-      <div className="space-y-6 pb-28 max-w-4xl mx-auto text-center p-12 bg-[#151D30] border border-slate-800 rounded-3xl shadow-xl">
-        <div className="w-12 h-12 rounded-2xl bg-orange-500/20 text-orange-400 flex items-center justify-center mx-auto border border-orange-500/30">
-          <RefreshCw className="w-6 h-6 animate-spin" />
-        </div>
-        <div className="space-y-1">
-          <h2 className="text-base font-black text-white">Loading Live Kitchen Menu...</h2>
-          <p className="text-xs text-slate-400">Fetching freshest dishes, recipes, and tandoori specials</p>
-        </div>
+      <div className="py-20 flex justify-center">
+        <DineDeckLoader
+          size="lg"
+          label="Loading Live Kitchen Menu..."
+          sublabel="Fetching freshest dishes, recipes, and chef's specials"
+        />
       </div>
     );
   }

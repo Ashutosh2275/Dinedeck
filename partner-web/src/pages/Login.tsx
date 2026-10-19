@@ -155,8 +155,13 @@ export const Login: React.FC = () => {
               {logoTransform.isCenter && (
                 <div className="absolute inset-0 bg-orange-500/40 rounded-2xl blur-xl animate-pulse" />
               )}
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center shadow-xl shadow-orange-500/30 border border-orange-400/30">
-                <UtensilsCrossed className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-2xl bg-[#0B1120] border border-orange-500/40 flex items-center justify-center shadow-xl shadow-orange-500/20 p-2">
+                <img
+                  src="/dinedeck-emblem.png"
+                  alt="DineDeck Emblem"
+                  className="w-8 h-8 object-contain"
+                  draggable={false}
+                />
               </div>
             </div>
             <div>
@@ -164,9 +169,17 @@ export const Login: React.FC = () => {
                 <Sparkles className="w-2.5 h-2.5" />
                 OPERATING SYSTEM
               </span>
-              <h1 className="text-2xl font-black text-white tracking-tight mt-0.5 whitespace-nowrap">
-                DINEDECK <span className="text-orange-500">Partner</span>
-              </h1>
+              <div className="flex items-center gap-2 mt-0.5">
+                <img
+                  src="/dinedeck-logo-dark.png"
+                  alt="DineDeck"
+                  className="h-6 sm:h-7 object-contain"
+                  draggable={false}
+                />
+                <span className="text-[11px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-orange-500 text-white shadow-sm">
+                  Partner
+                </span>
+              </div>
             </div>
           </div>
 
