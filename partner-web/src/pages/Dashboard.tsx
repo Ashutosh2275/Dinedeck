@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { ShiftOverview, Order, ServiceCall, TableItem, MenuCategory, WaiterPickupAlert, TableAllocationSurveillanceItem } from '../types';
 import { api } from '../services/api';
 import { wsService } from '../services/websocket';
+import { formatRole } from '../utils/roleFormatter';
 import {
   TrendingUp,
   ChefHat,
@@ -644,7 +645,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               {restaurant?.name || 'DINEDECK Restaurant'}
             </span>
             <span className="text-slate-400 dark:text-slate-500">•</span>
-            <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold">{primaryRole} Operations</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold">{formatRole(primaryRole)} Operations</span>
           </div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white mt-1">Home Command Center</h1>
           <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">

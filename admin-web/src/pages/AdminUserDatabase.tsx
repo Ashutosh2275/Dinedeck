@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { adminApi } from '../services/api';
+import { formatRole } from '../utils/roleFormatter';
 import {
   Users,
   Search,
@@ -422,7 +423,7 @@ export const AdminUserDatabase: React.FC = () => {
                           : 'bg-rose-500/10 text-rose-400 border-rose-500/30'
                       }`}
                     >
-                      {u.role}
+                      {formatRole(u.role)}
                     </span>
                   </td>
 
@@ -508,7 +509,7 @@ export const AdminUserDatabase: React.FC = () => {
                 <p className="text-xs text-slate-400">{selectedUser.email}</p>
                 <div className="flex items-center space-x-2 mt-1">
                   <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                    {selectedUser.role}
+                    {formatRole(selectedUser.role)}
                   </span>
                   <span className="text-[10px] text-slate-500">Last Active: {selectedUser.lastActive}</span>
                 </div>

@@ -252,6 +252,30 @@ fun PartnerLoginScreen(viewModel: PartnerViewModel) {
     }
 }
 
+fun formatRoleName(role: String?): String {
+    if (role.isNullOrBlank()) return "Staff Member"
+    return when (role.uppercase()) {
+        "RESTAURANT_OWNER", "OWNER" -> "Restaurant Owner"
+        "GENERAL_MANAGER", "MANAGER" -> "General Manager"
+        "BRANCH_MANAGER" -> "Branch Manager"
+        "ASSISTANT_MANAGER" -> "Assistant Manager"
+        "HEAD_CHEF" -> "Head Chef"
+        "KITCHEN_MANAGER" -> "Kitchen Manager"
+        "CHEF" -> "Chef"
+        "KITCHEN_STAFF" -> "Kitchen Staff"
+        "CAPTAIN", "HEAD_WAITER" -> "Captain"
+        "WAITER", "STEWARD" -> "Steward / Waiter"
+        "CASHIER" -> "Cashier"
+        "CHIEF_ACCOUNTANT", "ACCOUNTANT" -> "Accountant"
+        "INVENTORY_MANAGER" -> "Inventory Manager"
+        "SUPER_ADMIN", "DINEDECK_SUPER_ADMIN" -> "Super Admin"
+        "STAFF", "RESTAURANT_STAFF" -> "Staff Member"
+        "CUSTOMER" -> "Customer"
+        else -> role.split("_", "-")
+            .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+    }
+}
+
 // -------------------------------------------------------------
 // 2. MAIN DASHBOARD WITH TOP BAR & 5 PRIMARY WORKSTATION TABS
 // -------------------------------------------------------------
@@ -267,41 +291,51 @@ fun PartnerMainDashboard(
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Surface(
-                            color = PartnerPrimary.copy(alpha = 0.2f),
-                            shape = CircleShape,
+                            color = Color(0xFF0B1120),
+                            shape = RoundedCornerShape(10.dp),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, PartnerPrimary.copy(alpha = 0.35f)),
                             modifier = Modifier.size(36.dp)
                         ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Icon(Icons.Default.RestaurantMenu, contentDescription = null, tint = PartnerPrimary, modifier = Modifier.size(20.dp))
+                            Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(5.dp)) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.dinedeck_emblem),
+                                    contentDescription = "DineDeck Emblem",
+                                    modifier = Modifier.size(24.dp)
+                                )
                             }
                         }
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                uiState.currentRestaurant?.name ?: "Restaurant Operations",
+                                uiState.currentRestaurant?.name ?: "DINEDECK Partner",
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = Color.White,
+                                maxLines = 1,
+                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                             )
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 val roleName = uiState.assignedRoles.firstOrNull() ?: uiState.currentUser?.role ?: "STAFF"
                                 Surface(
-                                    color = PartnerInfo.copy(alpha = 0.2f),
-                                    shape = RoundedCornerShape(4.dp)
+                                    color = PartnerPrimary.copy(alpha = 0.15f),
+                                    shape = RoundedCornerShape(4.dp),
+                                    border = androidx.compose.foundation.BorderStroke(0.5.dp, PartnerPrimary.copy(alpha = 0.3f))
                                 ) {
                                     Text(
-                                        roleName,
+                                        formatRoleName(roleName),
                                         fontSize = 10.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = PartnerInfo,
-                                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 1.dp)
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = PartnerPrimary,
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 1.dp)
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
                                     "• ${uiState.currentBranch?.name ?: "Main Branch"}",
                                     fontSize = 11.sp,
-                                    color = Color(0xFF9CA3AF)
+                                    color = Color(0xFF9CA3AF),
+                                    maxLines = 1,
+                                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                                 )
                             }
                         }

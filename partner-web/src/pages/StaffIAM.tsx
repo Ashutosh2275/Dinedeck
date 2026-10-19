@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { StaffMember, PermissionCategory, PermissionItem, FranchiseLocation, AuditLog } from '../types';
 import { api } from '../services/api';
 import { ALL_PERMISSIONS, PERMISSION_CATEGORIES } from '../constants/iam';
+import { formatRole } from '../utils/roleFormatter';
 import {
   Users,
   ShieldCheck,
@@ -838,7 +839,7 @@ export const StaffIAM: React.FC = () => {
                         <h3 className={`text-sm font-bold transition-colors ${isEditable ? 'text-white group-hover:text-orange-400' : 'text-slate-200'}`}>
                           {staff.name}
                         </h3>
-                        <p className="text-xs text-slate-400 font-medium">{staff.designation}</p>
+                        <p className="text-xs text-slate-400 font-medium">{formatRole(staff.designation || staff.roleName || staff.primaryRole)}</p>
                       </div>
                     </div>
 

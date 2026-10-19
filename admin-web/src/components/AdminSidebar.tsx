@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTheme } from '../context/ThemeContext';
 import {
   LayoutDashboard,
   Building2,
@@ -59,7 +58,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   isOpenMobile = false,
   onCloseMobile
 }) => {
-  const { isDark } = useTheme();
   const navigationGroups = [
     {
       group: 'A. DASHBOARD & OPERATIONS',
@@ -157,19 +155,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             </button>
           </div>
 
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1 mb-1">
-            <img
-              src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
-              alt="DineDeck"
-              className="h-5 object-contain"
-              draggable={false}
-            />
-            <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">
-              Admin
-            </span>
-          </div>
-
-          <div className="space-y-3.5 overflow-y-auto flex-1 pr-1 custom-scrollbar">
+          <div className="space-y-3.5 overflow-y-auto flex-1 pr-1 custom-scrollbar pt-1">
             {navigationGroups.map((grp) => (
               <div key={grp.group} className="space-y-0.5">
                 <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 px-3 pb-1">
