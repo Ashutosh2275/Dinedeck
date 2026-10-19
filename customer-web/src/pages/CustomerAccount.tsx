@@ -213,7 +213,7 @@ export const CustomerAccount: React.FC = () => {
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-orange-600 via-orange-500 to-amber-400 p-0.5 shadow-xl shadow-orange-500/30 flex items-center justify-center shrink-0">
               <div className="w-full h-full rounded-[22px] bg-[#0B0F19] flex items-center justify-center text-orange-400 font-black text-2xl">
-                {user?.name ? user.name.slice(0, 2).toUpperCase() : <User className="w-8 h-8" />}
+                {user?.name ? user.name.slice(0, 2).toUpperCase() : <img src="/dinedeck-emblem.png" alt="DineDeck" className="w-9 h-9 object-contain" draggable={false} />}
               </div>
             </div>
 

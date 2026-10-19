@@ -204,8 +204,8 @@ export const CustomerAuthModal: React.FC = () => {
         {/* Modal Header */}
         <div className="flex items-center justify-between pb-3 border-b border-slate-800">
           <div className="flex items-center space-x-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold">
-              <UtensilsCrossed className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-2xl bg-[#0B0F19] border border-orange-500/30 flex items-center justify-center p-1.5 shadow-md shadow-orange-500/10">
+              <img src="/dinedeck-emblem.png" alt="DineDeck" className="w-full h-full object-contain" draggable={false} />
             </div>
             <div>
               <h3 className="text-base font-black text-white">
