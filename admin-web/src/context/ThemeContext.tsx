@@ -25,14 +25,14 @@ function getInitialTheme(): ThemeMode {
   } catch (e) {
     // fallback
   }
-  return 'DARK';
+  return 'LIGHT';
 }
 
 function resolveSystemTheme(): ResolvedTheme {
   if (typeof window !== 'undefined' && window.matchMedia) {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'DARK' : 'LIGHT';
   }
-  return 'DARK';
+  return 'LIGHT';
 }
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

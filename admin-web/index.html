@@ -20,10 +20,10 @@
       (function() {
         try {
           var saved = localStorage.getItem('dinedeck_theme') || localStorage.getItem('dinedeck_app_theme');
-          var isDark = true;
-          if (saved === 'LIGHT') {
-            isDark = false;
-          } else if (saved === 'SYSTEM' || !saved) {
+          var isDark = false;
+          if (saved === 'DARK') {
+            isDark = true;
+          } else if (saved === 'SYSTEM') {
             isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           }
           var doc = document.documentElement;

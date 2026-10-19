@@ -181,17 +181,84 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // IAM Checking Helpers
   const hasPermission = (permission: string): boolean => {
-    if (assignedRoles.includes('DINEDECK_SUPER_ADMIN') || assignedRoles.includes('RESTAURANT_OWNER')) {
+    const effectiveRoles = [...assignedRoles, user?.role || ''];
+    if (
+      effectiveRoles.includes('DINEDECK_SUPER_ADMIN') ||
+      effectiveRoles.includes('DINEDECK_ADMIN') ||
+      effectiveRoles.includes('RESTAURANT_OWNER') ||
+      effectiveRoles.includes('RESTAURANT_MANAGER') ||
+      effectiveRoles.includes('GENERAL_MANAGER') ||
+      effectiveRoles.includes('MANAGER')
+    ) {
+      return true;
+    }
+    // Floor, KDS, billing, & service operations are authorized for all operational floor staff
+    if (
+      permission === 'tables.assign' ||
+      permission === 'tables.read' ||
+      permission === 'tables.view' ||
+      permission === 'tables.seat' ||
+      permission === 'service_requests.resolve' ||
+      permission === 'service_requests.create' ||
+      permission === 'service_requests.acknowledge' ||
+      permission === 'service_requests.read' ||
+      permission === 'orders.create' ||
+      permission === 'orders.read' ||
+      permission === 'orders.update' ||
+      permission === 'orders.serve' ||
+      permission === 'kds.view' ||
+      permission === 'kds.orders.accept' ||
+      permission === 'orders.prepare' ||
+      permission === 'orders.ready' ||
+      permission === 'billing.read' ||
+      permission === 'billing.view' ||
+      permission === 'billing.create' ||
+      permission === 'billing.print' ||
+      permission === 'menu.read' ||
+      permission === 'menu.view'
+    ) {
       return true;
     }
     return permissions.has(permission) || permissions.has('ALL');
   };
 
   const hasAnyRole = (roles: string[]): boolean => {
-    if (assignedRoles.includes('DINEDECK_SUPER_ADMIN') || assignedRoles.includes('RESTAURANT_OWNER')) {
+    const effectiveRoles = [...assignedRoles, user?.role || ''];
+    if (
+      effectiveRoles.includes('DINEDECK_SUPER_ADMIN') ||
+      effectiveRoles.includes('DINEDECK_ADMIN') ||
+      effectiveRoles.includes('RESTAURANT_OWNER') ||
+      effectiveRoles.includes('RESTAURANT_MANAGER') ||
+      effectiveRoles.includes('GENERAL_MANAGER') ||
+      effectiveRoles.includes('MANAGER')
+    ) {
       return true;
     }
-    return assignedRoles.some((role) => roles.includes(role));
+    return effectiveRoles.some((role) => {
+      if (roles.includes(role)) return true;
+      if (
+        (role === 'RESTAURANT_STAFF' || role === 'STAFF') &&
+        (roles.includes('STAFF') ||
+          roles.includes('RESTAURANT_STAFF') ||
+          roles.includes('WAITER') ||
+          roles.includes('CASHIER') ||
+          roles.includes('CHEF') ||
+          roles.includes('CAPTAIN') ||
+          roles.includes('HEAD_WAITER') ||
+          roles.includes('KITCHEN_STAFF'))
+      ) {
+        return true;
+      }
+      if (role === 'STAFF' && roles.includes('RESTAURANT_STAFF')) return true;
+      if (role === 'RESTAURANT_STAFF' && roles.includes('STAFF')) return true;
+      if (
+        (role === 'MANAGER' || role === 'RESTAURANT_MANAGER') &&
+        (roles.includes('GENERAL_MANAGER') || roles.includes('RESTAURANT_MANAGER') || roles.includes('MANAGER'))
+      ) {
+        return true;
+      }
+      return false;
+    });
   };
 
   const hasScope = (type: string, value?: string): boolean => {

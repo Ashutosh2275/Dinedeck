@@ -200,7 +200,7 @@ export const TableManagement: React.FC<TableManagementProps> = ({ tables, onRefr
                 <button
                   type="button"
                   onClick={() => copyTableLink(selectedTable)}
-                  className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-slate-700 cursor-pointer"
+                  className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-slate-200 dark:border-slate-700 cursor-pointer"
                 >
                   {copySuccess ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                   <span>{copySuccess ? 'Copied!' : 'Copy Ordering Link'}</span>
@@ -209,7 +209,7 @@ export const TableManagement: React.FC<TableManagementProps> = ({ tables, onRefr
                 <button
                   type="button"
                   onClick={() => window.print()}
-                  className="flex-1 py-2 bg-orange-500/15 hover:bg-orange-500/25 text-orange-400 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-orange-500/30 cursor-pointer"
+                  className="flex-1 py-2 bg-orange-500/15 hover:bg-orange-500/25 text-orange-600 dark:text-orange-400 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-orange-500/30 cursor-pointer"
                 >
                   <Printer className="w-3 h-3" />
                   <span>Print Standee</span>
@@ -220,8 +220,8 @@ export const TableManagement: React.FC<TableManagementProps> = ({ tables, onRefr
             <div className="flex items-center justify-between pt-2">
               <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
                 selectedTable.isOccupied
-                  ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                  : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                  ? 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30'
+                  : 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30'
               }`}>
                 {selectedTable.isOccupied ? 'Currently Occupied' : 'Vacant & Available'}
               </span>
@@ -233,7 +233,7 @@ export const TableManagement: React.FC<TableManagementProps> = ({ tables, onRefr
                 }}
                 className={`px-4 py-2 text-white font-bold rounded-xl text-xs transition cursor-pointer ${
                   selectedTable.isOccupied
-                    ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+                    ? 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
                     : 'bg-emerald-600 hover:bg-emerald-500'
                 }`}
               >

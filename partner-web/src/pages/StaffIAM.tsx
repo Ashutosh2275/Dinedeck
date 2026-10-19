@@ -32,9 +32,12 @@ import {
 
 export const ROLE_HIERARCHY_RANK: Record<string, number> = {
   DINEDECK_SUPER_ADMIN: 1000,
+  DINEDECK_ADMIN: 500,
   SUPER_ADMIN: 1000,
+  ADMIN: 500,
   RESTAURANT_OWNER: 100,
   OWNER: 100,
+  RESTAURANT_MANAGER: 80,
   GENERAL_MANAGER: 80,
   MANAGER: 80,
   BRANCH_MANAGER: 75,
@@ -47,7 +50,9 @@ export const ROLE_HIERARCHY_RANK: Record<string, number> = {
   ACCOUNTANT: 50,
   CASHIER: 40,
   CHEF: 40,
-  KITCHEN_STAFF: 30,
+  RESTAURANT_STAFF: 20,
+  STAFF: 20,
+  KITCHEN_STAFF: 20,
   WAITER: 20,
   STEWARD: 20,
   SUPPORT_VIEW_ONLY: 10,
@@ -63,8 +68,8 @@ export const StaffIAM: React.FC = () => {
     const ranks = actorRoles.map((r) => {
       if (ROLE_HIERARCHY_RANK[r]) return ROLE_HIERARCHY_RANK[r];
       const upper = (r || '').toUpperCase();
-      if (upper.includes('OWNER')) return 100;
-      if (upper.includes('GENERAL') || upper.includes('MANAGER')) return 80;
+      if (upper.includes('OWNER') || upper.includes('SUPER_ADMIN')) return 100;
+      if (upper.includes('ADMIN') || upper.includes('GENERAL') || upper.includes('MANAGER')) return 80;
       if (upper.includes('HEAD') || upper.includes('CAPTAIN') || upper.includes('CHIEF')) return 60;
       if (upper.includes('CHEF') || upper.includes('CASHIER')) return 40;
       return 20;
@@ -73,6 +78,7 @@ export const StaffIAM: React.FC = () => {
   }, [actorRoles]);
 
   const isOwner = actorMaxRank >= 100;
+  const isManager = actorMaxRank >= 75;
 
   const getStaffRank = (staff: StaffMember): number => {
     if (staff.isRootOwner) return 100;
@@ -90,8 +96,8 @@ export const StaffIAM: React.FC = () => {
     const ranks = roleStrings.map((r: string) => {
       if (ROLE_HIERARCHY_RANK[r]) return ROLE_HIERARCHY_RANK[r];
       const upper = (r || '').toUpperCase();
-      if (upper.includes('OWNER')) return 100;
-      if (upper.includes('GENERAL') || upper.includes('MANAGER')) return 80;
+      if (upper.includes('OWNER') || upper.includes('SUPER_ADMIN')) return 100;
+      if (upper.includes('ADMIN') || upper.includes('GENERAL') || upper.includes('MANAGER')) return 80;
       if (upper.includes('HEAD') || upper.includes('CAPTAIN') || upper.includes('CHIEF')) return 60;
       if (upper.includes('CHEF') || upper.includes('CASHIER')) return 40;
       return 20;
@@ -103,19 +109,19 @@ export const StaffIAM: React.FC = () => {
     if (currentUser?.id && ((staff.userId && staff.userId === currentUser.id) || staff.id === currentUser.id || staff.email === currentUser.email)) {
       return false;
     }
-    // Branch Isolation: Non-owners can only edit staff in their assigned branch
-    if (!isOwner) {
-      const actorBranchId = branch?.id || (currentUser as any)?.branchId;
-      if (actorBranchId && (staff.branchId || staff.franchiseId) && staff.branchId !== actorBranchId && staff.franchiseId !== actorBranchId) {
-        return false;
-      }
+    // Owners can manage all staff
+    if (isOwner) return true;
+    // Managers can manage all non-owner staff in their location
+    if (isManager) {
+      const targetRank = getStaffRank(staff);
+      return targetRank < 100;
     }
     const targetRank = getStaffRank(staff);
     return actorMaxRank > targetRank;
   };
 
   const canActorDelegatePermission = (permId: string): boolean => {
-    if (isOwner) return true;
+    if (isOwner || isManager) return true;
     return userPermissions.has(permId) || userPermissions.has('ALL');
   };
 
@@ -938,18 +944,18 @@ export const StaffIAM: React.FC = () => {
       {/* 4. FULL 91-PERMISSION IAM MATRIX & PREVIEW MODAL */}
       {isAccessModalOpen && selectedStaff && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 bg-black/80 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-4xl bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+          <div className="relative w-full max-w-4xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 bg-slate-950 border-b border-slate-800">
+            <div className="flex items-center justify-between px-6 py-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 bg-orange-500/20 text-orange-400 rounded-xl border border-orange-500/30">
+                <div className="p-2.5 bg-orange-500/20 text-orange-600 dark:text-orange-400 rounded-xl border border-orange-500/30">
                   <KeyRound className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                     {selectedStaff.name}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     {selectedStaff.designation} • {selectedStaff.email}
                   </p>
                 </div>
@@ -957,24 +963,24 @@ export const StaffIAM: React.FC = () => {
 
               <button
                 onClick={() => setIsAccessModalOpen(false)}
-                className="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 rounded-xl transition-all"
+                className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl transition-all"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Step Selector Tabs */}
-            <div className="flex border-b border-slate-800 bg-slate-950/60 px-6 pt-3 gap-3">
+            <div className="flex border-b border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-950/60 px-6 pt-3 gap-3">
               <button
                 onClick={() => setShowPreviewStep(false)}
                 className={`pb-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
                   !showPreviewStep
-                    ? 'border-orange-500 text-orange-400'
-                    : 'border-transparent text-slate-400 hover:text-slate-200'
+                    ? 'border-orange-500 text-orange-600 dark:text-orange-400'
+                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <span>1. Select Permissions</span>
-                <span className="px-2 py-0.5 text-xs bg-slate-800 text-orange-300 rounded-full">
+                <span className="px-2 py-0.5 text-xs bg-slate-200 dark:bg-slate-800 text-orange-600 dark:text-orange-300 rounded-full font-bold">
                   {selectedPermissions.size} / {totalPossiblePermissions}
                 </span>
               </button>
@@ -1019,13 +1025,13 @@ export const StaffIAM: React.FC = () => {
                 /* STEP 1: 91-PERMISSION MATRIX */
                 <div className="space-y-6">
                   {/* Franchise Location Assignment & Change Franchise */}
-                  <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-2xl space-y-2.5">
+                  <div className="bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl space-y-2.5">
                     <div className="flex items-center justify-between">
-                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <Store className="w-4 h-4 text-orange-400" />
+                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <Store className="w-4 h-4 text-orange-500 dark:text-orange-400" />
                         Assigned Franchise Location
                       </label>
-                      <span className="text-xs font-semibold text-orange-400 flex items-center gap-1 bg-orange-500/10 px-2.5 py-1 rounded-lg border border-orange-500/20">
+                      <span className="text-xs font-semibold text-orange-600 dark:text-orange-400 flex items-center gap-1 bg-orange-500/10 px-2.5 py-1 rounded-lg border border-orange-500/20">
                         <MapPin className="w-3.5 h-3.5" />
                         Change Franchise
                       </span>
@@ -1035,7 +1041,7 @@ export const StaffIAM: React.FC = () => {
                       <select
                         value={assignedFranchiseId}
                         onChange={(e) => setAssignedFranchiseId(e.target.value)}
-                        className="w-full bg-slate-800 text-white text-sm font-medium border border-slate-700 rounded-xl px-3.5 py-2.5 pr-9 appearance-none focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all cursor-pointer"
+                        className="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-medium border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 pr-9 appearance-none focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all cursor-pointer"
                       >
                         {franchises.map((f) => (
                           <option key={f.id} value={f.id}>
@@ -1047,11 +1053,11 @@ export const StaffIAM: React.FC = () => {
                     </div>
 
                     {selectedStaff && selectedStaff.franchiseId !== assignedFranchiseId && (
-                      <div className="p-2.5 bg-amber-500/10 border border-amber-500/30 rounded-xl text-xs text-amber-300 flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                      <div className="p-2.5 bg-amber-500/10 border border-amber-500/30 rounded-xl text-xs text-amber-700 dark:text-amber-300 flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0" />
                         <span>
                           Transferring employee location to{' '}
-                          <strong className="text-white underline">
+                          <strong className="text-slate-900 dark:text-white underline">
                             {franchises.find((f) => f.id === assignedFranchiseId)?.name || assignedFranchiseId}
                           </strong>
                         </span>
@@ -1060,7 +1066,7 @@ export const StaffIAM: React.FC = () => {
                   </div>
 
                   {/* Search Permissions & Global Actions Toolbar */}
-                  <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-2xl space-y-3">
+                  <div className="bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl space-y-3">
                     <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
                       <div className="relative flex-1">
                         <input
@@ -1068,13 +1074,13 @@ export const StaffIAM: React.FC = () => {
                           placeholder="Search any of the 91 permissions (e.g. orders, kitchen, kds, bill, menu, table, gst)..."
                           value={permissionSearchQuery}
                           onChange={(e) => setPermissionSearchQuery(e.target.value)}
-                          className="w-full bg-slate-800 text-white text-xs border border-slate-700 rounded-xl pl-9 pr-8 py-2.5 placeholder:text-slate-500 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                          className="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-8 py-2.5 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                         />
                         <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                         {permissionSearchQuery && (
                           <button
                             onClick={() => setPermissionSearchQuery('')}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white"
                           >
                             <X className="w-3.5 h-3.5" />
                           </button>
@@ -1084,16 +1090,16 @@ export const StaffIAM: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={handleSelectAllGlobal}
-                          className="px-3.5 py-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 text-xs font-bold rounded-xl border border-emerald-500/40 transition-all flex items-center gap-1.5 active:scale-95"
+                          className="px-3.5 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-xl border border-emerald-500/30 transition-all flex items-center gap-1.5 active:scale-95"
                         >
-                          <CheckSquare className="w-4 h-4 text-emerald-400" />
+                          <CheckSquare className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                           <span>Select All (91)</span>
                         </button>
                         <button
                           onClick={handleClearAllGlobal}
-                          className="px-3.5 py-2 bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 text-xs font-bold rounded-xl border border-rose-500/40 transition-all flex items-center gap-1.5 active:scale-95"
+                          className="px-3.5 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-700 dark:text-rose-300 text-xs font-bold rounded-xl border border-rose-500/30 transition-all flex items-center gap-1.5 active:scale-95"
                         >
-                          <Square className="w-4 h-4 text-rose-400" />
+                          <Square className="w-4 h-4 text-rose-500 dark:text-rose-400" />
                           <span>Clear All (0)</span>
                         </button>
                       </div>
@@ -1139,27 +1145,27 @@ export const StaffIAM: React.FC = () => {
                       return (
                         <div
                           key={cat.key}
-                          className="bg-slate-950/60 border border-slate-800 rounded-2xl overflow-hidden shadow-sm"
+                          className="bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm"
                         >
                           {/* Category Header with Both Select All and Clear All Options */}
                           <div
                             onClick={() => toggleCategoryExpand(cat.key)}
-                            className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-5 py-3.5 bg-slate-900/90 hover:bg-slate-800/80 cursor-pointer border-b border-slate-800 transition-colors"
+                            className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-5 py-3.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800/80 cursor-pointer border-b border-slate-200 dark:border-slate-800 transition-colors"
                           >
                             <div className="flex items-center gap-3">
                               {isExpanded ? (
-                                <ChevronDown className="w-4 h-4 text-orange-400 flex-shrink-0" />
+                                <ChevronDown className="w-4 h-4 text-orange-500 dark:text-orange-400 flex-shrink-0" />
                               ) : (
                                 <ChevronRight className="w-4 h-4 text-slate-400 flex-shrink-0" />
                               )}
                               <div>
-                                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                                <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                   <span>{cat.label}</span>
-                                  <span className="text-xs font-semibold px-2 py-0.5 bg-slate-800 text-orange-300 border border-slate-700 rounded-full">
+                                  <span className="text-xs font-semibold px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-orange-600 dark:text-orange-300 border border-slate-200 dark:border-slate-700 rounded-full font-mono">
                                     {selectedInCat} / {allCatPerms.length} Selected
                                   </span>
                                 </h4>
-                                <p className="text-[11px] text-slate-400 mt-0.5">{cat.description}</p>
+                                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{cat.description}</p>
                               </div>
                             </div>
 
@@ -1169,16 +1175,16 @@ export const StaffIAM: React.FC = () => {
                             >
                               <button
                                 onClick={() => handleSelectAllCategory(cat.key)}
-                                className="text-xs font-semibold px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 rounded-lg border border-emerald-500/30 transition-all flex items-center gap-1"
+                                className="text-xs font-semibold px-2.5 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 rounded-lg border border-emerald-500/30 transition-all flex items-center gap-1"
                               >
-                                <Check className="w-3 h-3 text-emerald-400" />
+                                <Check className="w-3 h-3 text-emerald-500 dark:text-emerald-400" />
                                 <span>Select All</span>
                               </button>
                               <button
                                 onClick={() => handleClearAllCategory(cat.key)}
-                                className="text-xs font-semibold px-2.5 py-1 bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 rounded-lg border border-rose-500/30 transition-all flex items-center gap-1"
+                                className="text-xs font-semibold px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-700 dark:text-rose-300 rounded-lg border border-rose-500/30 transition-all flex items-center gap-1"
                               >
-                                <X className="w-3 h-3 text-rose-400" />
+                                <X className="w-3 h-3 text-rose-500 dark:text-rose-400" />
                                 <span>Clear All</span>
                               </button>
                             </div>
@@ -1195,22 +1201,22 @@ export const StaffIAM: React.FC = () => {
                                   return (
                                     <div
                                       key={perm.id}
-                                      className="flex items-start gap-3 p-3 rounded-xl border opacity-50 bg-slate-950/40 border-slate-900 text-slate-500 cursor-not-allowed select-none"
+                                      className="flex items-start gap-3 p-3 rounded-xl border opacity-60 bg-slate-100 dark:bg-slate-950/40 border-slate-200 dark:border-slate-900 text-slate-400 dark:text-slate-500 cursor-not-allowed select-none"
                                       title="You can only delegate permissions that your account holds. Contact the Restaurant Owner to grant this permission."
                                     >
-                                      <div className="mt-0.5 p-1 rounded bg-slate-800 text-slate-500">
+                                      <div className="mt-0.5 p-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-500">
                                         <Lock className="w-3 h-3" />
                                       </div>
                                       <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between gap-2">
-                                          <span className="text-xs font-bold text-slate-500 line-through">
+                                          <span className="text-xs font-bold text-slate-400 dark:text-slate-500 line-through">
                                             {perm.name}
                                           </span>
-                                          <span className="text-[9px] font-semibold text-amber-500/80 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20 flex items-center gap-1">
+                                          <span className="text-[9px] font-semibold text-amber-700 dark:text-amber-500/80 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20 flex items-center gap-1">
                                             <Lock className="w-2.5 h-2.5" /> Owner Authority
                                           </span>
                                         </div>
-                                        <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                                        <p className="text-[11px] text-slate-500 dark:text-slate-600 mt-0.5 leading-relaxed">
                                           {perm.description}
                                         </p>
                                       </div>
@@ -1224,8 +1230,8 @@ export const StaffIAM: React.FC = () => {
                                     onClick={() => handleTogglePermission(perm.id)}
                                     className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer select-none ${
                                       isChecked
-                                        ? 'bg-orange-500/10 border-orange-500/50 text-white shadow-sm'
-                                        : 'bg-slate-900/50 hover:bg-slate-800/60 border-slate-800 text-slate-300'
+                                        ? 'bg-orange-500/10 border-orange-500/50 text-slate-900 dark:text-white shadow-sm'
+                                        : 'bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/50 dark:hover:bg-slate-800/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300'
                                     }`}
                                   >
                                     <input
@@ -1233,18 +1239,18 @@ export const StaffIAM: React.FC = () => {
                                       checked={isChecked}
                                       onChange={() => handleTogglePermission(perm.id)}
                                       onClick={(e) => e.stopPropagation()}
-                                      className="mt-0.5 w-4 h-4 rounded border-slate-600 text-orange-500 focus:ring-orange-500 focus:ring-offset-slate-900 cursor-pointer flex-shrink-0"
+                                      className="mt-0.5 w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-orange-500 focus:ring-orange-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 cursor-pointer flex-shrink-0"
                                     />
                                     <div className="flex-1 min-w-0">
                                       <div className="flex items-center justify-between gap-2">
-                                        <span className={`text-xs font-bold ${isChecked ? 'text-orange-300' : 'text-white'}`}>
+                                        <span className={`text-xs font-bold ${isChecked ? 'text-orange-600 dark:text-orange-300' : 'text-slate-900 dark:text-white'}`}>
                                           {perm.name}
                                         </span>
-                                        <code className="text-[10px] font-mono text-slate-400 bg-slate-800/80 px-1.5 py-0.5 rounded flex-shrink-0">
+                                        <code className="text-[10px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-1.5 py-0.5 rounded flex-shrink-0 border border-slate-200 dark:border-slate-700/60">
                                           {perm.id}
                                         </code>
                                       </div>
-                                      <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">
+                                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
                                         {perm.description}
                                       </p>
                                     </div>
@@ -1262,38 +1268,38 @@ export const StaffIAM: React.FC = () => {
                 /* STEP 2: REVIEW & PREVIEW CHANGES */
                 <div className="space-y-6">
                   {/* Step Header */}
-                  <div className="bg-slate-950/80 border border-slate-800 p-4 rounded-2xl">
-                    <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <div className="bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       <span>Review & Preview Access Changes</span>
-                      <span className="text-xs text-orange-400 font-normal">
+                      <span className="text-xs text-orange-600 dark:text-orange-400 font-normal">
                         ({selectedStaff.name} • {selectedStaff.designation})
                       </span>
                     </h4>
-                    <p className="text-xs text-slate-400 mt-0.5">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                       Verify the added, removed, and final permission state before committing access.
                     </p>
                   </div>
 
                   {/* Franchise Location Transfer Banner (if changed) */}
                   {selectedStaff && selectedStaff.franchiseId !== assignedFranchiseId && (
-                    <div className="bg-amber-950/30 border border-amber-800/50 rounded-2xl p-4 flex items-center justify-between">
+                    <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl">
+                        <div className="p-2 bg-amber-500/20 text-amber-500 dark:text-amber-400 rounded-xl">
                           <MapPin className="w-5 h-5" />
                         </div>
                         <div>
-                          <span className="text-xs font-bold text-amber-400 uppercase tracking-wider block">
+                          <span className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">
                             Franchise Location Transfer
                           </span>
-                          <span className="text-xs text-slate-300 mt-0.5 block">
+                          <span className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 block">
                             {selectedStaff.franchiseName || 'Current Location'} →{' '}
-                            <strong className="text-white font-bold underline">
+                            <strong className="text-slate-900 dark:text-white font-bold underline">
                               {franchises.find((f) => f.id === assignedFranchiseId)?.name || assignedFranchiseId}
                             </strong>
                           </span>
                         </div>
                       </div>
-                      <span className="px-2.5 py-1 text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-xl">
+                      <span className="px-2.5 py-1 text-[11px] font-bold bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30 rounded-xl">
                         LOCATION UPDATED
                       </span>
                     </div>
@@ -1301,30 +1307,30 @@ export const StaffIAM: React.FC = () => {
 
                   {/* Summary Metric Cards */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-                    <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl">
-                      <span className="text-xs font-semibold text-slate-400 block">CURRENT PERMISSIONS</span>
-                      <span className="text-2xl font-bold text-slate-200 mt-1 block">
+                    <div className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl">
+                      <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block">CURRENT PERMISSIONS</span>
+                      <span className="text-2xl font-bold text-slate-900 dark:text-slate-200 mt-1 block">
                         {currentPermissionsList.length}
                       </span>
                     </div>
 
-                    <div className="bg-emerald-950/40 border border-emerald-800/50 p-4 rounded-2xl">
-                      <span className="text-xs font-semibold text-emerald-400 block">PERMISSIONS ADDED</span>
-                      <span className="text-2xl font-bold text-emerald-400 mt-1 block">
+                    <div className="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl">
+                      <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 block">PERMISSIONS ADDED</span>
+                      <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1 block">
                         +{addedPermissionsList.length}
                       </span>
                     </div>
 
-                    <div className="bg-rose-950/40 border border-rose-800/50 p-4 rounded-2xl">
-                      <span className="text-xs font-semibold text-rose-400 block">PERMISSIONS REMOVED</span>
-                      <span className="text-2xl font-bold text-rose-400 mt-1 block">
+                    <div className="bg-rose-500/10 border border-rose-500/30 p-4 rounded-2xl">
+                      <span className="text-xs font-semibold text-rose-700 dark:text-rose-400 block">PERMISSIONS REMOVED</span>
+                      <span className="text-2xl font-bold text-rose-600 dark:text-rose-400 mt-1 block">
                         -{removedPermissionsList.length}
                       </span>
                     </div>
 
-                    <div className="bg-orange-950/40 border border-orange-800/50 p-4 rounded-2xl">
-                      <span className="text-xs font-semibold text-orange-400 block">FINAL ACCESS</span>
-                      <span className="text-2xl font-bold text-orange-400 mt-1 block">
+                    <div className="bg-orange-500/10 border border-orange-500/30 p-4 rounded-2xl">
+                      <span className="text-xs font-semibold text-orange-700 dark:text-orange-400 block">FINAL ACCESS</span>
+                      <span className="text-2xl font-bold text-orange-600 dark:text-orange-400 mt-1 block">
                         {selectedPermissions.size} / {totalPossiblePermissions}
                       </span>
                     </div>
@@ -1332,9 +1338,9 @@ export const StaffIAM: React.FC = () => {
 
                   {/* Added Permissions Section */}
                   {addedPermissionsList.length > 0 && (
-                    <div className="bg-emerald-950/20 border border-emerald-800/40 rounded-2xl p-4 space-y-2.5">
-                      <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-4 space-y-2.5">
+                      <h4 className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                         Permissions to be Added (+{addedPermissionsList.length})
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -1343,13 +1349,13 @@ export const StaffIAM: React.FC = () => {
                           return (
                             <div
                               key={pId}
-                              className="p-3 bg-emerald-900/30 border border-emerald-700/50 rounded-xl text-xs flex items-center justify-between gap-2"
+                              className="p-3 bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-700/50 rounded-xl text-xs flex items-center justify-between gap-2"
                             >
                               <div>
-                                <span className="font-bold text-emerald-200 block">+ {p?.name || pId}</span>
-                                <span className="text-[10px] text-emerald-400 block">{p?.description}</span>
+                                <span className="font-bold text-emerald-800 dark:text-emerald-200 block">+ {p?.name || pId}</span>
+                                <span className="text-[10px] text-emerald-600 dark:text-emerald-400 block">{p?.description}</span>
                               </div>
-                              <code className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded flex-shrink-0">
+                              <code className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/80 px-1.5 py-0.5 rounded flex-shrink-0">
                                 {pId}
                               </code>
                             </div>
@@ -1361,9 +1367,9 @@ export const StaffIAM: React.FC = () => {
 
                   {/* Removed Permissions Section */}
                   {removedPermissionsList.length > 0 && (
-                    <div className="bg-rose-950/20 border border-rose-800/40 rounded-2xl p-4 space-y-2.5">
-                      <h4 className="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <XCircle className="w-4 h-4 text-rose-400" />
+                    <div className="bg-rose-500/10 border border-rose-500/30 rounded-2xl p-4 space-y-2.5">
+                      <h4 className="text-xs font-bold text-rose-700 dark:text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <XCircle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
                         Permissions to be Removed (-{removedPermissionsList.length})
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -1372,13 +1378,13 @@ export const StaffIAM: React.FC = () => {
                           return (
                             <div
                               key={pId}
-                              className="p-3 bg-rose-900/30 border border-rose-700/50 rounded-xl text-xs flex items-center justify-between gap-2"
+                              className="p-3 bg-rose-50 dark:bg-rose-900/30 border border-rose-200 dark:border-rose-700/50 rounded-xl text-xs flex items-center justify-between gap-2"
                             >
                               <div>
-                                <span className="font-bold text-rose-200 block">− {p?.name || pId}</span>
-                                <span className="text-[10px] text-rose-400 block">{p?.description}</span>
+                                <span className="font-bold text-rose-800 dark:text-rose-200 block">− {p?.name || pId}</span>
+                                <span className="text-[10px] text-rose-600 dark:text-rose-400 block">{p?.description}</span>
                               </div>
-                              <code className="text-[10px] font-mono text-rose-400 bg-rose-950/80 px-1.5 py-0.5 rounded flex-shrink-0">
+                              <code className="text-[10px] font-mono text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/80 px-1.5 py-0.5 rounded flex-shrink-0">
                                 {pId}
                               </code>
                             </div>
@@ -1389,11 +1395,11 @@ export const StaffIAM: React.FC = () => {
                   )}
 
                   {/* Current Retained Permissions Section */}
-                  <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 space-y-2">
-                    <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                  <div className="bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-2">
+                    <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                       Continuing / Retained Permissions ({retainedPermissionsList.length})
                     </h4>
-                    <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto p-2.5 bg-slate-900 rounded-xl">
+                    <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
                       {retainedPermissionsList.length === 0 ? (
                         <span className="text-xs text-slate-500">No continuing permissions</span>
                       ) : (
@@ -1402,7 +1408,7 @@ export const StaffIAM: React.FC = () => {
                           return (
                             <span
                               key={pId}
-                              className="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-lg border border-slate-700 font-medium"
+                              className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs rounded-lg border border-slate-200 dark:border-slate-700 font-medium"
                               title={pId}
                             >
                               {p?.name || pId}
@@ -1414,8 +1420,8 @@ export const StaffIAM: React.FC = () => {
                   </div>
 
                   {/* Audit Reason Input */}
-                  <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
-                    <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+                  <div className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl space-y-2">
+                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                       Reason for Access Change (Activity History)
                     </label>
                     <input
@@ -1423,7 +1429,7 @@ export const StaffIAM: React.FC = () => {
                       placeholder="e.g. Assigned floor operations and customer ordering matrix by Root Owner"
                       value={changeReason}
                       onChange={(e) => setChangeReason(e.target.value)}
-                      className="w-full bg-slate-800 text-white text-sm border border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-orange-500"
+                      className="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-orange-500"
                     />
                   </div>
                 </div>
@@ -1431,10 +1437,10 @@ export const StaffIAM: React.FC = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="flex items-center justify-between px-6 py-4 bg-slate-950 border-t border-slate-800">
+            <div className="flex items-center justify-between px-6 py-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
               <button
                 onClick={() => setIsAccessModalOpen(false)}
-                className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold rounded-xl transition-all"
+                className="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl transition-all"
               >
                 Cancel
               </button>
@@ -1452,7 +1458,7 @@ export const StaffIAM: React.FC = () => {
                   <>
                     <button
                       onClick={() => setShowPreviewStep(false)}
-                      className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold rounded-xl transition-all flex items-center gap-1.5"
+                      className="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-semibold rounded-xl transition-all flex items-center gap-1.5"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back to Matrix</span>
@@ -1481,20 +1487,20 @@ export const StaffIAM: React.FC = () => {
       {/* 5. ATTACH PROVISIONED USER MODAL */}
       {isAttachModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="w-full max-w-lg bg-slate-900 border border-slate-700 rounded-3xl p-6 shadow-2xl space-y-5">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-6 shadow-2xl space-y-5">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 bg-orange-500/20 text-orange-400 rounded-xl">
+                <div className="p-2.5 bg-orange-500/20 text-orange-600 dark:text-orange-400 rounded-xl">
                   <UserPlus className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">Link Existing Staff Account</h3>
-                  <p className="text-xs text-slate-400">Attach existing DINEDECK account to restaurant</p>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Link Existing Staff Account</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Attach existing DINEDECK account to restaurant</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsAttachModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-white"
+                className="p-1.5 text-slate-400 hover:text-slate-900 dark:hover:text-white"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1504,8 +1510,8 @@ export const StaffIAM: React.FC = () => {
               <div
                 className={`p-3.5 rounded-xl text-xs font-medium flex items-center gap-2 ${
                   formFeedback.type === 'SUCCESS'
-                    ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
-                    : 'bg-rose-500/10 text-rose-300 border border-rose-500/30'
+                    ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
+                    : 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/30'
                 }`}
               >
                 {formFeedback.type === 'SUCCESS' ? <Check className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
@@ -1515,7 +1521,7 @@ export const StaffIAM: React.FC = () => {
 
             <div className="space-y-4 text-xs">
               <div>
-                <label className="block font-bold text-slate-300 uppercase mb-1">
+                <label className="block font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">
                   User ID or Verified Email *
                 </label>
                 <input
@@ -1523,12 +1529,12 @@ export const StaffIAM: React.FC = () => {
                   placeholder="e.g. captain.ramesh@punjabheritage.in or usr_abc123"
                   value={attachUserIdOrEmail}
                   onChange={(e) => setAttachUserIdOrEmail(e.target.value)}
-                  className="w-full bg-slate-800 text-white text-sm border border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-orange-500"
+                  className="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-slate-300 uppercase mb-1">
+                <label className="block font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">
                   Designation / Role Title
                 </label>
                 <input
@@ -1536,18 +1542,18 @@ export const StaffIAM: React.FC = () => {
                   placeholder="e.g. Senior Floor Captain"
                   value={attachDesignation}
                   onChange={(e) => setAttachDesignation(e.target.value)}
-                  className="w-full bg-slate-800 text-white text-sm border border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-orange-500"
+                  className="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-slate-300 uppercase mb-1">
+                <label className="block font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">
                   Assigned Franchise Location
                 </label>
                 <select
                   value={attachFranchiseId}
                   onChange={(e) => setAttachFranchiseId(e.target.value)}
-                  className="w-full bg-slate-800 text-white text-sm border border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-orange-500"
+                  className="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-orange-500"
                 >
                   <option value="ALL">🏢 All Franchises</option>
                   {franchises.map((f) => (
@@ -1559,10 +1565,10 @@ export const StaffIAM: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
               <button
                 onClick={() => setIsAttachModalOpen(false)}
-                className="px-4 py-2 bg-slate-800 text-slate-300 text-sm rounded-xl"
+                className="px-4 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl"
               >
                 Cancel
               </button>
@@ -1582,18 +1588,18 @@ export const StaffIAM: React.FC = () => {
       {/* 6. SECURITY AUDIT LOG DRAWER */}
       {isAuditDrawerOpen && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-xl bg-slate-900 border-l border-slate-800 p-6 h-full overflow-y-auto flex flex-col space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div className="w-full max-w-xl bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 p-6 h-full overflow-y-auto flex flex-col space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-orange-500/20 text-orange-400 rounded-xl">
+                <div className="p-2 bg-orange-500/20 text-orange-600 dark:text-orange-400 rounded-xl">
                   <History className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">Staff Access Activity History</h3>
-                  <p className="text-xs text-slate-400">Chronological history of user permission changes</p>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Staff Access Activity History</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Chronological history of user permission changes</p>
                 </div>
               </div>
-              <button onClick={() => setIsAuditDrawerOpen(false)} className="p-2 text-slate-400 hover:text-white">
+              <button onClick={() => setIsAuditDrawerOpen(false)} className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -1613,28 +1619,28 @@ export const StaffIAM: React.FC = () => {
                   }
 
                   return (
-                    <div key={log.id} className="p-4 bg-slate-950/80 border border-slate-800/80 rounded-xl space-y-2">
+                    <div key={log.id} className="p-4 bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 rounded-xl space-y-2">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-mono text-orange-400 font-bold">{log.action}</span>
+                        <span className="font-mono text-orange-600 dark:text-orange-400 font-bold">{log.action}</span>
                         <span className="text-slate-500">{new Date(log.createdAt).toLocaleString()}</span>
                       </div>
-                      <p className="text-xs text-slate-300">
-                        Actor: <span className="font-semibold text-white">{log.actor?.name || log.actor?.role || 'ROOT'}</span> {log.actor?.email ? `(${log.actor.email})` : ''}
+                      <p className="text-xs text-slate-600 dark:text-slate-300">
+                        Actor: <span className="font-semibold text-slate-900 dark:text-white">{log.actor?.name || log.actor?.role || 'ROOT'}</span> {log.actor?.email ? `(${log.actor.email})` : ''}
                       </p>
                       {log.scope && (
-                        <p className="text-xs text-slate-400 font-mono">Scope: {log.scope}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-mono">Scope: {log.scope}</p>
                       )}
                       {afterData && (
-                        <div className="bg-slate-900 p-2 rounded-lg text-[11px] font-mono text-slate-300 space-y-1">
+                        <div className="bg-slate-100 dark:bg-slate-900 p-2 rounded-lg text-[11px] font-mono text-slate-700 dark:text-slate-300 space-y-1 border border-slate-200 dark:border-slate-800">
                           {afterData.reason && <div>Reason: "{afterData.reason}"</div>}
                           {afterData.permissionsCount !== undefined && (
-                            <div>Final Permissions: <span className="text-orange-400 font-bold">{afterData.permissionsCount}</span> / 91</div>
+                            <div>Final Permissions: <span className="text-orange-600 dark:text-orange-400 font-bold">{afterData.permissionsCount}</span> / 91</div>
                           )}
                           {afterData.addedPermissions?.length > 0 && (
-                            <div className="text-emerald-400">Added: {afterData.addedPermissions.join(', ')}</div>
+                            <div className="text-emerald-600 dark:text-emerald-400">Added: {afterData.addedPermissions.join(', ')}</div>
                           )}
                           {afterData.removedPermissions?.length > 0 && (
-                            <div className="text-rose-400">Removed: {afterData.removedPermissions.join(', ')}</div>
+                            <div className="text-rose-600 dark:text-rose-400">Removed: {afterData.removedPermissions.join(', ')}</div>
                           )}
                         </div>
                       )}

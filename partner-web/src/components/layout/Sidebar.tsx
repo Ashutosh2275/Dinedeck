@@ -57,20 +57,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
           key: 'DASHBOARD' as TabKey,
           label: 'Home',
           icon: LayoutDashboard,
-          roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'ASSISTANT_MANAGER', 'CAPTAIN', 'HEAD_WAITER', 'WAITER', 'CASHIER', 'CHEF', 'DINEDECK_SUPER_ADMIN']
+          roles: ['RESTAURANT_OWNER', 'RESTAURANT_MANAGER', 'GENERAL_MANAGER', 'ASSISTANT_MANAGER', 'CAPTAIN', 'HEAD_WAITER', 'WAITER', 'CASHIER', 'CHEF', 'RESTAURANT_STAFF', 'STAFF', 'DINEDECK_ADMIN', 'DINEDECK_SUPER_ADMIN']
         },
         {
           key: 'KITCHEN' as TabKey,
           label: 'Kitchen Display',
           icon: ChefHat,
           badge: ordersCount,
-          roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'KITCHEN_MANAGER', 'HEAD_CHEF', 'CHEF', 'KITCHEN_STAFF', 'DINEDECK_SUPER_ADMIN']
+          roles: ['RESTAURANT_OWNER', 'RESTAURANT_MANAGER', 'GENERAL_MANAGER', 'KITCHEN_MANAGER', 'HEAD_CHEF', 'CHEF', 'KITCHEN_STAFF', 'RESTAURANT_STAFF', 'STAFF', 'DINEDECK_ADMIN', 'DINEDECK_SUPER_ADMIN']
         },
         {
           key: 'BILLING' as TabKey,
           label: 'Cashier & Billing',
           icon: Receipt,
-          roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'CASHIER', 'ACCOUNTANT', 'DINEDECK_SUPER_ADMIN']
+          roles: ['RESTAURANT_OWNER', 'RESTAURANT_MANAGER', 'GENERAL_MANAGER', 'CASHIER', 'ACCOUNTANT', 'RESTAURANT_STAFF', 'STAFF', 'DINEDECK_ADMIN', 'DINEDECK_SUPER_ADMIN']
         }
       ]
     },
@@ -81,19 +81,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
           key: 'MENU' as TabKey,
           label: 'Menu',
           icon: MenuSquare,
-          roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'HEAD_CHEF', 'CHEF', 'KITCHEN_MANAGER', 'DINEDECK_SUPER_ADMIN']
+          roles: ['RESTAURANT_OWNER', 'RESTAURANT_MANAGER', 'GENERAL_MANAGER', 'HEAD_CHEF', 'CHEF', 'KITCHEN_MANAGER', 'DINEDECK_ADMIN', 'DINEDECK_SUPER_ADMIN']
         },
         {
           key: 'STAFF' as TabKey,
           label: 'Staff & Access',
           icon: Users,
-          roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'DINEDECK_SUPER_ADMIN']
+          roles: ['RESTAURANT_OWNER', 'RESTAURANT_MANAGER', 'GENERAL_MANAGER', 'DINEDECK_ADMIN', 'DINEDECK_SUPER_ADMIN']
         },
         {
           key: 'INVENTORY' as TabKey,
           label: 'Stock & Inventory',
           icon: Boxes,
-          roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'HEAD_CHEF', 'CHEF', 'INVENTORY_MANAGER', 'DINEDECK_SUPER_ADMIN']
+          roles: ['RESTAURANT_OWNER', 'RESTAURANT_MANAGER', 'GENERAL_MANAGER', 'HEAD_CHEF', 'CHEF', 'INVENTORY_MANAGER', 'DINEDECK_ADMIN', 'DINEDECK_SUPER_ADMIN']
         }
       ]
     },
@@ -104,19 +104,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
           key: 'REPORTS' as TabKey,
           label: 'Reports',
           icon: FileBarChart2,
-          roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'ACCOUNTANT', 'DINEDECK_SUPER_ADMIN']
+          roles: ['RESTAURANT_OWNER', 'RESTAURANT_MANAGER', 'GENERAL_MANAGER', 'ACCOUNTANT', 'DINEDECK_ADMIN', 'DINEDECK_SUPER_ADMIN']
         },
         {
           key: 'SETTINGS' as TabKey,
           label: 'Settings',
           icon: Settings,
-          roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'DINEDECK_SUPER_ADMIN']
+          roles: ['RESTAURANT_OWNER', 'RESTAURANT_MANAGER', 'GENERAL_MANAGER', 'DINEDECK_ADMIN', 'DINEDECK_SUPER_ADMIN']
         },
         {
           key: 'HELP' as TabKey,
           label: 'Help & Support',
           icon: LifeBuoy,
-          roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'ASSISTANT_MANAGER', 'CAPTAIN', 'HEAD_WAITER', 'WAITER', 'CASHIER', 'CHEF', 'KITCHEN_STAFF', 'DINEDECK_SUPER_ADMIN']
+          roles: ['RESTAURANT_OWNER', 'RESTAURANT_MANAGER', 'GENERAL_MANAGER', 'ASSISTANT_MANAGER', 'CAPTAIN', 'HEAD_WAITER', 'WAITER', 'CASHIER', 'CHEF', 'KITCHEN_STAFF', 'RESTAURANT_STAFF', 'STAFF', 'DINEDECK_ADMIN', 'DINEDECK_SUPER_ADMIN']
         }
       ]
     }

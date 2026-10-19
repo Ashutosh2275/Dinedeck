@@ -74,7 +74,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
 }) => {
   const { user, restaurant, assignedRoles, hasPermission } = useAuth();
   const primaryRole = assignedRoles[0] || 'STAFF';
-  const isOwnerOrGM = assignedRoles.includes('RESTAURANT_OWNER') || assignedRoles.includes('GENERAL_MANAGER') || assignedRoles.includes('DINEDECK_SUPER_ADMIN');
+  const isOwnerOrGM =
+    assignedRoles.includes('RESTAURANT_OWNER') ||
+    assignedRoles.includes('RESTAURANT_MANAGER') ||
+    assignedRoles.includes('GENERAL_MANAGER') ||
+    assignedRoles.includes('DINEDECK_ADMIN') ||
+    assignedRoles.includes('DINEDECK_SUPER_ADMIN');
 
   // Targeted Kitchen Food-Ready Pickup Alert (Waiter Buzzer)
   const [activePickupAlerts, setActivePickupAlerts] = useState<WaiterPickupAlert[]>([]);
@@ -237,38 +242,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [resPartySize, setResPartySize] = useState('4');
   const [resTime, setResTime] = useState('20:30');
   const [resTable, setResTable] = useState('1');
-  const [reservations, setReservations] = useState([
-    {
-      id: 'res-101',
-      guestName: 'Kapil Dev & Family',
-      phone: '+91 98112 23344',
-      partySize: 4,
-      tableNumber: '1',
-      time: '20:00 PM',
-      status: 'CONFIRMED',
-      notes: 'Window booth'
-    },
-    {
-      id: 'res-102',
-      guestName: 'Dr. Ananya Roy',
-      phone: '+91 98223 34455',
-      partySize: 2,
-      tableNumber: '4',
-      time: '20:30 PM',
-      status: 'CONFIRMED',
-      notes: 'Anniversary celebration'
-    },
-    {
-      id: 'res-103',
-      guestName: 'Vikram Malhotra',
-      phone: '+91 98334 45566',
-      partySize: 6,
-      tableNumber: '9',
-      time: '21:00 PM',
-      status: 'WAITLIST',
-      notes: 'High chair for toddler'
-    }
-  ]);
+  const [reservations, setReservations] = useState<any[]>([]);
 
   // Service Calls Modal State
   const [showServiceCallsModal, setShowServiceCallsModal] = useState<boolean>(false);
@@ -981,7 +955,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </div>
 
                 {/* Table Actions: Seat Table Toggle */}
-                <div className="pt-1.5 border-t border-slate-800/80">
+                <div className="pt-1.5 border-t border-slate-200 dark:border-slate-800/80">
                   {onToggleTableOccupancy && hasPermission('tables.assign') && (
                     <button
                       type="button"
@@ -991,10 +965,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       }}
                       className={`text-[9px] font-bold px-2 py-1 rounded-lg transition w-full ${
                         isOcc
-                          ? 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                          ? 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
                           : reservation
-                          ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-400'
-                          : 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400'
+                          ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-600 dark:text-amber-400 border border-amber-500/30'
+                          : 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30'
                       }`}
                     >
                       {isOcc ? 'Mark Vacant' : reservation ? 'Seat Reservation' : 'Seat Table'}
@@ -1079,18 +1053,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
             {/* Table Configuration Editor Drawer */}
             {isEditingTable ? (
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-4 animate-in fade-in">
+              <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-4 animate-in fade-in">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Settings className="w-4 h-4 text-orange-400" />
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+                    <Settings className="w-4 h-4 text-orange-500 dark:text-orange-400" />
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                       Configure Table Settings
                     </h4>
                   </div>
                   <button
                     type="button"
                     onClick={() => setIsEditingTable(false)}
-                    className="text-slate-400 hover:text-white text-xs"
+                    className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white text-xs"
                   >
                     Cancel
                   </button>
@@ -1098,13 +1072,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                    <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                       Assigned Floor / Section
                     </label>
                     <select
                       value={editFloor}
                       onChange={(e) => setEditFloor(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white font-bold focus:outline-none focus:border-orange-500"
+                      className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white font-bold focus:outline-none focus:border-orange-500"
                     >
                       <option value="Ground Floor (Main Hall)">Ground Floor (Main Hall)</option>
                       <option value="First Floor (AC Family Hall)">First Floor (AC Family Hall)</option>
@@ -1114,13 +1088,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                    <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                       Seating Capacity (Guests)
                     </label>
                     <select
                       value={editCapacity}
                       onChange={(e) => setEditCapacity(Number(e.target.value))}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white font-bold focus:outline-none focus:border-orange-500"
+                      className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white font-bold focus:outline-none focus:border-orange-500"
                     >
                       <option value={2}>2 Seater (Couples Table)</option>
                       <option value={4}>4 Seater (Standard Dining)</option>
@@ -1132,11 +1106,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-2 pt-2 border-t border-slate-800">
+                <div className="flex justify-end space-x-2 pt-2 border-t border-slate-200 dark:border-slate-800">
                   <button
                     type="button"
                     onClick={() => setIsEditingTable(false)}
-                    className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold"
+                    className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700"
                   >
                     Cancel
                   </button>
@@ -1328,7 +1302,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       <select
                         value={selectedTableWaiterId}
                         onChange={(e) => setSelectedTableWaiterId(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-bold focus:outline-none focus:border-orange-500"
+                        className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs text-slate-900 dark:text-white font-bold focus:outline-none focus:border-orange-500"
                       >
                         <option value="usr-waiter-1">Ramesh Kumar (Floor Captain)</option>
                         <option value="usr-waiter-2">Suresh Raina (Senior Server)</option>
@@ -1339,7 +1313,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         <button
                           type="button"
                           onClick={() => setIsEditingWaiter(false)}
-                          className="px-3 py-1.5 text-slate-400 hover:text-white text-xs font-bold"
+                          className="px-3 py-1.5 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white text-xs font-bold"
                         >
                           Cancel
                         </button>
@@ -1385,7 +1359,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       }}
                       className={`py-3 font-bold rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center space-x-1.5 ${
                         selectedTableDetails.isOccupied
-                          ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+                          ? 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
                           : 'bg-emerald-600 hover:bg-emerald-500 text-white'
                       }`}
                     >
@@ -1400,7 +1374,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       setSelectedTableDetails(null);
                       onNavigateTab('BILLING');
                     }}
-                    className="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 border border-slate-700"
+                    className="py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 border border-slate-200 dark:border-slate-700"
                   >
                     <Receipt className="w-3.5 h-3.5 text-orange-400" />
                     <span>Cashier & Billing</span>
@@ -1412,7 +1386,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       setSelectedTableDetails(null);
                       onNavigateTab('KITCHEN');
                     }}
-                    className="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 border border-slate-700"
+                    className="py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 border border-slate-200 dark:border-slate-700"
                   >
                     <ChefHat className="w-3.5 h-3.5 text-blue-400" />
                     <span>Kitchen Display</span>
@@ -1486,26 +1460,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       placeholder="Search dish by name (e.g. Butter Chicken, Paneer Tikka, Naan)..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-9 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl pl-9 pr-9 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500"
                       autoFocus
                     />
                     {searchQuery && (
                       <button
                         type="button"
                         onClick={() => setSearchQuery('')}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white"
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
                     )}
                   </div>
 
-                  <div className="flex items-center space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs shrink-0 font-bold">
+                  <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs shrink-0 font-bold">
                     <button
                       type="button"
                       onClick={() => setDietFilter('ALL')}
                       className={`px-2 py-1 rounded-lg transition ${
-                        dietFilter === 'ALL' ? 'bg-slate-800 text-white' : 'text-slate-400'
+                        dietFilter === 'ALL' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                       }`}
                     >
                       All
@@ -1514,7 +1488,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       type="button"
                       onClick={() => setDietFilter('VEG')}
                       className={`px-2 py-1 rounded-lg transition ${
-                        dietFilter === 'VEG' ? 'bg-emerald-600 text-white' : 'text-emerald-400'
+                        dietFilter === 'VEG' ? 'bg-emerald-600 text-white' : 'text-emerald-600 dark:text-emerald-400'
                       }`}
                     >
                       Veg
@@ -1523,7 +1497,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       type="button"
                       onClick={() => setDietFilter('NON_VEG')}
                       className={`px-2 py-1 rounded-lg transition ${
-                        dietFilter === 'NON_VEG' ? 'bg-rose-600 text-white' : 'text-rose-400'
+                        dietFilter === 'NON_VEG' ? 'bg-rose-600 text-white' : 'text-rose-600 dark:text-rose-400'
                       }`}
                     >
                       Non-Veg
@@ -1539,7 +1513,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     className={`px-2.5 py-1 rounded-xl font-bold whitespace-nowrap transition ${
                       selectedCategory === 'ALL'
                         ? 'bg-orange-500 text-white'
-                        : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                        : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
                     }`}
                   >
                     All Menu ({allItems.length})
@@ -1553,7 +1527,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       className={`px-2.5 py-1 rounded-xl font-bold whitespace-nowrap transition ${
                         selectedCategory === cat.name
                           ? 'bg-orange-500 text-white'
-                          : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                          : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
                       }`}
                     >
                       {cat.name} ({cat.items?.length || 0})
