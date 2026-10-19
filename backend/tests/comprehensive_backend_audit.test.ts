@@ -109,10 +109,18 @@ describe('DINEDECK Authoritative Backend Audit & API Verification Master Suite',
     customer2Id = cust2Reg.data?.data?.user?.id;
 
     // 8. Other Restaurant Owner (Peshawari Grill)
-    const otherLogin = await fetchJson(`${BASE_URL}/api/auth/login`, {
+    let otherLogin = await fetchJson(`${BASE_URL}/api/auth/login`, {
       method: 'POST',
       body: JSON.stringify({ email: 'owner.peshawari@dinedeck.in', password: 'Dinedeck@2026' })
     });
+    if (otherLogin.status !== 200) {
+      const { iamService } = await import('../src/modules/iam/iam.service.js');
+      await iamService.seedIamDefinitions();
+      otherLogin = await fetchJson(`${BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        body: JSON.stringify({ email: 'owner.peshawari@dinedeck.in', password: 'Dinedeck@2026' })
+      });
+    }
     expect(otherLogin.status).toBe(200);
     otherOwnerToken = otherLogin.data?.data?.accessToken;
 

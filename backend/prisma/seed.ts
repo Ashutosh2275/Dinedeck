@@ -601,6 +601,58 @@ async function main() {
           ]
         }
       ]
+    },
+    {
+      id: 'rest_peshawari_grill',
+      name: 'Grand Peshawari Grill & Kebab',
+      slug: 'grand-peshawari-grill-mumbai',
+      logoUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=200&q=80',
+      coverImageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=80',
+      description: 'Authentic frontier barbecue, Peshawari tandoor kebabs, and slow-braised curries.',
+      cuisineType: 'North Indian, Mughlai, Barbecue',
+      rating: 4.8,
+      reviewCount: 980,
+      costForTwo: 1100,
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      pincode: '400051',
+      fullAddress: 'Level 2, Phoenix Palladium, Lower Parel, Mumbai, Maharashtra 400013',
+      phone: '+919820099002',
+      latitude: 18.9950,
+      longitude: 72.8250,
+      isPureVeg: false,
+      cgstRatePercent: 2.5,
+      sgstRatePercent: 2.5,
+      serviceChargePercent: 5.0,
+      categories: [
+        {
+          name: 'Frontier Grills & Kebabs',
+          items: [
+            {
+              name: 'Peshawari Seekh Kebab',
+              description: 'Minced spiced mutton skewer char-grilled over hot coals with fragrant spices and mint churn.',
+              price: 490,
+              discountedPrice: 450,
+              imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80',
+              isVeg: false,
+              isBestseller: true,
+              spiceLevel: 2,
+              preparationTime: 20
+            },
+            {
+              name: 'Dal Peshawari',
+              description: 'Black lentils slow-cooked overnight with ripe tomatoes, cream, and hand-churned white butter.',
+              price: 360,
+              discountedPrice: 320,
+              imageUrl: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&q=80',
+              isVeg: true,
+              isBestseller: true,
+              spiceLevel: 1,
+              preparationTime: 15
+            }
+          ]
+        }
+      ]
     }
   ];
 

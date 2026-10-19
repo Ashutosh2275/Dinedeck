@@ -337,15 +337,48 @@ export class IamService {
 
 
     // Restaurant 2: Grand Peshawari Grill (Tenant Isolation Verification)
-    const rest2 = await prisma.restaurant.findFirst({
-      where: { OR: [{ slug: { contains: 'peshawari' } }, { name: { contains: 'Peshawari' } }] }
+    let rest2 = await prisma.restaurant.findFirst({
+      where: {
+        OR: [
+          { id: 'rest_peshawari_grill' },
+          { slug: { contains: 'peshawari' } },
+          { name: { contains: 'Peshawari' } }
+        ]
+      }
     });
+    if (!rest2) {
+      rest2 = await prisma.restaurant.upsert({
+        where: { id: 'rest_peshawari_grill' },
+        update: {},
+        create: {
+          id: 'rest_peshawari_grill',
+          name: 'Grand Peshawari Grill & Kebab',
+          slug: 'grand-peshawari-grill-mumbai',
+          logoUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=200&q=80',
+          coverImageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=80',
+          description: 'Authentic frontier barbecue, Peshawari tandoor kebabs, and slow-braised curries.',
+          cuisineType: 'North Indian, Mughlai, Barbecue',
+          costForTwo: 1100,
+          city: 'Mumbai',
+          state: 'Maharashtra',
+          pincode: '400051',
+          fullAddress: 'Level 2, Phoenix Palladium, Lower Parel, Mumbai, Maharashtra 400013',
+          phone: '+919820099002',
+          latitude: 18.9950,
+          longitude: 72.8250,
+          isPureVeg: false,
+          isActive: true
+        }
+      });
+    }
+
     if (rest2) {
       const rest2Id = rest2.id;
       let branch2 = await prisma.restaurantBranch.findFirst({ where: { restaurantId: rest2Id } });
       if (!branch2) {
         branch2 = await prisma.restaurantBranch.create({
           data: {
+            id: `branch_${rest2Id}`,
             restaurantId: rest2Id,
             name: 'Main Branch - Peshawari',
             address: rest2.fullAddress,
