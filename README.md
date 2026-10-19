@@ -18,7 +18,7 @@ DineDeck is engineered around an event-driven, decoupled micro-monorepo architec
 ```
                            ┌───────────────────────────────────────────────┐
                            │            DINEDECK CUSTOMER APPS             │
-                           │  - Customer Web (Mobile PWA & Desktop)        │
+                           │  - Customer Web (Responsive Browser & PWA)    │
                            │  - Native Android Customer App (Compose)      │
                            └──────────────────────┬────────────────────────┘
                                                   │ (REST / WebSockets)
@@ -39,11 +39,18 @@ DineDeck is engineered around an event-driven, decoupled micro-monorepo architec
                             │                               │
 ┌───────────────────────────┴───────────────────────────────┴──────────────────────────────┐
 │                            OPERATIONS & GOVERNANCE TERMINALS                             │
-│  - Restaurant Partner Web (POS / Live KDS / Waiter Call Console / Staff Manager)         │
-│  - Super Admin Control Center Web (Global Onboarding / Audits / Financial Settlements)   │
-│  - Native Android Partner App & Admin Governance App                                     │
+│  - Restaurant Partner: Web + Windows Desktop POS & KDS + Native Android App              │
+│  - Super Admin: Web + Windows Desktop Control Center + Native Android App                │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+### 📱 Platform Distribution Matrix
+
+| Platform | Web | Android Mobile | Windows Desktop | Architecture Notes |
+| :--- | :---: | :---: | :---: | :--- |
+| **Customer** | ✅ | ✅ | ❌ *(Intentional)* | In-dining QR discovery, real-time order tracking, UPI checkout via browser & mobile app. |
+| **Partner** | ✅ | ✅ | ✅ | Restaurant operations, live KDS station routing, POS, & silent ESC/POS thermal printing. |
+| **Super Admin** | ✅ | ✅ | ✅ | Multi-tenant platform governance, KYC onboarding, financial settlements, & killswitch. |
 
 ---
 

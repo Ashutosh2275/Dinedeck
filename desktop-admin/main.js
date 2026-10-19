@@ -68,9 +68,13 @@ function createWindow() {
     }
   });
 
-  const distPath = path.join(__dirname, '..', 'admin-web', 'dist', 'index.html');
-  if (fs.existsSync(distPath)) {
-    mainWindow.loadFile(distPath);
+  const localDistPath = path.join(__dirname, 'dist', 'index.html');
+  const siblingDistPath = path.join(__dirname, '..', 'admin-web', 'dist', 'index.html');
+
+  if (fs.existsSync(localDistPath)) {
+    mainWindow.loadFile(localDistPath);
+  } else if (fs.existsSync(siblingDistPath)) {
+    mainWindow.loadFile(siblingDistPath);
   } else {
     mainWindow.loadURL('http://localhost:5174');
   }

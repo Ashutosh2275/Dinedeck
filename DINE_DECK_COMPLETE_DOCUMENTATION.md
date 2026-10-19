@@ -179,19 +179,31 @@ D:\Dindeck/
 │       ├── data/                        # AdminApiClient, AdminModels
 │       └── presentation/                # ControlCenterScreens (Overview, KYC, Branches, Tables, Finance, Killswitch), ViewModel
 │
+├── desktop-partner/                     # Windows Desktop POS & Live KDS Terminal (Electron 34 + Silent Thermal Print)
+│   ├── main.js                          # Window lifecycle, hardware thermal print IPC, full-screen POS mode
+│   ├── preload.js                       # Secure IPC bridge (`window.dinedeckDesktop`)
+│   └── dist-installer/                  # Standalone NSIS installer (`DineDeck-Partner-Setup-1.0.0.exe`)
+│
+├── desktop-admin/                       # Windows Desktop Super Admin Control Center (Electron 34)
+│   ├── main.js                          # Multi-tenant governance window lifecycle & security policies
+│   ├── preload.js                       # Secure IPC bridge (`window.dinedeckDesktop`)
+│   └── dist-installer/                  # Standalone NSIS installer (`DineDeck-SuperAdmin-Setup-1.0.0.exe`)
+│
 ├── docs/                                # Technical Documentation & Reports
 │   └── CONTROL_CENTER_REPORT.md         # Admin control center verification report
 ├── scripts/                             # PowerShell automation scripts
 │   ├── start_web.ps1                    # Launches customer-web, partner-web, and admin-web
 │   ├── start_android.ps1                # Builds and deploys Android applications to emulators
+│   ├── start_desktop.ps1                # Launches Partner POS and Super Admin Control Center desktop apps
 │   ├── start_customer.ps1               # Launches Customer Web standalone
 │   ├── start_partner.ps1                # Launches Partner Web standalone
 │   └── start_superadmin.ps1             # Launches SuperAdmin Web standalone
 ├── docker-compose.yml                   # Production container orchestration (Postgres 16, Redis 7, Backend)
 ├── settings.gradle.kts                  # Gradle multi-project setup (`:app`, `:partner-app`, `:admin-app`)
-├── START_CUSTOMER_APP.bat               # One-click Windows batch launcher for Customer Web
+├── START_CUSTOMER_APP.bat               # One-click Windows batch launcher for Customer Web + Android
 ├── START_PARTNER_APP.bat                # One-click Windows batch launcher for Partner Web
 ├── START_SUPERADMIN_APP.bat             # One-click Windows batch launcher for SuperAdmin Web
+├── START_DINEDECK_DESKTOP.bat           # Master Windows launcher for Partner POS & Admin Control Center Desktop
 └── START_DINEDECK_WEB.bat               # Master Windows launcher for all three frontends
 ```
 

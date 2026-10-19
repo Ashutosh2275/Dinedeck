@@ -32,7 +32,7 @@
       "main.js",
       "preload.js",
       "assets/**/*",
-      "../partner-web/dist/**/*"
+      "dist/**/*"
     ]
   },
   "devDependencies": {
