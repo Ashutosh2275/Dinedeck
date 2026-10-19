@@ -50,7 +50,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U postgres -d dinedeck_prod"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -173,8 +173,15 @@ jobs:
       - name: Make Gradlew Executable
         run: chmod +x ./gradlew
 
+      - name: Ensure Android Keystore Available
+        run: |
+          mkdir -p ~/.android
+          if [ ! -f ~/.android/debug.keystore ]; then
+            keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
+
       - name: Run Android Unit Tests
         run: ./gradlew testDebugUnitTest --continue
 
       - name: Assemble Release APKs (Verify R8 Shrinking & Obfuscation)
-        run: ./gradlew :app:assembleRelease :partner-app:assembleRelease :admin-app:assembleRelease --continue
+        run: ./gradlew :app:assembleRelease :partner-app:assembleRelease :admin-app:assembleRelease --no-daemon --continue

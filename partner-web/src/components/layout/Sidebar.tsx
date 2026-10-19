@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import {
   LayoutDashboard,
   ChefHat,
@@ -52,6 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onCloseMobile
 }) => {
   const { hasPermission, hasAnyRole } = useAuth();
+  const { isDark } = useTheme();
 
   const navigationItems = [
     {
@@ -132,19 +134,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed lg:static top-0 bottom-0 left-0 z-50 w-72 bg-[#0B1120] border-r border-slate-800 flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed lg:static top-0 bottom-0 left-0 z-50 w-72 bg-white dark:bg-[#0B1120] border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out lg:translate-x-0 ${
           isOpenMobile ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         <div className="space-y-4">
           {/* Mobile Drawer Close Header */}
-          <div className="flex items-center justify-between pb-2 border-b border-slate-800 lg:hidden">
-            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800 lg:hidden">
+            <span className="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Navigation Menu
             </span>
             <button
               onClick={onCloseMobile}
-              className="p-1.5 rounded-full bg-slate-800 text-slate-400 hover:text-white"
+              className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             >
               <X className="w-4 h-4" />
             </button>
@@ -152,17 +154,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           <div className="hidden lg:flex items-center gap-2.5 px-3 py-1 mb-2">
             <img
-              src="/dinedeck-logo-dark.png"
+              src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
               alt="DineDeck"
               className="h-6 object-contain"
               draggable={false}
             />
-            <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30">
+            <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 border border-orange-500/30">
               Partner
             </span>
           </div>
 
-          <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-3 hidden lg:block">
+          <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 px-3 hidden lg:block">
             Operations & Management
           </div>
 
@@ -179,11 +181,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-extrabold text-xs transition duration-150 ${
                     isActive
                       ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-600/20'
-                      : 'text-slate-400 hover:bg-slate-800/80 hover:text-slate-100'
+                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/80 dark:hover:text-slate-100'
                   }`}
                 >
                   <div className="flex items-center space-x-3 truncate">
-                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
                     <span className="truncate">{item.label}</span>
                   </div>
 
@@ -192,7 +194,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       className={`text-[10px] font-black px-2 py-0.5 rounded-full shrink-0 ${
                         isActive
                           ? 'bg-white text-orange-600 shadow'
-                          : 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
+                          : 'bg-orange-500/20 text-orange-600 dark:text-orange-400 border border-orange-500/30'
                       }`}
                     >
                       {item.badge}
@@ -205,12 +207,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Footer Role Badge */}
-        <div className="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-1">
-          <div className="text-[11px] font-bold text-white flex items-center justify-between">
+        <div className="p-3 bg-slate-50 dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-1">
+          <div className="text-[11px] font-bold text-slate-900 dark:text-white flex items-center justify-between">
             <span>Security Active</span>
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           </div>
-          <div className="text-[10px] text-slate-500">DineDeck Connected • Online</div>
+          <div className="text-[10px] text-slate-500 dark:text-slate-400">DineDeck Connected • Online</div>
         </div>
       </aside>
     </>

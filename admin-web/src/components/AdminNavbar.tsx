@@ -48,13 +48,13 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
                   className="h-6 sm:h-7 object-contain"
                   draggable={false}
                 />
-                <span className="font-bold text-xs text-slate-300 hidden sm:inline">Control Center</span>
+                <span className="font-bold text-xs text-slate-800 dark:text-slate-200 hidden sm:inline">Control Center</span>
               </div>
-              <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[9px] font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+              <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[9px] font-black bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">
                 ADMIN
               </span>
             </div>
-            <div className="text-[10px] sm:text-[11px] text-slate-400">
+            <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">
               Platform Administration
             </div>
           </div>
@@ -65,15 +65,15 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
       <div className="hidden md:flex items-center max-w-md w-full mx-4">
         <button
           onClick={onOpenSearch}
-          className="w-full flex items-center justify-between px-3.5 py-2 bg-slate-900/90 border border-slate-800 hover:border-slate-700 rounded-2xl text-xs text-slate-400 transition group"
+          className="w-full flex items-center justify-between px-3.5 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-2xl text-xs text-slate-600 dark:text-slate-400 transition group"
         >
           <div className="flex items-center space-x-2">
-            <Search className="w-4 h-4 text-cyan-400" />
-            <span className="text-slate-400 group-hover:text-slate-200 transition truncate">
+            <Search className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+            <span className="text-slate-600 group-hover:text-slate-900 dark:text-slate-400 dark:group-hover:text-slate-200 transition truncate">
               Search Orders, Restaurants, GSTIN, Bills...
             </span>
           </div>
-          <kbd className="px-1.5 py-0.5 rounded-lg bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">
+          <kbd className="px-1.5 py-0.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-[10px] font-mono text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
             Ctrl+K
           </kbd>
         </button>

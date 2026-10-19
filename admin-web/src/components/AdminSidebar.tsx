@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 import {
   LayoutDashboard,
   Building2,
@@ -58,6 +59,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   isOpenMobile = false,
   onCloseMobile
 }) => {
+  const { isDark } = useTheme();
   const navigationGroups = [
     {
       group: 'A. DASHBOARD & OPERATIONS',
@@ -138,18 +140,18 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed lg:static top-0 bottom-0 left-0 z-50 w-72 bg-[#090D16] border-r border-slate-800 flex flex-col justify-between p-3.5 transition-transform duration-300 ease-in-out lg:translate-x-0 shrink-0 ${
+        className={`fixed lg:static top-0 bottom-0 left-0 z-50 w-72 bg-white dark:bg-[#090D16] border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between p-3.5 transition-transform duration-300 ease-in-out lg:translate-x-0 shrink-0 ${
           isOpenMobile ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         <div className="space-y-3 flex-1 flex flex-col min-h-0">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-800 lg:hidden">
-            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800 lg:hidden">
+            <span className="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Administration Menu
             </span>
             <button
               onClick={onCloseMobile}
-              className="p-1.5 rounded-full bg-slate-800 text-slate-400 hover:text-white"
+              className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             >
               <X className="w-4 h-4" />
             </button>
@@ -157,12 +159,12 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
 
           <div className="hidden lg:flex items-center gap-2 px-3 py-1 mb-1">
             <img
-              src="/dinedeck-logo-dark.png"
+              src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
               alt="DineDeck"
               className="h-5 object-contain"
               draggable={false}
             />
-            <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+            <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">
               Admin
             </span>
           </div>
@@ -170,7 +172,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
           <div className="space-y-3.5 overflow-y-auto flex-1 pr-1 custom-scrollbar">
             {navigationGroups.map((grp) => (
               <div key={grp.group} className="space-y-0.5">
-                <div className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-3 pb-1">
+                <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 px-3 pb-1">
                   {grp.group}
                 </div>
                 {grp.items.map((t) => {
@@ -184,10 +186,10 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
                       className={`w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl font-extrabold text-xs transition duration-150 ${
                         isActive
                           ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-600/20'
-                          : 'text-slate-400 hover:bg-slate-800/80 hover:text-slate-100'
+                          : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/80 dark:hover:text-slate-100'
                       }`}
                     >
-                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
                       <span className="truncate">{t.label}</span>
                     </button>
                   );

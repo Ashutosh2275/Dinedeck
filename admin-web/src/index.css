@@ -304,3 +304,31 @@ body.light-mode ::-webkit-scrollbar-thumb {
 [data-theme="light"] .shadow-2xl {
   box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.05), 0 0 0 1px rgba(15, 23, 42, 0.06) !important;
 }
+
+/* Reset dark gradient overlays in light mode */
+.light .from-slate-900,
+.light-mode .from-slate-900,
+[data-theme="light"] .from-slate-900,
+.light .to-slate-900,
+.light-mode .to-slate-900,
+[data-theme="light"] .to-slate-900,
+.light .to-\[\#090D16\],
+.light-mode .to-\[\#090D16\],
+[data-theme="light"] .to-\[\#090D16\],
+.light .from-\[\#121826\],
+.light-mode .from-\[\#121826\],
+[data-theme="light"] .from-\[\#121826\],
+.light .to-\[\#121826\],
+.light-mode .to-\[\#121826\],
+[data-theme="light"] .to-\[\#121826\],
+.light .from-slate-950,
+.light-mode .from-slate-950,
+[data-theme="light"] .from-slate-950,
+.light .to-slate-950,
+.light-mode .to-slate-950,
+[data-theme="light"] .to-slate-950 {
+  --tw-gradient-from: #FFFFFF var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: #F8FAFC var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+

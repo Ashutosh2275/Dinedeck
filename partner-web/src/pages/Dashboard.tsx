@@ -637,17 +637,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* ------------------------------------------------------------- */}
       {/* 1. TOP OPERATIONAL HEADER BANNER (WITH ONLY ONE POS BUTTON)  */}
       {/* ------------------------------------------------------------- */}
-      <div className="bg-gradient-to-r from-orange-950/40 via-[#1E293B] to-slate-900 border border-orange-500/20 rounded-2xl p-5 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-gradient-to-r dark:from-orange-950/40 dark:via-[#1E293B] dark:to-slate-900 border border-slate-200 dark:border-orange-500/20 rounded-2xl p-5 shadow-sm dark:shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-orange-400">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-orange-500 dark:text-orange-400">
               {restaurant?.name || 'DINEDECK Restaurant'}
             </span>
-            <span className="text-slate-500">•</span>
-            <span className="text-xs text-slate-400 font-semibold">{primaryRole} Operations</span>
+            <span className="text-slate-400 dark:text-slate-500">•</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold">{primaryRole} Operations</span>
           </div>
-          <h1 className="text-2xl font-black text-white mt-1">Home Command Center</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white mt-1">Home Command Center</h1>
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
             Realtime dining floor, live guest orders, kitchen dispatch, and advance reservations.
           </p>
         </div>
@@ -745,76 +745,76 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div
           onClick={() => onNavigateTab('REPORTS')}
-          className="bg-[#1E293B] hover:border-orange-500/40 cursor-pointer transition border border-slate-700/80 rounded-2xl p-4 shadow-lg group"
+          className="bg-white dark:bg-[#1E293B] hover:border-orange-500/40 cursor-pointer transition border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 shadow-sm dark:shadow-lg group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">Shift Settled Revenue</span>
-            <div className="p-2 rounded-xl bg-orange-500/10 text-orange-400 border border-orange-500/20">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Shift Settled Revenue</span>
+            <div className="p-2 rounded-xl bg-orange-500/10 text-orange-500 dark:text-orange-400 border border-orange-500/20">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-white mt-2 font-mono">
+          <div className="text-2xl font-black text-slate-900 dark:text-white mt-2 font-mono">
             ₹{(overview?.settledRevenue || 0).toFixed(2)}
           </div>
-          <div className="flex items-center justify-between text-[11px] text-slate-400 mt-2">
+          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mt-2">
             <span>{overview?.settledOrdersCount || 0} Settled Orders</span>
-            <span className="text-slate-500 font-semibold">Reports & GST →</span>
+            <span className="text-slate-400 dark:text-slate-500 font-semibold">Reports & GST →</span>
           </div>
         </div>
 
         <div
           onClick={() => onNavigateTab('KITCHEN')}
-          className="bg-[#1E293B] hover:border-blue-500/40 cursor-pointer transition border border-slate-700/80 rounded-2xl p-4 shadow-lg group"
+          className="bg-white dark:bg-[#1E293B] hover:border-blue-500/40 cursor-pointer transition border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 shadow-sm dark:shadow-lg group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">Cooking in Kitchen</span>
-            <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Cooking in Kitchen</span>
+            <div className="p-2 rounded-xl bg-blue-500/10 text-blue-500 dark:text-blue-400 border border-blue-500/20">
               <Flame className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-white mt-2">
+          <div className="text-2xl font-black text-slate-900 dark:text-white mt-2">
             {activeOrders.length || overview?.activeOrders || 0}
           </div>
-          <div className="flex items-center justify-between text-[11px] text-slate-400 mt-2">
+          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mt-2">
             <span>{cookingOrders.length} on fire in kitchen</span>
-            <span className="text-blue-400 font-semibold">Open Kitchen Display →</span>
+            <span className="text-blue-500 dark:text-blue-400 font-semibold">Open Kitchen Display →</span>
           </div>
         </div>
 
         <div
           onClick={() => setShowServiceCallsModal(true)}
-          className="bg-[#1E293B] hover:border-rose-500/40 cursor-pointer transition border border-slate-700/80 rounded-2xl p-4 shadow-lg group"
+          className="bg-white dark:bg-[#1E293B] hover:border-rose-500/40 cursor-pointer transition border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 shadow-sm dark:shadow-lg group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">Pending Service Calls</span>
-            <div className="p-2 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Pending Service Calls</span>
+            <div className="p-2 rounded-xl bg-rose-500/10 text-rose-500 dark:text-rose-400 border border-rose-500/20">
               <BellRing className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-white mt-2">
+          <div className="text-2xl font-black text-slate-900 dark:text-white mt-2">
             {pendingCalls.length}
           </div>
-          <div className="flex items-center justify-between text-[11px] text-slate-400 mt-2">
+          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mt-2">
             <span>Customer Table Calls</span>
-            <span className={pendingCalls.length > 0 ? 'text-rose-400 font-bold' : 'text-slate-500'}>
+            <span className={pendingCalls.length > 0 ? 'text-rose-500 dark:text-rose-400 font-bold' : 'text-slate-400 dark:text-slate-500'}>
               {pendingCalls.length > 0 ? 'Manage Calls →' : 'All Clear'}
             </span>
           </div>
         </div>
 
-        <div className="bg-[#1E293B] border border-slate-700/80 rounded-2xl p-4 shadow-lg">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 shadow-sm dark:shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">Floor Occupancy</span>
-            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Floor Occupancy</span>
+            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border border-emerald-500/20">
               <Grid className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-white mt-2 font-mono">
+          <div className="text-2xl font-black text-slate-900 dark:text-white mt-2 font-mono">
             {sortedTables.length > 0 ? Math.round((occupiedAndReservedTablesList.length / sortedTables.length) * 100) : 0}%
           </div>
-          <div className="flex items-center justify-between text-[11px] text-slate-400 mt-2">
+          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mt-2">
             <span>{occupiedAndReservedTablesList.length} / {sortedTables.length} Occupied</span>
-            <span className="text-emerald-400 font-semibold">{vacantTablesList.length} Ready</span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{vacantTablesList.length} Ready</span>
           </div>
         </div>
       </div>
@@ -822,13 +822,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* ------------------------------------------------------------- */}
       {/* 3. DINING FLOOR & TABLES (CLEAN 1..16 SEQUENTIAL LAYOUT)       */}
       {/* ------------------------------------------------------------- */}
-      <div className="bg-[#1E293B] border border-slate-700/80 rounded-2xl p-5 shadow-xl space-y-4">
+      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/80 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4">
         {/* Floor Dropdown & Seating Filters Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-700/80">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-700/80">
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-2">
-              <Grid className="w-4 h-4 text-orange-400" />
-              <h2 className="text-sm font-black text-white">Dining Floor & Tables ({sortedTables.length} Tables)</h2>
+              <Grid className="w-4 h-4 text-orange-500 dark:text-orange-400" />
+              <h2 className="text-sm font-black text-slate-900 dark:text-white">Dining Floor & Tables ({sortedTables.length} Tables)</h2>
             </div>
 
             {/* MULTI-FLOOR DROPDOWN SELECTOR */}
@@ -837,7 +837,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <select
                 value={selectedFloor}
                 onChange={(e) => setSelectedFloor(e.target.value)}
-                className="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white font-bold focus:outline-none focus:border-orange-500"
+                className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-900 dark:text-white font-bold focus:outline-none focus:border-orange-500"
               >
                 <option value="ALL">All Floors (Entire Venue)</option>
                 <option value="Ground Floor (Main Hall)">Ground Floor (Main Hall)</option>
@@ -850,12 +850,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
           {/* Occupancy Filters & Fast Refresh */}
           <div className="flex items-center space-x-2 text-xs">
-            <div className="flex items-center space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-800 font-bold">
+            <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 font-bold">
               <button
                 type="button"
                 onClick={() => setTableFilter('ALL')}
                 className={`px-2.5 py-1 rounded-lg transition ${
-                  tableFilter === 'ALL' ? 'bg-orange-500 text-white' : 'text-slate-400 hover:text-white'
+                  tableFilter === 'ALL' ? 'bg-orange-500 text-white' : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                 }`}
               >
                 All Tables ({sortedTables.length})
@@ -864,20 +864,20 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 type="button"
                 onClick={() => setTableFilter('OCCUPIED')}
                 className={`px-2.5 py-1 rounded-lg transition flex items-center space-x-1 ${
-                  tableFilter === 'OCCUPIED' ? 'bg-rose-500 text-white' : 'text-rose-400 hover:text-white'
+                  tableFilter === 'OCCUPIED' ? 'bg-rose-500 text-white' : 'text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-white'
                 }`}
               >
-                <span className="w-2 h-2 rounded-full bg-rose-400" />
+                <span className="w-2 h-2 rounded-full bg-rose-500" />
                 <span>Occupied ({occupiedAndReservedTablesList.length})</span>
               </button>
               <button
                 type="button"
                 onClick={() => setTableFilter('VACANT')}
                 className={`px-2.5 py-1 rounded-lg transition flex items-center space-x-1 ${
-                  tableFilter === 'VACANT' ? 'bg-emerald-600 text-white' : 'text-emerald-400 hover:text-white'
+                  tableFilter === 'VACANT' ? 'bg-emerald-600 text-white' : 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-white'
                 }`}
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 <span>Vacant ({vacantTablesList.length})</span>
               </button>
             </div>
@@ -886,7 +886,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <button
                 type="button"
                 onClick={onRefreshTables}
-                className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition border border-slate-700"
+                className="p-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl transition border border-slate-200 dark:border-slate-700"
                 title="Refresh Floor State"
               >
                 <RefreshCw className="w-4 h-4" />
@@ -913,14 +913,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   setSelectedTableWaiterId(table.assignedServer?.id || 'usr-waiter-1');
                   setIsEditingWaiter(false);
                 }}
-                className={`p-3 rounded-2xl border transition-all shadow-md flex flex-col justify-between space-y-2 relative group cursor-pointer hover:scale-[1.02] ${
+                className={`p-3 rounded-2xl border transition-all shadow-sm dark:shadow-md flex flex-col justify-between space-y-2 relative group cursor-pointer hover:scale-[1.02] ${
                   pendingCall
-                    ? 'bg-slate-900 border-rose-500 ring-2 ring-rose-500/30'
+                    ? 'bg-rose-50 dark:bg-slate-900 border-rose-500 ring-2 ring-rose-500/30'
                     : isOcc
-                    ? 'bg-slate-900/90 border-rose-500/50 hover:border-rose-500'
+                    ? 'bg-rose-50/70 dark:bg-slate-900/90 border-rose-300 dark:border-rose-500/50 hover:border-rose-500'
                     : reservation
-                    ? 'bg-slate-900/90 border-amber-500/50 hover:border-amber-500'
-                    : 'bg-slate-900/40 border-slate-800 hover:border-emerald-500/60'
+                    ? 'bg-amber-50/70 dark:bg-slate-900/90 border-amber-300 dark:border-amber-500/50 hover:border-amber-500'
+                    : 'bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 hover:border-emerald-500/60'
                 }`}
               >
                 {/* Alert Badge */}
@@ -933,11 +933,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
                 {/* Table Header with Single-Line Title */}
                 <div className="flex items-center justify-between gap-1 min-w-0">
-                  <span className="text-xs font-black text-white font-mono whitespace-nowrap truncate">
+                  <span className="text-xs font-black text-slate-900 dark:text-white font-mono whitespace-nowrap truncate">
                     {getFormattedTableTitle(table.tableNumber)}
                   </span>
                   <div className="flex items-center space-x-1 shrink-0">
-                    <QrCode className="w-3 h-3 text-slate-500 group-hover:text-orange-400 transition" />
+                    <QrCode className="w-3 h-3 text-slate-400 group-hover:text-orange-500 transition" />
                     <span
                       className={`w-2 h-2 rounded-full ${
                         isOcc ? 'bg-rose-500' : reservation ? 'bg-amber-400' : 'bg-emerald-400'
@@ -948,11 +948,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
                 {/* Seats & Floor info */}
                 <div className="space-y-0.5 text-[11px]">
-                  <div className="flex items-center space-x-1 text-slate-400">
-                    <Users className="w-3 h-3 text-slate-500" />
+                  <div className="flex items-center space-x-1 text-slate-600 dark:text-slate-400">
+                    <Users className="w-3 h-3 text-slate-400" />
                     <span>{table.capacity || 4} Seats</span>
                   </div>
-                  <div className="text-[10px] text-slate-500 font-semibold truncate">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold truncate">
                     {floorName}
                   </div>
                   

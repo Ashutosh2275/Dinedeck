@@ -2,8 +2,7 @@
 # DineDeck Customer App — Production R8 Optimization & Obfuscation Rules
 # ==============================================================================
 
-# Enable aggressive optimization passes
--optimizationpasses 5
+# Production R8 Optimization
 -allowaccessmodification
 -mergeinterfacesaggressively
 
