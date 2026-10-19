@@ -219,6 +219,10 @@ class CustomerApiService {
   }
 
   // Order & Bill Details
+  async fetchCustomerOrders(): Promise<{ success: boolean; data?: Order[]; message?: string }> {
+    return this.request<Order[]>('/orders');
+  }
+
   async fetchOrderDetails(orderId: string) {
     return this.request<Order>(`/orders/${orderId}`);
   }

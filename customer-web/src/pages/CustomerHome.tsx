@@ -20,7 +20,6 @@ import {
   Coins,
   Smartphone,
   Download,
-  User,
   Navigation,
   Target,
   CheckCircle2
@@ -448,46 +447,27 @@ export const CustomerHome: React.FC = () => {
         </div>
       )}
 
-      {/* Page Header with Location Selector & Account Access */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-1">
-        <div className="space-y-1.5">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-            <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-              Explore Restaurants
-            </h1>
-            {/* Clickable Neighborhood Location Chip */}
-            <button
-              type="button"
-              onClick={() => setShowLocationModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-700/80 hover:border-orange-500/60 text-xs font-bold text-slate-200 hover:text-white transition cursor-pointer shadow-sm group active:scale-95"
-              title="Change your dining location"
-            >
-              <MapPin className="w-3.5 h-3.5 text-orange-400 group-hover:scale-110 transition-transform shrink-0" />
-              <span className="max-w-[130px] sm:max-w-[200px] truncate">{userLocation.name}</span>
-              <span className="text-[10px] text-orange-400 font-black">▾</span>
-            </button>
-          </div>
-          <p className="text-xs text-slate-400">
-            Browse menus or scan your table QR code to order
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+      {/* Page Header with Location Selector */}
+      <div className="pt-1 pb-1 space-y-1.5">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+          <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            Explore Restaurants
+          </h1>
+          {/* Clickable Neighborhood Location Chip */}
           <button
             type="button"
-            onClick={() => {
-              if (user) {
-                setActiveView('ACCOUNT');
-              } else {
-                setShowAuthModal(true);
-              }
-            }}
-            className="px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
+            onClick={() => setShowLocationModal(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-700/80 hover:border-orange-500/60 text-xs font-bold text-slate-200 hover:text-white transition cursor-pointer shadow-sm group active:scale-95"
+            title="Change your dining location"
           >
-            <User className="w-3.5 h-3.5 text-orange-400 shrink-0" />
-            <span className="max-w-[100px] truncate">{user?.name || 'Sign In'}</span>
+            <MapPin className="w-3.5 h-3.5 text-orange-400 group-hover:scale-110 transition-transform shrink-0" />
+            <span className="max-w-[130px] sm:max-w-[200px] truncate">{userLocation.name}</span>
+            <span className="text-[10px] text-orange-400 font-black">▾</span>
           </button>
         </div>
+        <p className="text-xs text-slate-400">
+          Browse menus or scan your table QR code to order
+        </p>
       </div>
 
       {/* Location Selector Modal */}

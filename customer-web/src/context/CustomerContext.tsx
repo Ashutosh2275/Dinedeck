@@ -14,6 +14,9 @@ interface CustomerContextType {
   sessionOrders: Order[];
   currentBill: Bill | null;
   offlineReceipts: OfflineReceipt[];
+  customerOrders: Order[];
+  isLoadingOrders: boolean;
+  refreshCustomerOrders: () => Promise<void>;
   activeView: 'HOME' | 'MENU' | 'TRACKING' | 'BILL' | 'ACCOUNT' | 'HISTORY';
   setActiveView: (view: 'HOME' | 'MENU' | 'TRACKING' | 'BILL' | 'ACCOUNT' | 'HISTORY') => void;
   showServiceModal: boolean;
@@ -22,6 +25,9 @@ interface CustomerContextType {
   setShowQrScannerModal: (show: boolean) => void;
   showAuthModal: boolean;
   setShowAuthModal: (show: boolean) => void;
+  authModalTab: 'SIGN_IN' | 'REGISTER' | 'FORGOT_PASSWORD';
+  setAuthModalTab: (tab: 'SIGN_IN' | 'REGISTER' | 'FORGOT_PASSWORD') => void;
+  openAuthModal: (tab?: 'SIGN_IN' | 'REGISTER' | 'FORGOT_PASSWORD') => void;
   onAuthSuccess?: () => void;
   setOnAuthSuccess: (cb?: () => void) => void;
   loginWithPhone: (phone: string, password?: string, name?: string) => Promise<{ success: boolean; user?: CustomerUser }>;
@@ -116,11 +122,45 @@ export const CustomerProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [sessionOrders, setSessionOrders] = useState<Order[]>([]);
   const [currentBill, setCurrentBill] = useState<Bill | null>(null);
   const [offlineReceipts, setOfflineReceipts] = useState<OfflineReceipt[]>(receiptStorage.getReceipts());
+  const [customerOrders, setCustomerOrders] = useState<Order[]>([]);
+  const [isLoadingOrders, setIsLoadingOrders] = useState<boolean>(false);
   const [activeView, setActiveView] = useState<'HOME' | 'MENU' | 'TRACKING' | 'BILL' | 'ACCOUNT' | 'HISTORY'>('HOME');
   const [showServiceModal, setShowServiceModal] = useState<boolean>(false);
   const [showQrScannerModal, setShowQrScannerModal] = useState<boolean>(false);
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
+  const [authModalTab, setAuthModalTab] = useState<'SIGN_IN' | 'REGISTER' | 'FORGOT_PASSWORD'>('SIGN_IN');
   const [onAuthSuccess, setOnAuthSuccess] = useState<(() => void) | undefined>(undefined);
+
+  const openAuthModal = useCallback((tab: 'SIGN_IN' | 'REGISTER' | 'FORGOT_PASSWORD' = 'SIGN_IN') => {
+    setAuthModalTab(tab);
+    setShowAuthModal(true);
+  }, []);
+
+  const refreshCustomerOrders = useCallback(async () => {
+    if (!user) {
+      setCustomerOrders([]);
+      return;
+    }
+    setIsLoadingOrders(true);
+    try {
+      const res = await customerApi.fetchCustomerOrders();
+      if (res.success && res.data) {
+        setCustomerOrders(res.data);
+      }
+    } catch (err) {
+      console.warn('[CustomerContext] Failed to fetch customer orders:', err);
+    } finally {
+      setIsLoadingOrders(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      refreshCustomerOrders();
+    } else {
+      setCustomerOrders([]);
+    }
+  }, [user, refreshCustomerOrders]);
 
   const loadMenu = useCallback(async (restaurantId: string = session.restaurantId) => {
     if (!restaurantId) return;
@@ -353,8 +393,10 @@ export const CustomerProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const logout = () => {
     setUser(null);
+    customerApi.setToken(null);
     localStorage.removeItem('dinedeck_customer_user');
     localStorage.removeItem('dinedeck_cust_token');
+    setCustomerOrders([]);
   };
 
   const loginDiner = async (email: string = 'alex.vance@dinedeck.io') => {
@@ -597,6 +639,9 @@ export const CustomerProvider: React.FC<{ children: ReactNode }> = ({ children }
         sessionOrders,
         currentBill,
         offlineReceipts,
+        customerOrders,
+        isLoadingOrders,
+        refreshCustomerOrders,
         activeView,
         setActiveView,
         showServiceModal,
@@ -605,6 +650,9 @@ export const CustomerProvider: React.FC<{ children: ReactNode }> = ({ children }
         setShowQrScannerModal,
         showAuthModal,
         setShowAuthModal,
+        authModalTab,
+        setAuthModalTab,
+        openAuthModal,
         onAuthSuccess,
         setOnAuthSuccess,
         loginWithPhone,

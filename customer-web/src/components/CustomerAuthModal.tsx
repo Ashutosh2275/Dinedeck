@@ -19,6 +19,8 @@ export const CustomerAuthModal: React.FC = () => {
   const {
     showAuthModal,
     setShowAuthModal,
+    authModalTab,
+    setAuthModalTab,
     loginCustomer,
     loginWithPhone,
     registerCustomer,
@@ -28,7 +30,19 @@ export const CustomerAuthModal: React.FC = () => {
   } = useCustomer();
 
   // Primary mode: 'SIGN_IN' | 'REGISTER' | 'FORGOT_PASSWORD'
-  const [tab, setTab] = useState<'SIGN_IN' | 'REGISTER' | 'FORGOT_PASSWORD'>('SIGN_IN');
+  const [tab, setTab] = useState<'SIGN_IN' | 'REGISTER' | 'FORGOT_PASSWORD'>(authModalTab || 'SIGN_IN');
+
+  React.useEffect(() => {
+    if (authModalTab) {
+      setTab(authModalTab);
+    }
+  }, [authModalTab]);
+
+  const switchTab = (newTab: 'SIGN_IN' | 'REGISTER' | 'FORGOT_PASSWORD') => {
+    setTab(newTab);
+    setAuthModalTab(newTab);
+    setError('');
+  };
   // Login method toggle: 'EMAIL' | 'PHONE'
   const [loginMethod, setLoginMethod] = useState<'EMAIL' | 'PHONE'>('EMAIL');
 
@@ -167,7 +181,7 @@ export const CustomerAuthModal: React.FC = () => {
         setSuccessMsg(res.message);
         setShowNewPasswordForm(false);
         setResetLinkSent(false);
-        setTab('SIGN_IN');
+        switchTab('SIGN_IN');
       } else {
         setError(res.message || 'Failed to update password');
       }
@@ -323,8 +337,7 @@ export const CustomerAuthModal: React.FC = () => {
                       setForgotEmail(email);
                       setResetLinkSent(false);
                       setShowNewPasswordForm(false);
-                      setError('');
-                      setTab('FORGOT_PASSWORD');
+                      switchTab('FORGOT_PASSWORD');
                     }}
                     className="text-[11px] font-bold text-orange-400 hover:underline cursor-pointer"
                   >
@@ -366,10 +379,7 @@ export const CustomerAuthModal: React.FC = () => {
                 <span className="text-xs text-slate-400">Don't have an account? </span>
                 <button
                   type="button"
-                  onClick={() => {
-                    setError('');
-                    setTab('REGISTER');
-                  }}
+                  onClick={() => switchTab('REGISTER')}
                   className="text-xs font-bold text-orange-400 hover:underline cursor-pointer"
                 >
                   Register
@@ -471,10 +481,7 @@ export const CustomerAuthModal: React.FC = () => {
               <span className="text-xs text-slate-400">Already have an account? </span>
               <button
                 type="button"
-                onClick={() => {
-                  setError('');
-                  setTab('SIGN_IN');
-                }}
+                onClick={() => switchTab('SIGN_IN')}
                 className="text-xs font-bold text-orange-400 hover:underline cursor-pointer"
               >
                 Sign In
@@ -511,10 +518,7 @@ export const CustomerAuthModal: React.FC = () => {
 
                 <button
                   type="button"
-                  onClick={() => {
-                    setTab('SIGN_IN');
-                    setError('');
-                  }}
+                  onClick={() => switchTab('SIGN_IN')}
                   className="w-full py-2.5 text-xs text-slate-400 hover:text-white transition font-bold cursor-pointer"
                 >
                   Return to Sign In
@@ -574,10 +578,7 @@ export const CustomerAuthModal: React.FC = () => {
                 <div className="flex gap-2 pt-1">
                   <button
                     type="button"
-                    onClick={() => {
-                      setTab('SIGN_IN');
-                      setError('');
-                    }}
+                    onClick={() => switchTab('SIGN_IN')}
                     className="px-4 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
                   >
                     <ArrowLeft className="w-4 h-4" />

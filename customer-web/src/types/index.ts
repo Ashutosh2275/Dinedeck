@@ -86,9 +86,25 @@ export interface Order {
   cgstAmount: number;
   sgstAmount: number;
   serviceCharge: number;
+  totalAmount?: number;
   specialNotes?: string | null;
   createdAt: string;
   items: OrderItem[];
+  restaurantId?: string;
+  restaurant?: {
+    id: string;
+    name: string;
+    slug?: string;
+    fullAddress?: string;
+    logoUrl?: string;
+  };
+  bills?: Bill[];
+  statusHistory?: Array<{
+    id?: string;
+    status: string;
+    timestamp: string;
+    note?: string;
+  }>;
 }
 
 export interface Bill {

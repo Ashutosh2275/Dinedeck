@@ -5,10 +5,12 @@ import { MobileBottomNav } from './components/MobileBottomNav';
 import { ServiceModal } from './components/ServiceModal';
 import { QrScannerModal } from './components/QrScannerModal';
 import { CustomerAuthModal } from './components/CustomerAuthModal';
+import { CustomerWelcomeModal } from './components/CustomerWelcomeModal';
 import { CustomerHome } from './pages/CustomerHome';
 import { CustomerMenu } from './pages/CustomerMenu';
 import { CustomerTracking } from './pages/CustomerTracking';
 import { CustomerBill } from './pages/CustomerBill';
+import { CustomerHistory } from './pages/CustomerHistory';
 import { CustomerAccount } from './pages/CustomerAccount';
 
 const CustomerMain: React.FC = () => {
@@ -20,12 +22,14 @@ const CustomerMain: React.FC = () => {
       <ServiceModal />
       <QrScannerModal />
       <CustomerAuthModal />
+      <CustomerWelcomeModal />
 
       <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 pt-4 pb-24 md:pb-12">
         {activeView === 'HOME' && <CustomerHome />}
         {activeView === 'MENU' && <CustomerMenu />}
         {activeView === 'TRACKING' && <CustomerTracking />}
-        {(activeView === 'BILL' || activeView === 'HISTORY') && <CustomerBill />}
+        {activeView === 'BILL' && <CustomerBill />}
+        {activeView === 'HISTORY' && <CustomerHistory />}
         {activeView === 'ACCOUNT' && <CustomerAccount />}
       </main>
 

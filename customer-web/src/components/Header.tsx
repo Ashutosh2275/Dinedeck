@@ -1,16 +1,16 @@
 import React from 'react';
 import { useCustomer } from '../context/CustomerContext';
-import { UtensilsCrossed, Download, QrCode } from 'lucide-react';
+import { Download, QrCode, User } from 'lucide-react';
 
 export const Header: React.FC = () => {
-  const { setActiveView, setShowQrScannerModal } = useCustomer();
+  const { setActiveView, setShowQrScannerModal, user, openAuthModal } = useCustomer();
 
   return (
-    <header className="h-16 bg-[#121824]/95 backdrop-blur-xl border-b border-slate-800 px-4 sm:px-8 sticky top-0 z-30 flex items-center justify-between shadow-xl">
+    <header className="h-16 bg-[#121824]/95 backdrop-blur-xl border-b border-slate-800 px-3 sm:px-6 sticky top-0 z-30 flex items-center justify-between shadow-xl">
       {/* Clean Brand Identity */}
       <div
         onClick={() => setActiveView('HOME')}
-        className="flex items-center space-x-2.5 cursor-pointer select-none group"
+        className="flex items-center space-x-2 sm:space-x-2.5 cursor-pointer select-none group shrink-0"
         title="DineDeck Home"
       >
         <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#0B1120] border border-orange-500/40 flex items-center justify-center shadow-lg shadow-orange-500/20 shrink-0 p-1.5 transform active:scale-95 group-hover:scale-105 transition">
@@ -30,8 +30,36 @@ export const Header: React.FC = () => {
         />
       </div>
 
-      {/* Top Right Controls: Scanner (Desktop only) + Download App Option */}
-      <div className="flex items-center gap-2">
+      {/* Top Right Controls: Account/Login + Scanner (Desktop only) + Download App */}
+      <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* User Account / Log in Pill */}
+        {user ? (
+          <button
+            type="button"
+            onClick={() => setActiveView('ACCOUNT')}
+            className="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-orange-500/60 transition flex items-center gap-1.5 sm:gap-2 cursor-pointer shadow-sm active:scale-95"
+            title="My DineDeck Account & Orders"
+          >
+            <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-orange-500 to-amber-400 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-sm">
+              {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+            </div>
+            <span className="text-xs font-bold text-slate-200 max-w-[65px] sm:max-w-[120px] truncate">
+              {user.name ? user.name.split(' ')[0] : 'Account'}
+            </span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => openAuthModal('SIGN_IN')}
+            className="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-orange-500/60 text-slate-200 hover:text-white transition flex items-center gap-1.5 cursor-pointer shadow-sm active:scale-95 text-xs font-bold"
+            title="Sign in to see orders and account"
+          >
+            <User className="w-3.5 h-3.5 text-orange-400 shrink-0" />
+            <span>Log in</span>
+          </button>
+        )}
+
+        {/* Scan QR Button (Hidden on mobile screens, shown on desktop) */}
         <button
           type="button"
           onClick={() => setShowQrScannerModal(true)}
@@ -42,10 +70,11 @@ export const Header: React.FC = () => {
           <span className="text-xs font-bold text-slate-200">Scan QR</span>
         </button>
 
+        {/* Download App Button */}
         <a
           href="/dinedeck-customer.apk"
           download="dinedeck-customer.apk"
-          className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-xs font-black transition flex items-center gap-1.5 shadow-md shadow-orange-500/20 cursor-pointer transform active:scale-95"
+          className="px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-xs font-black transition flex items-center gap-1.5 shadow-md shadow-orange-500/20 cursor-pointer transform active:scale-95 shrink-0"
           title="Download DineDeck Mobile App"
         >
           <Download className="w-3.5 h-3.5" />
