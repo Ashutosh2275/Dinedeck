@@ -91,10 +91,10 @@ export const RestaurantDetailWorkspace: React.FC<RestaurantDetailWorkspaceProps>
   // Business Details Form State
   const [isEditingBusiness, setIsEditingBusiness] = useState(false);
   const [legalName, setLegalName] = useState(restaurant.legalBusinessName || restaurant.name);
-  const [gstin, setGstin] = useState(restaurant.gstin || '27AABCP1234F1Z5');
-  const [fssai, setFssai] = useState(restaurant.fssaiNumber || '11521019000342');
-  const [pan, setPan] = useState(restaurant.panNumber || 'AABCP1234F');
-  const [address, setAddress] = useState(restaurant.fullAddress || `${restaurant.city} Main Boulevard, Commercial Sector`);
+  const [gstin, setGstin] = useState(restaurant.gstin || '');
+  const [fssai, setFssai] = useState(restaurant.fssaiNumber || '');
+  const [pan, setPan] = useState(restaurant.panNumber || '');
+  const [address, setAddress] = useState(restaurant.fullAddress || (restaurant.city ? `${restaurant.city}, India` : ''));
 
   // Load branches
   useEffect(() => {
@@ -451,15 +451,21 @@ export const RestaurantDetailWorkspace: React.FC<RestaurantDetailWorkspaceProps>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="p-3.5 bg-slate-900/60 rounded-xl border border-slate-800">
                   <div className="text-[10px] font-bold text-slate-400">Categories</div>
-                  <div className="text-base font-black text-white mt-1">6 Active Sections</div>
+                  <div className="text-base font-black text-white mt-1">
+                    {restaurant.branchesCount ? `${restaurant.branchesCount} Active Sections` : 'Standard Menu'}
+                  </div>
                 </div>
                 <div className="p-3.5 bg-slate-900/60 rounded-xl border border-slate-800">
                   <div className="text-[10px] font-bold text-slate-400">Total Items</div>
-                  <div className="text-base font-black text-white mt-1">42 Live Dishes</div>
+                  <div className="text-base font-black text-white mt-1">
+                    {restaurant._count?.items ? `${restaurant._count.items} Live Dishes` : '0 Live Dishes'}
+                  </div>
                 </div>
                 <div className="p-3.5 bg-slate-900/60 rounded-xl border border-slate-800">
                   <div className="text-[10px] font-bold text-slate-400">Average Dish Price</div>
-                  <div className="text-base font-black text-cyan-400 mt-1">₹340 INR</div>
+                  <div className="text-base font-black text-cyan-400 mt-1">
+                    {(restaurant as any).costForTwo ? `₹${Math.round((restaurant as any).costForTwo / 2)} INR` : '—'}
+                  </div>
                 </div>
               </div>
             </div>
@@ -558,16 +564,23 @@ export const RestaurantDetailWorkspace: React.FC<RestaurantDetailWorkspaceProps>
           {activeTab === 'ORDERS' && (
             <div className="space-y-3">
               <h3 className="text-sm font-black text-white">Live & Historic Order Stream</h3>
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-mono text-cyan-400 font-bold">#ORD-748146-441</span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-400">
-                    SERVED
-                  </span>
+              {restaurant._count?.orders ? (
+                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-mono text-cyan-400 font-bold">{restaurant.name} Orders</span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-400">
+                      {restaurant._count.orders} TOTAL ORDERS
+                    </span>
+                  </div>
+                  <div className="text-slate-300 text-xs">Orders can be viewed and managed in real-time from the SuperAdmin Orders hub.</div>
                 </div>
-                <div className="text-slate-300 text-xs">Table 1 • 2 Items (Butter Chicken, Garlic Naan)</div>
-                <div className="text-slate-400 font-mono text-[11px]">Total: ₹840.00 • Paid via UPI</div>
-              </div>
+              ) : (
+                <div className="p-8 text-center bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-500">
+                  <ShoppingBag className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p className="font-semibold text-slate-400">No orders recorded yet</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Orders placed for this restaurant will appear here.</p>
+                </div>
+              )}
             </div>
           )}
 
@@ -579,8 +592,10 @@ export const RestaurantDetailWorkspace: React.FC<RestaurantDetailWorkspaceProps>
                 {['Tandoor', 'Curry / Gravy', 'Chinese / Continental', 'Beverages & Bar'].map((st) => (
                   <div key={st} className="p-3.5 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
                     <div className="text-xs font-black text-white">{st}</div>
-                    <div className="text-[10px] text-emerald-400 font-bold">Station Active</div>
-                    <div className="text-[10px] text-slate-400">Avg Prep: 12 mins</div>
+                    <div className="text-[10px] text-emerald-400 font-bold">
+                      {restaurant.isActive ? 'Station Configured' : 'Station Inactive'}
+                    </div>
+                    <div className="text-[10px] text-slate-400">POS KDS Dispatch</div>
                   </div>
                 ))}
               </div>
@@ -591,14 +606,23 @@ export const RestaurantDetailWorkspace: React.FC<RestaurantDetailWorkspaceProps>
           {activeTab === 'BILLS_PAYMENTS' && (
             <div className="space-y-4">
               <h3 className="text-sm font-black text-white">Billing Transactions & Tax Breakdown</h3>
-              <div className="p-4 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-mono text-xs font-bold text-white">Bill #BILL-2026-091</span>
-                  <span className="font-black text-emerald-400">PAID</span>
+              {restaurant.analytics?.totalRevenue ? (
+                <div className="p-4 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-mono text-xs font-bold text-white">Cumulative Gross Revenue</span>
+                    <span className="font-black text-emerald-400">₹{restaurant.analytics.totalRevenue.toFixed(2)}</span>
+                  </div>
+                  <div className="text-slate-400 text-[11px]">
+                    GST ({restaurant.cgstRatePercent + restaurant.sgstRatePercent}%): ₹{(restaurant.analytics.totalTaxes || 0).toFixed(2)} • Commission ({restaurant.commissionRatePercent}%): ₹{((restaurant.analytics.totalRevenue * (restaurant.commissionRatePercent || 15)) / 100).toFixed(2)}
+                  </div>
                 </div>
-                <div className="text-slate-400 text-[11px]">Subtotal: ₹800.00 • CGST (2.5%): ₹20.00 • SGST (2.5%): ₹20.00</div>
-                <div className="text-cyan-400 font-bold">Settled Total: ₹840.00</div>
-              </div>
+              ) : (
+                <div className="p-8 text-center bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-500">
+                  <Receipt className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p className="font-semibold text-slate-400">No billing transactions recorded</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Settled bills and payments will be summarized here.</p>
+                </div>
+              )}
             </div>
           )}
 
@@ -664,22 +688,23 @@ export const RestaurantDetailWorkspace: React.FC<RestaurantDetailWorkspaceProps>
           {/* TAB 10: STAFF & PERMISSIONS */}
           {activeTab === 'STAFF_PERMISSIONS' && (
             <div className="space-y-4">
-              <h3 className="text-sm font-black text-white">Staff Roster & Granular IAM</h3>
-              <div className="space-y-2">
-                {[
-                  { role: 'Owner', name: 'Harpreet Singh', email: 'owner.punjab@dinedeck.in', status: 'Full Administrative' },
-                  { role: 'Head Chef', name: 'Vikram Joshi', email: 'chef.vikram@punjabheritage.in', status: 'KDS & Recipes' },
-                  { role: 'General Manager', name: 'Sunil Sharma', email: 'manager.sunil@punjabheritage.in', status: 'Floor & Shifts' }
-                ].map((s) => (
-                  <div key={s.email} className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <div>
-                      <div className="font-bold text-white text-xs">{s.name} ({s.role})</div>
-                      <div className="text-[10px] text-slate-400 font-mono">{s.email}</div>
-                    </div>
-                    <span className="text-[10px] font-bold text-cyan-400">{s.status}</span>
-                  </div>
-                ))}
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-black text-white">Staff Roster & Granular IAM</h3>
+                <span className="text-xs text-slate-500 font-mono">
+                  {restaurant._count?.staff || 0} Registered Staff
+                </span>
               </div>
+              {restaurant._count?.staff ? (
+                <div className="p-4 bg-slate-900 rounded-2xl border border-slate-800 text-xs text-slate-300">
+                  {restaurant._count.staff} active staff member(s) assigned to this restaurant workspace.
+                </div>
+              ) : (
+                <div className="p-8 text-center bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-500">
+                  <Users className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p className="font-semibold text-slate-400">No staff members enrolled</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Staff credentials and IAM roles can be configured from the IAM dashboard.</p>
+                </div>
+              )}
             </div>
           )}
 

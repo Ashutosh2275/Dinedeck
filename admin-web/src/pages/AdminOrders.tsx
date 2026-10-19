@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { adminApi } from '../services/api';
 import { adminWs, AdminWsMessage } from '../services/websocket';
 import { AdminOrder } from '../types';
-import { CANONICAL_RESTAURANTS } from './AdminTenantDeepDive';
 import {
   ShoppingBag,
   Search,
@@ -30,6 +29,7 @@ import {
 
 export const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<any[]>([]);
+  const [restaurants, setRestaurants] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [restaurantFilter, setRestaurantFilter] = useState<string>('ALL');
@@ -69,96 +69,31 @@ export const AdminOrders: React.FC = () => {
         restaurantId: restaurantFilter !== 'ALL' ? restaurantFilter : undefined,
         search: searchQuery.trim() || undefined
       });
-      if (res.success && res.data && res.data.length > 0) {
+      if (res.success && res.data) {
         setOrders(res.data);
-        setTotalCount(res.total || res.data.length);
+        setTotalCount(res.total ?? res.data.length);
       } else {
-        // Realistic Seeded Fallback
-        const seededOrders = [
-          {
-            id: 'ord_101',
-            orderNumber: 'ORD-9821-412',
-            restaurantId: 'rest_punjab_heritage',
-            restaurant: { name: 'The Punjab Heritage Kitchen', city: 'Mumbai' },
-            tableNumber: 'Table 4',
-            user: { name: 'Alex Vance', phone: '+91 98201 23456' },
-            status: 'PREPARING',
-            totalAmount: 1145,
-            subtotal: 1040,
-            cgstAmount: 26,
-            sgstAmount: 26,
-            serviceCharge: 52,
-            createdAt: new Date(Date.now() - 6 * 60000).toISOString(),
-            items: [
-              { name: 'Angaari Paneer Tikka', quantity: 2, unitPrice: 299 },
-              { name: 'Grand Old Delhi Butter Chicken', quantity: 1, unitPrice: 440 }
-            ]
-          },
-          {
-            id: 'ord_102',
-            orderNumber: 'ORD-9821-413',
-            restaurantId: 'rest_dum_pukht_biryani',
-            restaurant: { name: 'Dum Pukht Royal Biryani House', city: 'Hyderabad' },
-            tableNumber: 'Table 8',
-            user: { name: 'Rohit K. Sharma', phone: '+91 98112 34567' },
-            status: 'PLACED',
-            totalAmount: 945,
-            subtotal: 900,
-            cgstAmount: 22.5,
-            sgstAmount: 22.5,
-            serviceCharge: 0,
-            createdAt: new Date(Date.now() - 3 * 60000).toISOString(),
-            items: [
-              { name: 'Royal Awadhi Dum Biryani Handi', quantity: 2, unitPrice: 450 }
-            ]
-          },
-          {
-            id: 'ord_103',
-            orderNumber: 'ORD-9821-410',
-            restaurantId: 'rest_dakshin_bistro',
-            restaurant: { name: 'Dakshin Coastal Bistro & Tiffin', city: 'Bengaluru' },
-            tableNumber: 'Table 2',
-            user: { name: 'Pooja Hegde', phone: '+91 98450 11223' },
-            status: 'READY',
-            totalAmount: 882,
-            subtotal: 840,
-            cgstAmount: 21,
-            sgstAmount: 21,
-            serviceCharge: 0,
-            createdAt: new Date(Date.now() - 14 * 60000).toISOString(),
-            items: [
-              { name: 'Ghee Roast Dosa Platter', quantity: 2, unitPrice: 220 },
-              { name: 'Filter Kaapi Brass Service', quantity: 2, unitPrice: 90 }
-            ]
-          },
-          {
-            id: 'ord_104',
-            orderNumber: 'ORD-9821-409',
-            restaurantId: 'rest_thali_royal',
-            restaurant: { name: 'Thali of Rajasthan & Gujarat', city: 'Jaipur' },
-            tableNumber: 'Table 11',
-            user: { name: 'Vikramaditya Rathore', phone: '+91 98290 55667' },
-            status: 'SERVED',
-            totalAmount: 1575,
-            subtotal: 1500,
-            cgstAmount: 37.5,
-            sgstAmount: 37.5,
-            serviceCharge: 0,
-            createdAt: new Date(Date.now() - 28 * 60000).toISOString(),
-            items: [
-              { name: 'Grand 32-Course Royal Thali', quantity: 2, unitPrice: 750 }
-            ]
-          }
-        ];
-        setOrders(seededOrders);
-        setTotalCount(seededOrders.length);
+        setOrders([]);
+        setTotalCount(0);
       }
     } catch (err) {
       console.error('[AdminOrders] Failed loading orders:', err);
+      setOrders([]);
+      setTotalCount(0);
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    adminApi.fetchRestaurants().then((res) => {
+      if (res.success && res.data) {
+        setRestaurants(res.data);
+      }
+    }).catch((err) => {
+      console.error('[AdminOrders] Failed loading restaurants:', err);
+    });
+  }, []);
 
   useEffect(() => {
     loadOrders();
@@ -335,8 +270,8 @@ export const AdminOrders: React.FC = () => {
             onChange={(e) => setRestaurantFilter(e.target.value)}
             className="w-full appearance-none bg-slate-900 border border-slate-700 text-white text-xs font-bold py-2.5 pl-3.5 pr-8 rounded-2xl focus:outline-none focus:border-cyan-500 cursor-pointer"
           >
-            <option value="ALL">All Partner Chains (10)</option>
-            {CANONICAL_RESTAURANTS.map((r) => (
+            <option value="ALL">All Partner Chains ({restaurants.length})</option>
+            {restaurants.map((r) => (
               <option key={r.id} value={r.id}>
                 {r.name}
               </option>
@@ -384,83 +319,109 @@ export const AdminOrders: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 font-medium">
-              {filteredOrders.map((ord) => (
-                <tr key={ord.id} className="hover:bg-slate-800/40 transition">
-                  <td className="p-3.5">
-                    <div className="font-mono font-bold text-white leading-tight">{ord.orderNumber}</div>
-                    <div className="text-[10px] text-slate-500">{new Date(ord.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                  </td>
-
-                  <td className="p-3.5">
-                    <div className="font-bold text-slate-200">{ord.restaurant?.name || 'The Punjab Heritage Kitchen'}</div>
-                    <div className="text-[10px] text-slate-500">{ord.restaurant?.city || 'Mumbai'}</div>
-                  </td>
-
-                  <td className="p-3.5">
-                    <div className="font-bold text-cyan-400">{ord.tableNumber || 'Table 1'}</div>
-                    <div className="text-[10px] text-slate-400">{ord.user?.name || 'Alex Vance'} ({ord.user?.phone || '+91 98201...'})</div>
-                  </td>
-
-                  <td className="p-3.5 max-w-[220px]">
-                    <div className="space-y-0.5 truncate">
-                      {ord.items && ord.items.map((it: any, i: number) => (
-                        <div key={i} className="text-slate-300 text-[11px] truncate">
-                          {it.quantity}x {it.name}
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-
-                  <td className="p-3.5">
-                    <div className="font-black text-emerald-400 text-sm">₹{ord.totalAmount}</div>
-                    <div className="text-[9px] text-slate-500">Incl. 5% GST</div>
-                  </td>
-
-                  <td className="p-3.5">
-                    {getStatusBadge(ord.status)}
-                  </td>
-
-                  <td className="p-3.5 text-right">
-                    <div className="flex items-center justify-end space-x-1.5">
-                      {ord.status === 'PLACED' && (
-                        <button
-                          onClick={() => handleStatusOverride(ord.id, 'PREPARING')}
-                          className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[10px] font-black hover:bg-amber-500/20"
-                        >
-                          Start Prep
-                        </button>
-                      )}
-                      {ord.status === 'PREPARING' && (
-                        <button
-                          onClick={() => handleStatusOverride(ord.id, 'READY')}
-                          className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/30 text-[10px] font-black hover:bg-purple-500/20"
-                        >
-                          Mark Ready
-                        </button>
-                      )}
-                      {ord.status === 'READY' && (
-                        <button
-                          onClick={() => handleStatusOverride(ord.id, 'SERVED')}
-                          className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-black hover:bg-emerald-500/20"
-                        >
-                          Mark Served
-                        </button>
-                      )}
-
-                      <button
-                        onClick={() => {
-                          setSelectedOrder(ord);
-                          setIsReceiptModalOpen(true);
-                        }}
-                        className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
-                        title="Print / View Tax Invoice"
-                      >
-                        <Printer className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+              {filteredOrders.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                    <ShoppingBag className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-50" />
+                    <p className="font-semibold text-slate-400">No orders found</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      {searchQuery || statusFilter !== 'ALL' || restaurantFilter !== 'ALL'
+                        ? 'No orders match the selected filters.'
+                        : 'Realtime live orders from partner restaurants will appear here.'}
+                    </p>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredOrders.map((ord) => (
+                  <tr key={ord.id} className="hover:bg-slate-800/40 transition">
+                    <td className="p-3.5">
+                      <div className="font-mono font-bold text-white leading-tight">{ord.orderNumber || ord.id}</div>
+                      <div className="text-[10px] text-slate-500">
+                        {ord.createdAt ? new Date(ord.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
+                      </div>
+                    </td>
+
+                    <td className="p-3.5">
+                      <div className="font-bold text-slate-200">{ord.restaurant?.name || 'Restaurant'}</div>
+                      <div className="text-[10px] text-slate-500">{ord.restaurant?.city || ''}</div>
+                    </td>
+
+                    <td className="p-3.5">
+                      <div className="font-bold text-cyan-400">
+                        {ord.tableNumber ? `Table ${ord.tableNumber}` : 'Direct Order'}
+                      </div>
+                      <div className="text-[10px] text-slate-400">
+                        {ord.user?.name || 'Guest'} {ord.user?.phone ? `(${ord.user.phone})` : ''}
+                      </div>
+                    </td>
+
+                    <td className="p-3.5 max-w-[220px]">
+                      <div className="space-y-0.5 truncate">
+                        {ord.items && ord.items.length > 0 ? (
+                          ord.items.map((it: any, i: number) => (
+                            <div key={i} className="text-slate-300 text-[11px] truncate">
+                              {it.quantity}x {it.name}
+                            </div>
+                          ))
+                        ) : (
+                          <span className="text-slate-500 text-[11px]">No items listed</span>
+                        )}
+                      </div>
+                    </td>
+
+                    <td className="p-3.5">
+                      <div className="font-black text-emerald-400 text-sm">₹{Number(ord.totalAmount || 0).toFixed(2)}</div>
+                      <div className="text-[9px] text-slate-500">
+                        {ord.cgstAmount || ord.sgstAmount ? 'Incl. GST' : 'Standard'}
+                      </div>
+                    </td>
+
+                    <td className="p-3.5">
+                      {getStatusBadge(ord.status)}
+                    </td>
+
+                    <td className="p-3.5 text-right">
+                      <div className="flex items-center justify-end space-x-1.5">
+                        {ord.status === 'PLACED' && (
+                          <button
+                            onClick={() => handleStatusOverride(ord.id, 'PREPARING')}
+                            className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[10px] font-black hover:bg-amber-500/20"
+                          >
+                            Start Prep
+                          </button>
+                        )}
+                        {ord.status === 'PREPARING' && (
+                          <button
+                            onClick={() => handleStatusOverride(ord.id, 'READY')}
+                            className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/30 text-[10px] font-black hover:bg-purple-500/20"
+                          >
+                            Mark Ready
+                          </button>
+                        )}
+                        {ord.status === 'READY' && (
+                          <button
+                            onClick={() => handleStatusOverride(ord.id, 'SERVED')}
+                            className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-black hover:bg-emerald-500/20"
+                          >
+                            Mark Served
+                          </button>
+                        )}
+
+                        <button
+                          onClick={() => {
+                            setSelectedOrder(ord);
+                            setIsReceiptModalOpen(true);
+                          }}
+                          className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
+                          title="Print / View Tax Invoice"
+                        >
+                          <Printer className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -478,9 +439,15 @@ export const AdminOrders: React.FC = () => {
             </button>
 
             <div className="text-center pb-3 border-b border-dashed border-slate-700">
-              <h3 className="font-black text-white text-base">{selectedOrder.restaurant?.name}</h3>
-              <p className="text-[10px] text-slate-400">{selectedOrder.restaurant?.city}, India</p>
-              <p className="text-[9px] font-mono text-cyan-400 mt-1">GSTIN: 27AAAAA0000A1Z5 • FSSAI: 11521000001234</p>
+              <h3 className="font-black text-white text-base">{selectedOrder.restaurant?.name || 'Restaurant'}</h3>
+              <p className="text-[10px] text-slate-400">{selectedOrder.restaurant?.city ? `${selectedOrder.restaurant.city}, India` : 'India'}</p>
+              {(selectedOrder.restaurant?.gstin || selectedOrder.restaurant?.fssai) && (
+                <p className="text-[9px] font-mono text-cyan-400 mt-1">
+                  {selectedOrder.restaurant?.gstin ? `GSTIN: ${selectedOrder.restaurant.gstin}` : ''}
+                  {selectedOrder.restaurant?.gstin && selectedOrder.restaurant?.fssai ? ' • ' : ''}
+                  {selectedOrder.restaurant?.fssai ? `FSSAI: ${selectedOrder.restaurant.fssai}` : ''}
+                </p>
+              )}
             </div>
 
             <div className="space-y-1.5 text-xs text-slate-300">

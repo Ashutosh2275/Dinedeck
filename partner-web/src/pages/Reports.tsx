@@ -72,28 +72,56 @@ export const Reports: React.FC<ReportsProps> = ({ overview, orders }) => {
   const totalTaxCollected = totalCgst + totalSgst;
   const totalDiscounts = completedOrders.reduce((sum, o) => sum + (o.discountAmount || 0), 0);
 
-  // Payment Breakdown
+  // Payment Breakdown calculated dynamically from real orders
   const paymentBreakdown = useMemo(() => {
-    const upi = totalGrossSales * 0.58;
-    const card = totalGrossSales * 0.27;
-    const cash = totalGrossSales * 0.15;
-    return {
-      upi: { amount: upi, count: Math.round(totalOrdersCount * 0.58), percent: 58 },
-      card: { amount: card, count: Math.round(totalOrdersCount * 0.27), percent: 27 },
-      cash: { amount: cash, count: Math.round(totalOrdersCount * 0.15), percent: 15 }
-    };
-  }, [totalGrossSales, totalOrdersCount]);
+    let upiAmount = 0, upiCount = 0;
+    let cardAmount = 0, cardCount = 0;
+    let cashAmount = 0, cashCount = 0;
 
-  // Busy hours breakdown
+    completedOrders.forEach((o: any) => {
+      const method = (o.paymentMethod || o.bill?.paymentMethod || 'UPI').toUpperCase();
+      const amt = Number(o.totalAmount || o.bill?.grandTotal || 0);
+      if (method.includes('CARD')) {
+        cardAmount += amt;
+        cardCount += 1;
+      } else if (method.includes('CASH')) {
+        cashAmount += amt;
+        cashCount += 1;
+      } else {
+        upiAmount += amt;
+        upiCount += 1;
+      }
+    });
+
+    const total = upiAmount + cardAmount + cashAmount;
+    return {
+      upi: { amount: upiAmount, count: upiCount, percent: total > 0 ? Math.round((upiAmount / total) * 100) : 0 },
+      card: { amount: cardAmount, count: cardCount, percent: total > 0 ? Math.round((cardAmount / total) * 100) : 0 },
+      cash: { amount: cashAmount, count: cashCount, percent: total > 0 ? Math.round((cashAmount / total) * 100) : 0 }
+    };
+  }, [completedOrders]);
+
+  // Busy hours breakdown calculated dynamically from real order timestamps
   const hourlyData = useMemo(() => {
-    return [
-      { label: '11:00 AM – 1:00 PM (Morning & Early Lunch)', orders: 4, revenue: totalGrossSales * 0.12, isPeak: false },
-      { label: '1:00 PM – 3:30 PM (Lunch Rush)', orders: 12, revenue: totalGrossSales * 0.35, isPeak: true },
-      { label: '3:30 PM – 7:00 PM (Snacks & Beverages)', orders: 3, revenue: totalGrossSales * 0.08, isPeak: false },
-      { label: '7:00 PM – 10:30 PM (Dinner Rush)', orders: 16, revenue: totalGrossSales * 0.40, isPeak: true },
-      { label: '10:30 PM – Midnight (Late Night Orders)', orders: 2, revenue: totalGrossSales * 0.05, isPeak: false }
+    const slots = [
+      { label: '11:00 AM – 1:00 PM (Morning & Early Lunch)', minH: 11, maxH: 13, orders: 0, revenue: 0, isPeak: false },
+      { label: '1:00 PM – 3:30 PM (Lunch Rush)', minH: 13, maxH: 16, orders: 0, revenue: 0, isPeak: true },
+      { label: '3:30 PM – 7:00 PM (Snacks & Beverages)', minH: 16, maxH: 19, orders: 0, revenue: 0, isPeak: false },
+      { label: '7:00 PM – 10:30 PM (Dinner Rush)', minH: 19, maxH: 23, orders: 0, revenue: 0, isPeak: true },
+      { label: '10:30 PM – Midnight (Late Night Orders)', minH: 23, maxH: 24, orders: 0, revenue: 0, isPeak: false }
     ];
-  }, [totalGrossSales]);
+
+    completedOrders.forEach((o: any) => {
+      if (!o.createdAt) return;
+      const h = new Date(o.createdAt).getHours();
+      const amt = Number(o.totalAmount || o.bill?.grandTotal || 0);
+      const slot = slots.find((s) => h >= s.minH && h < s.maxH) || slots[0];
+      slot.orders += 1;
+      slot.revenue += amt;
+    });
+
+    return slots.map(({ label, orders, revenue, isPeak }) => ({ label, orders, revenue, isPeak }));
+  }, [completedOrders]);
 
   // Dish sales list
   const dishSales = useMemo(() => {
@@ -437,7 +465,7 @@ export const Reports: React.FC<ReportsProps> = ({ overview, orders }) => {
                   <span>GST & Tax Summary</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Your GSTIN: <span className="text-purple-300 font-mono font-bold">{restaurant?.gstin || '27AABCT3518Q1ZP'}</span> • Ready to share with your CA or accountant
+                  Your GSTIN: <span className="text-purple-300 font-mono font-bold">{restaurant?.gstin || 'Not Registered'}</span> • Ready to share with your CA or accountant
                 </p>
               </div>
               <div className="flex items-center space-x-2">

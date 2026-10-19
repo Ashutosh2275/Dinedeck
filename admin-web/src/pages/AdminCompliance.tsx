@@ -82,7 +82,7 @@ export const AdminCompliance: React.FC = () => {
             <span>Low Risk • 100% Verified</span>
           </div>
           <div className="text-xl font-black text-white">
-            {records.filter((r) => r.riskLevel === 'LOW').length || records.length} Merchants
+            {records.filter((r) => r.riskLevel === 'LOW').length} Merchants
           </div>
         </div>
 
@@ -123,28 +123,41 @@ export const AdminCompliance: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 text-slate-300">
-              {filteredRecords.map((rec) => (
-                <tr key={rec.id} className="hover:bg-slate-800/40 transition">
-                  <td className="px-5 py-4 font-bold text-white">
-                    {rec.restaurantName}
+              {filteredRecords.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                    <ShieldCheck className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-50" />
+                    <p className="font-semibold text-slate-400">No compliance records found</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      {searchQuery || filterRisk !== 'ALL'
+                        ? 'No merchant compliance records match the filter criteria.'
+                        : 'Merchant compliance and KYC verification records will appear here.'}
+                    </p>
                   </td>
-                  <td className="px-4 py-4 text-slate-400">{rec.city}</td>
-                  <td className="px-4 py-4 font-mono font-bold text-cyan-400">
-                    {rec.gstin || '27AABCP1234F1Z5'}
-                  </td>
-                  <td className="px-4 py-4 font-mono font-bold text-emerald-400">
-                    {rec.fssaiNumber || '11521019000342'}
-                  </td>
-                  <td className="px-4 py-4">
-                    <span
-                      className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase ${
-                        rec.riskLevel === 'LOW'
-                          ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                          : rec.riskLevel === 'MEDIUM'
-                          ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
-                          : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                      }`}
-                    >
+                </tr>
+              ) : (
+                filteredRecords.map((rec) => (
+                  <tr key={rec.id} className="hover:bg-slate-800/40 transition">
+                    <td className="px-5 py-4 font-bold text-white">
+                      {rec.restaurantName}
+                    </td>
+                    <td className="px-4 py-4 text-slate-400">{rec.city}</td>
+                    <td className="px-4 py-4 font-mono font-bold text-cyan-400">
+                      {rec.gstin || 'Not Provided'}
+                    </td>
+                    <td className="px-4 py-4 font-mono font-bold text-emerald-400">
+                      {rec.fssaiNumber || 'Not Provided'}
+                    </td>
+                    <td className="px-4 py-4">
+                      <span
+                        className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase ${
+                          rec.riskLevel === 'LOW'
+                            ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                            : rec.riskLevel === 'MEDIUM'
+                            ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                            : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                        }`}
+                      >
                       {rec.riskLevel || 'LOW'}
                     </span>
                   </td>
@@ -171,7 +184,7 @@ export const AdminCompliance: React.FC = () => {
                     </button>
                   </td>
                 </tr>
-              ))}
+              )))}
             </tbody>
           </table>
         </div>

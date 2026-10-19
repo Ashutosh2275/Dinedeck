@@ -89,62 +89,72 @@ export const TableManagement: React.FC<TableManagementProps> = ({ tables, onRefr
       </div>
 
       {/* Tables Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-        {tables.map((table) => {
-          const isOcc = table.isOccupied;
-          return (
-            <div
-              key={table.id}
-              onClick={() => setSelectedTable(table)}
-              className={`p-4 rounded-2xl border transition shadow-lg flex flex-col justify-between cursor-pointer group ${
-                isOcc
-                  ? 'bg-slate-900/90 border-rose-500/40 hover:border-rose-500'
-                  : 'bg-[#1E293B] border-slate-700/80 hover:border-emerald-500/50'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-black text-white">Table #{table.tableNumber}</span>
-                <span
-                  className={`w-2.5 h-2.5 rounded-full ${
-                    isOcc ? 'bg-rose-500 animate-pulse' : 'bg-emerald-500'
-                  }`}
-                />
-              </div>
-
-              <div className="my-3 space-y-1">
-                <div className="flex items-center space-x-1.5 text-xs text-slate-400">
-                  <Users className="w-3.5 h-3.5" />
-                  <span>{table.capacity || 4} Seats</span>
+      {tables.length === 0 ? (
+        <div className="p-12 text-center border border-dashed border-slate-800 rounded-2xl bg-slate-900/40">
+          <Grid className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+          <h3 className="text-sm font-bold text-slate-300">No Dining Tables Found</h3>
+          <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+            Add physical dining tables to manage floor capacity, seating occupancy, and generate table QR codes.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+          {tables.map((table) => {
+            const isOcc = table.isOccupied;
+            return (
+              <div
+                key={table.id}
+                onClick={() => setSelectedTable(table)}
+                className={`p-4 rounded-2xl border transition shadow-lg flex flex-col justify-between cursor-pointer group ${
+                  isOcc
+                    ? 'bg-slate-900/90 border-rose-500/40 hover:border-rose-500'
+                    : 'bg-[#1E293B] border-slate-700/80 hover:border-emerald-500/50'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-black text-white">Table #{table.tableNumber}</span>
+                  <span
+                    className={`w-2.5 h-2.5 rounded-full ${
+                      isOcc ? 'bg-rose-500 animate-pulse' : 'bg-emerald-500'
+                    }`}
+                  />
                 </div>
-                <div className="text-[11px] font-bold">
-                  {isOcc ? (
-                    <span className="text-rose-400">Diner Seated</span>
-                  ) : (
-                    <span className="text-emerald-400">Ready to Seat</span>
-                  )}
+
+                <div className="my-3 space-y-1">
+                  <div className="flex items-center space-x-1.5 text-xs text-slate-400">
+                    <Users className="w-3.5 h-3.5" />
+                    <span>{table.capacity || 4} Seats</span>
+                  </div>
+                  <div className="text-[11px] font-bold">
+                    {isOcc ? (
+                      <span className="text-rose-400">Diner Seated</span>
+                    ) : (
+                      <span className="text-emerald-400">Ready to Seat</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleToggleOccupancy(table);
+                    }}
+                    disabled={updatingId === table.id}
+                    className={`w-full py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${
+                      isOcc
+                        ? 'bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white'
+                        : 'bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500 hover:text-white'
+                    }`}
+                  >
+                    {isOcc ? 'Mark Vacant' : 'Mark Occupied'}
+                  </button>
                 </div>
               </div>
-
-              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleToggleOccupancy(table);
-                  }}
-                  disabled={updatingId === table.id}
-                  className={`w-full py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${
-                    isOcc
-                      ? 'bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white'
-                      : 'bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500 hover:text-white'
-                  }`}
-                >
-                  {isOcc ? 'Mark Vacant' : 'Mark Occupied'}
-                </button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Selected Table QR & Details Modal */}
       {selectedTable && (

@@ -54,9 +54,11 @@ export const CustomerHistory: React.FC = () => {
         list.push({
           id: ord.id,
           orderNumber: ord.orderNumber || `#ORD-${ord.id.slice(-4)}`,
-          restaurantName: ord.restaurant?.name || (ord as any).restaurantName || 'DineDeck Dining',
-          restaurantAddress: ord.restaurant?.fullAddress || 'Flagship Gourmet Location',
-          tableNumber: ord.tableNumber || '1',
+          restaurantName: ord.restaurant?.name || (ord as any).restaurantName || 'DineDeck Partner',
+          restaurantAddress: ord.restaurant?.fullAddress || (ord.restaurant as any)?.city || '',
+          tableNumber: ord.tableNumber || '',
+          gstin: (ord.restaurant as any)?.gstin,
+          fssai: (ord.restaurant as any)?.fssai,
           status: ord.status || 'COMPLETED',
           subtotal,
           taxTotal: (ord as any).taxTotal != null ? Number((ord as any).taxTotal) : subtotal * 0.05,
@@ -81,9 +83,11 @@ export const CustomerHistory: React.FC = () => {
         list.push({
           id: rc.receiptId,
           orderNumber: rc.orderNumber || `#ORD-${rc.receiptId.slice(-4)}`,
-          restaurantName: rc.restaurantName || 'DineDeck Dining',
-          restaurantAddress: rc.restaurantAddress || 'Flagship Gourmet Location',
-          tableNumber: rc.tableNumber || '1',
+          restaurantName: rc.restaurantName || 'DineDeck Partner',
+          restaurantAddress: rc.restaurantAddress || '',
+          tableNumber: rc.tableNumber || '',
+          gstin: (rc as any).gstin,
+          fssai: (rc as any).fssai,
           status: 'COMPLETED',
           subtotal: rc.subtotal,
           taxTotal: rc.taxTotal,
@@ -318,7 +322,7 @@ export const CustomerHistory: React.FC = () => {
                       <Calendar className="w-3 h-3 text-slate-500" />
                       <span>{new Date(ord.createdAt).toLocaleDateString()}</span>
                     </span>
-                    <span>• Table #{ord.tableNumber}</span>
+                    {ord.tableNumber ? <span>• Table #{ord.tableNumber}</span> : null}
                   </div>
                 </div>
 
@@ -378,12 +382,19 @@ export const CustomerHistory: React.FC = () => {
                 <div className="font-black text-sm uppercase tracking-wider text-black">
                   {selectedReceipt.restaurantName}
                 </div>
-                <div className="text-[10px] text-neutral-600">
-                  {selectedReceipt.restaurantAddress}
-                </div>
-                <div className="text-[9px] text-neutral-500">
-                  GSTIN: 27AABCD1234E1Z5 • FSSAI: 11521014000123
-                </div>
+                {selectedReceipt.restaurantAddress ? (
+                  <div className="text-[10px] text-neutral-600">
+                    {selectedReceipt.restaurantAddress}
+                  </div>
+                ) : null}
+                {(selectedReceipt.gstin || selectedReceipt.fssai) ? (
+                  <div className="text-[9px] text-neutral-500">
+                    {[
+                      selectedReceipt.gstin ? `GSTIN: ${selectedReceipt.gstin}` : null,
+                      selectedReceipt.fssai ? `FSSAI: ${selectedReceipt.fssai}` : null
+                    ].filter(Boolean).join(' • ')}
+                  </div>
+                ) : null}
               </div>
 
               <div className="py-2.5 border-b border-dashed border-neutral-400 text-[11px] space-y-1">
@@ -398,8 +409,10 @@ export const CustomerHistory: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-neutral-500">TABLE:</span>
-                  <span className="font-bold text-black">Table #{selectedReceipt.tableNumber}</span>
+                  <span className="text-neutral-500">SEATING:</span>
+                  <span className="font-bold text-black">
+                    {selectedReceipt.tableNumber ? `Table #${selectedReceipt.tableNumber}` : 'Takeaway / Quick Serve'}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-neutral-500">BILLED TO:</span>

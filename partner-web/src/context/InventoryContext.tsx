@@ -57,281 +57,9 @@ interface InventoryContextType {
   nearOutOfStockDishes: DishStockCapacity[];
 }
 
-const DEFAULT_RAW_ITEMS: RawStockItem[] = [
-  {
-    id: 'inv-1',
-    name: 'Fresh Malai Paneer (Vacuum Pack)',
-    category: 'Dairy & Cheese',
-    currentStock: 4.5, // 4.5 kg
-    unit: 'kg',
-    minimumThreshold: 8.0,
-    costPerUnit: 340.0,
-    supplier: 'Amul Dairy Distro (BKC)',
-    supplierContact: '+91 98200 11223',
-    storageLocation: 'Cold Storage / Walk-in',
-    lastRestocked: '2026-08-29',
-    priceTrend: 'STABLE'
-  },
-  {
-    id: 'inv-2',
-    name: 'Basmati Biryani Rice (Aged Daawat)',
-    category: 'Grains & Flour',
-    currentStock: 48.0,
-    unit: 'kg',
-    minimumThreshold: 25.0,
-    costPerUnit: 125.0,
-    supplier: 'Kohinoor & Daawat Agro',
-    supplierContact: '+91 98211 44556',
-    storageLocation: 'Dry Pantry Store Rack A1',
-    lastRestocked: '2026-08-25',
-    priceTrend: 'STABLE'
-  },
-  {
-    id: 'inv-3',
-    name: 'Desi Ghee (Pure Cow)',
-    category: 'Oils & Fats',
-    currentStock: 3.5,
-    unit: 'kg',
-    minimumThreshold: 8.0,
-    costPerUnit: 680.0,
-    supplier: 'Verka Heritage Distro',
-    supplierContact: '+91 98199 77889',
-    storageLocation: 'Dry Pantry Store Rack B2',
-    lastRestocked: '2026-08-20',
-    priceTrend: 'UP'
-  },
-  {
-    id: 'inv-4',
-    name: 'Fresh Heavy Cooking Cream (Amul 36%)',
-    category: 'Dairy & Cheese',
-    currentStock: 2.5,
-    unit: 'L',
-    minimumThreshold: 6.0,
-    costPerUnit: 220.0,
-    supplier: 'Amul Dairy Distro (BKC)',
-    supplierContact: '+91 98200 11223',
-    storageLocation: 'Cold Storage / Walk-in',
-    lastRestocked: '2026-08-28',
-    priceTrend: 'STABLE'
-  },
-  {
-    id: 'inv-5',
-    name: 'Kashmiri Red Chilli Powder (Stemless)',
-    category: 'Spices & Seasonings',
-    currentStock: 12.0,
-    unit: 'kg',
-    minimumThreshold: 4.0,
-    costPerUnit: 480.0,
-    supplier: 'MDH & Everest Spices Vashi',
-    supplierContact: '+91 98333 55667',
-    storageLocation: 'Spice Storage Room',
-    lastRestocked: '2026-08-18',
-    priceTrend: 'STABLE'
-  },
-  {
-    id: 'inv-6',
-    name: 'Fresh Boneless Chicken Breast',
-    category: 'Meat & Poultry',
-    currentStock: 5.5, // 5.5 kg
-    unit: 'kg',
-    minimumThreshold: 12.0,
-    costPerUnit: 280.0,
-    supplier: 'Zorabian Fresh Cuts',
-    supplierContact: '+91 98444 88990',
-    storageLocation: 'Deep Freezer Unit 1',
-    lastRestocked: '2026-08-30',
-    priceTrend: 'UP'
-  },
-  {
-    id: 'inv-7',
-    name: 'Red Onions (Nashik Quality)',
-    category: 'Vegetables & Produce',
-    currentStock: 65.0,
-    unit: 'kg',
-    minimumThreshold: 30.0,
-    costPerUnit: 35.0,
-    supplier: 'APMC Market Vashi Stall 42',
-    supplierContact: '+91 98777 22334',
-    storageLocation: 'Produce Storage Bin 1',
-    lastRestocked: '2026-08-29',
-    priceTrend: 'DOWN'
-  },
-  {
-    id: 'inv-8',
-    name: 'Amul Salted Table Butter Block',
-    category: 'Dairy & Cheese',
-    currentStock: 5.0,
-    unit: 'kg',
-    minimumThreshold: 10.0,
-    costPerUnit: 490.0,
-    supplier: 'Amul Dairy Distro (BKC)',
-    supplierContact: '+91 98200 11223',
-    storageLocation: 'Cold Storage / Walk-in',
-    lastRestocked: '2026-08-27',
-    priceTrend: 'STABLE'
-  },
-  {
-    id: 'inv-9',
-    name: 'Hybrid Salad Tomatoes (Firm Red)',
-    category: 'Vegetables & Produce',
-    currentStock: 18.0,
-    unit: 'kg',
-    minimumThreshold: 20.0,
-    costPerUnit: 42.0,
-    supplier: 'APMC Market Vashi Stall 42',
-    supplierContact: '+91 98777 22334',
-    storageLocation: 'Produce Storage Bin 2',
-    lastRestocked: '2026-08-29',
-    priceTrend: 'UP'
-  },
-  {
-    id: 'inv-10',
-    name: 'Whole Cashews (Kaju Tukda Premium)',
-    category: 'Spices & Seasonings',
-    currentStock: 8.0,
-    unit: 'kg',
-    minimumThreshold: 5.0,
-    costPerUnit: 780.0,
-    supplier: 'MDH & Everest Spices Vashi',
-    supplierContact: '+91 98333 55667',
-    storageLocation: 'Spice Storage Room',
-    lastRestocked: '2026-08-22',
-    priceTrend: 'STABLE'
-  },
-  {
-    id: 'inv-11',
-    name: 'Fresh Mutton Curry Cut (Tender Goat)',
-    category: 'Meat & Poultry',
-    currentStock: 3.5,
-    unit: 'kg',
-    minimumThreshold: 10.0,
-    costPerUnit: 720.0,
-    supplier: 'Zorabian Fresh Cuts',
-    supplierContact: '+91 98444 88990',
-    storageLocation: 'Deep Freezer Unit 2',
-    lastRestocked: '2026-08-29',
-    priceTrend: 'STABLE'
-  },
-  {
-    id: 'inv-12',
-    name: 'Takeaway Meal Boxes & Handi Tins (750ml)',
-    category: 'Packaging & Disposables',
-    currentStock: 180.0,
-    unit: 'pcs',
-    minimumThreshold: 50.0,
-    costPerUnit: 14.0,
-    supplier: 'PackPro Solutions Mumbai',
-    supplierContact: '+91 98111 66778',
-    storageLocation: 'Packaging Storage Rack P1',
-    lastRestocked: '2026-08-22',
-    priceTrend: 'STABLE'
-  }
-];
+const DEFAULT_RAW_ITEMS: RawStockItem[] = [];
 
-const DEFAULT_RECIPES: DishRecipeBOM[] = [
-  {
-    dishId: 'dish-1',
-    dishName: 'Paneer Butter Masala',
-    category: 'Main Course',
-    portionCost: 110.0,
-    ingredients: [
-      { rawItemId: 'inv-1', rawItemName: 'Fresh Malai Paneer', qtyPerPortion: 0.20, unit: 'kg' }, // 200g
-      { rawItemId: 'inv-9', rawItemName: 'Hybrid Tomatoes', qtyPerPortion: 0.15, unit: 'kg' },
-      { rawItemId: 'inv-8', rawItemName: 'Amul Table Butter', qtyPerPortion: 0.03, unit: 'kg' },
-      { rawItemId: 'inv-4', rawItemName: 'Fresh Cream', qtyPerPortion: 0.02, unit: 'L' }
-    ]
-  },
-  {
-    dishId: 'dish-2',
-    dishName: 'Amritsari Paneer Tikka',
-    category: 'Starters',
-    portionCost: 120.0,
-    ingredients: [
-      { rawItemId: 'inv-1', rawItemName: 'Fresh Malai Paneer', qtyPerPortion: 0.25, unit: 'kg' }, // 250g
-      { rawItemId: 'inv-7', rawItemName: 'Red Onions', qtyPerPortion: 0.10, unit: 'kg' },
-      { rawItemId: 'inv-8', rawItemName: 'Amul Table Butter', qtyPerPortion: 0.02, unit: 'kg' }
-    ]
-  },
-  {
-    dishId: 'dish-3',
-    dishName: 'Kadhai Paneer',
-    category: 'Main Course',
-    portionCost: 105.0,
-    ingredients: [
-      { rawItemId: 'inv-1', rawItemName: 'Fresh Malai Paneer', qtyPerPortion: 0.20, unit: 'kg' },
-      { rawItemId: 'inv-7', rawItemName: 'Red Onions', qtyPerPortion: 0.12, unit: 'kg' },
-      { rawItemId: 'inv-9', rawItemName: 'Hybrid Tomatoes', qtyPerPortion: 0.10, unit: 'kg' },
-      { rawItemId: 'inv-3', rawItemName: 'Desi Ghee', qtyPerPortion: 0.02, unit: 'kg' }
-    ]
-  },
-  {
-    dishId: 'dish-4',
-    dishName: 'Murgh Makhani (Butter Chicken)',
-    category: 'Main Course',
-    portionCost: 135.0,
-    ingredients: [
-      { rawItemId: 'inv-6', rawItemName: 'Fresh Chicken Breast', qtyPerPortion: 0.25, unit: 'kg' }, // 250g
-      { rawItemId: 'inv-9', rawItemName: 'Hybrid Tomatoes', qtyPerPortion: 0.15, unit: 'kg' },
-      { rawItemId: 'inv-8', rawItemName: 'Amul Table Butter', qtyPerPortion: 0.035, unit: 'kg' },
-      { rawItemId: 'inv-4', rawItemName: 'Fresh Cream', qtyPerPortion: 0.025, unit: 'L' },
-      { rawItemId: 'inv-10', rawItemName: 'Whole Cashews', qtyPerPortion: 0.015, unit: 'kg' }
-    ]
-  },
-  {
-    dishId: 'dish-5',
-    dishName: 'Tandoori Chicken Tikka',
-    category: 'Starters',
-    portionCost: 125.0,
-    ingredients: [
-      { rawItemId: 'inv-6', rawItemName: 'Fresh Chicken Breast', qtyPerPortion: 0.25, unit: 'kg' },
-      { rawItemId: 'inv-7', rawItemName: 'Red Onions', qtyPerPortion: 0.08, unit: 'kg' },
-      { rawItemId: 'inv-8', rawItemName: 'Amul Table Butter', qtyPerPortion: 0.02, unit: 'kg' }
-    ]
-  },
-  {
-    dishId: 'dish-6',
-    dishName: 'Hyderabadi Chicken Dum Biryani',
-    category: 'Rice & Biryani',
-    portionCost: 140.0,
-    ingredients: [
-      { rawItemId: 'inv-2', rawItemName: 'Basmati Biryani Rice', qtyPerPortion: 0.20, unit: 'kg' },
-      { rawItemId: 'inv-6', rawItemName: 'Fresh Chicken Breast', qtyPerPortion: 0.22, unit: 'kg' },
-      { rawItemId: 'inv-3', rawItemName: 'Desi Ghee', qtyPerPortion: 0.025, unit: 'kg' },
-      { rawItemId: 'inv-7', rawItemName: 'Red Onions', qtyPerPortion: 0.15, unit: 'kg' }
-    ]
-  },
-  {
-    dishId: 'dish-7',
-    dishName: 'Dal Makhani',
-    category: 'Main Course',
-    portionCost: 55.0,
-    ingredients: [
-      { rawItemId: 'inv-8', rawItemName: 'Amul Table Butter', qtyPerPortion: 0.04, unit: 'kg' },
-      { rawItemId: 'inv-4', rawItemName: 'Fresh Cream', qtyPerPortion: 0.03, unit: 'L' },
-      { rawItemId: 'inv-9', rawItemName: 'Hybrid Tomatoes', qtyPerPortion: 0.08, unit: 'kg' }
-    ]
-  },
-  {
-    dishId: 'dish-8',
-    dishName: 'Butter Garlic Naan',
-    category: 'Tandoori Breads',
-    portionCost: 20.0,
-    ingredients: [
-      { rawItemId: 'inv-8', rawItemName: 'Amul Table Butter', qtyPerPortion: 0.02, unit: 'kg' }
-    ]
-  },
-  {
-    dishId: 'dish-9',
-    dishName: 'Mutton Rogan Josh',
-    category: 'Main Course',
-    portionCost: 195.0,
-    ingredients: [
-      { rawItemId: 'inv-11', rawItemName: 'Fresh Mutton Curry Cut', qtyPerPortion: 0.25, unit: 'kg' },
-      { rawItemId: 'inv-7', rawItemName: 'Red Onions', qtyPerPortion: 0.15, unit: 'kg' },
-      { rawItemId: 'inv-3', rawItemName: 'Desi Ghee', qtyPerPortion: 0.03, unit: 'kg' }
-    ]
-  }
-];
+const DEFAULT_RECIPES: DishRecipeBOM[] = [];
 
 const InventoryContext = createContext<InventoryContextType | null>(null);
 
@@ -345,7 +73,14 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   });
 
-  const [recipes] = useState<DishRecipeBOM[]>(DEFAULT_RECIPES);
+  const [recipes] = useState<DishRecipeBOM[]>(() => {
+    try {
+      const saved = localStorage.getItem('dinedeck_dish_recipes');
+      return saved ? JSON.parse(saved) : DEFAULT_RECIPES;
+    } catch {
+      return DEFAULT_RECIPES;
+    }
+  });
 
   // Sync to local storage
   useEffect(() => {
@@ -387,7 +122,7 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         }
       });
 
-      const finalPortions = minPortions === Infinity ? 50 : Math.max(0, minPortions);
+      const finalPortions = minPortions === Infinity ? 0 : Math.max(0, minPortions);
       const limitingObj: any = limiting;
       const limitingName = limitingObj?.name || 'ingredient';
       const limitingStock = limitingObj?.currentStock != null ? limitingObj.currentStock.toFixed(1) : '0.0';
@@ -435,10 +170,10 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return {
       dishName,
       category: 'General',
-      portionsLeft: 25,
-      status: 'ABUNDANT',
-      badgeColor: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-      recommendationMessage: 'Sufficient ingredients available.'
+      portionsLeft: 0,
+      status: 'OUT_OF_STOCK',
+      badgeColor: 'bg-slate-800 text-slate-400 border-slate-700',
+      recommendationMessage: 'No BOM recipe or stock capacity configured for this dish.'
     };
   }, [capacities]);
 

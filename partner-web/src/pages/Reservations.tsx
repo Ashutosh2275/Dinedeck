@@ -20,40 +20,20 @@ export const Reservations: React.FC<ReservationsProps> = ({ tables }) => {
   const [guestPhone, setGuestPhone] = useState('');
   const [partySize, setPartySize] = useState('4');
   const [reservedTime, setReservedTime] = useState('20:30');
-  const [selectedTable, setSelectedTable] = useState('12');
+  const [selectedTable, setSelectedTable] = useState(tables[0]?.tableNumber || '1');
 
-  const [reservations, setReservations] = useState([
-    {
-      id: 'res-101',
-      guestName: 'Kapil Dev & Party',
-      phone: '+919811223344',
-      partySize: 4,
-      tableNumber: '12',
-      time: '20:00 PM',
-      status: 'CONFIRMED',
-      specialRequests: 'Window booth requested'
-    },
-    {
-      id: 'res-102',
-      guestName: 'Dr. Ananya Roy',
-      phone: '+919822334455',
-      partySize: 2,
-      tableNumber: '4',
-      time: '20:30 PM',
-      status: 'CONFIRMED',
-      specialRequests: 'Anniversary celebration'
-    },
-    {
-      id: 'res-103',
-      guestName: 'Vikram Malhotra',
-      phone: '+919833445566',
-      partySize: 6,
-      tableNumber: '9',
-      time: '21:00 PM',
-      status: 'WAITLIST',
-      specialRequests: 'High chair for toddler'
-    }
-  ]);
+  interface ReservationItem {
+    id: string;
+    guestName: string;
+    phone: string;
+    partySize: number;
+    tableNumber: string;
+    time: string;
+    status: 'CONFIRMED' | 'WAITLIST' | 'SEATED';
+    specialRequests: string;
+  }
+
+  const [reservations, setReservations] = useState<ReservationItem[]>([]);
 
   const handleAddReservation = (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,62 +113,78 @@ export const Reservations: React.FC<ReservationsProps> = ({ tables }) => {
       </div>
 
       {/* Bookings List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {filtered.map((res) => (
-          <div
-            key={res.id}
-            className="bg-[#1E293B] border border-slate-700/80 rounded-2xl p-5 shadow-lg flex flex-col justify-between space-y-4"
-          >
-            <div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <span className="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs">
-                    Table #{res.tableNumber}
+      {filtered.length === 0 ? (
+        <div className="p-12 text-center bg-[#1E293B] border border-slate-700/80 rounded-2xl text-slate-400">
+          <CalendarDays className="w-8 h-8 mx-auto mb-2 opacity-50 text-slate-500" />
+          <p className="font-semibold text-slate-300">
+            {activeTab === 'UPCOMING'
+              ? 'No upcoming reservations scheduled'
+              : activeTab === 'WAITLIST'
+              ? 'No guests currently on the waitlist'
+              : 'No parties currently seated'}
+          </p>
+          <p className="text-[11px] text-slate-500 mt-0.5">
+            Tap "New Reservation" to record a table booking or waitlist party.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {filtered.map((res) => (
+            <div
+              key={res.id}
+              className="bg-[#1E293B] border border-slate-700/80 rounded-2xl p-5 shadow-lg flex flex-col justify-between space-y-4"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <span className="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs">
+                      Table #{res.tableNumber}
+                    </span>
+                    <span className="font-bold text-sm text-white">{res.guestName}</span>
+                  </div>
+                  <span
+                    className={`text-[10px] font-extrabold px-2 py-0.5 rounded ${
+                      res.status === 'CONFIRMED'
+                        ? 'bg-emerald-500/20 text-emerald-400'
+                        : res.status === 'WAITLIST'
+                        ? 'bg-amber-500/20 text-amber-400'
+                        : 'bg-purple-500/20 text-purple-400'
+                    }`}
+                  >
+                    {res.status}
                   </span>
-                  <span className="font-bold text-sm text-white">{res.guestName}</span>
                 </div>
-                <span
-                  className={`text-[10px] font-extrabold px-2 py-0.5 rounded ${
-                    res.status === 'CONFIRMED'
-                      ? 'bg-emerald-500/20 text-emerald-400'
-                      : res.status === 'WAITLIST'
-                      ? 'bg-amber-500/20 text-amber-400'
-                      : 'bg-purple-500/20 text-purple-400'
-                  }`}
-                >
-                  {res.status}
-                </span>
+
+                <div className="mt-3 space-y-1.5 text-xs text-slate-300">
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-3.5 h-3.5 text-slate-400" />
+                    <span>Party of {res.partySize} Guests</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="w-3.5 h-3.5 text-slate-400" />
+                    <span>Reserved for {res.time}</span>
+                  </div>
+                  <div className="text-[11px] text-slate-400 italic">
+                    Note: {res.specialRequests}
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-3 space-y-1.5 text-xs text-slate-300">
-                <div className="flex items-center space-x-2">
-                  <Users className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Party of {res.partySize} Guests</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Reserved for {res.time}</span>
-                </div>
-                <div className="text-[11px] text-slate-400 italic">
-                  Note: {res.specialRequests}
-                </div>
+              <div className="pt-3 border-t border-slate-700/60 flex items-center justify-end space-x-2">
+                {res.status !== 'SEATED' && (
+                  <button
+                    onClick={() => handleSeatParty(res.id)}
+                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition flex items-center space-x-1"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Seat Guests</span>
+                  </button>
+                )}
               </div>
             </div>
-
-            <div className="pt-3 border-t border-slate-700/60 flex items-center justify-end space-x-2">
-              {res.status !== 'SEATED' && (
-                <button
-                  onClick={() => handleSeatParty(res.id)}
-                  className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition flex items-center space-x-1"
-                >
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Seat Guests</span>
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Modal */}
       {showModal && (

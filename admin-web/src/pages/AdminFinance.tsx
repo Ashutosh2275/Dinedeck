@@ -58,7 +58,7 @@ export const AdminFinance: React.FC = () => {
 
   const totalGrossSettled = bills
     .filter((b) => b.paymentStatus === 'PAID')
-    .reduce((sum, b) => sum + b.grandTotal, 0) || 1382.0;
+    .reduce((sum, b) => sum + b.grandTotal, 0);
 
   const totalCommissionEarned = Math.round(totalGrossSettled * 0.15 * 100) / 100;
   const netPayable = totalGrossSettled - totalCommissionEarned;
@@ -149,49 +149,68 @@ export const AdminFinance: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800 text-slate-300">
-                <tr className="hover:bg-slate-800/40 transition">
-                  <td className="px-5 py-4 font-bold text-white">
-                    The Punjab Heritage Kitchen
-                    <div className="text-[10px] text-slate-500">Bandra West Flagship</div>
-                  </td>
-                  <td className="px-4 py-4 font-mono font-bold text-white">₹1,382.00</td>
-                  <td className="px-4 py-4 font-mono text-cyan-400 font-bold">-₹207.30</td>
-                  <td className="px-4 py-4 font-mono text-purple-400">₹62.80</td>
-                  <td className="px-4 py-4 font-mono font-black text-emerald-400">₹1,174.70</td>
-                  <td className="px-4 py-4">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                      READY_TO_SETTLE
-                    </span>
-                  </td>
-                  <td className="px-5 py-4 text-right">
-                    <button
-                      onClick={() => handleProcessPayout('stl_punjab_1')}
-                      disabled={processingId === 'stl_punjab_1'}
-                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition shadow-md disabled:opacity-50"
-                    >
-                      {processingId === 'stl_punjab_1' ? 'Processing...' : 'Disburse Payout'}
-                    </button>
-                  </td>
-                </tr>
-
-                <tr className="hover:bg-slate-800/40 transition">
-                  <td className="px-5 py-4 font-bold text-white">
-                    Grand Peshawari Grill
-                    <div className="text-[10px] text-slate-500">Connaught Place</div>
-                  </td>
-                  <td className="px-4 py-4 font-mono font-bold text-white">₹0.00</td>
-                  <td className="px-4 py-4 font-mono text-cyan-400 font-bold">₹0.00</td>
-                  <td className="px-4 py-4 font-mono text-purple-400">₹0.00</td>
-                  <td className="px-4 py-4 font-mono font-black text-slate-400">₹0.00</td>
-                  <td className="px-4 py-4">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
-                      NO_SETTLEMENT_DUE
-                    </span>
-                  </td>
-                  <td className="px-5 py-4 text-right text-slate-500 text-[10px]">
-                    Cycle Closed
-                  </td>
-                </tr>
+                {settlements.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                      <Receipt className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-50" />
+                      <p className="font-semibold text-slate-400">No settlement cycles recorded</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Merchant settlements will appear here as orders complete and payment cycles close.
+                      </p>
+                    </td>
+                  </tr>
+                ) : (
+                  settlements.map((s) => (
+                    <tr key={s.id} className="hover:bg-slate-800/40 transition">
+                      <td className="px-5 py-4 font-bold text-white">
+                        {s.restaurant?.name || 'Partner Merchant'}
+                        <div className="text-[10px] text-slate-500">
+                          {s.settlementNumber || s.id} {s.restaurant?.city ? `• ${s.restaurant.city}` : ''}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 font-mono font-bold text-white">
+                        ₹{Number(s.grossOrderValue || 0).toFixed(2)}
+                      </td>
+                      <td className="px-4 py-4 font-mono text-cyan-400 font-bold">
+                        -₹{Number(s.dinedeckCommission || 0).toFixed(2)}
+                      </td>
+                      <td className="px-4 py-4 font-mono text-purple-400">
+                        ₹{Number(s.taxCollected || 0).toFixed(2)}
+                      </td>
+                      <td className="px-4 py-4 font-mono font-black text-emerald-400">
+                        ₹{Number(s.netPayable || 0).toFixed(2)}
+                      </td>
+                      <td className="px-4 py-4">
+                        <span
+                          className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                            s.status === 'SETTLED'
+                              ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                              : s.status === 'PROCESSING'
+                              ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
+                              : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                          }`}
+                        >
+                          {s.status}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 text-right">
+                        {s.status === 'PENDING' ? (
+                          <button
+                            onClick={() => handleProcessPayout(s.id)}
+                            disabled={processingId === s.id}
+                            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition shadow-md disabled:opacity-50"
+                          >
+                            {processingId === s.id ? 'Processing...' : 'Disburse Payout'}
+                          </button>
+                        ) : (
+                          <span className="text-slate-500 text-[10px]">
+                            {s.status === 'SETTLED' ? 'Settled' : 'In Progress'}
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -215,32 +234,46 @@ export const AdminFinance: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800 text-slate-300">
-                {bills.map((b) => (
-                  <tr key={b.id} className="hover:bg-slate-800/40 transition">
-                    <td className="px-5 py-4 font-mono font-bold text-white">
-                      {b.billNumber || 'INV-2026-39414'}
-                    </td>
-                    <td className="px-4 py-4 font-bold text-white">
-                      {b.restaurant?.name || 'The Punjab Heritage Kitchen'}
-                      <div className="text-[10px] text-cyan-400 font-normal">Table #{b.tableNumber || '12'}</div>
-                    </td>
-                    <td className="px-4 py-4 font-mono">₹{b.subtotal.toFixed(2)}</td>
-                    <td className="px-4 py-4 font-mono text-purple-400">
-                      ₹{(b.cgstAmount + b.sgstAmount + b.serviceCharge).toFixed(2)}
-                    </td>
-                    <td className="px-4 py-4 font-mono font-black text-emerald-400">
-                      ₹{b.grandTotal.toFixed(2)}
-                    </td>
-                    <td className="px-4 py-4">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                        {b.paymentStatus}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4 text-right text-[10px] text-slate-500">
-                      {new Date(b.createdAt).toLocaleDateString()}
+                {bills.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                      <Receipt className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-50" />
+                      <p className="font-semibold text-slate-400">No invoices generated yet</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Invoices generated for dine-in and online orders will appear here automatically.
+                      </p>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  bills.map((b) => (
+                    <tr key={b.id} className="hover:bg-slate-800/40 transition">
+                      <td className="px-5 py-4 font-mono font-bold text-white">
+                        {b.billNumber || b.id}
+                      </td>
+                      <td className="px-4 py-4 font-bold text-white">
+                        {b.restaurant?.name || 'Restaurant'}
+                        <div className="text-[10px] text-cyan-400 font-normal">
+                          {b.tableNumber ? `Table #${b.tableNumber}` : 'Direct Order'}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 font-mono">₹{Number(b.subtotal || 0).toFixed(2)}</td>
+                      <td className="px-4 py-4 font-mono text-purple-400">
+                        ₹{(Number(b.cgstAmount || 0) + Number(b.sgstAmount || 0) + Number(b.serviceCharge || 0)).toFixed(2)}
+                      </td>
+                      <td className="px-4 py-4 font-mono font-black text-emerald-400">
+                        ₹{Number(b.grandTotal || 0).toFixed(2)}
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                          {b.paymentStatus}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 text-right text-[10px] text-slate-500">
+                        {b.createdAt ? new Date(b.createdAt).toLocaleDateString() : 'N/A'}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -262,24 +295,50 @@ export const AdminFinance: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800 text-slate-300">
-                <tr className="hover:bg-slate-800/40 transition">
-                  <td className="px-5 py-4 font-mono font-bold text-white">
-                    TXN_IND_1787678239547_1402
-                  </td>
-                  <td className="px-4 py-4 font-bold text-white flex items-center gap-1.5">
-                    <span className="px-2 py-0.5 rounded bg-orange-500/20 text-orange-400 text-[10px] font-black">UPI</span>
-                    <span>Direct Intent QR</span>
-                  </td>
-                  <td className="px-4 py-4 font-mono font-bold text-emerald-400">₹1,382.00</td>
-                  <td className="px-4 py-4">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                      PAID_SETTLED
-                    </span>
-                  </td>
-                  <td className="px-5 py-4 text-right text-[10px] text-slate-500">
-                    Just Now
-                  </td>
-                </tr>
+                {payments.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                      <CreditCard className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-50" />
+                      <p className="font-semibold text-slate-400">No gateway transactions recorded</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Payments processed via UPI, Cards, or Netbanking will appear here in real-time.
+                      </p>
+                    </td>
+                  </tr>
+                ) : (
+                  payments.map((p) => (
+                    <tr key={p.id} className="hover:bg-slate-800/40 transition">
+                      <td className="px-5 py-4 font-mono font-bold text-white">
+                        {p.transactionRef || p.id}
+                        {p.bill?.restaurant?.name && (
+                          <div className="text-[10px] text-slate-500 font-normal">{p.bill.restaurant.name}</div>
+                        )}
+                      </td>
+                      <td className="px-4 py-4 font-bold text-white flex items-center gap-1.5">
+                        <span className="px-2 py-0.5 rounded bg-orange-500/20 text-orange-400 text-[10px] font-black uppercase">
+                          {p.method || 'GATEWAY'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 font-mono font-bold text-emerald-400">
+                        ₹{Number(p.amount || 0).toFixed(2)}
+                      </td>
+                      <td className="px-4 py-4">
+                        <span
+                          className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                            p.status === 'PAID'
+                              ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                              : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                          }`}
+                        >
+                          {p.status}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 text-right text-[10px] text-slate-500">
+                        {p.createdAt ? new Date(p.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

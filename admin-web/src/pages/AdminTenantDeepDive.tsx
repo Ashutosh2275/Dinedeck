@@ -2,275 +2,51 @@ import React, { useState, useEffect } from 'react';
 import { adminApi } from '../services/api';
 import {
   Building2,
+  ChevronDown,
   Activity,
-  ShoppingBag,
   Receipt,
   UtensilsCrossed,
+  Clock,
   Users,
-  Package,
-  BarChart3,
   Settings,
+  Plus,
+  Edit2,
   CheckCircle2,
   XCircle,
   AlertTriangle,
-  Clock,
-  DollarSign,
-  ShieldCheck,
-  Search,
-  RefreshCw,
-  Sliders,
-  ChevronDown,
-  Printer,
-  FileCheck,
-  Edit2,
-  ToggleLeft,
-  ToggleRight,
-  Plus,
-  Trash2,
   X,
   Phone,
   MapPin,
   Flame,
-  Check
+  Check,
+  ShoppingBag
 } from 'lucide-react';
 
 type TenantSubTab =
   | 'HOME'
   | 'KDS'
-  | 'BILLING'
   | 'MENU'
-  | 'STAFF'
+  | 'BILLING'
   | 'TABLES'
-  | 'REPORTS'
+  | 'STAFF'
   | 'SETTINGS';
 
-export const CANONICAL_RESTAURANTS = [
-  {
-    id: 'rest_punjab_heritage',
-    name: 'The Punjab Heritage Kitchen',
-    slug: 'punjab-heritage-mumbai',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    cuisineType: 'North Indian, Mughlai, Tandoor',
-    rating: 4.9,
-    costForTwo: 950,
-    fullAddress: 'Plot 42, Bandra Kurla Complex, Bandra West, Mumbai, Maharashtra 400050',
-    phone: '+912226501234',
-    gstin: '27AAAAA0000A1Z5',
-    fssaiNumber: '11521000001234',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 5.0,
-    status: 'ACTIVE'
-  },
-  {
-    id: 'rest_dakshin_bistro',
-    name: 'Dakshin Coastal Bistro & Tiffin',
-    slug: 'dakshin-coastal-bengaluru',
-    city: 'Bengaluru',
-    state: 'Karnataka',
-    cuisineType: 'South Indian, Chettinad, Coastal Seafood',
-    rating: 4.8,
-    costForTwo: 850,
-    fullAddress: '88, 100 Feet Road, Indiranagar, Bengaluru, Karnataka 560038',
-    phone: '+918041234567',
-    gstin: '29BBBBB1111B2Z6',
-    fssaiNumber: '11222000005678',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 5.0,
-    status: 'ACTIVE'
-  },
-  {
-    id: 'rest_dum_pukht_biryani',
-    name: 'Dum Pukht Royal Biryani House',
-    slug: 'dum-pukht-hyderabad',
-    city: 'Hyderabad',
-    state: 'Telangana',
-    cuisineType: 'Hyderabadi, Biryani, Mughlai',
-    rating: 4.9,
-    costForTwo: 900,
-    fullAddress: 'Road No. 36, Jubilee Hills, Hyderabad, Telangana 500033',
-    phone: '+914023556789',
-    gstin: '36CCCCC2222C3Z7',
-    fssaiNumber: '13623000009999',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 5.0,
-    status: 'ACTIVE'
-  },
-  {
-    id: 'rest_thali_royal',
-    name: 'Thali of Rajasthan & Gujarat',
-    slug: 'thali-royal-heritage-jaipur',
-    city: 'Jaipur',
-    state: 'Rajasthan',
-    cuisineType: 'Rajasthani, Gujarati, Royal Thali',
-    rating: 4.8,
-    costForTwo: 750,
-    fullAddress: 'MI Road, Near Panch Batti, Jaipur, Rajasthan 302001',
-    phone: '+911412378901',
-    gstin: '08DDDDD3333D4Z8',
-    fssaiNumber: '10821000007777',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 0.0,
-    status: 'ACTIVE'
-  },
-  {
-    id: 'rest_peshawari_grill',
-    name: 'Peshawari Charcoal Grill',
-    slug: 'peshawari-grill-delhi',
-    city: 'Delhi NCR',
-    state: 'Delhi',
-    cuisineType: 'North Indian, Afghan, Charcoal Kebabs',
-    rating: 4.9,
-    costForTwo: 1100,
-    fullAddress: 'Connaught Place, Outer Circle, New Delhi 110001',
-    phone: '+911123345678',
-    gstin: '07EEEEE4444E5Z9',
-    fssaiNumber: '10722000003333',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 5.0,
-    status: 'ACTIVE'
-  },
-  {
-    id: 'rest_bengal_sweet_club',
-    name: 'Bengal Spice & Sweet Club',
-    slug: 'bengal-sweet-club-kolkata',
-    city: 'Kolkata',
-    state: 'West Bengal',
-    cuisineType: 'Bengali, Kosha Mangsho, Mishti',
-    rating: 4.7,
-    costForTwo: 700,
-    fullAddress: 'Park Street, Kolkata, West Bengal 700016',
-    phone: '+913322498765',
-    gstin: '19FFFFF5555F6Z0',
-    fssaiNumber: '11923000001111',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 5.0,
-    status: 'ACTIVE'
-  },
-  {
-    id: 'rest_chettinad_court',
-    name: 'Chettinad Spice Court',
-    slug: 'chettinad-court-chennai',
-    city: 'Chennai',
-    state: 'Tamil Nadu',
-    cuisineType: 'Chettinad, South Indian Spices',
-    rating: 4.8,
-    costForTwo: 800,
-    fullAddress: 'Anna Nagar 2nd Avenue, Chennai, Tamil Nadu 600040',
-    phone: '+914426214321',
-    gstin: '33GGGGG6666G7Z1',
-    fssaiNumber: '13322000004444',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 5.0,
-    status: 'ACTIVE'
-  },
-  {
-    id: 'rest_goan_coastal_shack',
-    name: "Fisherman's Wharf & Goan Shack",
-    slug: 'goan-coastal-shack-goa',
-    city: 'Goa',
-    state: 'Goa',
-    cuisineType: 'Goan, Seafood, Balchão, Vindaloo',
-    rating: 4.8,
-    costForTwo: 1200,
-    fullAddress: 'Cavelossim Beach Road, Salcete, South Goa 403731',
-    phone: '+918322871234',
-    gstin: '30HHHHH7777H8Z2',
-    fssaiNumber: '13021000008888',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 5.0,
-    status: 'ACTIVE'
-  },
-  {
-    id: 'rest_awadhi_dastarkhwan',
-    name: 'Awadhi Dastarkhwan',
-    slug: 'awadhi-dastarkhwan-lucknow',
-    city: 'Lucknow',
-    state: 'Uttar Pradesh',
-    cuisineType: 'Awadhi, Galouti, Sheermal, Nawabi',
-    rating: 4.9,
-    costForTwo: 850,
-    fullAddress: 'Hazratganj, Lucknow, Uttar Pradesh 226001',
-    phone: '+915222234567',
-    gstin: '09IIIII8888I9Z3',
-    fssaiNumber: '10923000002222',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 5.0,
-    status: 'ACTIVE'
-  },
-  {
-    id: 'rest_malabar_express',
-    name: 'Malabar Express Kitchen',
-    slug: 'malabar-express-kochi',
-    city: 'Kochi',
-    state: 'Kerala',
-    cuisineType: 'Kerala, Malabar Parotta, Roast',
-    rating: 4.8,
-    costForTwo: 700,
-    fullAddress: 'Marine Drive, Ernakulam, Kochi, Kerala 682031',
-    phone: '+914842367890',
-    gstin: '32JJJJJ9999J0Z4',
-    fssaiNumber: '13222000006666',
-    commissionRatePercent: 15.0,
-    cgstRatePercent: 2.5,
-    sgstRatePercent: 2.5,
-    serviceChargePercent: 5.0,
-    status: 'ACTIVE'
-  }
-];
-
 export const AdminTenantDeepDive: React.FC = () => {
-  const [restaurants, setRestaurants] = useState<any[]>(CANONICAL_RESTAURANTS);
-  const [selectedRestId, setSelectedRestId] = useState<string>('rest_punjab_heritage');
+  const [restaurants, setRestaurants] = useState<any[]>([]);
+  const [selectedRestId, setSelectedRestId] = useState<string>('');
   const [activeTab, setActiveTab] = useState<TenantSubTab>('HOME');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [notificationMsg, setNotificationMsg] = useState<string>('');
 
   // Selected restaurant state
-  const [currentRestaurant, setCurrentRestaurant] = useState<any>(CANONICAL_RESTAURANTS[0]);
+  const [currentRestaurant, setCurrentRestaurant] = useState<any>(null);
 
   // Operational states for deep dive
-  const [menuItems, setMenuItems] = useState<any[]>([
-    { id: 'm1', name: 'Angaari Paneer Tikka', category: 'Starters', price: 340, isAvailable: true, isVeg: true },
-    { id: 'm2', name: 'Bhatinda Murgh Malai Tikka', category: 'Starters', price: 420, isAvailable: true, isVeg: false },
-    { id: 'm3', name: 'Grand Old Delhi Butter Chicken', category: 'Main Course', price: 490, isAvailable: true, isVeg: false },
-    { id: 'm4', name: 'Signature Dal Makhani 1947', category: 'Main Course', price: 360, isAvailable: true, isVeg: true },
-    { id: 'm5', name: 'Amritsari Kulcha Platter', category: 'Breads & Accompaniments', price: 220, isAvailable: false, isVeg: true },
-    { id: 'm6', name: 'Royal Awadhi Handi Biryani', category: 'Biryanis', price: 450, isAvailable: true, isVeg: false }
-  ]);
-
-  const [kdsTickets, setKdsTickets] = useState<any[]>([
-    { id: 'KOT-1041', table: 'Table #4', time: '3 mins ago', status: 'PREPARING', station: 'Tandoor', items: ['2x Angaari Paneer Tikka', '1x Murgh Malai Tikka'] },
-    { id: 'KOT-1042', table: 'Table #8', time: '6 mins ago', status: 'PLACED', station: 'Curry / Mains', items: ['1x Butter Chicken', '2x Garlic Naan'] },
-    { id: 'KOT-1043', table: 'Table #2', time: '11 mins ago', status: 'READY', station: 'Tandoor', items: ['1x Dal Makhani', '2x Kulcha'] }
-  ]);
-
-  const [tables, setTables] = useState<any[]>([
-    { id: 't1', number: 'Table 1', capacity: 2, status: 'VACANT', qrCode: 'QR_PUNJAB_T1' },
-    { id: 't2', number: 'Table 2', capacity: 4, status: 'OCCUPIED', qrCode: 'QR_PUNJAB_T2' },
-    { id: 't3', number: 'Table 3', capacity: 4, status: 'VACANT', qrCode: 'QR_PUNJAB_T3' },
-    { id: 't4', number: 'Table 4', capacity: 6, status: 'OCCUPIED', qrCode: 'QR_PUNJAB_T4' },
-    { id: 't5', number: 'Table 5', capacity: 4, status: 'OCCUPIED', qrCode: 'QR_PUNJAB_T5' },
-    { id: 't6', number: 'Table 6', capacity: 2, status: 'VACANT', qrCode: 'QR_PUNJAB_T6' }
-  ]);
+  const [menuItems, setMenuItems] = useState<any[]>([]);
+  const [kdsTickets, setKdsTickets] = useState<any[]>([]);
+  const [tables, setTables] = useState<any[]>([]);
+  const [bills, setBills] = useState<any[]>([]);
+  const [staff, setStaff] = useState<any[]>([]);
 
   // Edit Profile Modal State
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
@@ -287,15 +63,18 @@ export const AdminTenantDeepDive: React.FC = () => {
     try {
       const res = await adminApi.fetchRestaurants();
       if (res.success && res.data && res.data.length > 0) {
-        // Merge API data with canonical records
-        const combined = res.data.map((apiRest: any) => {
-          const canonical = CANONICAL_RESTAURANTS.find((c) => c.id === apiRest.id) || {};
-          return { ...canonical, ...apiRest };
-        });
-        setRestaurants(combined);
+        setRestaurants(res.data);
+        if (!selectedRestId || !res.data.some((r: any) => r.id === selectedRestId)) {
+          setSelectedRestId(res.data[0].id);
+        }
+      } else {
+        setRestaurants([]);
+        setCurrentRestaurant(null);
       }
     } catch (e) {
-      console.warn('[AdminTenantDeepDive] Fallback to canonical restaurants');
+      console.error('[AdminTenantDeepDive] Error loading restaurants:', e);
+      setRestaurants([]);
+      setCurrentRestaurant(null);
     } finally {
       setIsLoading(false);
     }
@@ -305,22 +84,112 @@ export const AdminTenantDeepDive: React.FC = () => {
     loadRestaurants();
   }, []);
 
+  // When restaurant selection changes, load all operational entities
   useEffect(() => {
-    const found = restaurants.find((r) => r.id === selectedRestId) || CANONICAL_RESTAURANTS[0];
-    setCurrentRestaurant(found);
-    setEditFormData({
-      name: found.name,
-      phone: found.phone,
-      fullAddress: found.fullAddress,
-      cuisineType: found.cuisineType,
-      gstin: found.gstin,
-      fssaiNumber: found.fssaiNumber,
-      commissionRatePercent: found.commissionRatePercent || 15.0,
-      cgstRatePercent: found.cgstRatePercent || 2.5,
-      sgstRatePercent: found.sgstRatePercent || 2.5,
-      serviceChargePercent: found.serviceChargePercent || 5.0
-    });
-  }, [selectedRestId, restaurants]);
+    if (!selectedRestId) return;
+
+    const found = restaurants.find((r) => r.id === selectedRestId);
+    if (found) {
+      setCurrentRestaurant(found);
+      setEditFormData({
+        name: found.name || '',
+        phone: found.phone || '',
+        fullAddress: found.fullAddress || '',
+        cuisineType: found.cuisineType || '',
+        gstin: found.gstin || '',
+        fssaiNumber: found.fssaiNumber || '',
+        commissionRatePercent: found.commissionRatePercent || 15.0,
+        cgstRatePercent: found.cgstRatePercent || 2.5,
+        sgstRatePercent: found.sgstRatePercent || 2.5,
+        serviceChargePercent: found.serviceChargePercent || 5.0
+      });
+    }
+
+    const loadDeepDiveData = async () => {
+      try {
+        const [detailRes, ordersRes, billsRes] = await Promise.all([
+          adminApi.fetchRestaurantDetail(selectedRestId),
+          adminApi.fetchOrders({ restaurantId: selectedRestId }),
+          adminApi.fetchBills({ restaurantId: selectedRestId })
+        ]);
+
+        if (detailRes.success && detailRes.data) {
+          const detail = detailRes.data;
+          setCurrentRestaurant(detail);
+
+          // Extract menu items from categories
+          const allItems: any[] = [];
+          if (Array.isArray((detail as any).categories)) {
+            (detail as any).categories.forEach((cat: any) => {
+              if (Array.isArray(cat.items)) {
+                cat.items.forEach((item: any) => {
+                  allItems.push({ ...item, category: cat.name });
+                });
+              }
+            });
+          }
+          setMenuItems(allItems);
+
+          // Extract tables from branches
+          const allTables: any[] = [];
+          if (Array.isArray(detail.branches)) {
+            detail.branches.forEach((branch: any) => {
+              if (Array.isArray(branch.tables)) {
+                branch.tables.forEach((t: any) => {
+                  allTables.push({
+                    id: t.id,
+                    number: t.tableNumber ? `Table ${t.tableNumber}` : t.id,
+                    capacity: t.capacity || 4,
+                    status: t.isOccupied ? 'OCCUPIED' : 'VACANT',
+                    qrCode: t.qrCodeToken || `QR_${t.id}`
+                  });
+                });
+              }
+            });
+          }
+          setTables(allTables);
+
+          // Extract staff
+          if (Array.isArray((detail as any).staff)) {
+            setStaff((detail as any).staff);
+          } else {
+            setStaff([]);
+          }
+        }
+
+        // Active KDS Tickets from real orders
+        if (ordersRes.success && ordersRes.data) {
+          const activeOrders = ordersRes.data.filter((o: any) =>
+            ['PLACED', 'PREPARING', 'READY'].includes(o.status)
+          );
+          setKdsTickets(
+            activeOrders.map((o: any) => ({
+              id: o.orderNumber || o.id,
+              orderId: o.id,
+              table: o.tableNumber ? `Table #${o.tableNumber}` : 'Counter',
+              time: o.createdAt ? new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Now',
+              status: o.status,
+              station: 'Main Kitchen',
+              items: (o.items || []).map((it: any) => `${it.quantity}x ${it.name}`)
+            }))
+          );
+        } else {
+          setKdsTickets([]);
+        }
+
+        // Invoices from bills
+        if (billsRes.success && billsRes.data) {
+          setBills(billsRes.data);
+        } else {
+          setBills([]);
+        }
+      } catch (err) {
+        console.error('[AdminTenantDeepDive] Error loading deep dive details:', err);
+      }
+    };
+
+    loadDeepDiveData();
+  }, [selectedRestId]);
 
   // Status Lifecycle Toggle
   const handleToggleLifecycle = async (newStatus: string) => {
@@ -329,12 +198,12 @@ export const AdminTenantDeepDive: React.FC = () => {
       setRestaurants((prev) =>
         prev.map((r) => (r.id === selectedRestId ? { ...r, status: newStatus } : r))
       );
+      if (currentRestaurant) {
+        setCurrentRestaurant({ ...currentRestaurant, status: newStatus });
+      }
       showNotification(`Restaurant status updated to ${newStatus} across all platforms.`);
     } catch {
-      setRestaurants((prev) =>
-        prev.map((r) => (r.id === selectedRestId ? { ...r, status: newStatus } : r))
-      );
-      showNotification(`Restaurant status set to ${newStatus}.`);
+      showNotification(`Failed to update status to ${newStatus}.`);
     }
   };
 
@@ -346,47 +215,70 @@ export const AdminTenantDeepDive: React.FC = () => {
       setRestaurants((prev) =>
         prev.map((r) => (r.id === selectedRestId ? { ...r, ...editFormData } : r))
       );
+      if (currentRestaurant) {
+        setCurrentRestaurant({ ...currentRestaurant, ...editFormData });
+      }
       setIsEditProfileModalOpen(false);
       showNotification(`Profile, GSTIN & Commission settings updated for ${editFormData.name}.`);
     } catch {
-      setRestaurants((prev) =>
-        prev.map((r) => (r.id === selectedRestId ? { ...r, ...editFormData } : r))
-      );
-      setIsEditProfileModalOpen(false);
-      showNotification(`Profile updated for ${editFormData.name}.`);
+      showNotification(`Failed updating profile for ${editFormData.name}.`);
     }
   };
 
   // Menu Availability Toggle
-  const handleToggleMenuAvailability = (itemId: string) => {
-    setMenuItems((prev) =>
-      prev.map((it) => {
-        if (it.id === itemId) {
-          const next = !it.isAvailable;
-          showNotification(`${it.name} is now ${next ? 'IN STOCK' : 'OUT OF STOCK'}.`);
-          return { ...it, isAvailable: next };
-        }
-        return it;
-      })
-    );
+  const handleToggleMenuAvailability = async (itemId: string) => {
+    const item = menuItems.find((it) => it.id === itemId);
+    if (!item) return;
+    const next = !item.isAvailable;
+    try {
+      await adminApi.updateMenuItem(itemId, { isAvailable: next });
+      setMenuItems((prev) =>
+        prev.map((it) => (it.id === itemId ? { ...it, isAvailable: next } : it))
+      );
+      showNotification(`${item.name} is now ${next ? 'IN STOCK' : 'OUT OF STOCK'}.`);
+    } catch {
+      showNotification(`Failed to toggle availability for ${item.name}.`);
+    }
   };
 
   // KDS Ticket State Progression
-  const handleAdvanceKdsTicket = (ticketId: string) => {
-    setKdsTickets((prev) =>
-      prev.map((tk) => {
-        if (tk.id === ticketId) {
-          const nextStatus =
-            tk.status === 'PLACED' ? 'PREPARING' : tk.status === 'PREPARING' ? 'READY' : 'SERVED';
-          showNotification(`${ticketId} progressed to ${nextStatus}.`);
-          return { ...tk, status: nextStatus };
-        }
-        return tk;
-      })
-    );
+  const handleAdvanceKdsTicket = async (tk: any) => {
+    const nextStatus =
+      tk.status === 'PLACED' ? 'PREPARING' : tk.status === 'PREPARING' ? 'READY' : 'SERVED';
+    try {
+      await adminApi.correctOrder(tk.orderId, {
+        status: nextStatus,
+        remarks: `SuperAdmin progressed ticket to ${nextStatus}`
+      });
+      setKdsTickets((prev) =>
+        prev
+          .map((item) => (item.id === tk.id ? { ...item, status: nextStatus } : item))
+          .filter((item) => item.status !== 'SERVED')
+      );
+      showNotification(`${tk.id} progressed to ${nextStatus}.`);
+    } catch {
+      showNotification(`Failed to advance ticket ${tk.id}.`);
+    }
   };
 
-  const selectedRest = currentRestaurant || CANONICAL_RESTAURANTS[0];
+  if (!isLoading && restaurants.length === 0) {
+    return (
+      <div className="p-16 text-center bg-[#121826] border border-slate-800 rounded-3xl space-y-4 max-w-xl mx-auto shadow-2xl">
+        <Building2 className="w-12 h-12 mx-auto text-slate-600 opacity-60" />
+        <h2 className="text-xl font-black text-white">No Restaurants Registered</h2>
+        <p className="text-xs text-slate-400">
+          No merchant partner accounts exist in the database yet. Onboard a restaurant from the Merchants workspace to activate the deep-dive operational controls.
+        </p>
+      </div>
+    );
+  }
+
+  const selectedRest = currentRestaurant || restaurants[0] || {};
+  const settledRevenue = bills
+    .filter((b) => b.paymentStatus === 'PAID')
+    .reduce((sum, b) => sum + Number(b.grandTotal || 0), 0);
+  const platformCommRate = selectedRest.commissionRatePercent || 15.0;
+  const platformCommission = Math.round(settledRevenue * (platformCommRate / 100) * 100) / 100;
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
@@ -402,11 +294,15 @@ export const AdminTenantDeepDive: React.FC = () => {
                 <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
                   Restaurant Workspace
                 </span>
-                <span className="text-xs text-slate-400">Connected Restaurant Chains</span>
+                <span className="text-xs text-slate-400">
+                  {restaurants.length} Registered Merchant{restaurants.length === 1 ? '' : 's'}
+                </span>
               </div>
-              <h1 className="text-xl font-black text-white mt-0.5">{selectedRest.name}</h1>
+              <h1 className="text-xl font-black text-white mt-0.5">{selectedRest.name || 'Merchant'}</h1>
               <p className="text-xs text-slate-400">
-                {selectedRest.city}, {selectedRest.state} • {selectedRest.cuisineType} • Rating: {selectedRest.rating} ★
+                {selectedRest.city ? `${selectedRest.city}, ` : ''}{selectedRest.state || 'India'}
+                {selectedRest.cuisineType ? ` • ${selectedRest.cuisineType}` : ''}
+                {selectedRest.rating ? ` • Rating: ${selectedRest.rating} ★` : ''}
               </p>
             </div>
           </div>
@@ -422,7 +318,7 @@ export const AdminTenantDeepDive: React.FC = () => {
               >
                 {restaurants.map((r) => (
                   <option key={r.id} value={r.id} className="bg-slate-900 text-white">
-                    {r.name} ({r.city})
+                    {r.name} {r.city ? `(${r.city})` : ''}
                   </option>
                 ))}
               </select>
@@ -449,7 +345,7 @@ export const AdminTenantDeepDive: React.FC = () => {
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                Live
+                ACTIVE
               </button>
               <button
                 onClick={() => handleToggleLifecycle('PAUSED')}
@@ -459,50 +355,44 @@ export const AdminTenantDeepDive: React.FC = () => {
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                Paused
+                PAUSED
               </button>
               <button
                 onClick={() => handleToggleLifecycle('SUSPENDED')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
                   selectedRest.status === 'SUSPENDED'
-                    ? 'bg-rose-500 text-white font-black shadow-md'
+                    ? 'bg-rose-500 text-slate-950 font-black shadow-md'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                Locked
+                SUSPENDED
               </button>
             </div>
-
-            <button
-              onClick={loadRestaurants}
-              className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-2xl transition cursor-pointer border border-slate-700"
-              title="Refresh Restaurant Data"
-            >
-              <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-            </button>
           </div>
         </div>
 
-        {/* Quick Compliance & Financial Badges */}
-        <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-slate-800 text-[11px] text-slate-400">
-          <div className="flex items-center space-x-1.5">
+        {/* Secondary Info Pills */}
+        <div className="flex flex-wrap items-center gap-3 text-xs pt-3 border-t border-slate-800/80">
+          <div className="flex items-center space-x-1.5 text-slate-400">
             <span className="text-slate-500 font-bold">GSTIN:</span>
-            <span className="font-mono text-slate-200">{selectedRest.gstin || '27AAAAA0000A1Z5'}</span>
+            <span className="font-mono text-white font-bold">{selectedRest.gstin || 'Not Provided'}</span>
           </div>
           <span>•</span>
-          <div className="flex items-center space-x-1.5">
+          <div className="flex items-center space-x-1.5 text-slate-400">
             <span className="text-slate-500 font-bold">FSSAI:</span>
-            <span className="font-mono text-slate-200">{selectedRest.fssaiNumber || '11521000001234'}</span>
+            <span className="font-mono text-white font-bold">{selectedRest.fssaiNumber || 'Not Provided'}</span>
           </div>
           <span>•</span>
-          <div className="flex items-center space-x-1.5">
-            <span className="text-slate-500 font-bold">Platform Commission:</span>
-            <span className="font-black text-cyan-400">{selectedRest.commissionRatePercent || 15}%</span>
+          <div className="flex items-center space-x-1.5 text-slate-400">
+            <span className="text-slate-500 font-bold">Platform Comm:</span>
+            <span className="font-black text-cyan-400">{platformCommRate}%</span>
           </div>
           <span>•</span>
-          <div className="flex items-center space-x-1.5">
+          <div className="flex items-center space-x-1.5 text-slate-400">
             <span className="text-slate-500 font-bold">GST Rate:</span>
-            <span className="font-bold text-white">5% (2.5% CGST + 2.5% SGST)</span>
+            <span className="font-bold text-white">
+              {(Number(selectedRest.cgstRatePercent || 2.5) + Number(selectedRest.sgstRatePercent || 2.5))}%
+            </span>
           </div>
         </div>
       </div>
@@ -549,9 +439,9 @@ export const AdminTenantDeepDive: React.FC = () => {
         <div className="space-y-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl">
-              <span className="text-[11px] font-bold text-slate-400 uppercase">Today Gross Revenue</span>
-              <h3 className="text-2xl font-black text-white mt-1">₹52,480</h3>
-              <p className="text-[10px] text-emerald-400 font-bold mt-1">↑ +18.4% vs yesterday</p>
+              <span className="text-[11px] font-bold text-slate-400 uppercase">Gross Settled GMV</span>
+              <h3 className="text-2xl font-black text-white mt-1">₹{settledRevenue.toFixed(2)}</h3>
+              <p className="text-[10px] text-emerald-400 font-bold mt-1">Authoritative settled orders</p>
             </div>
             <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl">
               <span className="text-[11px] font-bold text-slate-400 uppercase">Tables Seated</span>
@@ -563,11 +453,11 @@ export const AdminTenantDeepDive: React.FC = () => {
             <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl">
               <span className="text-[11px] font-bold text-slate-400 uppercase">Active Kitchen KOTs</span>
               <h3 className="text-2xl font-black text-amber-400 mt-1">{kdsTickets.length} Active</h3>
-              <p className="text-[10px] text-slate-400 mt-1">Avg prep time: 13 mins</p>
+              <p className="text-[10px] text-slate-400 mt-1">Live order tickets</p>
             </div>
             <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl">
-              <span className="text-[11px] font-bold text-slate-400 uppercase">15% Platform Commission</span>
-              <h3 className="text-2xl font-black text-purple-400 mt-1">₹7,872</h3>
+              <span className="text-[11px] font-bold text-slate-400 uppercase">{platformCommRate}% Platform Commission</span>
+              <h3 className="text-2xl font-black text-purple-400 mt-1">₹{platformCommission.toFixed(2)}</h3>
               <p className="text-[10px] text-slate-400 mt-1">Auto-accrued to DineDeck</p>
             </div>
           </div>
@@ -576,47 +466,45 @@ export const AdminTenantDeepDive: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-black text-white">Live Floor Table Grid ({selectedRest.name})</h3>
-                <p className="text-xs text-slate-400">Click any table to view open cart, active bill, or clear session.</p>
+                <p className="text-xs text-slate-400">Click any table to inspect floor occupancy.</p>
               </div>
-              <span className="text-xs text-emerald-400 font-bold">Real-time WebSocket Sync</span>
+              <span className="text-xs text-emerald-400 font-bold">Real-time Sync</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-              {tables.map((t) => {
-                const isOccupied = t.status === 'OCCUPIED';
-                return (
-                  <div
-                    key={t.id}
-                    className={`p-4 rounded-2xl border flex flex-col justify-between space-y-2 cursor-pointer transition hover:scale-105 ${
-                      isOccupied
-                        ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-lg shadow-emerald-500/10'
-                        : 'bg-slate-950 border-slate-800 text-slate-400'
-                    }`}
-                    onClick={() => {
-                      setTables((prev) =>
-                        prev.map((item) =>
-                          item.id === t.id
-                            ? { ...item, status: isOccupied ? 'VACANT' : 'OCCUPIED' }
-                            : item
-                        )
-                      );
-                      showNotification(`${t.number} marked as ${isOccupied ? 'VACANT' : 'OCCUPIED'}.`);
-                    }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-black">{t.number}</span>
-                      <span className="text-[9px] uppercase font-bold">{t.status}</span>
+            {tables.length === 0 ? (
+              <div className="p-8 text-center text-slate-500">
+                <QrCodeIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                <p className="font-semibold text-slate-400">No tables configured for this restaurant</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Tables added to branches will populate the floor grid.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                {tables.map((t) => {
+                  const isOccupied = t.status === 'OCCUPIED';
+                  return (
+                    <div
+                      key={t.id}
+                      className={`p-4 rounded-2xl border flex flex-col justify-between space-y-2 cursor-pointer transition hover:scale-105 ${
+                        isOccupied
+                          ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-lg shadow-emerald-500/10'
+                          : 'bg-slate-950 border-slate-800 text-slate-400'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-black">{t.number}</span>
+                        <span className="text-[9px] uppercase font-bold">{t.status}</span>
+                      </div>
+                      <div className="text-[10px] text-slate-400">
+                        Capacity: {t.capacity} Seats
+                      </div>
+                      <div className="text-[9px] text-cyan-400 font-mono truncate">
+                        {t.qrCode}
+                      </div>
                     </div>
-                    <div className="text-[10px] text-slate-400">
-                      Capacity: {t.capacity} Seats
-                    </div>
-                    <div className="text-[9px] text-cyan-400 font-mono">
-                      {t.qrCode}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -628,51 +516,59 @@ export const AdminTenantDeepDive: React.FC = () => {
             <h3 className="text-xs font-black text-slate-300 uppercase tracking-wider">
               Live Cooking Station Tickets for {selectedRest.name}
             </h3>
-            <span className="text-xs text-cyan-400 font-bold">Auto-sync: Active</span>
+            <span className="text-xs text-cyan-400 font-bold">Real-time KDS</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {kdsTickets.map((tk) => (
-              <div key={tk.id} className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 space-y-3 shadow-xl">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-                  <div>
-                    <span className="font-black text-xs text-white">{tk.id}</span>
-                    <span className="text-[10px] text-cyan-400 font-bold ml-2">{tk.table}</span>
-                  </div>
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${
-                      tk.status === 'PREPARING'
-                        ? 'bg-amber-500/20 text-amber-400'
-                        : tk.status === 'READY'
-                        ? 'bg-purple-500/20 text-purple-400'
-                        : 'bg-blue-500/20 text-blue-400'
-                    }`}
-                  >
-                    {tk.status}
-                  </span>
-                </div>
-
-                <div className="space-y-1 py-1">
-                  <div className="text-[10px] text-slate-500 font-bold uppercase">Station: {tk.station}</div>
-                  {tk.items.map((it: string, i: number) => (
-                    <div key={i} className="text-xs text-slate-200 font-medium">
-                      {it}
+          {kdsTickets.length === 0 ? (
+            <div className="p-12 text-center bg-slate-900/60 border border-slate-800 rounded-3xl text-slate-500">
+              <Clock className="w-8 h-8 mx-auto mb-2 opacity-50" />
+              <p className="font-semibold text-slate-400">No active kitchen orders</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">Active kitchen order tickets (KOT) will appear here as diners place orders.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {kdsTickets.map((tk) => (
+                <div key={tk.id} className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 space-y-3 shadow-xl">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                    <div>
+                      <span className="font-black text-xs text-white">{tk.id}</span>
+                      <span className="text-[10px] text-cyan-400 font-bold ml-2">{tk.table}</span>
                     </div>
-                  ))}
-                </div>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${
+                        tk.status === 'PREPARING'
+                          ? 'bg-amber-500/20 text-amber-400'
+                          : tk.status === 'READY'
+                          ? 'bg-purple-500/20 text-purple-400'
+                          : 'bg-blue-500/20 text-blue-400'
+                      }`}
+                    >
+                      {tk.status}
+                    </span>
+                  </div>
 
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-                  <span className="text-[10px] text-slate-500">{tk.time}</span>
-                  <button
-                    onClick={() => handleAdvanceKdsTicket(tk.id)}
-                    className="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black rounded-xl text-xs transition cursor-pointer"
-                  >
-                    {tk.status === 'PLACED' ? 'Start Cooking' : tk.status === 'PREPARING' ? 'Mark Ready' : 'Mark Served'}
-                  </button>
+                  <div className="space-y-1 py-1">
+                    <div className="text-[10px] text-slate-500 font-bold uppercase">Station: {tk.station}</div>
+                    {tk.items.map((it: string, i: number) => (
+                      <div key={i} className="text-xs text-slate-200 font-medium">
+                        {it}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
+                    <span className="text-[10px] text-slate-500">{tk.time}</span>
+                    <button
+                      onClick={() => handleAdvanceKdsTicket(tk)}
+                      className="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black rounded-xl text-xs transition cursor-pointer"
+                    >
+                      {tk.status === 'PLACED' ? 'Start Cooking' : tk.status === 'PREPARING' ? 'Mark Ready' : 'Mark Served'}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -682,15 +578,8 @@ export const AdminTenantDeepDive: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-sm font-black text-white">Live Menu Catalog ({selectedRest.name})</h3>
-              <p className="text-xs text-slate-400">Toggle dish availability or update pricing instantly from SuperAdmin.</p>
+              <p className="text-xs text-slate-400">Toggle dish availability or update live stock status.</p>
             </div>
-            <button
-              onClick={() => showNotification('New dish dialog initiated.')}
-              className="px-3.5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black rounded-xl text-xs flex items-center space-x-1.5 cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Add Dish</span>
-            </button>
           </div>
 
           <div className="bg-[#121826] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
@@ -706,31 +595,41 @@ export const AdminTenantDeepDive: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60 font-medium">
-                {menuItems.map((dish) => (
-                  <tr key={dish.id} className="hover:bg-slate-800/40 transition">
-                    <td className="p-3.5 font-bold text-white">{dish.name}</td>
-                    <td className="p-3.5 text-slate-400">{dish.category}</td>
-                    <td className="p-3.5 font-bold text-emerald-400">₹{dish.price}</td>
-                    <td className="p-3.5">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${dish.isVeg ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}`}>
-                        {dish.isVeg ? 'VEG' : 'NON-VEG'}
-                      </span>
-                    </td>
-                    <td className="p-3.5">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black ${dish.isAvailable ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'}`}>
-                        {dish.isAvailable ? 'IN STOCK' : 'OUT OF STOCK'}
-                      </span>
-                    </td>
-                    <td className="p-3.5 text-right">
-                      <button
-                        onClick={() => handleToggleMenuAvailability(dish.id)}
-                        className={`px-3 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer ${dish.isAvailable ? 'bg-rose-500/10 text-rose-400 hover:bg-rose-500/20' : 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20'}`}
-                      >
-                        {dish.isAvailable ? 'Mark Out of Stock' : 'Mark In Stock'}
-                      </button>
+                {menuItems.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="p-8 text-center text-slate-500">
+                      <UtensilsCrossed className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <p className="font-semibold text-slate-400">No dishes recorded in this restaurant's menu</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">Dishes added in the menu management module will appear here.</p>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  menuItems.map((dish) => (
+                    <tr key={dish.id} className="hover:bg-slate-800/40 transition">
+                      <td className="p-3.5 font-bold text-white">{dish.name}</td>
+                      <td className="p-3.5 text-slate-400">{dish.category || 'General'}</td>
+                      <td className="p-3.5 font-bold text-emerald-400">₹{dish.price}</td>
+                      <td className="p-3.5">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${dish.isVeg ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}`}>
+                          {dish.isVeg ? 'VEG' : 'NON-VEG'}
+                        </span>
+                      </td>
+                      <td className="p-3.5">
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black ${dish.isAvailable ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'}`}>
+                          {dish.isAvailable ? 'IN STOCK' : 'OUT OF STOCK'}
+                        </span>
+                      </td>
+                      <td className="p-3.5 text-right">
+                        <button
+                          onClick={() => handleToggleMenuAvailability(dish.id)}
+                          className={`px-3 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer ${dish.isAvailable ? 'bg-rose-500/10 text-rose-400 hover:bg-rose-500/20' : 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20'}`}
+                        >
+                          {dish.isAvailable ? 'Mark Out of Stock' : 'Mark In Stock'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -742,43 +641,47 @@ export const AdminTenantDeepDive: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-black text-white">Live Invoices & Cashier Desk ({selectedRest.name})</h3>
-            <span className="text-xs text-slate-400">GSTIN: {selectedRest.gstin}</span>
+            <span className="text-xs text-slate-400">GSTIN: {selectedRest.gstin || 'Not Provided'}</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              { id: 'INV-2026-901', table: 'Table #2', subtotal: 1250, tax: 62.5, total: 1312, status: 'PAID', mode: 'UPI' },
-              { id: 'INV-2026-902', table: 'Table #4', subtotal: 1800, tax: 90, total: 1890, status: 'PENDING', mode: 'CASH' },
-              { id: 'INV-2026-903', table: 'Table #5', subtotal: 940, tax: 47, total: 987, status: 'PAID', mode: 'CARD' }
-            ].map((inv) => (
-              <div key={inv.id} className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <span className="font-mono font-bold text-xs text-white">{inv.id}</span>
-                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-black ${inv.status === 'PAID' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>
-                    {inv.status}
-                  </span>
+          {bills.length === 0 ? (
+            <div className="p-12 text-center bg-slate-900/60 border border-slate-800 rounded-3xl text-slate-500">
+              <Receipt className="w-8 h-8 mx-auto mb-2 opacity-50" />
+              <p className="font-semibold text-slate-400">No invoices generated yet</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">Bills settled at tables or POS counter will appear here.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {bills.map((inv) => (
+                <div key={inv.id} className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 space-y-3">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <span className="font-mono font-bold text-xs text-white">{inv.billNumber || inv.id}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-black ${inv.paymentStatus === 'PAID' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                      {inv.paymentStatus}
+                    </span>
+                  </div>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between text-slate-400">
+                      <span>Dining Table</span>
+                      <span className="text-white font-bold">{inv.tableNumber ? `Table #${inv.tableNumber}` : 'Counter'}</span>
+                    </div>
+                    <div className="flex justify-between text-slate-400">
+                      <span>Subtotal</span>
+                      <span>₹{Number(inv.subtotal || 0).toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-slate-400">
+                      <span>Taxes & Fees</span>
+                      <span>₹{(Number(inv.cgstAmount || 0) + Number(inv.sgstAmount || 0) + Number(inv.serviceCharge || 0)).toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-white font-black text-sm pt-1 border-t border-slate-800">
+                      <span>Grand Total</span>
+                      <span className="text-emerald-400">₹{Number(inv.grandTotal || 0).toFixed(2)}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="space-y-1 text-xs">
-                  <div className="flex justify-between text-slate-400">
-                    <span>Dining Table</span>
-                    <span className="text-white font-bold">{inv.table}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-400">
-                    <span>Subtotal</span>
-                    <span>₹{inv.subtotal}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-400">
-                    <span>GST (5%)</span>
-                    <span>₹{inv.tax}</span>
-                  </div>
-                  <div className="flex justify-between text-white font-black text-sm pt-1 border-t border-slate-800">
-                    <span>Grand Total</span>
-                    <span className="text-emerald-400">₹{inv.total}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -787,27 +690,29 @@ export const AdminTenantDeepDive: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-black text-white">Physical Table QR Codes ({selectedRest.name})</h3>
-            <button
-              onClick={() => showNotification('Table QR Batch generated.')}
-              className="px-3.5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black rounded-xl text-xs cursor-pointer"
-            >
-              Export QR Code Badges (PDF)
-            </button>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-            {tables.map((t) => (
-              <div key={t.id} className="p-4 bg-slate-900 border border-slate-800 rounded-2xl text-center space-y-2">
-                <div className="font-black text-white text-sm">{t.number}</div>
-                <div className="w-16 h-16 bg-white rounded-xl mx-auto flex items-center justify-center p-1 shadow">
-                  <div className="w-full h-full bg-slate-900 rounded-lg flex items-center justify-center text-white text-[8px] font-mono">
-                    [QR]
+          {tables.length === 0 ? (
+            <div className="p-12 text-center bg-slate-900/60 border border-slate-800 rounded-3xl text-slate-500">
+              <QrCodeIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+              <p className="font-semibold text-slate-400">No physical dining tables registered</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">Tables added to branches will generate secure digital QR codes here.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+              {tables.map((t) => (
+                <div key={t.id} className="p-4 bg-slate-900 border border-slate-800 rounded-2xl text-center space-y-2">
+                  <div className="font-black text-white text-sm">{t.number}</div>
+                  <div className="w-16 h-16 bg-white rounded-xl mx-auto flex items-center justify-center p-1 shadow">
+                    <div className="w-full h-full bg-slate-900 rounded-lg flex items-center justify-center text-white text-[8px] font-mono">
+                      [QR]
+                    </div>
                   </div>
+                  <div className="text-[9px] text-slate-400 font-mono truncate">{t.qrCode}</div>
                 </div>
-                <div className="text-[9px] text-slate-400 font-mono truncate">{t.qrCode}</div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -816,29 +721,26 @@ export const AdminTenantDeepDive: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-black text-white">Authorized Restaurant Staff ({selectedRest.name})</h3>
-            <button
-              onClick={() => showNotification('Add staff modal opened.')}
-              className="px-3 py-1.5 bg-slate-800 text-white font-bold rounded-xl text-xs hover:bg-slate-700 cursor-pointer"
-            >
-              + Add Crew Member
-            </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {[
-              { name: 'Sunil Verma', role: 'General Manager', email: 'manager.sunil@punjabheritage.in', phone: '+91 98223 45678' },
-              { name: 'Vikram Singh', role: 'Head Chef (Tandoor)', email: 'chef.vikram@punjabheritage.in', phone: '+91 98112 33445' },
-              { name: 'Ramesh Sharma', role: 'Head Captain / Waiter', email: 'waiter.ramesh@punjabheritage.in', phone: '+91 98112 23344' },
-              { name: 'Priya Iyer', role: 'Head Cashier', email: 'cashier.priya@punjabheritage.in', phone: '+91 98445 67890' }
-            ].map((st, i) => (
-              <div key={i} className="p-4 bg-slate-900 border border-slate-800 rounded-2xl space-y-1">
-                <div className="font-bold text-white text-xs">{st.name}</div>
-                <div className="text-[10px] text-cyan-400 font-bold">{st.role}</div>
-                <div className="text-[10px] text-slate-400">{st.email}</div>
-                <div className="text-[10px] text-slate-500">{st.phone}</div>
-              </div>
-            ))}
-          </div>
+          {staff.length === 0 ? (
+            <div className="p-12 text-center bg-slate-900/60 border border-slate-800 rounded-3xl text-slate-500">
+              <Users className="w-8 h-8 mx-auto mb-2 opacity-50" />
+              <p className="font-semibold text-slate-400">No staff members enrolled yet</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">Staff credentials and IAM roles can be configured in the IAM dashboard.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {staff.map((st: any, i: number) => (
+                <div key={i} className="p-4 bg-slate-900 border border-slate-800 rounded-2xl space-y-1">
+                  <div className="font-bold text-white text-xs">{st.name}</div>
+                  <div className="text-[10px] text-cyan-400 font-bold">{st.role}</div>
+                  <div className="text-[10px] text-slate-400">{st.email}</div>
+                  <div className="text-[10px] text-slate-500">{st.phone || 'No phone'}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -849,23 +751,33 @@ export const AdminTenantDeepDive: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
             <div className="space-y-1">
               <span className="text-slate-500 font-bold">Legal Business Name</span>
-              <div className="p-3 bg-slate-950 rounded-xl text-white font-bold">{selectedRest.name} Hospitality Pvt Ltd</div>
+              <div className="p-3 bg-slate-950 rounded-xl text-white font-bold">
+                {selectedRest.legalBusinessName || selectedRest.name || 'Not Provided'}
+              </div>
             </div>
             <div className="space-y-1">
               <span className="text-slate-500 font-bold">Registered GSTIN</span>
-              <div className="p-3 bg-slate-950 rounded-xl text-white font-mono">{selectedRest.gstin}</div>
+              <div className="p-3 bg-slate-950 rounded-xl text-white font-mono">
+                {selectedRest.gstin || 'Not Provided'}
+              </div>
             </div>
             <div className="space-y-1">
               <span className="text-slate-500 font-bold">FSSAI Food License #</span>
-              <div className="p-3 bg-slate-950 rounded-xl text-white font-mono">{selectedRest.fssaiNumber}</div>
+              <div className="p-3 bg-slate-950 rounded-xl text-white font-mono">
+                {selectedRest.fssaiNumber || 'Not Provided'}
+              </div>
             </div>
             <div className="space-y-1">
               <span className="text-slate-500 font-bold">Platform Commission Rate</span>
-              <div className="p-3 bg-slate-950 rounded-xl text-cyan-400 font-black">{selectedRest.commissionRatePercent}%</div>
+              <div className="p-3 bg-slate-950 rounded-xl text-cyan-400 font-black">
+                {platformCommRate}%
+              </div>
             </div>
             <div className="md:col-span-2 space-y-1">
               <span className="text-slate-500 font-bold">Full Physical Address</span>
-              <div className="p-3 bg-slate-950 rounded-xl text-slate-300">{selectedRest.fullAddress}</div>
+              <div className="p-3 bg-slate-950 rounded-xl text-slate-300">
+                {selectedRest.fullAddress || (selectedRest.city ? `${selectedRest.city}, India` : 'Not Provided')}
+              </div>
             </div>
           </div>
         </div>
@@ -904,7 +816,6 @@ export const AdminTenantDeepDive: React.FC = () => {
                   <label className="text-[10px] font-black uppercase text-slate-400">Contact Phone</label>
                   <input
                     type="tel"
-                    required
                     value={editFormData.phone || ''}
                     onChange={(e) => setEditFormData({ ...editFormData, phone: e.target.value })}
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 mt-1"
@@ -915,7 +826,6 @@ export const AdminTenantDeepDive: React.FC = () => {
                   <label className="text-[10px] font-black uppercase text-slate-400">GSTIN Number</label>
                   <input
                     type="text"
-                    required
                     value={editFormData.gstin || ''}
                     onChange={(e) => setEditFormData({ ...editFormData, gstin: e.target.value })}
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 mt-1 font-mono"
@@ -926,7 +836,6 @@ export const AdminTenantDeepDive: React.FC = () => {
                   <label className="text-[10px] font-black uppercase text-slate-400">FSSAI License #</label>
                   <input
                     type="text"
-                    required
                     value={editFormData.fssaiNumber || ''}
                     onChange={(e) => setEditFormData({ ...editFormData, fssaiNumber: e.target.value })}
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 mt-1 font-mono"
@@ -961,7 +870,6 @@ export const AdminTenantDeepDive: React.FC = () => {
                   <label className="text-[10px] font-black uppercase text-slate-400">Full Physical Address</label>
                   <input
                     type="text"
-                    required
                     value={editFormData.fullAddress || ''}
                     onChange={(e) => setEditFormData({ ...editFormData, fullAddress: e.target.value })}
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 mt-1"

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { MenuCategory, TableItem } from '../types';
 import { api } from '../services/api';
@@ -40,7 +40,13 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
   const [orderType, setOrderType] = useState<'DINE_IN' | 'TAKEAWAY'>('DINE_IN');
 
   // Cart & Order State
-  const [selectedTable, setSelectedTable] = useState<string>('12');
+  const [selectedTable, setSelectedTable] = useState<string>(tables[0]?.tableNumber || '');
+
+  useEffect(() => {
+    if (!selectedTable && tables.length > 0) {
+      setSelectedTable(tables[0].tableNumber);
+    }
+  }, [tables, selectedTable]);
   const [customerName, setCustomerName] = useState<string>('');
   const [cart, setCart] = useState<{ menuItemId: string; name: string; unitPrice: number; quantity: number; stationCode?: string; isVeg?: boolean }[]>([]);
   const [specialNotes, setSpecialNotes] = useState<string>('');
@@ -484,11 +490,15 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
                   onChange={(e) => setSelectedTable(e.target.value)}
                   className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white font-bold focus:outline-none focus:border-orange-500"
                 >
-                  {tables.map((t) => (
-                    <option key={t.id} value={t.tableNumber}>
-                      Table #{t.tableNumber} {t.isOccupied ? '• (Occupied)' : '• (Vacant)'}
-                    </option>
-                  ))}
+                  {tables.length === 0 ? (
+                    <option value="">No tables configured</option>
+                  ) : (
+                    tables.map((t) => (
+                      <option key={t.id} value={t.tableNumber}>
+                        Table #{t.tableNumber} {t.isOccupied ? '• (Occupied)' : '• (Vacant)'}
+                      </option>
+                    ))
+                  )}
                 </select>
               </div>
             ) : (

@@ -64,9 +64,9 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [newRestName, setNewRestName] = useState<string>('');
   const [newRestCity, setNewRestCity] = useState<string>('Mumbai');
-  const [newRestCuisine, setNewRestCuisine] = useState<string>('North Indian');
-  const [newRestGstin, setNewRestGstin] = useState<string>('27AABCP1234F1Z5');
-  const [newRestFssai, setNewRestFssai] = useState<string>('11521019000342');
+  const [newRestCuisine, setNewRestCuisine] = useState<string>('');
+  const [newRestGstin, setNewRestGstin] = useState<string>('');
+  const [newRestFssai, setNewRestFssai] = useState<string>('');
   const [newRestCommission, setNewRestCommission] = useState<number>(15.0);
 
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -336,51 +336,64 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 text-slate-300">
-              {filteredRestaurants.map((r) => (
-                <tr key={r.id} className="hover:bg-slate-800/40 transition">
-                  <td className="px-3 py-4 text-center">
-                    <input
-                      type="checkbox"
-                      checked={selectedIds.includes(r.id)}
-                      onChange={() => toggleSelect(r.id)}
-                      className="rounded bg-slate-800 border-slate-700 text-cyan-500 focus:ring-0 w-4 h-4 cursor-pointer"
-                    />
+              {filteredRestaurants.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                    <Building2 className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-50" />
+                    <p className="font-semibold text-slate-400">No restaurants found</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      {searchQuery || statusFilter !== 'ALL'
+                        ? 'No restaurants match your search and filter criteria.'
+                        : 'Onboard a restaurant partner to get started.'}
+                    </p>
                   </td>
+                </tr>
+              ) : (
+                filteredRestaurants.map((r) => (
+                  <tr key={r.id} className="hover:bg-slate-800/40 transition">
+                    <td className="px-3 py-4 text-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(r.id)}
+                        onChange={() => toggleSelect(r.id)}
+                        className="rounded bg-slate-800 border-slate-700 text-cyan-500 focus:ring-0 w-4 h-4 cursor-pointer"
+                      />
+                    </td>
 
-                  <td className="px-5 py-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center font-black text-cyan-400 shrink-0">
-                        {r.name.charAt(0)}
+                    <td className="px-5 py-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center font-black text-cyan-400 shrink-0">
+                          {r.name.charAt(0)}
+                        </div>
+                        <div>
+                          <div className="font-extrabold text-white text-xs">{r.name}</div>
+                          <div className="text-[10px] text-slate-500 font-mono">ID: {r.id.slice(0, 14)}...</div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-extrabold text-white text-xs">{r.name}</div>
-                        <div className="text-[10px] text-slate-500 font-mono">ID: {r.id.slice(0, 14)}...</div>
+                    </td>
+
+                    <td className="px-4 py-4">
+                      <div className="font-medium text-white">{r.city}</div>
+                      <div className="text-[10px] text-slate-500">{r.cuisineType || 'Restaurant'}</div>
+                    </td>
+
+                    <td className="px-4 py-4">
+                      <div className="flex items-center space-x-1 text-cyan-400 font-extrabold">
+                        <Percent className="w-3 h-3" />
+                        <span>{r.commissionRatePercent || 15.0}% Comm.</span>
                       </div>
-                    </div>
-                  </td>
+                      <div className="text-[10px] text-slate-500">GST: {(Number(r.cgstRatePercent || 0) + Number(r.sgstRatePercent || 0))}% • SC: {r.serviceChargePercent || 0}%</div>
+                    </td>
 
-                  <td className="px-4 py-4">
-                    <div className="font-medium text-white">{r.city}</div>
-                    <div className="text-[10px] text-slate-500">{r.cuisineType}</div>
-                  </td>
-
-                  <td className="px-4 py-4">
-                    <div className="flex items-center space-x-1 text-cyan-400 font-extrabold">
-                      <Percent className="w-3 h-3" />
-                      <span>{r.commissionRatePercent || 15.0}% Comm.</span>
-                    </div>
-                    <div className="text-[10px] text-slate-500">GST: {r.cgstRatePercent + r.sgstRatePercent}% • SC: {r.serviceChargePercent}%</div>
-                  </td>
-
-                  <td className="px-4 py-4">
-                    <div className="flex items-center space-x-1 text-emerald-400 font-bold">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      <span>Verified</span>
-                    </div>
-                    <div className="text-[10px] text-slate-500 font-mono">
-                      GSTIN: {r.gstin || '27AABCP1234F1Z5'}
-                    </div>
-                  </td>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center space-x-1 text-emerald-400 font-bold">
+                        <ShieldCheck className="w-3.5 h-3.5" />
+                        <span>Verified</span>
+                      </div>
+                      <div className="text-[10px] text-slate-500 font-mono">
+                        {r.gstin ? `GSTIN: ${r.gstin}` : 'GSTIN: Pending'}
+                      </div>
+                    </td>
 
                   <td className="px-4 py-4">
                     <span
@@ -417,7 +430,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
                     </button>
                   </td>
                 </tr>
-              ))}
+              )))}
             </tbody>
           </table>
         </div>

@@ -1166,60 +1166,49 @@ export class ControlCenterService {
    * 17. Device Fleet & Hardware Integrations Manager
    */
   async getDeviceFleet() {
-    const restaurants = await prisma.restaurant.findMany({
-      select: { id: true, name: true, city: true, status: true },
+    const stations = await prisma.kitchenStation.findMany({
+      where: { isActive: true },
+      include: {
+        restaurant: {
+          select: { id: true, name: true, city: true, status: true }
+        }
+      },
       take: 50
     });
 
     const fleet = [];
 
-    for (const r of restaurants) {
-      // 1. Partner KDS Tablet Terminal
+    for (const s of stations) {
+      if (s.printerIp) {
+        fleet.push({
+          id: `DEV-PRN-${s.id.substring(0, 8)}`,
+          name: `${s.restaurant.name} - ${s.name} Thermal Printer`,
+          type: 'THERMAL_PRINTER',
+          restaurantId: s.restaurant.id,
+          restaurantName: s.restaurant.name,
+          deviceModel: 'ESC/POS Network Thermal Printer (80mm)',
+          appVersion: 'ESC/POS Direct Socket',
+          ipAddress: s.printerIp,
+          status: s.printerStatus || (s.restaurant.status === 'ACTIVE' ? 'ONLINE' : 'OFFLINE'),
+          websocketConnected: s.restaurant.status === 'ACTIVE',
+          lastSeenAt: s.updatedAt,
+          station: s.name
+        });
+      }
+
       fleet.push({
-        id: `DEV-KDS-${r.id.substring(0, 8)}`,
-        name: `${r.name} Kitchen KDS`,
+        id: `DEV-KDS-${s.id.substring(0, 8)}`,
+        name: `${s.restaurant.name} - ${s.name} Kitchen KDS`,
         type: 'KDS_TABLET',
-        restaurantId: r.id,
-        restaurantName: r.name,
-        deviceModel: 'Samsung Galaxy Tab A9+ (Android 14)',
-        appVersion: 'v1.4.2-prod',
-        ipAddress: `192.168.1.${Math.floor(10 + Math.random() * 200)}`,
-        status: r.status === 'ACTIVE' ? 'ONLINE' : 'OFFLINE',
-        websocketConnected: r.status === 'ACTIVE',
-        lastSeenAt: new Date(Date.now() - Math.floor(Math.random() * 300000)),
-        station: 'Main Kitchen Station'
-      });
-
-      // 2. Thermal KOT & Bill Bluetooth / LAN Printer
-      fleet.push({
-        id: `DEV-PRN-${r.id.substring(0, 8)}`,
-        name: `${r.name} ESC/POS Thermal Printer`,
-        type: 'THERMAL_PRINTER',
-        restaurantId: r.id,
-        restaurantName: r.name,
-        deviceModel: 'Epson TM-T88VI (80mm LAN/BT)',
-        appVersion: 'ESC/POS Firmware 4.1',
-        ipAddress: `192.168.1.${Math.floor(201 + Math.random() * 50)}`,
-        status: r.status === 'ACTIVE' ? 'ONLINE' : 'OFFLINE',
-        websocketConnected: true,
-        lastSeenAt: new Date(Date.now() - Math.floor(Math.random() * 600000)),
-        station: 'Billing Counter / Captain Desk'
-      });
-
-      // 3. Captain Ordering Web POS Client
-      fleet.push({
-        id: `DEV-POS-${r.id.substring(0, 8)}`,
-        name: `${r.name} Partner Web POS`,
-        type: 'WEB_CLIENT',
-        restaurantId: r.id,
-        restaurantName: r.name,
-        deviceModel: 'Chrome 128 / Windows 11',
-        appVersion: 'dinedeck-partner-web@1.0.0',
-        ipAddress: '127.0.0.1',
-        status: 'ONLINE',
-        websocketConnected: true,
-        lastSeenAt: new Date(),
-        station: 'Captain Front Desk'
+        restaurantId: s.restaurant.id,
+        restaurantName: s.restaurant.name,
+        deviceModel: 'Dedicated KDS Terminal',
+        appVersion: 'DineDeck KDS Terminal v1.0',
+        ipAddress: s.printerIp || 'Configured via WebSocket',
+        status: s.restaurant.status === 'ACTIVE' ? 'ONLINE' : 'OFFLINE',
+        websocketConnected: s.restaurant.status === 'ACTIVE',
+        lastSeenAt: s.updatedAt,
+        station: s.name
       });
     }
 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useInventory, RawStockItem } from '../context/InventoryContext';
 import { printMandiProcurementSlip } from '../utils/thermalPrinter';
 import {
@@ -121,204 +121,76 @@ export const Inventory: React.FC = () => {
   const [demandForecastMultiplier, setDemandForecastMultiplier] = useState<number>(1.2);
 
   // Master Gravies & Pre-prepped Batches
-  const [gravyBatches, setGravyBatches] = useState<GravyPrepBatch[]>([
-    {
-      id: 'grp-1',
-      name: 'Makhani Gravy Master Base (Butter Chicken / Paneer Makhani)',
-      yieldQuantity: 20.0,
-      unit: 'L',
-      inStockQuantity: 14.5,
-      storageLocation: 'Walk-in Cold Storage (Container M1)',
-      shelfLifeHours: 48,
-      preppedAt: '2026-08-30 11:00 AM',
-      rawRecipeIngredients: [
-        { itemName: 'Hybrid Salad Tomatoes', requiredQty: 10.0, unit: 'kg' },
-        { itemName: 'Whole Cashews (Kaju Tukda)', requiredQty: 2.0, unit: 'kg' },
-        { itemName: 'Amul Salted Table Butter', requiredQty: 1.5, unit: 'kg' },
-        { itemName: 'Fresh Heavy Cooking Cream', requiredQty: 1.0, unit: 'L' }
-      ]
-    },
-    {
-      id: 'grp-2',
-      name: 'Bhuna Masala Onion-Tomato Gravy (Kadhai / Rogan Josh)',
-      yieldQuantity: 25.0,
-      unit: 'L',
-      inStockQuantity: 18.0,
-      storageLocation: 'Walk-in Cold Storage (Container B1)',
-      shelfLifeHours: 72,
-      preppedAt: '2026-08-30 10:30 AM',
-      rawRecipeIngredients: [
-        { itemName: 'Red Onions', requiredQty: 18.0, unit: 'kg' },
-        { itemName: 'Hybrid Salad Tomatoes', requiredQty: 8.0, unit: 'kg' },
-        { itemName: 'Desi Ghee', requiredQty: 1.5, unit: 'kg' },
-        { itemName: 'Kashmiri Red Chilli Powder', requiredQty: 0.4, unit: 'kg' }
-      ]
-    },
-    {
-      id: 'grp-3',
-      name: 'Tandoori Tikka Red Master Marination',
-      yieldQuantity: 12.0,
-      unit: 'kg',
-      inStockQuantity: 8.0,
-      storageLocation: 'Walk-in Cold Storage (Marination Tub T1)',
-      shelfLifeHours: 48,
-      preppedAt: '2026-08-30 09:30 AM',
-      rawRecipeIngredients: [
-        { itemName: 'Fresh Malai Paneer / Dahi', requiredQty: 8.0, unit: 'kg' },
-        { itemName: 'Kashmiri Red Chilli Powder', requiredQty: 0.5, unit: 'kg' },
-        { itemName: 'Desi Ghee / Mustard Oil', requiredQty: 0.6, unit: 'kg' }
-      ]
+  const [gravyBatches, setGravyBatches] = useState<GravyPrepBatch[]>(() => {
+    try {
+      const saved = localStorage.getItem('dinedeck_gravy_batches');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
     }
-  ]);
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('dinedeck_gravy_batches', JSON.stringify(gravyBatches));
+    } catch (e) {
+      console.warn('Failed to save gravy batches:', e);
+    }
+  }, [gravyBatches]);
 
   // Goods Inward (GRN) Register
-  const [inwardLogs, setInwardLogs] = useState<InwardRecord[]>([
-    {
-      id: 'grn-1001',
-      itemId: 'inv-6',
-      itemName: 'Fresh Boneless Chicken Breast',
-      quantity: 20.0,
-      unit: 'kg',
-      costPerUnit: 280.0,
-      totalCost: 5600.0,
-      supplier: 'Zorabian Fresh Cuts',
-      invoiceNumber: 'INV-ZOR-8821',
-      paymentMode: 'VENDOR_CREDIT',
-      receivedBy: 'Chef Manpreet Singh',
-      date: '2026-08-30 08:30 AM',
-      notes: 'Morning fresh poultry delivery inspected, temp 2°C approved'
-    },
-    {
-      id: 'grn-1002',
-      itemId: 'inv-1',
-      itemName: 'Fresh Malai Paneer (Vacuum Pack)',
-      quantity: 15.0,
-      unit: 'kg',
-      costPerUnit: 340.0,
-      totalCost: 5100.0,
-      supplier: 'Amul Dairy Distro (BKC)',
-      invoiceNumber: 'INV-AMUL-9912',
-      paymentMode: 'VENDOR_CREDIT',
-      receivedBy: 'Harpreet Singh (Owner)',
-      date: '2026-08-29 09:15 AM',
-      notes: 'Vacuum seals intact, batch code B-88'
-    },
-    {
-      id: 'grn-1003',
-      itemId: 'inv-7',
-      itemName: 'Red Onions (Nashik Quality)',
-      quantity: 100.0,
-      unit: 'kg',
-      costPerUnit: 35.0,
-      totalCost: 3500.0,
-      supplier: 'APMC Market Vashi Stall 42',
-      invoiceNumber: 'CHALLAN-APMC-402',
-      paymentMode: 'CASH_DRAWER',
-      receivedBy: 'Ramesh (Storekeeper)',
-      date: '2026-08-29 07:00 AM',
-      notes: 'Paid cash directly to mandi tempo driver'
+  const [inwardLogs, setInwardLogs] = useState<InwardRecord[]>(() => {
+    try {
+      const saved = localStorage.getItem('dinedeck_inward_logs');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
     }
-  ]);
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('dinedeck_inward_logs', JSON.stringify(inwardLogs));
+    } catch (e) {
+      console.warn('Failed to save inward logs:', e);
+    }
+  }, [inwardLogs]);
 
   // Kitchen Wastage Logbook
-  const [wastageLogs, setWastageLogs] = useState<WastageRecord[]>([
-    {
-      id: 'wst-201',
-      itemId: 'inv-4',
-      itemName: 'Fresh Heavy Cooking Cream (Amul 36%)',
-      quantity: 1.5,
-      unit: 'L',
-      costPerUnit: 220.0,
-      financialLoss: 330.0,
-      reason: 'EXPIRED',
-      recordedBy: 'Chef Gurpreet',
-      date: '2026-08-30 11:30 PM',
-      notes: 'Opened carton past 48hr shelf life in walk-in'
-    },
-    {
-      id: 'wst-202',
-      itemId: 'inv-1',
-      itemName: 'Fresh Malai Paneer (Vacuum Pack)',
-      quantity: 0.8,
-      unit: 'kg',
-      costPerUnit: 340.0,
-      financialLoss: 272.0,
-      reason: 'PREP_TRIMMING',
-      recordedBy: 'Chef Manpreet Singh',
-      date: '2026-08-29 04:00 PM',
-      notes: 'Skewering trimming losses during tandoori tikka prep'
+  const [wastageLogs, setWastageLogs] = useState<WastageRecord[]>(() => {
+    try {
+      const saved = localStorage.getItem('dinedeck_wastage_logs');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
     }
-  ]);
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('dinedeck_wastage_logs', JSON.stringify(wastageLogs));
+    } catch (e) {
+      console.warn('Failed to save wastage logs:', e);
+    }
+  }, [wastageLogs]);
 
   // Vendors Directory & Khata Ledger
-  const [vendors, setVendors] = useState<VendorContact[]>([
-    {
-      id: 'ven-1',
-      name: 'Amul Dairy Distro (BKC Hub)',
-      category: 'Dairy & Cheese',
-      phone: '+91 98200 11223',
-      email: 'orders.bkc@amuldistro.com',
-      gstin: '27AABCA1234F1Z5',
-      paymentTerms: 'Weekly Net 7 (Every Monday)',
-      outstandingBalance: 12400.0,
-      totalPurchasesMonth: 48600.0
-    },
-    {
-      id: 'ven-2',
-      name: 'Zorabian Fresh Cuts',
-      category: 'Meat & Poultry',
-      phone: '+91 98444 88990',
-      email: 'supply@zorabianfresh.in',
-      gstin: '27AABCZ5678K1Z2',
-      paymentTerms: 'Weekly Net 7',
-      outstandingBalance: 18500.0,
-      totalPurchasesMonth: 64200.0
-    },
-    {
-      id: 'ven-3',
-      name: 'APMC Market Vashi Stall 42 (Produce)',
-      category: 'Vegetables & Produce',
-      phone: '+91 98777 22334',
-      email: 'apmc.vashi42@gmail.com',
-      gstin: '27AABCV8899N1Z4',
-      paymentTerms: 'Daily Cash / UPI On Delivery',
-      outstandingBalance: 0.0,
-      totalPurchasesMonth: 32400.0
-    },
-    {
-      id: 'ven-4',
-      name: 'Kohinoor & Daawat Agro Mills',
-      category: 'Grains & Flour',
-      phone: '+91 98211 44556',
-      email: 'mumbai.sales@kohinooragro.com',
-      gstin: '27AABCK9901M1Z8',
-      paymentTerms: 'Monthly Net 30',
-      outstandingBalance: 15000.0,
-      totalPurchasesMonth: 38000.0
-    },
-    {
-      id: 'ven-5',
-      name: 'MDH & Everest Spices Vashi',
-      category: 'Spices & Seasonings',
-      phone: '+91 98333 55667',
-      email: 'vashi.spices@everestmdh.in',
-      gstin: '27AABCE3344P1Z1',
-      paymentTerms: 'Bi-weekly Net 15',
-      outstandingBalance: 8200.0,
-      totalPurchasesMonth: 22000.0
-    },
-    {
-      id: 'ven-6',
-      name: 'PackPro Solutions Mumbai',
-      category: 'Packaging & Disposables',
-      phone: '+91 98111 66778',
-      email: 'sales@packprosolutions.com',
-      gstin: '27AABCP7788R1Z9',
-      paymentTerms: 'Immediate UPI',
-      outstandingBalance: 0.0,
-      totalPurchasesMonth: 14000.0
+  const [vendors, setVendors] = useState<VendorContact[]>(() => {
+    try {
+      const saved = localStorage.getItem('dinedeck_vendors');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
     }
-  ]);
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('dinedeck_vendors', JSON.stringify(vendors));
+    } catch (e) {
+      console.warn('Failed to save vendors:', e);
+    }
+  }, [vendors]);
 
   // Physical Audit inputs
   const [auditCounts, setAuditCounts] = useState<{ [id: string]: number }>({});
@@ -331,15 +203,9 @@ export const Inventory: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'LOW_STOCK' | 'HEALTHY'>('ALL');
 
   // Live Order Simulator Form State
-  const [simSelectedDish, setSimSelectedDish] = useState(recipes[0]?.dishName || 'Paneer Butter Masala');
+  const [simSelectedDish, setSimSelectedDish] = useState(recipes[0]?.dishName || '');
   const [simPortionsCount, setSimPortionsCount] = useState<number>(2);
-  const [simRecentEvents, setSimRecentEvents] = useState<Array<{ id: string; text: string; time: string }>>([
-    {
-      id: 'sim-1',
-      text: 'Order placed: 2x Paneer Butter Masala (Deducted 400g Paneer, 300g Tomatoes, 60g Butter)',
-      time: '12:15 PM'
-    }
-  ]);
+  const [simRecentEvents, setSimRecentEvents] = useState<Array<{ id: string; text: string; time: string }>>([]);
 
   // Modals
   const [showInwardModal, setShowInwardModal] = useState(false);
@@ -368,7 +234,7 @@ export const Inventory: React.FC = () => {
   const [wasteQty, setWasteQty] = useState('');
   const [wasteReason, setWasteReason] = useState<'EXPIRED' | 'BURNT_SPILL' | 'PREP_TRIMMING' | 'QUALITY_REJECTED' | 'CUSTOMER_RETURN'>('EXPIRED');
   const [wasteNotes, setWasteNotes] = useState('');
-  const [wasteChefName, setWasteChefName] = useState('Chef Manpreet Singh');
+  const [wasteChefName, setWasteChefName] = useState('');
 
   // Form states: Add New Raw Item
   const [newItemName, setNewItemName] = useState('');
@@ -507,7 +373,7 @@ export const Inventory: React.FC = () => {
       supplier: inwardSupplier.trim() || item.supplier,
       invoiceNumber: inwardInvoice.trim() || `BILL-${Date.now().toString().slice(-4)}`,
       paymentMode: inwardPayMode,
-      receivedBy: 'Harpreet Singh (Owner)',
+      receivedBy: 'Storekeeper / Staff',
       date: new Date().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' }),
       notes: inwardNotes.trim() || undefined
     };
@@ -1197,7 +1063,18 @@ export const Inventory: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/80">
-                  {nextDayProcurementPlan.map((item) => (
+                  {nextDayProcurementPlan.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} className="px-4 py-12 text-center text-slate-400">
+                        <Zap className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+                        <div className="text-sm font-bold text-slate-300">No Restock Requirements</div>
+                        <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                          All registered raw inventory items are currently well above safety thresholds.
+                        </p>
+                      </td>
+                    </tr>
+                  ) : (
+                    nextDayProcurementPlan.map((item) => (
                     <tr
                       key={item.id}
                       className={`transition ${
@@ -1259,7 +1136,8 @@ export const Inventory: React.FC = () => {
                         )}
                       </td>
                     </tr>
-                  ))}
+                  ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -1277,39 +1155,49 @@ export const Inventory: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {recipes.map((dish) => {
-                const cap = getDishCapacity(dish.dishName);
-                return (
-                  <div key={dish.dishId} className="bg-slate-900/80 rounded-2xl border border-slate-800 p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-bold text-white text-xs">{dish.dishName}</h4>
-                        <span className="text-[10px] text-slate-400">{dish.category} • Portion Food Cost: ₹{dish.portionCost.toFixed(0)}</span>
+            {recipes.length === 0 ? (
+              <div className="p-8 text-center border border-dashed border-slate-800 rounded-2xl bg-slate-900/40">
+                <UtensilsCrossed className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+                <div className="text-xs font-bold text-slate-300">No Dish Recipes Configured</div>
+                <p className="text-[11px] text-slate-500 mt-1 max-w-sm mx-auto">
+                  Recipe Bill of Materials (BOM) linking menu dishes to raw ingredients will be displayed here.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {recipes.map((dish) => {
+                  const cap = getDishCapacity(dish.dishName);
+                  return (
+                    <div key={dish.dishId} className="bg-slate-900/80 rounded-2xl border border-slate-800 p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="font-bold text-white text-xs">{dish.dishName}</h4>
+                          <span className="text-[10px] text-slate-400">{dish.category} • Portion Food Cost: ₹{dish.portionCost.toFixed(0)}</span>
+                        </div>
+
+                        <span className={`px-2.5 py-1 rounded-xl font-mono font-black text-xs border ${cap.badgeColor}`}>
+                          ~{cap.portionsLeft} Portions Left
+                        </span>
                       </div>
 
-                      <span className={`px-2.5 py-1 rounded-xl font-mono font-black text-xs border ${cap.badgeColor}`}>
-                        ~{cap.portionsLeft} Portions Left
-                      </span>
-                    </div>
-
-                    <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
-                      <div className="text-[10px] uppercase font-bold text-slate-400">Raw Ingredients Consumed Per Portion:</div>
-                      <div className="space-y-1">
-                        {dish.ingredients.map((ing, iIdx) => (
-                          <div key={iIdx} className="flex justify-between text-xs text-slate-300">
-                            <span>{ing.rawItemName}</span>
-                            <span className="font-mono font-bold text-white">
-                              {ing.qtyPerPortion} {ing.unit} / plate
-                            </span>
-                          </div>
-                        ))}
+                      <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
+                        <div className="text-[10px] uppercase font-bold text-slate-400">Raw Ingredients Consumed Per Portion:</div>
+                        <div className="space-y-1">
+                          {dish.ingredients.map((ing, iIdx) => (
+                            <div key={iIdx} className="flex justify-between text-xs text-slate-300">
+                              <span>{ing.rawItemName}</span>
+                              <span className="font-mono font-bold text-white">
+                                {ing.qtyPerPortion} {ing.unit} / plate
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -1410,7 +1298,18 @@ export const Inventory: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/80">
-                {filteredItems.map((item) => {
+                {filteredItems.length === 0 ? (
+                  <tr>
+                    <td colSpan={8} className="px-4 py-12 text-center text-slate-400">
+                      <Package className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+                      <div className="text-sm font-bold text-slate-300">No Raw Inventory Items Found</div>
+                      <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                        Add raw stock items, ingredients, and consumables using the "Add Raw Item" button.
+                      </p>
+                    </td>
+                  </tr>
+                ) : (
+                  filteredItems.map((item) => {
                   const isLow = item.currentStock <= item.minimumThreshold;
                   const valuation = item.currentStock * item.costPerUnit;
 
@@ -1497,7 +1396,7 @@ export const Inventory: React.FC = () => {
                       </td>
                     </tr>
                   );
-                })}
+                }))}
               </tbody>
             </table>
           </div>
@@ -1518,66 +1417,76 @@ export const Inventory: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {gravyBatches.map((gravy) => (
-              <div
-                key={gravy.id}
-                className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3.5 shadow-md"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex items-center space-x-2.5">
-                    <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400">
-                      <Flame className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-white text-xs leading-snug">{gravy.name}</h3>
-                      <div className="text-[10px] text-slate-400 mt-0.5">
-                        📍 {gravy.storageLocation} • {gravy.shelfLifeHours}h Shelf Life
+          {gravyBatches.length === 0 ? (
+            <div className="p-12 text-center border border-dashed border-slate-800 rounded-2xl bg-slate-900/40">
+              <Flame className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+              <h3 className="text-sm font-bold text-slate-300">No Master Gravies or Kitchen Batches</h3>
+              <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                Pre-cooked gravies and master batches prepared in the kitchen will be tracked here.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {gravyBatches.map((gravy) => (
+                <div
+                  key={gravy.id}
+                  className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3.5 shadow-md"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center space-x-2.5">
+                      <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400">
+                        <Flame className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-white text-xs leading-snug">{gravy.name}</h3>
+                        <div className="text-[10px] text-slate-400 mt-0.5">
+                          📍 {gravy.storageLocation} • {gravy.shelfLifeHours}h Shelf Life
+                        </div>
                       </div>
                     </div>
+
+                    <span className="px-2.5 py-1 rounded-xl bg-amber-500/15 text-amber-300 font-mono font-black text-xs shrink-0 border border-amber-500/30">
+                      {gravy.inStockQuantity.toFixed(1)} {gravy.unit} In Hand
+                    </span>
                   </div>
 
-                  <span className="px-2.5 py-1 rounded-xl bg-amber-500/15 text-amber-300 font-mono font-black text-xs shrink-0 border border-amber-500/30">
-                    {gravy.inStockQuantity.toFixed(1)} {gravy.unit} In Hand
-                  </span>
-                </div>
-
-                <div className="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1.5 text-xs">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    Base Recipe Consumption (Per {gravy.yieldQuantity} {gravy.unit} Batch):
+                  <div className="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1.5 text-xs">
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      Base Recipe Consumption (Per {gravy.yieldQuantity} {gravy.unit} Batch):
+                    </div>
+                    <div className="grid grid-cols-2 gap-1.5 text-[11px] text-slate-300">
+                      {gravy.rawRecipeIngredients.map((r, rIdx) => (
+                        <div key={rIdx} className="flex items-center space-x-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                          <span className="truncate">{r.itemName}:</span>
+                          <span className="font-mono font-bold text-white">{r.requiredQty} {r.unit}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-1.5 text-[11px] text-slate-300">
-                    {gravy.rawRecipeIngredients.map((r, rIdx) => (
-                      <div key={rIdx} className="flex items-center space-x-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                        <span className="truncate">{r.itemName}:</span>
-                        <span className="font-mono font-bold text-white">{r.requiredQty} {r.unit}</span>
-                      </div>
-                    ))}
+
+                  <div className="flex items-center justify-between pt-1 border-t border-slate-800/80 text-[11px]">
+                    <span className="text-slate-400">
+                      Last prepped: {gravy.preppedAt}
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedGravy(gravy);
+                        setCookBatchMultiplier(1);
+                        setShowCookGravyModal(true);
+                      }}
+                      className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs transition flex items-center space-x-1.5 shadow-md shadow-amber-600/20"
+                    >
+                      <Flame className="w-3.5 h-3.5" />
+                      <span>Cook +{gravy.yieldQuantity} {gravy.unit} Batch</span>
+                    </button>
                   </div>
                 </div>
-
-                <div className="flex items-center justify-between pt-1 border-t border-slate-800/80 text-[11px]">
-                  <span className="text-slate-400">
-                    Last prepped: {gravy.preppedAt}
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedGravy(gravy);
-                      setCookBatchMultiplier(1);
-                      setShowCookGravyModal(true);
-                    }}
-                    className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs transition flex items-center space-x-1.5 shadow-md shadow-amber-600/20"
-                  >
-                    <Flame className="w-3.5 h-3.5" />
-                    <span>Cook +{gravy.yieldQuantity} {gravy.unit} Batch</span>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -1621,7 +1530,18 @@ export const Inventory: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/80">
-                {inwardLogs.map((log) => (
+                {inwardLogs.length === 0 ? (
+                  <tr>
+                    <td colSpan={8} className="px-4 py-12 text-center text-slate-400">
+                      <Truck className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+                      <div className="text-sm font-bold text-slate-300">No Goods Inward Records Found</div>
+                      <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                        Record inward shipments, mandi procurement bills, and supplier challans using the "Record Inward GRN" button above.
+                      </p>
+                    </td>
+                  </tr>
+                ) : (
+                  inwardLogs.map((log) => (
                   <tr key={log.id} className="hover:bg-slate-900/60 transition">
                     <td className="px-4 py-3.5">
                       <span className="font-mono font-bold text-white">{log.id.toUpperCase()}</span>
@@ -1668,7 +1588,7 @@ export const Inventory: React.FC = () => {
                       {log.receivedBy}
                     </td>
                   </tr>
-                ))}
+                )))}
               </tbody>
             </table>
           </div>
@@ -1713,7 +1633,18 @@ export const Inventory: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/80">
-                {wastageLogs.map((log) => (
+                {wastageLogs.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="px-4 py-12 text-center text-slate-400">
+                      <TrendingDown className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+                      <div className="text-sm font-bold text-slate-300">No Kitchen Wastage Recorded</div>
+                      <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                        Kitchen prep trimmings, spoiled items, and scrap losses logged by culinary staff will appear here.
+                      </p>
+                    </td>
+                  </tr>
+                ) : (
+                  wastageLogs.map((log) => (
                   <tr key={log.id} className="hover:bg-slate-900/60 transition">
                     <td className="px-4 py-3.5">
                       <span className="font-mono font-bold text-white">{log.id.toUpperCase()}</span>
@@ -1746,7 +1677,7 @@ export const Inventory: React.FC = () => {
                       {log.notes || '—'}
                     </td>
                   </tr>
-                ))}
+                )))}
               </tbody>
             </table>
           </div>
@@ -1794,7 +1725,18 @@ export const Inventory: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/80">
-                {items.map((item) => {
+                {items.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-12 text-center text-slate-400">
+                      <ClipboardCheck className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+                      <div className="text-sm font-bold text-slate-300">No Inventory Items for Stock Audit</div>
+                      <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                        Stock items must first be registered in your inventory ledger to perform physical shelf audits.
+                      </p>
+                    </td>
+                  </tr>
+                ) : (
+                  items.map((item) => {
                   const physicalInput = auditCounts[item.id];
                   const hasInput = physicalInput !== undefined && !isNaN(physicalInput);
                   const varianceQty = hasInput ? physicalInput - item.currentStock : 0;
@@ -1859,7 +1801,7 @@ export const Inventory: React.FC = () => {
                       </td>
                     </tr>
                   );
-                })}
+                }))}
               </tbody>
             </table>
           </div>
@@ -1879,53 +1821,63 @@ export const Inventory: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-              {vendors.map((ven) => (
-                <div key={ven.id} className="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 space-y-3 text-xs">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-white">{ven.name}</h4>
-                    <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-semibold text-[10px]">
-                      {ven.category}
-                    </span>
-                  </div>
+            {vendors.length === 0 ? (
+              <div className="p-12 text-center border border-dashed border-slate-800 rounded-2xl bg-slate-900/40">
+                <Building2 className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+                <h3 className="text-sm font-bold text-slate-300">No Vendor Contacts or Khata Ledgers</h3>
+                <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                  Supplier khata accounts and vendor balances created during procurement will be cataloged here.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                {vendors.map((ven) => (
+                  <div key={ven.id} className="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 space-y-3 text-xs">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-bold text-white">{ven.name}</h4>
+                      <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-semibold text-[10px]">
+                        {ven.category}
+                      </span>
+                    </div>
 
-                  <div className="space-y-1 text-slate-400">
-                    <div className="flex items-center space-x-2">
-                      <Phone className="w-3.5 h-3.5 text-slate-500" />
-                      <span className="font-mono text-slate-200">{ven.phone}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Mail className="w-3.5 h-3.5 text-slate-500" />
-                      <span className="truncate">{ven.email}</span>
-                    </div>
-                    <div className="text-[10px] text-slate-500 font-mono">
-                      GSTIN: {ven.gstin}
-                    </div>
-                  </div>
-
-                  <div className="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800/80 flex items-center justify-between">
-                    <div>
-                      <div className="text-[10px] text-slate-400 uppercase font-semibold">Khata Due Balance:</div>
-                      <div className="font-mono font-black text-sm text-purple-300 mt-0.5">
-                        ₹{ven.outstandingBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                    <div className="space-y-1 text-slate-400">
+                      <div className="flex items-center space-x-2">
+                        <Phone className="w-3.5 h-3.5 text-slate-500" />
+                        <span className="font-mono text-slate-200">{ven.phone}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Mail className="w-3.5 h-3.5 text-slate-500" />
+                        <span className="truncate">{ven.email}</span>
+                      </div>
+                      <div className="text-[10px] text-slate-500 font-mono">
+                        GSTIN: {ven.gstin}
                       </div>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedVendor(ven);
-                        setPayAmount(String(ven.outstandingBalance || ''));
-                        setShowVendorPayModal(true);
-                      }}
-                      className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl text-xs transition shadow-sm"
-                    >
-                      Pay Khata
-                    </button>
+                    <div className="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800/80 flex items-center justify-between">
+                      <div>
+                        <div className="text-[10px] text-slate-400 uppercase font-semibold">Khata Due Balance:</div>
+                        <div className="font-mono font-black text-sm text-purple-300 mt-0.5">
+                          ₹{ven.outstandingBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedVendor(ven);
+                          setPayAmount(String(ven.outstandingBalance || ''));
+                          setShowVendorPayModal(true);
+                        }}
+                        className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl text-xs transition shadow-sm"
+                      >
+                        Pay Khata
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -2154,7 +2106,7 @@ export const Inventory: React.FC = () => {
                   <label className="block text-slate-400 font-bold mb-1">Supplier Name</label>
                   <input
                     type="text"
-                    placeholder="Amul / APMC / Metro"
+                    placeholder="e.g. Local Distributor / Wholesale Market"
                     value={inwardSupplier}
                     onChange={(e) => setInwardSupplier(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-medium"
@@ -2446,7 +2398,7 @@ export const Inventory: React.FC = () => {
                   <label className="block text-slate-400 font-bold mb-1">Primary Supplier</label>
                   <input
                     type="text"
-                    placeholder="e.g. Amul / APMC Market"
+                    placeholder="e.g. Local Distributor / Wholesale Market"
                     value={newItemSupplier}
                     onChange={(e) => setNewItemSupplier(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"

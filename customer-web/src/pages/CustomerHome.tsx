@@ -73,55 +73,17 @@ export const CustomerHome: React.FC = () => {
   const [dynamicBanners, setDynamicBanners] = useState<any[]>([]);
   const [recommended, setRecommended] = useState<any[]>([]);
 
-  // Curated Fallback Promotional Dining Festivals
-  const promoAds = [
-    {
-      id: 'ad_1',
-      title: 'Royal Awadhi Dum Biryani Festival',
-      subtitle: 'Slow-cooked handi saffron biryanis with tender mutton, char-grilled galouti kebabs & burani raita.',
-      tag: "CHEF'S SPECIAL • 20% OFF DINE-IN",
-      image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1200&auto=format&fit=crop&q=80',
-      badge: '🔥 Trending Festival',
-      restaurantId: 'rest_punjab_heritage',
-      restaurantName: 'The Punjab Heritage Kitchen',
-      rating: '4.9 ★ (1,400+)',
-      cta: 'Explore Biryani Specials'
-    },
-    {
-      id: 'ad_2',
-      title: 'Smoky Tandoor & Barbeque Nights',
-      subtitle: 'Fiery charcoal-grilled Angaari Paneer, Murgh Malai Tikka & artisanal garlic butter naans.',
-      tag: 'WEEKEND LIVE TANDOOR',
-      image: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=1200&auto=format&fit=crop&q=80',
-      badge: '✨ Live Grill Spotlight',
-      restaurantId: 'rest_punjab_heritage',
-      restaurantName: 'Grand Peshawari Grill',
-      rating: '4.85 ★ (980+)',
-      cta: 'Explore Tandoori Sizzlers'
-    },
-    {
-      id: 'ad_3',
-      title: 'Maharaja Heritage Royal Thali Feast',
-      subtitle: '18 authentic regional dishes served hot with unlimited fragrant basmati rice & pure ghee sweets.',
-      tag: 'PURE VEG • UNLIMITED REFILLS',
-      image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=1200&auto=format&fit=crop&q=80',
-      badge: '👑 Heritage Dining',
-      restaurantId: 'rest_punjab_heritage',
-      restaurantName: 'Mewar Royal Thali',
-      rating: '4.92 ★ (1,250+)',
-      cta: 'Discover Royal Feast'
-    }
-  ];
-
   // Load Dynamic CMS Marketing Banners from Backend with WebSocket Realtime Sync
   const loadBanners = useCallback(async () => {
     try {
       const res = await customerApi.fetchBanners();
       if (res.success && Array.isArray(res.data) && res.data.length > 0) {
         setDynamicBanners(res.data);
+      } else {
+        setDynamicBanners([]);
       }
     } catch {
-      // Fallback cleanly to promoAds
+      setDynamicBanners([]);
     }
   }, []);
 
@@ -145,15 +107,15 @@ export const CustomerHome: React.FC = () => {
         title: b.title,
         subtitle: b.subtitle,
         tag: b.tag || 'SPECIAL PROMOTION',
-        image: b.imageUrl || 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1200&auto=format&fit=crop&q=80',
+        image: b.imageUrl || '',
         badge: b.badge || 'Featured',
-        restaurantId: b.restaurantId || 'rest_punjab_heritage',
+        restaurantId: b.restaurantId || '',
         restaurantName: b.restaurant?.name || 'Partner Restaurant',
-        rating: '4.9 ★ (Featured)',
+        rating: b.rating ? `${b.rating} ★` : 'Featured',
         cta: b.ctaText || 'Browse Menu'
       }));
     }
-    return promoAds;
+    return [];
   }, [dynamicBanners]);
 
   useEffect(() => {
@@ -171,106 +133,6 @@ export const CustomerHome: React.FC = () => {
     { id: 'RAJASTHAN_GUJARAT', name: 'Royal Thali', icon: '🍲', desc: 'Mewar Thali & Dal Baati' },
     { id: 'SOUTH_COASTAL', name: 'Coastal & South', icon: '🍛', desc: 'Ghee Roast & Curries' },
     { id: 'MUGHLAI_BIRYANI', name: 'Awadhi Biryani', icon: '🍗', desc: 'Dum Pukht & Kebabs' }
-  ];
-
-  // Exactly 6 Curated Premier Partner Restaurants with precise geo-coordinates
-  const curatedRestaurants = [
-    {
-      id: 'rest_punjab_heritage',
-      name: 'The Punjab Heritage Kitchen',
-      city: 'Bandra Kurla Complex, Mumbai',
-      cuisineType: 'North Indian • Mughlai • Tandoori',
-      rating: 4.9,
-      reviewCount: 1420,
-      costForTwo: 950,
-      isPureVeg: false,
-      hub: 'PUNJAB_TANDOOR',
-      coverImageUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80',
-      avgTime: '15-20 min',
-      lat: 19.0760,
-      lng: 72.8777,
-      tags: ['Chef Special', 'Live Tandoor', 'AC Hall']
-    },
-    {
-      id: 'rest_rajasthan_rasoi',
-      name: 'Royal Mewar Thali & Rasoi',
-      city: 'Heritage Chowk, Udaipur & Mumbai',
-      cuisineType: 'Rajasthani • Dal Baati • Gujarati Farsan',
-      rating: 4.8,
-      reviewCount: 980,
-      costForTwo: 750,
-      isPureVeg: true,
-      hub: 'RAJASTHAN_GUJARAT',
-      coverImageUrl: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80',
-      avgTime: '10-15 min',
-      lat: 19.0596,
-      lng: 72.8295,
-      tags: ['100% Pure Veg', 'Unlimited Thali', 'Heritage Decor']
-    },
-    {
-      id: 'rest_dakshin_bistro',
-      name: 'Dakshin Coastal Bistro & Tiffin',
-      city: 'Indiranagar, Bangalore & Mumbai',
-      cuisineType: 'South Indian • Chettinad • Coastal Seafood',
-      rating: 4.9,
-      reviewCount: 2150,
-      costForTwo: 850,
-      isPureVeg: false,
-      hub: 'SOUTH_COASTAL',
-      coverImageUrl: 'https://images.unsplash.com/photo-1610057099431-d73a1c9d2f2f?w=800&q=80',
-      avgTime: '12-18 min',
-      lat: 19.0020,
-      lng: 72.8280,
-      tags: ['Ghee Roast', 'Seafood Bar', 'Filter Coffee']
-    },
-    {
-      id: 'rest_dum_pukht_biryani',
-      name: 'Dum Pukht Royal Biryani House',
-      city: 'Banjara Hills & Bandra West',
-      cuisineType: 'Hyderabadi Dum Biryani • Awadhi Kebabs',
-      rating: 4.8,
-      reviewCount: 1640,
-      costForTwo: 1100,
-      isPureVeg: false,
-      hub: 'MUGHLAI_BIRYANI',
-      coverImageUrl: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80',
-      avgTime: '20-25 min',
-      lat: 19.0620,
-      lng: 72.8350,
-      tags: ['Slow Dum Cooked', 'Authentic Saffron', 'Kofta Special']
-    },
-    {
-      id: 'rest_copper_chimney_grill',
-      name: 'Copper Chimney & Charcoal Grill',
-      city: 'Juhu Tara Road, Mumbai',
-      cuisineType: 'North Indian • Mughlai • Charcoal Kebabs',
-      rating: 4.7,
-      reviewCount: 890,
-      costForTwo: 1200,
-      isPureVeg: false,
-      hub: 'PUNJAB_TANDOOR',
-      coverImageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',
-      avgTime: '15-20 min',
-      lat: 19.1000,
-      lng: 72.8260,
-      tags: ['Charcoal Grill', 'Mocktails', 'Outdoor Patio']
-    },
-    {
-      id: 'rest_malabar_coastal_catch',
-      name: 'Malabar Coastal Catch & Mess',
-      city: 'Fort Heritage, South Mumbai',
-      cuisineType: 'Kerala Style • Seafood • Malabar Parotta',
-      rating: 4.9,
-      reviewCount: 1310,
-      costForTwo: 700,
-      isPureVeg: false,
-      hub: 'SOUTH_COASTAL',
-      coverImageUrl: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80',
-      avgTime: '10-15 min',
-      lat: 18.9320,
-      lng: 72.8340,
-      tags: ['Clay Pot Curry', 'Flaky Parotta', 'Fresh Catch']
-    }
   ];
 
   // Quick popular search tags
@@ -330,26 +192,28 @@ export const CustomerHome: React.FC = () => {
       try {
         const res = await customerApi.fetchRestaurants();
         if (res.success && res.data && res.data.length > 0) {
-          const formatted = res.data.slice(0, 6).map((r: any, idx: number) => {
-            const fallback = curatedRestaurants[idx % curatedRestaurants.length];
-            return {
-              ...fallback,
-              ...r,
-              coverImageUrl: r.coverImageUrl || fallback.coverImageUrl,
-              rating: r.rating || fallback.rating,
-              reviewCount: r.reviewCount || fallback.reviewCount,
-              costForTwo: r.costForTwo || fallback.costForTwo,
-              lat: r.latitude || r.lat || fallback.lat,
-              lng: r.longitude || r.lng || fallback.lng,
-              tags: fallback.tags
-            };
-          });
+          const formatted = res.data.map((r: any) => ({
+            id: r.id,
+            name: r.name,
+            city: r.address || r.city || 'Location on file',
+            cuisineType: r.cuisineType || 'Multi-Cuisine',
+            rating: r.rating || null,
+            reviewCount: r.reviewCount || 0,
+            costForTwo: r.costForTwo || null,
+            isPureVeg: !!r.isPureVeg,
+            hub: r.hub || 'ALL',
+            coverImageUrl: r.coverImageUrl || '',
+            avgTime: r.avgPrepTime ? `${r.avgPrepTime} min` : '15-25 min',
+            lat: r.latitude || r.lat || 0,
+            lng: r.longitude || r.lng || 0,
+            tags: r.tags || (r.isPureVeg ? ['Pure Veg'] : ['Multi-Cuisine'])
+          }));
           setRestaurants(formatted);
         } else {
-          setRestaurants(curatedRestaurants);
+          setRestaurants([]);
         }
       } catch {
-        setRestaurants(curatedRestaurants);
+        setRestaurants([]);
       } finally {
         setIsLoadingRestaurants(false);
       }
@@ -370,7 +234,7 @@ export const CustomerHome: React.FC = () => {
     setFavorites(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const displayList = restaurants.length > 0 ? restaurants : curatedRestaurants;
+  const displayList = restaurants;
 
   // Past Orders Affinity & Category Shelves
   const pastReceipts = useMemo(() => receiptStorage.getReceipts(), []);
