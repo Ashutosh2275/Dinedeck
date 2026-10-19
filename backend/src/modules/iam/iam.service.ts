@@ -525,6 +525,22 @@ export class IamService {
       return { authorized: true, statusCode: 200, effectiveRoles: ['SUPER_ADMIN'] };
     }
 
+    // Customer boundary: Customers cannot execute operational staff permissions on restaurants
+    if (user.role === 'CUSTOMER') {
+      const allowedCustomerPerms = ['orders.create', 'service_requests.create', 'orders.read', 'menu.read'];
+      // If restaurant operational context is checked for non-public customer actions, deny
+      if (!allowedCustomerPerms.includes(requiredPermission) || context.restaurantId) {
+        // Customer can read public restaurant menu, but cannot read staff orders or operational data
+        if (requiredPermission !== 'menu.read') {
+          return {
+            authorized: false,
+            statusCode: 403,
+            reason: `Access Denied: Customer accounts are not authorized for operational permission '${requiredPermission}'`
+          };
+        }
+      }
+    }
+
     // Check if target user staff account is suspended / revoked
     if (context.restaurantId) {
       const staffProfile = await prisma.restaurantStaff.findFirst({

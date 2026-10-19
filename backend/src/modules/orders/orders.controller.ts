@@ -257,12 +257,23 @@ export async function orderRoutes(fastify: FastifyInstance) {
 
     const whereClause: any = {};
 
-    if (restaurantId) {
-      whereClause.restaurantId = restaurantId;
-    } else if (userAuth.role === 'CUSTOMER') {
+    if (userAuth.role === 'CUSTOMER') {
+      // Customers may only view their own orders
       whereClause.userId = userAuth.id;
-    } else if (userAuth.restaurantId) {
-      whereClause.restaurantId = userAuth.restaurantId;
+      if (restaurantId) {
+        whereClause.restaurantId = restaurantId;
+      }
+    } else if (userAuth.role === 'DINEDECK_SUPER_ADMIN') {
+      if (restaurantId) {
+        whereClause.restaurantId = restaurantId;
+      }
+    } else {
+      // Staff / Restaurant Owner / Manager
+      const tenantRestId = userAuth.restaurantId || restaurantId;
+      if (!tenantRestId) {
+        return reply.status(400).send({ success: false, message: 'Restaurant context is required' });
+      }
+      whereClause.restaurantId = tenantRestId;
     }
 
     if (status) {
@@ -295,10 +306,10 @@ export async function orderRoutes(fastify: FastifyInstance) {
     });
   });
 
-
   // Get Order Details with Live Status & Authoritative Bill Details
   fastify.get('/:id', { preHandler: [fastify.authenticate] }, async (req: FastifyRequest, reply: FastifyReply) => {
     const { id } = req.params as { id: string };
+    const userAuth = (req as any).user;
 
     const order = await prisma.order.findUnique({
       where: { id },
@@ -318,6 +329,17 @@ export async function orderRoutes(fastify: FastifyInstance) {
 
     if (!order) {
       return reply.status(404).send({ success: false, message: 'Order not found' });
+    }
+
+    // Tenant and customer ownership validation
+    if (userAuth.role === 'CUSTOMER') {
+      if (order.userId && order.userId !== userAuth.id) {
+        return reply.status(403).send({ success: false, message: 'Forbidden: Access restricted to the customer who placed this order' });
+      }
+    } else if (userAuth.role !== 'DINEDECK_SUPER_ADMIN') {
+      if (userAuth.restaurantId && order.restaurantId !== userAuth.restaurantId) {
+        return reply.status(403).send({ success: false, message: 'Forbidden: Tenant isolation restricts accessing orders from other restaurants' });
+      }
     }
 
     return reply.send({

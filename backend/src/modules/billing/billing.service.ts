@@ -45,6 +45,7 @@ export class BillingService {
         branch: true,
         sessions: {
           where: { status: 'ACTIVE' },
+          orderBy: { startedAt: 'desc' },
           include: {
             user: true,
             orders: {

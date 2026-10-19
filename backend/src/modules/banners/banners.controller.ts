@@ -1,4 +1,4 @@
-﻿import { FastifyInstance, FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyInstance, FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
 import { prisma } from '../../config/db.js';
 import { realtimeHub } from '../../realtime/websocket.js';
 import { z } from 'zod';
@@ -52,8 +52,20 @@ export const bannerRoutes: FastifyPluginAsync = async (server: FastifyInstance) 
     return reply.send({ success: true, data: banner });
   });
 
+  const enforceBannerAdmin = async (req: FastifyRequest, reply: FastifyReply) => {
+    try {
+      await req.jwtVerify();
+    } catch {
+      return reply.status(401).send({ success: false, message: 'Unauthorized: Invalid or missing token' });
+    }
+    const userAuth = (req as any).user;
+    if (userAuth?.role !== 'DINEDECK_SUPER_ADMIN' && userAuth?.role !== 'RESTAURANT_OWNER' && userAuth?.role !== 'RESTAURANT_MANAGER') {
+      return reply.status(403).send({ success: false, message: 'Forbidden: Insufficient privileges to modify banners' });
+    }
+  };
+
   // 3. Create promotional banner (Admin / Partner)
-  server.post('/', async (request: FastifyRequest, reply: FastifyReply) => {
+  server.post('/', { preHandler: [enforceBannerAdmin] }, async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const data = BannerSchema.parse(request.body);
       const banner = await prisma.bannerPromotion.create({
@@ -72,7 +84,7 @@ export const bannerRoutes: FastifyPluginAsync = async (server: FastifyInstance) 
   });
 
   // 4. Update promotional banner
-  server.put('/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  server.put('/:id', { preHandler: [enforceBannerAdmin] }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { id } = request.params as { id: string };
     try {
       const data = BannerSchema.partial().parse(request.body);
@@ -93,7 +105,7 @@ export const bannerRoutes: FastifyPluginAsync = async (server: FastifyInstance) 
   });
 
   // 5. Toggle active status
-  server.patch('/:id/toggle', async (request: FastifyRequest, reply: FastifyReply) => {
+  server.patch('/:id/toggle', { preHandler: [enforceBannerAdmin] }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { id } = request.params as { id: string };
     const banner = await prisma.bannerPromotion.findUnique({ where: { id } });
     if (!banner) {
@@ -111,7 +123,7 @@ export const bannerRoutes: FastifyPluginAsync = async (server: FastifyInstance) 
   });
 
   // 6. Delete banner
-  server.delete('/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  server.delete('/:id', { preHandler: [enforceBannerAdmin] }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { id } = request.params as { id: string };
     await prisma.bannerPromotion.delete({ where: { id } });
 

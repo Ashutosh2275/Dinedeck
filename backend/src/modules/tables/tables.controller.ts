@@ -297,7 +297,8 @@ export async function tableRoutes(fastify: FastifyInstance) {
   });
 
   // 3. Manual Server Reassignment (Captain / GM / Owner)
-  fastify.post('/:tableId/assign-waiter', async (req: FastifyRequest, reply: FastifyReply) => {
+  fastify.post('/:tableId/assign-waiter', { preHandler: [fastify.authenticate] }, async (req: FastifyRequest, reply: FastifyReply) => {
+    const userAuth = (req as any).user;
     const { tableId } = req.params as { tableId: string };
     const parse = assignWaiterSchema.safeParse(req.body);
     if (!parse.success) {
@@ -315,6 +316,12 @@ export async function tableRoutes(fastify: FastifyInstance) {
     }
 
     const restId = restaurantId || table.branch.restaurantId;
+
+    const { iamService } = await import('../iam/iam.service.js');
+    const authRes = await iamService.authorize(userAuth, 'tables.assign', { restaurantId: restId });
+    if (!authRes.authorized) {
+      return reply.status(authRes.statusCode).send({ success: false, error: authRes.reason });
+    }
 
     const newAssignment: TableWaiterAssignment = {
       waiterId,
@@ -357,9 +364,20 @@ export async function tableRoutes(fastify: FastifyInstance) {
   });
 
   // 4. Executive Surveillance: Live Floor Allocations & Kitchen Pickup SLA Feed
-  fastify.get('/surveillance/allocations', async (req: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/surveillance/allocations', { preHandler: [fastify.authenticate] }, async (req: FastifyRequest, reply: FastifyReply) => {
+    const userAuth = (req as any).user;
     const query = req.query as { restaurantId?: string };
-    const restaurantId = query.restaurantId || 'cm09000000000000000000001';
+    const restaurantId = query.restaurantId || userAuth?.restaurantId;
+
+    if (!restaurantId && userAuth?.role !== 'DINEDECK_SUPER_ADMIN') {
+      return reply.status(400).send({ success: false, message: 'restaurantId context is required' });
+    }
+
+    const { iamService } = await import('../iam/iam.service.js');
+    const authRes = await iamService.authorize(userAuth, 'tables.read', { restaurantId });
+    if (!authRes.authorized) {
+      return reply.status(authRes.statusCode).send({ success: false, error: authRes.reason });
+    }
 
     // 1. Fetch all tables
     const tables = await prisma.table.findMany({

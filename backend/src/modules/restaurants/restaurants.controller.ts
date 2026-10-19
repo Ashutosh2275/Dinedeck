@@ -111,12 +111,26 @@ export async function restaurantRoutes(fastify: FastifyInstance) {
 
   // Update Menu Item (Price, Discount, Availability)
   fastify.patch('/:restaurantId/menu/items/:itemId', { preHandler: [fastify.authenticate] }, async (req: FastifyRequest, reply: FastifyReply) => {
+    const userAuth = (req as any).user;
     const { restaurantId, itemId } = req.params as { restaurantId: string; itemId: string };
     const { price, discountedPrice, isAvailable } = req.body as {
       price?: number;
       discountedPrice?: number;
       isAvailable?: boolean;
     };
+
+    const { iamService } = await import('../iam/iam.service.js');
+    const authRes = await iamService.authorize(userAuth, 'menu.update', { restaurantId });
+    if (!authRes.authorized) {
+      return reply.status(authRes.statusCode).send({ success: false, error: authRes.reason });
+    }
+
+    const existingItem = await prisma.menuItem.findUnique({
+      where: { id: itemId }
+    });
+    if (!existingItem || existingItem.restaurantId !== restaurantId) {
+      return reply.status(404).send({ success: false, message: 'Menu item not found in this restaurant' });
+    }
 
     const updateData: any = {};
     if (price !== undefined) updateData.price = price;

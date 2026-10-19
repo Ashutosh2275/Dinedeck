@@ -53,6 +53,7 @@ describe('DINEDECK Billing & POS Workstation Master Suite', () => {
       });
     }
     tableId = table.id;
+    await prisma.diningSession.updateMany({ where: { tableId, status: 'ACTIVE' }, data: { status: 'COMPLETED' } });
 
     // Fetch Menu Items
     const items = await prisma.menuItem.findMany({ where: { restaurantId } });
