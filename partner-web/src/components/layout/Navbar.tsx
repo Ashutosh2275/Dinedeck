@@ -67,7 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Right Operational Controls */}
       <div className="flex items-center space-x-2 sm:space-x-4">
-        {/* Live WebSocket Status Indicator */}
+        {/* Live Status Indicator */}
         <div
           className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold border transition ${
             wsStatus === 'CONNECTED'
@@ -76,12 +76,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               ? 'bg-amber-500/10 text-amber-400 border-amber-500/20 animate-pulse'
               : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
           }`}
-          title={`WebSocket Realtime Gateway: ${wsStatus}`}
+          title={wsStatus === 'CONNECTED' ? 'Connection Status: Online' : `Connection Status: ${wsStatus}`}
         >
           {wsStatus === 'CONNECTED' ? (
             <>
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="hidden xs:inline">WS ⚡ Live</span>
+              <span className="hidden xs:inline">Live Connected</span>
             </>
           ) : (
             <>

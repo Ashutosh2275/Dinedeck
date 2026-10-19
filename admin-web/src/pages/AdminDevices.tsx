@@ -80,13 +80,13 @@ export const AdminDevices: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-black text-white tracking-tight">Hardware Fleet & Devices</h1>
+            <h1 className="text-xl font-black text-white tracking-tight">Devices & Printers</h1>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-              FLEET TELEMETRY
+              DEVICE STATUS
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Realtime monitoring and diagnostic control for restaurant KDS tablets, ESC/POS thermal printers, and POS web terminals.
+            Realtime connection status and diagnostic control for restaurant kitchen tablets, thermal printers, and billing terminals.
           </p>
         </div>
 

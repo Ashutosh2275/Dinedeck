@@ -62,7 +62,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       key: 'KITCHEN' as TabKey,
-      label: 'Kitchen KDS',
+      label: 'Kitchen Display',
       icon: ChefHat,
       badge: ordersCount,
       roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'KITCHEN_MANAGER', 'HEAD_CHEF', 'CHEF', 'KITCHEN_STAFF', 'DINEDECK_SUPER_ADMIN']
@@ -81,7 +81,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       key: 'STAFF' as TabKey,
-      label: 'Staff Access',
+      label: 'Staff & Access',
       icon: Users,
       roles: ['RESTAURANT_OWNER', 'GENERAL_MANAGER', 'DINEDECK_SUPER_ADMIN']
     },
@@ -195,10 +195,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Footer Role Badge */}
         <div className="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-1">
           <div className="text-[11px] font-bold text-white flex items-center justify-between">
-            <span>IAM Security Active</span>
+            <span>Security Active</span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           </div>
-          <div className="text-[10px] text-slate-500">Fastify • Prisma SQLite • WS Live</div>
+          <div className="text-[10px] text-slate-500">DineDeck Connected • Online</div>
         </div>
       </aside>
     </>

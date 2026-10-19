@@ -524,7 +524,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     setIsSubmitting(false);
 
     if (res.success) {
-      setPosSuccessMsg('KOT Printed & Dispatched!');
+      setPosSuccessMsg('Order Sent to Kitchen & Printed!');
       setCart([]);
       setSpecialNotes('');
       setCustomerName('');
@@ -648,7 +648,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
           <h1 className="text-2xl font-black text-white mt-1">Home Command Center</h1>
           <p className="text-xs text-slate-400 mt-0.5">
-            Realtime QR dining floor, live guest orders, station KOT routing, and advance reservations.
+            Realtime dining floor, live guest orders, kitchen dispatch, and advance reservations.
           </p>
         </div>
 
@@ -767,7 +767,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           className="bg-[#1E293B] hover:border-blue-500/40 cursor-pointer transition border border-slate-700/80 rounded-2xl p-4 shadow-lg group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">Cooking & Active KDS</span>
+            <span className="text-xs font-semibold text-slate-400">Cooking in Kitchen</span>
             <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
               <Flame className="w-4 h-4" />
             </div>
@@ -777,7 +777,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
           <div className="flex items-center justify-between text-[11px] text-slate-400 mt-2">
             <span>{cookingOrders.length} on fire in kitchen</span>
-            <span className="text-blue-400 font-semibold">Open KDS →</span>
+            <span className="text-blue-400 font-semibold">Open Kitchen Display →</span>
           </div>
         </div>
 
@@ -1414,7 +1414,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     className="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 border border-slate-700"
                   >
                     <ChefHat className="w-3.5 h-3.5 text-blue-400" />
-                    <span>Kitchen KDS</span>
+                    <span>Kitchen Display</span>
                   </button>
                 </div>
               </div>
@@ -1733,7 +1733,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     className="w-full py-3 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-black rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-orange-500/20 disabled:opacity-40 flex items-center justify-center space-x-2"
                   >
                     <Printer className="w-4 h-4" />
-                    <span>{isSubmitting ? 'Printing KOT...' : 'Print KOT'}</span>
+                    <span>{isSubmitting ? 'Sending to Kitchen...' : 'Send to Kitchen & Print'}</span>
                   </button>
                 </div>
               </div>

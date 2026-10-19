@@ -56,18 +56,18 @@ export const AdminHealth: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-black text-white tracking-tight">System Health & Feature Flags</h1>
+            <h1 className="text-xl font-black text-white tracking-tight">System Health & Services</h1>
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Real-time infrastructure telemetry, service latencies, and runtime feature toggles.
+            Real-time service status, system speed, and database connectivity.
           </p>
         </div>
 
         <button
           onClick={() => loadHealth()}
           className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700 self-start sm:self-auto"
-          title="Refresh Telemetry"
+          title="Refresh System Health"
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
         </button>
@@ -75,24 +75,24 @@ export const AdminHealth: React.FC = () => {
 
       {/* Health Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Fastify API */}
+        {/* Backend Server */}
         <div className="p-5 bg-[#121826] border border-slate-800 rounded-3xl space-y-2">
           <div className="flex items-center justify-between text-xs font-bold text-slate-400">
-            <span>Fastify Core API</span>
+            <span>Backend Server</span>
             <Server className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="text-2xl font-black text-white">HEALTHY</div>
-          <div className="text-[11px] text-emerald-400 font-bold">14ms Latency • Port 8080</div>
+          <div className="text-[11px] text-emerald-400 font-bold">14ms Response Time • Online</div>
         </div>
 
-        {/* Prisma SQLite */}
+        {/* Database */}
         <div className="p-5 bg-[#121826] border border-slate-800 rounded-3xl space-y-2">
           <div className="flex items-center justify-between text-xs font-bold text-slate-400">
-            <span>Prisma Database</span>
+            <span>Primary Database</span>
             <Database className="w-4 h-4 text-blue-400" />
           </div>
           <div className="text-2xl font-black text-white">HEALTHY</div>
-          <div className="text-[11px] text-blue-400 font-bold">SQLite Transactional Engine</div>
+          <div className="text-[11px] text-blue-400 font-bold">PostgreSQL Database Engine</div>
         </div>
 
         {/* WebSocket Gateway */}

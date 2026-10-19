@@ -80,13 +80,13 @@ export const AdminFeatureFlags: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-black text-white tracking-tight">Feature Flags & Canary Rollouts</h1>
+            <h1 className="text-xl font-black text-white tracking-tight">Feature Controls & Updates</h1>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-              TENANT GOVERNANCE
+              FEATURE CONTROLS
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Safely control platform feature rollouts (1% to 100%), canary experimentation, and tenant-level feature overrides.
+            Safely enable or disable platform features, rollout gradual updates, and customize features for restaurants.
           </p>
         </div>
 

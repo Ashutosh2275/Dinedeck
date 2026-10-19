@@ -502,7 +502,7 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-0.5">
-                GST Tax Invoices, Multi-Mode Settlements (UPI / Cash / Card / Split), and Audit Ledger.
+                GST Tax Invoices, Payment Collection (UPI / Cash / Card / Split), and Receipt History.
               </p>
             </div>
           </div>
@@ -674,7 +674,7 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
           }`}
         >
           <CreditCard className="w-4 h-4" />
-          <span>Settlement & Pay</span>
+          <span>Collect Payment</span>
           {selectedSession && (
             <span className="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
               {getFormattedTableTitle(selectedSession.tableNumber)}
@@ -695,7 +695,7 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
           }`}
         >
           <History className="w-4 h-4" />
-          <span>Settlement History</span>
+          <span>Payment History</span>
           <span className="px-2 py-0.5 rounded-full text-[10px] bg-slate-950/80 text-slate-300 font-mono">
             {historyList.length}
           </span>
@@ -714,7 +714,7 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
                 <span>Live Running Invoices & Dining Tables</span>
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
-                Select any table to review itemized GST bills, apply authorized discounts, and execute multi-mode settlements.
+                Select any table to review itemized GST bills, apply authorized discounts, and collect payment via UPI, Cash, or Card.
               </p>
             </div>
 
@@ -860,7 +860,7 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
                 <CreditCard className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-base font-black text-white">Select a Table for Final Settlement</h3>
+                <h3 className="text-base font-black text-white">Select a Table to Collect Payment</h3>
                 <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
                   Pick an active dining session from below to review the itemized breakdown, select payment mode, and generate the tax invoice.
                 </p>
@@ -1254,7 +1254,7 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
                   {/* Cashier Notes */}
                   <input
                     type="text"
-                    placeholder="Cashier settlement note (Optional)"
+                    placeholder="Payment note (Optional)"
                     value={paymentNote}
                     onChange={(e) => setPaymentNote(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-orange-500"
@@ -1269,7 +1269,7 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
                   >
                     <CheckCircle2 className="w-4 h-4" />
                     <span>
-                      {actionLoading ? 'Finalizing...' : `Complete Final Settlement (₹${grandTotal.toFixed(2)})`}
+                      {actionLoading ? 'Finalizing...' : `Complete Payment (₹${grandTotal.toFixed(2)})`}
                     </span>
                   </button>
                 </div>
@@ -1288,10 +1288,10 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
             <div>
               <h3 className="text-base font-black text-white flex items-center gap-2">
                 <History className="w-5 h-5 text-orange-400" />
-                <span>Settlement History & Ledger ({getPeriodLabel(selectedPeriod)})</span>
+                <span>Payment History & Receipts ({getPeriodLabel(selectedPeriod)})</span>
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
-                Complete auditable history of all completed customer settlements with exact payment mode breakdown.
+                Complete history of all completed customer payments and receipts with exact payment mode breakdown.
               </p>
             </div>
 

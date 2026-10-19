@@ -44,11 +44,11 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
                 DINEDECK Control Center
               </h1>
               <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[9px] font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                GOVERNANCE
+                ADMIN
               </span>
             </div>
             <div className="text-[10px] sm:text-[11px] text-slate-400">
-              SuperAdmin Multi-Tenant OS
+              Platform Administration
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
           <div className="flex items-center space-x-2">
             <Search className="w-4 h-4 text-cyan-400" />
             <span className="text-slate-400 group-hover:text-slate-200 transition truncate">
-              Global Platform Search (Orders, Merchants, GSTIN, Bills)...
+              Search Orders, Restaurants, GSTIN, Bills...
             </span>
           </div>
           <kbd className="px-1.5 py-0.5 rounded-lg bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">
@@ -77,14 +77,14 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
         <button
           onClick={onOpenSearch}
           className="md:hidden p-2 rounded-xl bg-slate-900 border border-slate-800 text-cyan-400"
-          title="Universal Search"
+          title="Search All"
         >
           <Search className="w-4 h-4" />
         </button>
 
         <div className="hidden xl:flex items-center space-x-2 px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-400">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Realtime Telemetry Active</span>
+          <span>System Online</span>
         </div>
 
         <div className="flex items-center space-x-2 pl-2 border-l border-slate-800">

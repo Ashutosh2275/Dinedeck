@@ -61,16 +61,16 @@ export const AdminIAM: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
-          <h1 className="text-xl font-black text-white tracking-tight">Platform IAM & Security Governance</h1>
+          <h1 className="text-xl font-black text-white tracking-tight">Staff & Access Permissions</h1>
           <p className="text-xs text-slate-400 mt-0.5">
-            Role-Based Access Control (RBAC), tenant boundaries, user access, and immutable security audit trails.
+            Manage staff accounts, assign access permissions, and review security activity history.
           </p>
         </div>
 
         <button
           onClick={() => loadIAMData()}
           className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700 self-start sm:self-auto"
-          title="Refresh IAM Data"
+          title="Refresh Staff & Access Data"
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
         </button>
@@ -92,7 +92,7 @@ export const AdminIAM: React.FC = () => {
             activeSubTab === 'AUDIT' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
           }`}
         >
-          Audit Logs ({auditLogs.length})
+          Activity History ({auditLogs.length})
         </button>
       </div>
 

@@ -472,10 +472,10 @@ export const StaffIAM: React.FC = () => {
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight">
-                Staff Access
+                Staff & Access
               </h1>
               <p className="text-xs text-slate-400 mt-0.5">
-                Multi-tier staff roles, granular 91-permission delegation matrix & immutable security audit trail
+                Manage staff roles, access permissions, and account activity history
               </p>
             </div>
           </div>
@@ -488,7 +488,7 @@ export const StaffIAM: React.FC = () => {
               className="flex items-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white text-sm font-semibold rounded-xl transition-all shadow-lg shadow-orange-600/20 cursor-pointer"
             >
               <UserPlus className="w-4 h-4" />
-              <span>Link Provisioned User</span>
+              <span>Add Staff Member</span>
             </button>
           )}
 
@@ -532,7 +532,7 @@ export const StaffIAM: React.FC = () => {
             }`}
           >
             <ShieldCheck className="w-4 h-4" />
-            <span>Immutable Security and Operational Audit Log</span>
+            <span>Activity History</span>
             <span className="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-blue-500/20 text-blue-400 border border-blue-500/30">
               Owner Only
             </span>
@@ -548,7 +548,7 @@ export const StaffIAM: React.FC = () => {
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <ShieldCheck className="w-5 h-5 text-orange-400" />
-                  <span>Immutable Security and Operational Audit Log</span>
+                  <span>Staff & System Activity History</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-1">
                   Chronological records of permissions assigned, revoked, roles changed, and refunds executed.
@@ -574,7 +574,7 @@ export const StaffIAM: React.FC = () => {
                   {auditLogs.length === 0 ? (
                     <tr>
                       <td colSpan={5} className="px-5 py-14 text-center text-slate-500">
-                        No security audit logs found for this restaurant.
+                        No activity history recorded for this restaurant.
                       </td>
                     </tr>
                   ) : (
@@ -1415,7 +1415,7 @@ export const StaffIAM: React.FC = () => {
                   {/* Audit Reason Input */}
                   <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
                     <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                      Reason for Access Modification (Audit Trail)
+                      Reason for Access Change (Activity History)
                     </label>
                     <input
                       type="text"
@@ -1487,7 +1487,7 @@ export const StaffIAM: React.FC = () => {
                   <UserPlus className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">Link Provisioned User ID</h3>
+                  <h3 className="text-base font-bold text-white">Link Existing Staff Account</h3>
                   <p className="text-xs text-slate-400">Attach existing DINEDECK account to restaurant</p>
                 </div>
               </div>
@@ -1588,8 +1588,8 @@ export const StaffIAM: React.FC = () => {
                   <History className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">IAM Security Audit Log</h3>
-                  <p className="text-xs text-slate-400">Immutable trail of user permission changes</p>
+                  <h3 className="text-base font-bold text-white">Staff Access Activity History</h3>
+                  <p className="text-xs text-slate-400">Chronological history of user permission changes</p>
                 </div>
               </div>
               <button onClick={() => setIsAuditDrawerOpen(false)} className="p-2 text-slate-400 hover:text-white">
@@ -1600,7 +1600,7 @@ export const StaffIAM: React.FC = () => {
             <div className="space-y-3 flex-1 overflow-y-auto">
               {auditLogs.length === 0 ? (
                 <div className="text-center py-12 text-slate-500 text-sm">
-                  No IAM audit events recorded yet.
+                  No activity events recorded yet.
                 </div>
               ) : (
                 auditLogs.map((log) => {

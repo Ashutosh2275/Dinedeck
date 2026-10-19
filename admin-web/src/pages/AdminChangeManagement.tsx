@@ -90,13 +90,13 @@ export const AdminChangeManagement: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-black text-white tracking-tight">Configuration Versioning & Rollback</h1>
+            <h1 className="text-xl font-black text-white tracking-tight">Settings History & Restore</h1>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-              CHANGE GOVERNANCE
+              SETTINGS HISTORY
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Audit-tracked restaurant configuration version history with instantaneous, safe one-click rollback capabilities.
+            View history of restaurant setting changes and restore previous settings with one click.
           </p>
         </div>
 

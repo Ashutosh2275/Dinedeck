@@ -60,63 +60,63 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
 }) => {
   const navigationGroups = [
     {
-      group: 'A. COMMAND CENTER',
+      group: 'A. DASHBOARD & OPERATIONS',
       items: [
-        { key: 'OVERVIEW' as AdminTab, label: 'Executive Overview', icon: LayoutDashboard },
-        { key: 'OPERATIONS' as AdminTab, label: 'Live Operations & KDS', icon: Activity },
-        { key: 'HEALTH' as AdminTab, label: 'System Health & Killswitch', icon: HeartPulse }
+        { key: 'OVERVIEW' as AdminTab, label: 'Platform Overview', icon: LayoutDashboard },
+        { key: 'OPERATIONS' as AdminTab, label: 'Live Kitchen & Orders', icon: Activity },
+        { key: 'HEALTH' as AdminTab, label: 'System Health & Controls', icon: HeartPulse }
       ]
     },
     {
-      group: 'B. BUSINESS & MERCHANTS',
+      group: 'B. RESTAURANTS & ONBOARDING',
       items: [
-        { key: 'RESTAURANTS' as AdminTab, label: 'Merchants & Tenants', icon: Building2 },
-        { key: 'APPROVALS' as AdminTab, label: 'Onboarding & Approvals', icon: CheckSquare },
-        { key: 'TENANT_SUITE' as AdminTab, label: 'Tenant Live Workspace', icon: Store },
-        { key: 'COMPLIANCE' as AdminTab, label: 'KYC & Compliance', icon: FileCheck }
+        { key: 'RESTAURANTS' as AdminTab, label: 'Restaurants & Branches', icon: Building2 },
+        { key: 'APPROVALS' as AdminTab, label: 'New Restaurant Approvals', icon: CheckSquare },
+        { key: 'TENANT_SUITE' as AdminTab, label: 'Restaurant Workspace', icon: Store },
+        { key: 'COMPLIANCE' as AdminTab, label: 'Verification & Compliance', icon: FileCheck }
       ]
     },
     {
-      group: 'C. COMMERCE & OPERATIONS',
+      group: 'C. ORDERS & CUSTOMERS',
       items: [
-        { key: 'ORDERS' as AdminTab, label: 'Orders Command', icon: ShoppingBag },
-        { key: 'USER_DATABASE' as AdminTab, label: 'Diners & User Database', icon: Users },
-        { key: 'CUSTOMER_CMS' as AdminTab, label: 'Customer CMS & Banners', icon: Sparkles }
+        { key: 'ORDERS' as AdminTab, label: 'All Orders', icon: ShoppingBag },
+        { key: 'USER_DATABASE' as AdminTab, label: 'Customers & Diners', icon: Users },
+        { key: 'CUSTOMER_CMS' as AdminTab, label: 'Website Content & Banners', icon: Sparkles }
       ]
     },
     {
-      group: 'D. FINANCE & SETTLEMENT',
+      group: 'D. FINANCE & PAYOUTS',
       items: [
-        { key: 'FINANCE' as AdminTab, label: 'Finance & Settlements', icon: DollarSign },
-        { key: 'RECONCILIATION' as AdminTab, label: 'Financial Reconciliation', icon: FileSpreadsheet }
+        { key: 'FINANCE' as AdminTab, label: 'Payouts & Billing', icon: DollarSign },
+        { key: 'RECONCILIATION' as AdminTab, label: 'Match Payments & Settlements', icon: FileSpreadsheet }
       ]
     },
     {
-      group: 'E. RISK, TRUST & SUPPORT',
+      group: 'E. SAFETY & SUPPORT',
       items: [
-        { key: 'RISK' as AdminTab, label: 'Risk Assessment Engine', icon: AlertOctagon },
-        { key: 'SUPPORT' as AdminTab, label: 'Support & Incident Desk', icon: LifeBuoy }
+        { key: 'RISK' as AdminTab, label: 'Fraud & Risk Alerts', icon: AlertOctagon },
+        { key: 'SUPPORT' as AdminTab, label: 'Help Desk & Service Issues', icon: LifeBuoy }
       ]
     },
     {
-      group: 'F. PLATFORM INFRASTRUCTURE',
+      group: 'F. DEVICES & CONTROLS',
       items: [
-        { key: 'DEVICES' as AdminTab, label: 'Hardware Fleet & Printers', icon: Smartphone },
-        { key: 'FLAGS' as AdminTab, label: 'Feature Flags & Rollouts', icon: Flag },
-        { key: 'CHANGES' as AdminTab, label: 'Config Versioning & Rollback', icon: RotateCcw }
+        { key: 'DEVICES' as AdminTab, label: 'Devices & Printers', icon: Smartphone },
+        { key: 'FLAGS' as AdminTab, label: 'Feature Controls', icon: Flag },
+        { key: 'CHANGES' as AdminTab, label: 'Settings History', icon: RotateCcw }
       ]
     },
     {
-      group: 'G. SECURITY & GOVERNANCE',
+      group: 'G. ACCESS & HISTORY',
       items: [
-        { key: 'IAM' as AdminTab, label: 'IAM & Granular Security', icon: ShieldCheck },
-        { key: 'AUDIT' as AdminTab, label: 'Audit Logs & Timeline', icon: History }
+        { key: 'IAM' as AdminTab, label: 'Staff & Access Permissions', icon: ShieldCheck },
+        { key: 'AUDIT' as AdminTab, label: 'Activity History', icon: History }
       ]
     },
     {
-      group: 'H. ANALYTICS & CONFIG',
+      group: 'H. SETTINGS',
       items: [
-        { key: 'SETTINGS' as AdminTab, label: 'Platform Configuration', icon: Settings }
+        { key: 'SETTINGS' as AdminTab, label: 'General Settings', icon: Settings }
       ]
     }
   ];
@@ -145,7 +145,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
         <div className="space-y-3 flex-1 flex flex-col min-h-0">
           <div className="flex items-center justify-between pb-2 border-b border-slate-800 lg:hidden">
             <span className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">
-              Control Center Navigation
+              Administration Menu
             </span>
             <button
               onClick={onCloseMobile}

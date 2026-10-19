@@ -249,7 +249,7 @@ export const AdminOrders: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              Authoritative multi-tenant order discovery, status progression, and instant tax invoice generator.
+              Live order tracking, status progression, and instant tax invoices across all restaurants.
             </p>
           </div>
         </div>
@@ -302,15 +302,15 @@ export const AdminOrders: React.FC = () => {
         </div>
 
         <div className="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Gross Order Value (GOV)</div>
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Order Value</div>
           <div className="text-2xl font-black text-emerald-400 mt-1">₹{totalValue.toLocaleString('en-IN')}</div>
           <div className="text-[10px] text-slate-400 mt-0.5">Customer payments captured</div>
         </div>
 
         <div className="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">15% DineDeck Cut</div>
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Platform Commission (15%)</div>
           <div className="text-2xl font-black text-purple-400 mt-1">₹{totalCommission.toLocaleString('en-IN')}</div>
-          <div className="text-[10px] text-purple-300 mt-0.5">Platform take-rate accrued</div>
+          <div className="text-[10px] text-purple-300 mt-0.5">Platform commission earned</div>
         </div>
       </div>
 

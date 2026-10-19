@@ -119,7 +119,7 @@ fun PartnerLoginScreen(viewModel: PartnerViewModel) {
             letterSpacing = 1.sp
         )
         Text(
-            "Universal Multi-Tenant Restaurant Operating System",
+            "Universal Restaurant Operating System",
             fontSize = 12.sp,
             color = Color(0xFF9CA3AF),
             fontWeight = FontWeight.Medium
@@ -203,10 +203,10 @@ fun PartnerLoginScreen(viewModel: PartnerViewModel) {
         val personas = listOf(
             Triple("👑 Owner (Punjab Heritage)", "owner.punjab@dinedeck.in", PartnerPrimary),
             Triple("👔 General Manager", "manager.sunil@punjabheritage.in", PartnerInfo),
-            Triple("👨‍🍳 Head Chef (Kitchen KDS)", "chef.vikram@punjabheritage.in", PartnerSuccess),
+            Triple("👨‍🍳 Head Chef (Kitchen Display)", "chef.vikram@punjabheritage.in", PartnerSuccess),
             Triple("🛎️ Floor Waiter / Captain", "waiter.ramesh@punjabheritage.in", PartnerWarning),
             Triple("🧾 Cashier & Billing", "cashier.priya@punjabheritage.in", PartnerPurple),
-            Triple("🏢 Tenant B Owner (Peshawari)", "owner.peshawari@dinedeck.in", PartnerTeal)
+            Triple("🏢 Restaurant 2 Owner (Peshawari)", "owner.peshawari@dinedeck.in", PartnerTeal)
         )
 
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -319,7 +319,7 @@ fun PartnerMainDashboard(
                     label = { Text("Tables", fontSize = 11.sp) }
                 )
 
-                // Tab 1: Kitchen KDS
+                // Tab 1: Kitchen Display
                 NavigationBarItem(
                     selected = uiState.selectedTab == 1,
                     onClick = { viewModel.setTab(1) },
@@ -330,10 +330,10 @@ fun PartnerMainDashboard(
                                 Badge(containerColor = PartnerPrimary) { Text("$count") }
                             }
                         }) {
-                            Icon(Icons.Default.RestaurantMenu, contentDescription = "KDS")
+                            Icon(Icons.Default.RestaurantMenu, contentDescription = "Kitchen")
                         }
                     },
-                    label = { Text("Kitchen KDS", fontSize = 11.sp) }
+                    label = { Text("Kitchen", fontSize = 11.sp) }
                 )
 
                 // Tab 2: Cashier & Billing Workstation
@@ -664,7 +664,7 @@ fun KitchenOrdersView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
         item {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
-                    "Kitchen KDS Production Engine",
+                    "Kitchen Display & Orders",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -919,7 +919,7 @@ fun CashierBillingView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
             ) {
                 val tabs = listOf(
                     "INVOICES" to "Invoices (${uiState.billingSessions.size})",
-                    "SETTLEMENT" to "Settlement",
+                    "SETTLEMENT" to "Collect Payment",
                     "HISTORY" to "History (${uiState.billingHistory.size})"
                 )
                 tabs.forEach { (key, label) ->
@@ -1007,7 +1007,7 @@ fun CashierBillingView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text("No Table Selected", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                            Text("Choose a table from the Invoices tab to execute settlement.", fontSize = 12.sp, color = Color(0xFF9CA3AF))
+                            Text("Choose a table from the Invoices tab to collect payment.", fontSize = 12.sp, color = Color(0xFF9CA3AF))
                         }
                     } else {
                         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -1134,7 +1134,7 @@ fun CashierBillingView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
                                         shape = RoundedCornerShape(10.dp),
                                         modifier = Modifier.fillMaxWidth().height(46.dp)
                                     ) {
-                                        Text("Complete Final Settlement (₹${String.format("%.2f", grand)})", fontWeight = FontWeight.Bold, color = Color.White)
+                                        Text("Complete Payment (₹${String.format("%.2f", grand)})", fontWeight = FontWeight.Bold, color = Color.White)
                                     }
                                 }
                             }
@@ -1309,10 +1309,10 @@ fun MenuAndSalesView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
             }
 
             val items = listOf(
-                Triple("Staff Access & IAM", "Manage staff permissions, branch scopes, and roles", "STAFF_IAM"),
+                Triple("Staff & Access", "Manage staff permissions, branch access, and roles", "STAFF_IAM"),
                 Triple("Menu Management & 86", "Toggle live stock availability and update prices", "MENU"),
                 Triple("Shift Sales & Reports", "Financial metrics, payment breakdowns, and taxes", "SALES"),
-                Triple("Security Audit Logs", "Review immutable security access events and actors", "AUDIT")
+                Triple("Activity History", "Review staff and system activity records", "AUDIT")
             )
 
             items(items) { (title, desc, subKey) ->
@@ -1397,7 +1397,7 @@ fun ManagementStaffIamView(viewModel: PartnerViewModel, uiState: PartnerUiState)
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                 }
                 Column {
-                    Text("Staff Access & IAM Scoping", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    Text("Staff & Access Permissions", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
                     if (isGm) {
                         Text("Branch Isolated: ${uiState.currentBranch?.name ?: "Your Branch"} Staff Only", fontSize = 11.sp, color = PartnerInfo)
                     }

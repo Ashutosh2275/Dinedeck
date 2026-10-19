@@ -75,7 +75,7 @@ fun OverviewScreen(
         item {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(
-                    "Platform Governance",
+                    "Platform Administration",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -132,7 +132,7 @@ fun OverviewScreen(
                         colors = CardDefaults.cardColors(containerColor = Color(0xFF151C26))
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text("GROSS ORDER VALUE (GOV)", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
+                            Text("TOTAL ORDER VALUE", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
                             Text(formatInr(d?.finance?.grossOrderValue ?: 0.0), fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, color = Color(0xFFFF6B00))
                             Spacer(modifier = Modifier.height(12.dp))
                             HorizontalDivider(color = Color.White.copy(alpha = 0.08f))
@@ -143,7 +143,7 @@ fun OverviewScreen(
                                     Text(formatInr(d?.finance?.platformCommissionRevenue ?: 0.0), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color(0xFF10B981))
                                 }
                                 Column {
-                                    Text("Merchant Payables", fontSize = 10.sp, color = Color(0xFF8E9BAE))
+                                    Text("Amount Owed to Restaurants", fontSize = 10.sp, color = Color(0xFF8E9BAE))
                                     Text(formatInr(d?.finance?.netRestaurantPayable ?: 0.0), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.White)
                                 }
                                 Column {
@@ -162,10 +162,10 @@ fun OverviewScreen(
                             colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
                         ) {
                             Column(modifier = Modifier.padding(14.dp)) {
-                                Text("🏪 ACTIVE MERCHANTS", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
+                                Text("🏪 ACTIVE RESTAURANTS", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text("${d?.restaurants?.active ?: 0} / ${d?.restaurants?.total ?: 0}", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
-                                Text("${d?.restaurants?.pendingReview ?: 0} Pending KYC", fontSize = 11.sp, color = Color(0xFFF59E0B))
+                                Text("${d?.restaurants?.pendingReview ?: 0} Pending Verification", fontSize = 11.sp, color = Color(0xFFF59E0B))
                             }
                         }
 
@@ -402,7 +402,7 @@ fun RestaurantDetailScreen(
                     ) {
                         Icon(Icons.Default.Edit, contentDescription = "Edit", modifier = Modifier.size(16.dp), tint = Color(0xFFFF6B00))
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("Edit Profile & KYC", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        Text("Edit Profile & Verification", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color.White)
                     }
 
                     if (restaurant.status != "ACTIVE") {
@@ -435,7 +435,7 @@ fun RestaurantDetailScreen(
             contentColor = Color(0xFFFF6B00),
             edgePadding = 16.dp
         ) {
-            listOf("Overview", "Branches & Tables", "Menu Catalog", "Staff & IAM", "Settlements").forEachIndexed { idx, title ->
+            listOf("Overview", "Branches & Tables", "Menu Catalog", "Staff & Access", "Payouts").forEachIndexed { idx, title ->
                 Tab(
                     selected = selectedTab == idx,
                     onClick = { selectedTab = idx },
@@ -455,7 +455,7 @@ fun RestaurantDetailScreen(
                     item {
                         Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A)), shape = RoundedCornerShape(12.dp)) {
                             Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Text("COMPLIANCE & KYC VERIFICATION", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
+                                Text("RESTAURANT COMPLIANCE & VERIFICATION", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
                                 Text("Legal Entity: ${restaurant.legalBusinessName ?: "N/A"}", fontSize = 13.sp, color = Color.White)
                                 Text("GSTIN: ${restaurant.gstin ?: "N/A"}", fontSize = 13.sp, color = Color.White)
                                 Text("FSSAI License: ${restaurant.fssaiNumber ?: "N/A"}", fontSize = 13.sp, color = Color.White)
@@ -618,7 +618,7 @@ fun RestaurantDetailScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("RESTAURANT STAFF & IAM SCOPES", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
+                            Text("RESTAURANT STAFF & ACCESS PERMISSIONS", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
                             Button(
                                 onClick = { showAddStaffDialog = true },
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF6B00)),
@@ -650,7 +650,7 @@ fun RestaurantDetailScreen(
                                             shape = RoundedCornerShape(6.dp),
                                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                         ) {
-                                            Text("Deny Refund IAM", fontSize = 9.sp, color = Color(0xFFEF4444))
+                                            Text("Remove Refund Access", fontSize = 9.sp, color = Color(0xFFEF4444))
                                         }
                                         Button(
                                             onClick = { onSetPermissionOverride(s.userId, "menu", "update", "ALLOW", "RESTAURANT:${restaurant.id}") },
@@ -658,7 +658,7 @@ fun RestaurantDetailScreen(
                                             shape = RoundedCornerShape(6.dp),
                                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                         ) {
-                                            Text("Allow Menu IAM", fontSize = 9.sp, color = Color(0xFF10B981))
+                                            Text("Allow Menu Access", fontSize = 9.sp, color = Color(0xFF10B981))
                                         }
                                     }
                                 }
@@ -674,12 +674,12 @@ fun RestaurantDetailScreen(
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("+ Generate Settlement Batch", fontWeight = FontWeight.Bold)
+                            Text("+ Create Payout Batch", fontWeight = FontWeight.Bold)
                         }
                     }
                     val sets = restaurant.settlements.orEmpty()
                     if (sets.isEmpty()) {
-                        item { Text("No settlements generated yet.", color = Color(0xFF8E9BAE)) }
+                        item { Text("No payouts generated yet.", color = Color(0xFF8E9BAE)) }
                     } else {
                         items(sets) { s ->
                             Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A)), shape = RoundedCornerShape(12.dp)) {
@@ -712,7 +712,7 @@ fun RestaurantDetailScreen(
 
         AlertDialog(
             onDismissRequest = { showEditProfileDialog = false },
-            title = { Text("Edit Profile & KYC", fontWeight = FontWeight.Bold) },
+            title = { Text("Edit Profile & Verification", fontWeight = FontWeight.Bold) },
             text = {
                 Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     OutlinedTextField(value = dName, onValueChange = { dName = it }, label = { Text("Display Name") })
@@ -1030,7 +1030,7 @@ fun FinanceScreen(
             contentColor = Color(0xFFFF6B00)
         ) {
             Tab(selected = subTab == 0, onClick = { subTab = 0 }, text = { Text("Payments & Refunds", fontWeight = FontWeight.Bold) })
-            Tab(selected = subTab == 1, onClick = { subTab = 1 }, text = { Text("Settlements & NEFT", fontWeight = FontWeight.Bold) })
+            Tab(selected = subTab == 1, onClick = { subTab = 1 }, text = { Text("Restaurant Payouts & Transfers", fontWeight = FontWeight.Bold) })
         }
 
         LazyColumn(
@@ -1101,7 +1101,7 @@ fun FinanceScreen(
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("+ Generate Settlement Batch", fontWeight = FontWeight.Bold)
+                        Text("+ Create Payout Batch", fontWeight = FontWeight.Bold)
                     }
                 }
 
@@ -1113,7 +1113,7 @@ fun FinanceScreen(
                         }
                     }
                 } else if (sets.isEmpty()) {
-                    item { Text("No settlements generated yet.", color = Color(0xFF8E9BAE)) }
+                    item { Text("No payouts generated yet.", color = Color(0xFF8E9BAE)) }
                 } else {
                     items(sets) { s ->
                         Card(
@@ -1169,7 +1169,7 @@ fun MoreCommandCenterScreen(
                 Triple("CUSTOMERS", "👥 Customer Directory", "Profiles, order history & dining sessions"),
                 Triple("GROWTH", "🏷️ Coupons & Promotions", "Discount campaigns & usage limits"),
                 Triple("SUPPORT", "🎫 Incident & Support Desk", "Operational support & hardware tickets"),
-                Triple("SECURITY", "🔐 Security Audit Ledger", "Immutable cryptographic action logs"),
+                Triple("SECURITY", "🛡️ Activity History", "System activity history and change records"),
                 Triple("SYSTEM", "⚙️ System Health & Killswitch", "V8 heap, DB latency & emergency pause")
             )
 

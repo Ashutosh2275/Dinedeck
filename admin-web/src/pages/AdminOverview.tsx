@@ -157,7 +157,7 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
                     <div className="font-extrabold text-white">{r.name}</div>
                     <div className="text-[10px] text-slate-400">{r.city} • {r.status}</div>
                   </div>
-                  <span className="text-cyan-400 font-bold text-[10px]">Merchant →</span>
+                  <span className="text-cyan-400 font-bold text-[10px]">Restaurant →</span>
                 </div>
               ))}
 
@@ -181,10 +181,10 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
 
       {/* Primary Financial Metric Banner */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Gross GMV */}
+        {/* Gross Order Value */}
         <div className="bg-gradient-to-br from-[#121826] to-slate-900 border border-slate-800 hover:border-slate-700 p-5 rounded-3xl shadow-xl space-y-2 relative overflow-hidden group">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-extrabold uppercase tracking-wider">Gross Order Value (GOV)</span>
+            <span className="text-xs font-extrabold uppercase tracking-wider">Total Order Value</span>
             <div className="p-2 rounded-xl bg-orange-500/15 text-orange-400">
               <TrendingUp className="w-4 h-4" />
             </div>
@@ -193,7 +193,7 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
             ₹{(data?.finance.grossOrderValue || 0).toFixed(2)}
           </div>
           <div className="text-[11px] text-emerald-400 font-bold flex items-center gap-1">
-            <span>Authoritative settled GMV</span>
+            <span>Total settled order amount</span>
           </div>
         </div>
 
@@ -211,10 +211,10 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
           <div className="text-[11px] text-slate-400">Platform gross margin earned</div>
         </div>
 
-        {/* Net Merchant Payables */}
+        {/* Net Amount Owed to Restaurants */}
         <div className="bg-gradient-to-br from-[#121826] to-emerald-950/30 border border-emerald-500/30 hover:border-emerald-500/50 p-5 rounded-3xl shadow-xl space-y-2">
           <div className="flex items-center justify-between text-emerald-300">
-            <span className="text-xs font-extrabold uppercase tracking-wider">Merchant Net Payables</span>
+            <span className="text-xs font-extrabold uppercase tracking-wider">Amount Owed to Restaurants</span>
             <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
               <CreditCard className="w-4 h-4" />
             </div>
@@ -242,13 +242,13 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
 
       {/* Operational & Governance Status Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Active Merchants */}
+        {/* Active Restaurants */}
         <div
           onClick={() => onNavigate('RESTAURANTS')}
           className="bg-[#121826] border border-slate-800 hover:border-cyan-500/40 p-4 rounded-3xl shadow-lg space-y-2 cursor-pointer transition"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400">Active Merchants</span>
+            <span className="text-xs font-bold text-slate-400">Active Restaurants</span>
             <Building2 className="w-4 h-4 text-cyan-400" />
           </div>
           <div className="text-xl font-black text-white">
@@ -319,8 +319,8 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
             className="p-3 bg-slate-900 border border-slate-700/80 hover:border-cyan-500 rounded-2xl text-left space-y-1 transition group"
           >
             <Building2 className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition" />
-            <div className="text-xs font-bold text-white">Merchants</div>
-            <div className="text-[10px] text-slate-500">Tenant Roster</div>
+            <div className="text-xs font-bold text-white">Restaurants</div>
+            <div className="text-[10px] text-slate-500">All Branches</div>
           </button>
 
           <button
@@ -328,8 +328,8 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
             className="p-3 bg-slate-900 border border-slate-700/80 hover:border-orange-500 rounded-2xl text-left space-y-1 transition group"
           >
             <Activity className="w-4 h-4 text-orange-400 group-hover:scale-110 transition" />
-            <div className="text-xs font-bold text-white">Live KDS</div>
-            <div className="text-[10px] text-slate-500">Orders Monitor</div>
+            <div className="text-xs font-bold text-white">Kitchen & Orders</div>
+            <div className="text-[10px] text-slate-500">Live Status</div>
           </button>
 
           <button
@@ -337,8 +337,8 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
             className="p-3 bg-slate-900 border border-slate-700/80 hover:border-emerald-500 rounded-2xl text-left space-y-1 transition group"
           >
             <DollarSign className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition" />
-            <div className="text-xs font-bold text-white">Settlements</div>
-            <div className="text-[10px] text-slate-500">15% Commission</div>
+            <div className="text-xs font-bold text-white">Payouts & Billing</div>
+            <div className="text-[10px] text-slate-500">Platform Earnings</div>
           </button>
 
           <button
@@ -346,8 +346,8 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
             className="p-3 bg-slate-900 border border-slate-700/80 hover:border-purple-500 rounded-2xl text-left space-y-1 transition group"
           >
             <FileCheck className="w-4 h-4 text-purple-400 group-hover:scale-110 transition" />
-            <div className="text-xs font-bold text-white">KYC & GSTIN</div>
-            <div className="text-[10px] text-slate-500">Risk Assessment</div>
+            <div className="text-xs font-bold text-white">Verification & Tax</div>
+            <div className="text-[10px] text-slate-500">Restaurant Compliance</div>
           </button>
 
           <button
@@ -355,8 +355,8 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
             className="p-3 bg-slate-900 border border-slate-700/80 hover:border-blue-500 rounded-2xl text-left space-y-1 transition group"
           >
             <ShieldCheck className="w-4 h-4 text-blue-400 group-hover:scale-110 transition" />
-            <div className="text-xs font-bold text-white">Platform IAM</div>
-            <div className="text-[10px] text-slate-500">Roles & Audit</div>
+            <div className="text-xs font-bold text-white">Staff & Access</div>
+            <div className="text-[10px] text-slate-500">Permissions & History</div>
           </button>
 
           <button
@@ -365,7 +365,7 @@ export const AdminOverview: React.FC<AdminOverviewProps> = ({ onNavigate }) => {
           >
             <Layers className="w-4 h-4 text-rose-400 group-hover:scale-110 transition" />
             <div className="text-xs font-bold text-white">System Health</div>
-            <div className="text-[10px] text-slate-500">API & WS Latency</div>
+            <div className="text-[10px] text-slate-500">Connection & Latency</div>
           </button>
         </div>
       </div>

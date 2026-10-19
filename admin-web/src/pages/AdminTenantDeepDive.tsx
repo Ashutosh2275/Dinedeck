@@ -400,9 +400,9 @@ export const AdminTenantDeepDive: React.FC = () => {
             <div>
               <div className="flex items-center space-x-2">
                 <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                  Universal Restaurant Command
+                  Restaurant Workspace
                 </span>
-                <span className="text-xs text-slate-400">10 Seeded Multi-Tenant Chains</span>
+                <span className="text-xs text-slate-400">Connected Restaurant Chains</span>
               </div>
               <h1 className="text-xl font-black text-white mt-0.5">{selectedRest.name}</h1>
               <p className="text-xs text-slate-400">
@@ -433,10 +433,10 @@ export const AdminTenantDeepDive: React.FC = () => {
             <button
               onClick={() => setIsEditProfileModalOpen(true)}
               className="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl text-xs flex items-center space-x-2 border border-slate-700 transition cursor-pointer"
-              title="Edit Restaurant Legal Details & Pricing"
+              title="Edit Restaurant Details & Business Info"
             >
               <Edit2 className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Edit Details & KYC</span>
+              <span>Edit Details</span>
             </button>
 
             {/* Lifecycle Status Switcher */}
@@ -476,7 +476,7 @@ export const AdminTenantDeepDive: React.FC = () => {
             <button
               onClick={loadRestaurants}
               className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-2xl transition cursor-pointer border border-slate-700"
-              title="Refresh Restaurant Telemetry"
+              title="Refresh Restaurant Data"
             >
               <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
             </button>
@@ -518,12 +518,12 @@ export const AdminTenantDeepDive: React.FC = () => {
       <div className="flex items-center space-x-1.5 overflow-x-auto no-scrollbar bg-slate-900/60 p-1.5 rounded-2xl border border-slate-800 text-xs font-bold">
         {[
           { key: 'HOME' as TenantSubTab, label: 'Floor & Live Operations', icon: Activity },
-          { key: 'KDS' as TenantSubTab, label: 'Kitchen KDS Station', icon: Clock },
+          { key: 'KDS' as TenantSubTab, label: 'Kitchen Display', icon: Clock },
           { key: 'MENU' as TenantSubTab, label: 'Dishes & Live Stock', icon: UtensilsCrossed },
           { key: 'BILLING' as TenantSubTab, label: 'Cashier & Invoices', icon: Receipt },
           { key: 'TABLES' as TenantSubTab, label: 'Tables & Table QR Codes', icon: QrCodeIcon },
           { key: 'STAFF' as TenantSubTab, label: 'Staff & Roles', icon: Users },
-          { key: 'SETTINGS' as TenantSubTab, label: 'KYC & Compliance', icon: Settings }
+          { key: 'SETTINGS' as TenantSubTab, label: 'Verification & Details', icon: Settings }
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.key;

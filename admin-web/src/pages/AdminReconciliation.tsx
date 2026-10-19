@@ -97,20 +97,20 @@ export const AdminReconciliation: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-black text-white tracking-tight">Financial Reconciliation Engine</h1>
+            <h1 className="text-xl font-black text-white tracking-tight">Match Payments & Settlements</h1>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
               LEDGER VERIFIED
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Automated detection of orphan payments, bill-to-gateway discrepancies, and settlement variance exceptions.
+            Automated verification of payments, customer bills, and restaurant payouts.
           </p>
         </div>
 
         <button
           onClick={loadExceptions}
           className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700 shrink-0"
-          title="Re-run Reconciliation Audit"
+          title="Check Payments & Settlements"
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
         </button>
@@ -128,7 +128,7 @@ export const AdminReconciliation: React.FC = () => {
       {/* Metrics Banner */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="p-5 bg-[#121826] border border-slate-800 rounded-3xl space-y-1">
-          <div className="text-xs font-black uppercase text-slate-400">Total Exceptions</div>
+          <div className="text-xs font-black uppercase text-slate-400">Total Discrepancies</div>
           <div className="text-3xl font-black text-white">{exceptions.length}</div>
           <div className="text-[10px] text-slate-500">Cross-verified against bills & payouts</div>
         </div>
@@ -155,7 +155,7 @@ export const AdminReconciliation: React.FC = () => {
       {/* Exceptions Table */}
       <div className="bg-[#121826] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
         <div className="p-4 border-b border-slate-800 flex items-center justify-between text-xs font-bold text-slate-400">
-          <span>Active Reconciliation Exceptions ({exceptions.length})</span>
+          <span>Active Payment Discrepancies ({exceptions.length})</span>
         </div>
 
         <div className="overflow-x-auto">
@@ -163,12 +163,12 @@ export const AdminReconciliation: React.FC = () => {
             <thead className="bg-slate-900/80 text-[10px] font-black uppercase tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
                 <th className="p-3.5">Severity</th>
-                <th className="p-3.5">Exception Type</th>
+                <th className="p-3.5">Discrepancy Type</th>
                 <th className="p-3.5">Restaurant</th>
                 <th className="p-3.5">Reference ID</th>
                 <th className="p-3.5">Expected</th>
                 <th className="p-3.5">Actual</th>
-                <th className="p-3.5">Variance</th>
+                <th className="p-3.5">Difference</th>
                 <th className="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
@@ -178,7 +178,7 @@ export const AdminReconciliation: React.FC = () => {
                   <td colSpan={8} className="text-center p-12 text-slate-500">
                     <div className="flex items-center justify-center space-x-2">
                       <div className="w-5 h-5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-                      <span>Auditing ledger and detecting exceptions...</span>
+                      <span>Checking payments, bills, and payouts...</span>
                     </div>
                   </td>
                 </tr>
@@ -186,8 +186,8 @@ export const AdminReconciliation: React.FC = () => {
                 <tr>
                   <td colSpan={8} className="text-center p-12 text-slate-500 space-y-1">
                     <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
-                    <div className="text-white font-bold">100% Financial Ledger Reconciliation Parity</div>
-                    <div className="text-xs">All payments, bills, taxes, and merchant settlements are aligned with zero discrepancies.</div>
+                    <div className="text-white font-bold">100% Payments & Settlements Matched</div>
+                    <div className="text-xs">All payments, customer bills, taxes, and restaurant payouts match with zero discrepancies.</div>
                   </td>
                 </tr>
               ) : (
@@ -225,7 +225,7 @@ export const AdminReconciliation: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[#0E131F] border border-slate-700/80 rounded-3xl w-full max-w-md p-6 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-sm font-black text-white">Resolve Reconciliation Exception</h3>
+              <h3 className="text-sm font-black text-white">Resolve Payment Discrepancy</h3>
               <button onClick={() => setResolveModalOpen(false)} className="text-slate-400 hover:text-white">
                 <X className="w-4 h-4" />
               </button>
@@ -234,7 +234,7 @@ export const AdminReconciliation: React.FC = () => {
             <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl text-xs space-y-1">
               <div className="font-extrabold text-white">{selectedException.type}</div>
               <div className="text-slate-400">{selectedException.description}</div>
-              <div className="text-rose-400 font-bold">Variance: ₹{selectedException.discrepancy}</div>
+              <div className="text-rose-400 font-bold">Difference: ₹{selectedException.discrepancy}</div>
             </div>
 
             <form onSubmit={handleResolveSubmit} className="space-y-4">
@@ -245,10 +245,10 @@ export const AdminReconciliation: React.FC = () => {
                   onChange={(e) => setResolutionAction(e.target.value)}
                   className="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 font-bold"
                 >
-                  <option value="ADJUST_SETTLEMENT">Apply Manual Settlement Adjustment</option>
-                  <option value="CREDIT_MERCHANT_LEDGER">Issue Merchant Ledger Credit</option>
-                  <option value="OVERRIDE_GATEWAY_RECORD">Verify & Align Payment Gateway State</option>
-                  <option value="DISREGARD_WITH_NOTE">Mark Audited & Close Exception</option>
+                  <option value="ADJUST_SETTLEMENT">Apply Manual Payout Adjustment</option>
+                  <option value="CREDIT_MERCHANT_LEDGER">Issue Restaurant Payout Credit</option>
+                  <option value="OVERRIDE_GATEWAY_RECORD">Verify & Align Payment Status</option>
+                  <option value="DISREGARD_WITH_NOTE">Mark Checked & Close Issue</option>
                 </select>
               </div>
 

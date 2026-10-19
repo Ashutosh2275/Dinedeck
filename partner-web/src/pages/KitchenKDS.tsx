@@ -363,7 +363,7 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
         })),
         specialInstructions: ticket.specialNotes || ticket.dietaryAlerts || undefined
       });
-      setToastMessage(`🖨️ KOT for Table #${ticket.tableNumber} sent to printer!`);
+      setToastMessage(`🖨️ Kitchen ticket for Table #${ticket.tableNumber} sent to printer!`);
       setTimeout(() => setToastMessage(null), 3000);
     } catch (err: any) {
       alert('Could not trigger thermal KOT print');
@@ -562,7 +562,7 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
             >
               <option value="FIFO">Oldest (FIFO)</option>
               <option value="NEWEST">Newest</option>
-              <option value="SLA_RISK">Urgency / SLA</option>
+              <option value="SLA_RISK">Urgency (Cooking Time)</option>
               <option value="TABLE">Table #</option>
             </select>
 
@@ -917,7 +917,13 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
                           : 'bg-slate-800 text-slate-400 border-slate-700'
                       }`}
                     >
-                      {ticket.slaStatus.replace('_', ' ')}
+                      {ticket.slaStatus === 'SLA_BREACHED'
+                        ? 'SERVICE DELAY'
+                        : ticket.slaStatus === 'DELAYED'
+                        ? 'RUNNING LATE'
+                        : ticket.slaStatus === 'AT_RISK'
+                        ? 'EXPEDITE'
+                        : 'ON TIME'}
                     </span>
                   </div>
                 </div>

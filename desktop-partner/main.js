@@ -12,9 +12,9 @@ async function confirmAndQuit(parentWindow) {
     buttons: ['Cancel', 'Exit Application'],
     defaultId: 0,
     cancelId: 0,
-    title: 'Exit DineDeck Partner POS & KDS',
+    title: 'Exit DineDeck Partner',
     message: 'Are you sure you want to exit DineDeck?',
-    detail: 'Active orders, kitchen KDS tickets, and billing sessions will continue running on the server. Confirm to exit the Partner POS application.',
+    detail: 'Active orders, kitchen tickets, and billing sessions will continue running on the server. Confirm to exit the Partner application.',
     icon: path.join(__dirname, 'assets', 'icon.ico'),
     noLink: true
   });
@@ -35,7 +35,7 @@ function createWindow() {
     height: 900,
     minWidth: 1024,
     minHeight: 700,
-    title: 'DineDeck Partner POS & KDS',
+    title: 'DineDeck Partner — Restaurant & Kitchen',
     backgroundColor: '#0F172A',
     icon: path.join(__dirname, 'assets', 'icon.ico'),
     autoHideMenuBar: true,

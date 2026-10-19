@@ -86,20 +86,20 @@ export const AdminRisk: React.FC<AdminRiskProps> = ({ onNavigateToRestaurant }) 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-black text-white tracking-tight">Risk Assessment Engine</h1>
+            <h1 className="text-xl font-black text-white tracking-tight">Fraud & Risk Alerts</h1>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-rose-500/20 text-rose-400 border border-rose-500/30">
-              MULTI-SIGNAL SCORING
+              HEALTH MONITOR
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Continuous multi-tenant risk evaluation based on cancellation velocity, payment dropoffs, compliance health, and operational downtime.
+            Monitor unusual order cancellations, payment failures, compliance issues, and service downtime.
           </p>
         </div>
 
         <button
           onClick={loadRiskScores}
           className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700 shrink-0"
-          title="Recompute Risk Scores"
+          title="Refresh Alerts"
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
         </button>
@@ -108,7 +108,7 @@ export const AdminRisk: React.FC<AdminRiskProps> = ({ onNavigateToRestaurant }) 
       {/* Risk Metrics Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="p-5 bg-[#121826] border border-rose-500/30 rounded-3xl space-y-1">
-          <div className="text-xs font-black uppercase text-rose-400">Critical Risk Tenants</div>
+          <div className="text-xs font-black uppercase text-rose-400">Critical Attention Needed</div>
           <div className="text-3xl font-black text-rose-400">
             {riskData.filter(r => r.riskLevel === 'CRITICAL').length}
           </div>
@@ -116,7 +116,7 @@ export const AdminRisk: React.FC<AdminRiskProps> = ({ onNavigateToRestaurant }) 
         </div>
 
         <div className="p-5 bg-[#121826] border border-orange-500/30 rounded-3xl space-y-1">
-          <div className="text-xs font-black uppercase text-orange-400">High Risk Tenants</div>
+          <div className="text-xs font-black uppercase text-orange-400">High Alert Restaurants</div>
           <div className="text-3xl font-black text-orange-400">
             {riskData.filter(r => r.riskLevel === 'HIGH').length}
           </div>
@@ -124,7 +124,7 @@ export const AdminRisk: React.FC<AdminRiskProps> = ({ onNavigateToRestaurant }) 
         </div>
 
         <div className="p-5 bg-[#121826] border border-amber-500/30 rounded-3xl space-y-1">
-          <div className="text-xs font-black uppercase text-amber-400">Medium Risk Tenants</div>
+          <div className="text-xs font-black uppercase text-amber-400">Medium Alert Restaurants</div>
           <div className="text-3xl font-black text-amber-400">
             {riskData.filter(r => r.riskLevel === 'MEDIUM').length}
           </div>
@@ -132,7 +132,7 @@ export const AdminRisk: React.FC<AdminRiskProps> = ({ onNavigateToRestaurant }) 
         </div>
 
         <div className="p-5 bg-[#121826] border border-emerald-500/30 rounded-3xl space-y-1">
-          <div className="text-xs font-black uppercase text-emerald-400">Low Risk Healthy Tenants</div>
+          <div className="text-xs font-black uppercase text-emerald-400">Healthy Restaurants</div>
           <div className="text-3xl font-black text-emerald-400">
             {riskData.filter(r => r.riskLevel === 'LOW').length}
           </div>

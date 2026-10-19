@@ -13,7 +13,7 @@ async function confirmAndQuit(parentWindow) {
     cancelId: 0,
     title: 'Exit DineDeck Control Center',
     message: 'Are you sure you want to exit the Super Admin Control Center?',
-    detail: 'Platform telemetry, tenant routing, and automated background jobs will continue on the cloud cluster.',
+    detail: 'Platform activity, restaurant connections, and background operations will continue running.',
     icon: path.join(__dirname, 'assets', 'icon.ico'),
     noLink: true
   });

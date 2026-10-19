@@ -231,13 +231,13 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-black text-white tracking-tight">Merchants & Tenants Master</h1>
+            <h1 className="text-xl font-black text-white tracking-tight">Restaurants & Branches</h1>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-              100+ TENANTS
+              ALL RESTAURANTS
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Full 360° Restaurant Command Profile, Multi-Tenant Batch Operations, Branch & QR Governance.
+            Manage restaurants, branches, tables, QR codes, and onboarding status.
           </p>
         </div>
 
@@ -255,7 +255,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
           <button
             onClick={() => loadRestaurants()}
             className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700"
-            title="Refresh Merchant List"
+            title="Refresh Restaurant List"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
           </button>
@@ -265,7 +265,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
             className="px-4 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold rounded-2xl text-xs transition shadow-lg flex items-center space-x-1.5"
           >
             <Plus className="w-4 h-4" />
-            <span>Onboard Merchant</span>
+            <span>Add Restaurant</span>
           </button>
         </div>
       </div>
@@ -317,9 +317,9 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
               onChange={toggleSelectAll}
               className="rounded bg-slate-800 border-slate-700 text-cyan-500 focus:ring-0 w-4 h-4 cursor-pointer"
             />
-            <span>Select All Tenants for Batch Operations</span>
+            <span>Select All Restaurants for Batch Action</span>
           </div>
-          <span>Showing {filteredRestaurants.length} of {restaurants.length} Tenants</span>
+          <span>Showing {filteredRestaurants.length} of {restaurants.length} Restaurants</span>
         </div>
 
         <div className="overflow-x-auto">
@@ -327,7 +327,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
             <thead className="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-800">
               <tr>
                 <th className="w-10 px-3 py-4 text-center">#</th>
-                <th className="px-5 py-4">Merchant / Legal Name</th>
+                <th className="px-5 py-4">Restaurant / Business Name</th>
                 <th className="px-4 py-4">City & Cuisine</th>
                 <th className="px-4 py-4">Commercials</th>
                 <th className="px-4 py-4">Compliance</th>
@@ -451,7 +451,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center space-x-2">
                 <Building2 className="w-5 h-5 text-cyan-400" />
-                <h3 className="text-base font-black text-white">Merchant Onboarding Wizard</h3>
+                <h3 className="text-base font-black text-white">Add New Restaurant</h3>
               </div>
               <button
                 onClick={() => setShowOnboardModal(false)}
@@ -537,7 +537,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
                 disabled={isSubmitting}
                 className="w-full py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold rounded-xl text-xs transition shadow-lg flex items-center justify-center space-x-1.5 disabled:opacity-50"
               >
-                <span>{isSubmitting ? 'Onboarding...' : 'Complete Verification & Provision Tenant'}</span>
+                <span>{isSubmitting ? 'Adding Restaurant...' : 'Complete Verification & Add Restaurant'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
