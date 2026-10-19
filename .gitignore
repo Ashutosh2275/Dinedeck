@@ -101,7 +101,6 @@ coverage/
 scratch/
 docs/assets/screenshots/
 screenshots/
-*.bak
-*.backup
-*.old
-*.tmp
+# --- User Uploaded Media ---
+backend/public/uploads/**/*
+!backend/public/uploads/**/.gitkeep

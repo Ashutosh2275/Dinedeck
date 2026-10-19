@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import jwt from '@fastify/jwt';
 import websocket from '@fastify/websocket';
 import fastifyStatic from '@fastify/static';
+import multipart from '@fastify/multipart';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import path from 'path';
@@ -20,6 +21,7 @@ import { staffRoutes } from './modules/staff/staff.controller.js';
 import { adminRoutes } from './modules/admin/admin.controller.js';
 import { bannerRoutes } from './modules/banners/banners.controller.js';
 import { recommendationRoutes } from './modules/recommendations/recommendations.controller.js';
+import { uploadRoutes } from './modules/upload/upload.controller.js';
 import { realtimeHub } from './realtime/websocket.js';
 import { redisRealtime } from './realtime/redis.js';
 
@@ -71,6 +73,13 @@ async function buildServer() {
 
   // WebSocket
   await fastify.register(websocket);
+
+  // Multipart file uploads support
+  await fastify.register(multipart, {
+    limits: {
+      fileSize: 15 * 1024 * 1024 // 15MB raw upload ceiling (compressed down to <= 200KB)
+    }
+  });
 
   // Serve Web Applications & Dashboards
   await fastify.register(fastifyStatic, {
@@ -191,6 +200,7 @@ async function buildServer() {
   await fastify.register(recommendationRoutes, { prefix: '/api/recommendations' });
   const { supportRoutes } = await import('./modules/support/support.controller.js');
   await fastify.register(supportRoutes, { prefix: '/api/support' });
+  await fastify.register(uploadRoutes, { prefix: '/api/upload' });
 
   return fastify;
 

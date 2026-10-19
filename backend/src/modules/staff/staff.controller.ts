@@ -529,6 +529,7 @@ export async function staffRoutes(fastify: FastifyInstance) {
     if (body.description !== undefined) updateData.description = body.description;
     if (body.price !== undefined) updateData.price = Number(body.price);
     if (body.discountedPrice !== undefined) updateData.discountedPrice = body.discountedPrice !== null && body.discountedPrice !== '' ? Number(body.discountedPrice) : null;
+    if (body.imageUrl !== undefined) updateData.imageUrl = body.imageUrl;
     if (body.categoryId !== undefined) updateData.categoryId = body.categoryId;
     if (body.isVeg !== undefined) updateData.isVeg = Boolean(body.isVeg);
     if (body.stationCode !== undefined) updateData.stationCode = body.stationCode;
@@ -550,6 +551,54 @@ export async function staffRoutes(fastify: FastifyInstance) {
       success: true,
       message: `Menu item '${updated.name}' updated successfully`,
       data: updated
+    });
+  });
+
+  // 8c. Create New Food Item
+  fastify.post('/menu/items', { preHandler: [fastify.authenticate] }, async (req: FastifyRequest, reply: FastifyReply) => {
+    const userAuth = (req as any).user;
+    const body = req.body as any;
+    const targetRestaurantId = body.restaurantId || userAuth.restaurantId;
+
+    if (!targetRestaurantId) {
+      return reply.status(400).send({ success: false, message: 'Missing target restaurant ID' });
+    }
+
+    const authRes = await iamService.authorize(userAuth, 'menu.update', { restaurantId: targetRestaurantId });
+    if (!authRes.authorized) {
+      return reply.status(authRes.statusCode).send({ success: false, error: authRes.reason });
+    }
+
+    if (!body.name || body.price === undefined || !body.categoryId) {
+      return reply.status(400).send({ success: false, message: 'Missing required fields: name, price, categoryId' });
+    }
+
+    const created = await prisma.menuItem.create({
+      data: {
+        restaurantId: targetRestaurantId,
+        categoryId: body.categoryId,
+        name: body.name.trim(),
+        description: body.description?.trim() || '',
+        price: Number(body.price),
+        discountedPrice: body.discountedPrice ? Number(body.discountedPrice) : null,
+        imageUrl: body.imageUrl || '',
+        isVeg: body.isVeg !== undefined ? Boolean(body.isVeg) : true,
+        isBestseller: Boolean(body.isBestseller),
+        isAvailable: body.isAvailable !== undefined ? Boolean(body.isAvailable) : true,
+        stationCode: body.stationCode || 'CURRY',
+        preparationTime: Number(body.preparationTime) || 15
+      }
+    });
+
+    realtimeHub.notifyRestaurantStaff(targetRestaurantId, 'MENU_ITEM_CREATED', {
+      itemId: created.id,
+      item: created
+    });
+
+    return reply.status(201).send({
+      success: true,
+      message: `Menu item '${created.name}' created successfully`,
+      data: created
     });
   });
 

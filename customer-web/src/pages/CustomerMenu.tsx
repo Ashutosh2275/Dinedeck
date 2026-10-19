@@ -527,6 +527,21 @@ export const CustomerMenu: React.FC = () => {
                     </span>
                   </div>
 
+                  {/* Food Item Image Visual */}
+                  {item.imageUrl && (
+                    <div className="relative h-28 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 mb-2 group-hover:border-orange-500/40 transition">
+                      <img
+                        src={item.imageUrl}
+                        alt={item.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute bottom-1 right-1.5 px-1.5 py-0.5 rounded bg-black/75 backdrop-blur-md text-[8px] font-mono font-bold text-slate-300">
+                        WebP
+                      </div>
+                    </div>
+                  )}
+
                   {/* Title & Description */}
                   <div>
                     <h4 className="font-extrabold text-sm text-white group-hover:text-orange-400 transition leading-snug">
@@ -628,6 +643,21 @@ export const CustomerMenu: React.FC = () => {
                 <X className="w-4 h-4" />
               </button>
             </div>
+
+            {/* Food Item Image Banner */}
+            {customizingItem.imageUrl && (
+              <div className="relative h-40 w-full overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-900 shadow-inner">
+                <img
+                  src={customizingItem.imageUrl}
+                  alt={customizingItem.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-[10px] font-mono font-bold text-white border border-white/10">
+                  WebP • &le;200KB
+                </div>
+              </div>
+            )}
 
             {/* A. Portion Size Selector */}
             <div className="space-y-2.5">

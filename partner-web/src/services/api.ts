@@ -206,6 +206,53 @@ class ApiService {
     });
   }
 
+  async createMenuItem(data: Partial<MenuItem> & { categoryId: string; restaurantId?: string }) {
+    return this.request<MenuItem>('/staff/menu/items', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async uploadFoodItemImage(data: { imageBase64: string; restaurantId?: string; itemId?: string }) {
+    return this.request<{
+      imageUrl: string;
+      thumbnailUrl: string;
+      sizeBytes: number;
+      sizeKb: number;
+      format: string;
+      width: number;
+      height: number;
+      message: string;
+    }>('/upload/food-item-image', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async uploadFoodItemImageMultipart(file: File | Blob, restaurantId?: string, itemId?: string) {
+    const formData = new FormData();
+    formData.append('image', file);
+    if (restaurantId) formData.append('restaurantId', restaurantId);
+    if (itemId) formData.append('itemId', itemId);
+
+    const headers: Record<string, string> = {};
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`;
+    }
+
+    const res = await fetch(`${this.baseUrl}/upload/food-item-image`, {
+      method: 'POST',
+      headers,
+      body: formData
+    });
+
+    const json = await res.json();
+    if (!res.ok || !json.success) {
+      throw new Error(json.message || 'Image upload failed');
+    }
+    return json;
+  }
+
   async updateItemPrice(itemId: string, data: { restaurantId: string; price: number; discountedPrice?: number | null }) {
     return this.request<MenuItem>(`/staff/menu/items/${itemId}/price`, {
       method: 'PATCH',
