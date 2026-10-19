@@ -9,15 +9,15 @@ generator client {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String    @unique
-  phone        String?   @unique
+  id           String   @id @default(uuid())
+  email        String   @unique
+  phone        String?  @unique
   passwordHash String
   name         String
-  role         String    @default("CUSTOMER") // CUSTOMER, RESTAURANT_OWNER, RESTAURANT_MANAGER, RESTAURANT_STAFF, DINEDECK_ADMIN, DINEDECK_SUPER_ADMIN
+  role         String   @default("CUSTOMER") // CUSTOMER, RESTAURANT_OWNER, RESTAURANT_MANAGER, RESTAURANT_STAFF, DINEDECK_ADMIN, DINEDECK_SUPER_ADMIN
   avatarUrl    String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   staffProfile        RestaurantStaff?
   diningSessions      DiningSession[]
@@ -33,66 +33,66 @@ model User {
 }
 
 model Restaurant {
-  id                    String   @id @default(uuid())
-  name                  String
-  slug                  String   @unique
-  logoUrl               String
-  coverImageUrl         String
-  description           String
-  cuisineType           String
-  rating                Float    @default(4.5)
-  reviewCount           Int      @default(0)
-  costForTwo            Int      @default(800)
-  city                  String
-  state                 String   @default("Maharashtra")
-  pincode               String
-  fullAddress           String
-  phone                 String
-  latitude              Float    @default(19.0760)
-  longitude             Float    @default(72.8777)
-  isPureVeg             Boolean  @default(false)
-  isActive              Boolean  @default(true)
-  status                String   @default("ACTIVE") // APPLICATION, PENDING_REVIEW, VERIFICATION_REQUIRED, ACTIVE, PAUSED, SUSPENDED, REJECTED, ARCHIVED
-  
-  // Tax and Billing Configurations (India GST & Service Charge)
-  cgstRatePercent       Float    @default(2.5) // CGST 2.5%
-  sgstRatePercent       Float    @default(2.5) // SGST 2.5%
-  serviceChargePercent  Float    @default(5.0) // 5% Service charge
-  packagingCharge       Float    @default(0.0)
-  commissionRatePercent Float    @default(15.0) // 15% DINEDECK Platform Commission
-  
-  // Compliance & Onboarding
-  legalBusinessName     String?
-  gstin                 String?
-  panNumber             String?
-  fssaiNumber           String?
-  bankAccountNumber     String?
-  bankIfsc              String?
-  
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  id            String  @id @default(uuid())
+  name          String
+  slug          String  @unique
+  logoUrl       String
+  coverImageUrl String
+  description   String
+  cuisineType   String
+  rating        Float   @default(4.5)
+  reviewCount   Int     @default(0)
+  costForTwo    Int     @default(800)
+  city          String
+  state         String  @default("Maharashtra")
+  pincode       String
+  fullAddress   String
+  phone         String
+  latitude      Float   @default(19.0760)
+  longitude     Float   @default(72.8777)
+  isPureVeg     Boolean @default(false)
+  isActive      Boolean @default(true)
+  status        String  @default("ACTIVE") // APPLICATION, PENDING_REVIEW, VERIFICATION_REQUIRED, ACTIVE, PAUSED, SUSPENDED, REJECTED, ARCHIVED
 
-  branches              RestaurantBranch[]
-  staff                 RestaurantStaff[]
-  hours                 RestaurantHours[]
-  categories            MenuCategory[]
-  items                 MenuItem[]
-  coupons               Coupon[]
-  diningSessions        DiningSession[]
-  orders                Order[]
-  bills                 Bill[]
-  reviews               Review[]
-  favorites             Favorite[]
-  serviceRequests       ServiceRequest[]
-  customRoles           Role[]
-  userRoles             UserRole[]
-  settlements           RestaurantSettlement[]
-  supportTickets        SupportTicket[]
-  kitchenStations       KitchenStation[]
-  kotTickets            KotTicket[]
-  kitchenSetting        KitchenKdsSetting?
-  cashierShifts         CashierShift[]
-  banners               BannerPromotion[]
+  // Tax and Billing Configurations (India GST & Service Charge)
+  cgstRatePercent       Float @default(2.5) // CGST 2.5%
+  sgstRatePercent       Float @default(2.5) // SGST 2.5%
+  serviceChargePercent  Float @default(5.0) // 5% Service charge
+  packagingCharge       Float @default(0.0)
+  commissionRatePercent Float @default(15.0) // 15% DINEDECK Platform Commission
+
+  // Compliance & Onboarding
+  legalBusinessName String?
+  gstin             String?
+  panNumber         String?
+  fssaiNumber       String?
+  bankAccountNumber String?
+  bankIfsc          String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  branches        RestaurantBranch[]
+  staff           RestaurantStaff[]
+  hours           RestaurantHours[]
+  categories      MenuCategory[]
+  items           MenuItem[]
+  coupons         Coupon[]
+  diningSessions  DiningSession[]
+  orders          Order[]
+  bills           Bill[]
+  reviews         Review[]
+  favorites       Favorite[]
+  serviceRequests ServiceRequest[]
+  customRoles     Role[]
+  userRoles       UserRole[]
+  settlements     RestaurantSettlement[]
+  supportTickets  SupportTicket[]
+  kitchenStations KitchenStation[]
+  kotTickets      KotTicket[]
+  kitchenSetting  KitchenKdsSetting?
+  cashierShifts   CashierShift[]
+  banners         BannerPromotion[]
 }
 
 model RestaurantBranch {
@@ -105,9 +105,9 @@ model RestaurantBranch {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  tables       Table[]
-  userRoles    UserRole[]
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  tables     Table[]
+  userRoles  UserRole[]
 }
 
 model RestaurantStaff {
@@ -119,34 +119,34 @@ model RestaurantStaff {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 }
 
 model RestaurantHours {
-  id           String   @id @default(uuid())
+  id           String  @id @default(uuid())
   restaurantId String
-  dayOfWeek    Int      // 0 = Sunday, 6 = Saturday
-  openTime     String   // "11:00"
-  closeTime    String   // "23:00"
-  isClosed     Boolean  @default(false)
+  dayOfWeek    Int // 0 = Sunday, 6 = Saturday
+  openTime     String // "11:00"
+  closeTime    String // "23:00"
+  isClosed     Boolean @default(false)
 
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 }
 
 model Table {
-  id           String   @id @default(uuid())
-  branchId     String
-  tableNumber  String
-  capacity     Int      @default(4)
-  floor        String   @default("Ground Floor")
-  qrCodeToken  String   @unique
-  isOccupied   Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id          String   @id @default(uuid())
+  branchId    String
+  tableNumber String
+  capacity    Int      @default(4)
+  floor       String   @default("Ground Floor")
+  qrCodeToken String   @unique
+  isOccupied  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  branch       RestaurantBranch @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  sessions     DiningSession[]
+  branch   RestaurantBranch @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  sessions DiningSession[]
 }
 
 model DiningSession {
@@ -159,11 +159,11 @@ model DiningSession {
   startedAt    DateTime  @default(now())
   endedAt      DateTime?
 
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  table        Table      @relation(fields: [tableId], references: [id], onDelete: Cascade)
-  user         User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
-  orders       Order[]
-  bills        Bill[]
+  restaurant      Restaurant       @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  table           Table            @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  user            User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  orders          Order[]
+  bills           Bill[]
   serviceRequests ServiceRequest[]
 }
 
@@ -177,8 +177,8 @@ model MenuCategory {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  items        MenuItem[]
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  items      MenuItem[]
 }
 
 model MenuItem {
@@ -199,92 +199,92 @@ model MenuItem {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  restaurant      Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  category        MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  variants        MenuVariant[]
-  addons          MenuItemAddon[]
+  restaurant Restaurant      @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  category   MenuCategory    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  variants   MenuVariant[]
+  addons     MenuItemAddon[]
 }
 
 model MenuVariant {
-  id         String   @id @default(uuid())
+  id         String  @id @default(uuid())
   menuItemId String
-  name       String   // e.g. "Regular", "Large", "Full Handi"
+  name       String // e.g. "Regular", "Large", "Full Handi"
   price      Float
-  isDefault  Boolean  @default(false)
+  isDefault  Boolean @default(false)
 
-  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  menuItem MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
 }
 
 model MenuAddon {
-  id           String   @id @default(uuid())
+  id           String  @id @default(uuid())
   restaurantId String
-  name         String   // e.g. "Extra Butter", "Garlic Naan Add-on", "Extra Paneer"
+  name         String // e.g. "Extra Butter", "Garlic Naan Add-on", "Extra Paneer"
   price        Float
-  isVeg        Boolean  @default(true)
+  isVeg        Boolean @default(true)
 
   menuItemAddons MenuItemAddon[]
 }
 
 model MenuItemAddon {
-  id         String   @id @default(uuid())
+  id         String @id @default(uuid())
   menuItemId String
   addonId    String
 
-  menuItem   MenuItem  @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
-  addon      MenuAddon @relation(fields: [addonId], references: [id], onDelete: Cascade)
+  menuItem MenuItem  @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  addon    MenuAddon @relation(fields: [addonId], references: [id], onDelete: Cascade)
 
   @@unique([menuItemId, addonId])
 }
 
 model Order {
-  id                 String      @id @default(uuid())
-  restaurantId       String
-  sessionId          String?
-  userId             String?
-  tableNumber        String
-  orderNumber        String      @unique
-  status             String      @default("PLACED") // PLACED, ACCEPTED, CONFIRMED, QUEUED, PREPARING, READY, SERVED, COMPLETED, CANCELLED, REJECTED, ON_HOLD, DELAYED, RECALLED, RE_FIRE
-  priority           String      @default("NORMAL") // NORMAL, HIGH, RUSH, VIP, ALLERGY, RE_FIRE
-  
-  subtotal           Float
-  discountAmount     Float       @default(0.0)
-  cgstAmount         Float
-  sgstAmount         Float
-  serviceCharge      Float       @default(0.0)
-  roundOffAmount     Float       @default(0.0)
-  totalAmount        Float
-  
-  specialNotes       String?
-  kitchenNotes       String?
-  dietaryAlerts      String?     // e.g. "NUT_ALLERGY", "JAIN", "GLUTEN_FREE"
-  rejectionReason    String?
-  recallReason       String?
-  holdReason         String?
-  slaStatus          String      @default("ON_TRACK") // ON_TRACK, AT_RISK, DELAYED, SLA_BREACHED
-  dynamicEtaMinutes  Int         @default(15)
-  
-  acceptedAt         DateTime?
-  readyAt            DateTime?
-  servedAt           DateTime?
-  expoCheckedAt      DateTime?
-  waiterNotifiedAt   DateTime?
-  waiterId           String?
-  
-  idempotencyKey     String?     @unique
-  createdAt          DateTime    @default(now())
-  updatedAt          DateTime    @updatedAt
+  id           String  @id @default(uuid())
+  restaurantId String
+  sessionId    String?
+  userId       String?
+  tableNumber  String
+  orderNumber  String  @unique
+  status       String  @default("PLACED") // PLACED, ACCEPTED, CONFIRMED, QUEUED, PREPARING, READY, SERVED, COMPLETED, CANCELLED, REJECTED, ON_HOLD, DELAYED, RECALLED, RE_FIRE
+  priority     String  @default("NORMAL") // NORMAL, HIGH, RUSH, VIP, ALLERGY, RE_FIRE
 
-  restaurant         Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  session            DiningSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
-  user               User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
-  items              OrderItem[]
-  statusHistory      OrderStatusHistory[]
-  bills              Bill[]
-  kotTickets         KotTicket[]
+  subtotal       Float
+  discountAmount Float @default(0.0)
+  cgstAmount     Float
+  sgstAmount     Float
+  serviceCharge  Float @default(0.0)
+  roundOffAmount Float @default(0.0)
+  totalAmount    Float
+
+  specialNotes      String?
+  kitchenNotes      String?
+  dietaryAlerts     String? // e.g. "NUT_ALLERGY", "JAIN", "GLUTEN_FREE"
+  rejectionReason   String?
+  recallReason      String?
+  holdReason        String?
+  slaStatus         String  @default("ON_TRACK") // ON_TRACK, AT_RISK, DELAYED, SLA_BREACHED
+  dynamicEtaMinutes Int     @default(15)
+
+  acceptedAt       DateTime?
+  readyAt          DateTime?
+  servedAt         DateTime?
+  expoCheckedAt    DateTime?
+  waiterNotifiedAt DateTime?
+  waiterId         String?
+
+  idempotencyKey String?  @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  restaurant    Restaurant           @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  session       DiningSession?       @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  user          User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items         OrderItem[]
+  statusHistory OrderStatusHistory[]
+  bills         Bill[]
+  kotTickets    KotTicket[]
 }
 
 model OrderItem {
-  id            String    @id @default(uuid())
+  id            String  @id @default(uuid())
   orderId       String
   menuItemId    String
   name          String
@@ -293,7 +293,7 @@ model OrderItem {
   quantity      Int
   unitPrice     Float
   totalPrice    Float
-  
+
   status        String    @default("QUEUED") // QUEUED, PREPARING, READY, SERVED, HOLD, RE_FIRE
   stationCode   String    @default("MAIN") // MAIN, TANDOOR, CURRY, GRILL, FRY, BAKERY, BEVERAGE, DESSERT, SALAD, BAR
   course        String    @default("MAIN") // STARTER, MAIN, DESSERT, BEVERAGE
@@ -304,19 +304,19 @@ model OrderItem {
   isHeld        Boolean   @default(false)
   isRefire      Boolean   @default(false)
 
-  order         Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  kotItems      KotTicketItem[]
+  order    Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  kotItems KotTicketItem[]
 }
 
 model OrderStatusHistory {
-  id         String      @id @default(uuid())
-  orderId    String
-  status     String      // PLACED, ACCEPTED, CONFIRMED, PREPARING, READY, SERVED, COMPLETED, CANCELLED, REJECTED, ON_HOLD, RE_FIRE
-  changedBy  String?     // User ID or "SYSTEM"
-  remarks    String?
-  timestamp  DateTime    @default(now())
+  id        String   @id @default(uuid())
+  orderId   String
+  status    String // PLACED, ACCEPTED, CONFIRMED, PREPARING, READY, SERVED, COMPLETED, CANCELLED, REJECTED, ON_HOLD, RE_FIRE
+  changedBy String? // User ID or "SYSTEM"
+  remarks   String?
+  timestamp DateTime @default(now())
 
-  order      Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 // -----------------------------------------------------------------------------
@@ -324,46 +324,46 @@ model OrderStatusHistory {
 // -----------------------------------------------------------------------------
 
 model KitchenStation {
-  id            String      @id @default(uuid())
+  id            String   @id @default(uuid())
   restaurantId  String
-  code          String      // MAIN, TANDOOR, CURRY, GRILL, FRY, BAKERY, BEVERAGE, DESSERT, SALAD, BAR, EXPO
-  name          String      // e.g. "Tandoor Station", "Curry Section", "Expo / Pass"
-  isExpo        Boolean     @default(false)
+  code          String // MAIN, TANDOOR, CURRY, GRILL, FRY, BAKERY, BEVERAGE, DESSERT, SALAD, BAR, EXPO
+  name          String // e.g. "Tandoor Station", "Curry Section", "Expo / Pass"
+  isExpo        Boolean  @default(false)
   printerIp     String?
-  printerStatus String      @default("ONLINE") // ONLINE, OFFLINE, PAPER_OUT, ERROR
-  displayOrder  Int         @default(0)
-  isActive      Boolean     @default(true)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  printerStatus String   @default("ONLINE") // ONLINE, OFFLINE, PAPER_OUT, ERROR
+  displayOrder  Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  restaurant    Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  kotTickets    KotTicket[]
+  restaurant Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  kotTickets KotTicket[]
 
   @@unique([restaurantId, code])
 }
 
 model KotTicket {
-  id            String          @id @default(uuid())
-  kotNumber     String          @unique // e.g. KOT-260830-0012
-  orderId       String
-  restaurantId  String
-  stationId     String?
-  stationCode   String          @default("MAIN")
-  status        String          @default("ACTIVE") // ACTIVE, PREPARING, READY, SERVED, COMPLETED, CANCELLED, REPRINTED
-  reprintCount  Int             @default(0)
-  printedAt     DateTime?
-  specialNotes  String?
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  id           String    @id @default(uuid())
+  kotNumber    String    @unique // e.g. KOT-260830-0012
+  orderId      String
+  restaurantId String
+  stationId    String?
+  stationCode  String    @default("MAIN")
+  status       String    @default("ACTIVE") // ACTIVE, PREPARING, READY, SERVED, COMPLETED, CANCELLED, REPRINTED
+  reprintCount Int       @default(0)
+  printedAt    DateTime?
+  specialNotes String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
-  order         Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  restaurant    Restaurant      @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  station       KitchenStation? @relation(fields: [stationId], references: [id], onDelete: SetNull)
-  items         KotTicketItem[]
+  order      Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  restaurant Restaurant      @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  station    KitchenStation? @relation(fields: [stationId], references: [id], onDelete: SetNull)
+  items      KotTicketItem[]
 }
 
 model KotTicketItem {
-  id            String      @id @default(uuid())
+  id            String    @id @default(uuid())
   kotTicketId   String
   orderItemId   String?
   menuItemId    String
@@ -371,35 +371,35 @@ model KotTicketItem {
   quantity      Int
   variantName   String?
   addonsSummary String?
-  course        String      @default("MAIN") // STARTER, MAIN, DESSERT, BEVERAGE
+  course        String    @default("MAIN") // STARTER, MAIN, DESSERT, BEVERAGE
   kitchenNotes  String?
   dietaryAlerts String?
-  status        String      @default("QUEUED") // QUEUED, PREPARING, READY, SERVED, HOLD, RE_FIRE
-  isHeld        Boolean     @default(false)
-  isRefire      Boolean     @default(false)
+  status        String    @default("QUEUED") // QUEUED, PREPARING, READY, SERVED, HOLD, RE_FIRE
+  isHeld        Boolean   @default(false)
+  isRefire      Boolean   @default(false)
   startedAt     DateTime?
   readyAt       DateTime?
 
-  kotTicket     KotTicket   @relation(fields: [kotTicketId], references: [id], onDelete: Cascade)
-  orderItem     OrderItem?  @relation(fields: [orderItemId], references: [id], onDelete: SetNull)
+  kotTicket KotTicket  @relation(fields: [kotTicketId], references: [id], onDelete: Cascade)
+  orderItem OrderItem? @relation(fields: [orderItemId], references: [id], onDelete: SetNull)
 }
 
 model KitchenKdsSetting {
-  id                      String      @id @default(uuid())
-  restaurantId            String      @unique
-  autoGenerateKot         Boolean     @default(true)
-  autoPrintKot            Boolean     @default(false)
-  defaultPrepTimeMinutes  Int         @default(15)
-  warningThresholdMinutes Int         @default(10)
-  breachThresholdMinutes  Int         @default(20)
-  alertSoundEnabled       Boolean     @default(true)
-  courseSequencingEnabled Boolean     @default(true)
-  requireExpoCheck        Boolean     @default(true)
-  densityMode             String      @default("COMFORTABLE") // COMFORTABLE, COMPACT
-  createdAt               DateTime    @default(now())
-  updatedAt               DateTime    @updatedAt
+  id                      String   @id @default(uuid())
+  restaurantId            String   @unique
+  autoGenerateKot         Boolean  @default(true)
+  autoPrintKot            Boolean  @default(false)
+  defaultPrepTimeMinutes  Int      @default(15)
+  warningThresholdMinutes Int      @default(10)
+  breachThresholdMinutes  Int      @default(20)
+  alertSoundEnabled       Boolean  @default(true)
+  courseSequencingEnabled Boolean  @default(true)
+  requireExpoCheck        Boolean  @default(true)
+  densityMode             String   @default("COMFORTABLE") // COMFORTABLE, COMPACT
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
 
-  restaurant              Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 }
 
 // -----------------------------------------------------------------------------
@@ -407,113 +407,113 @@ model KitchenKdsSetting {
 // -----------------------------------------------------------------------------
 
 model Bill {
-  id              String        @id @default(uuid())
-  restaurantId    String
-  orderId         String
-  sessionId       String?
-  tableNumber     String?
-  billNumber      String        @unique
-  
-  subtotal        Float
-  discountAmount  Float         @default(0.0)
-  discountPercent Float         @default(0.0)
-  discountType    String        @default("NONE") // NONE, PERCENTAGE, FIXED, COMPLIMENTARY
-  discountReason  String?
-  complimentaryReason String?
-  
-  cgstAmount      Float
-  sgstAmount      Float
-  serviceCharge   Float         @default(0.0)
-  roundOffAmount  Float         @default(0.0)
-  grandTotal      Float
-  
-  paymentStatus   String        @default("PENDING") // PENDING, PROCESSING, PAID, PARTIALLY_PAID, FAILED, REFUNDED, VOID
-  paymentMethod   String?       // UPI, CARD, NET_BANKING, WALLET, CASH, SPLIT
-  paidAt          DateTime?
-  
-  settledBy       String?
-  settledAt       DateTime?
-  
-  isVoid          Boolean       @default(false)
-  voidReason      String?
-  voidedBy        String?
-  voidedAt        DateTime?
-  
-  reprintCount    Int           @default(0)
-  lastPrintedAt   DateTime?
-  
-  splitType       String        @default("SINGLE") // SINGLE, EQUAL, ITEM, GUEST, CUSTOM
-  splitDetailsJson String?
-  thermalSlip     String?
-  
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  id           String  @id @default(uuid())
+  restaurantId String
+  orderId      String
+  sessionId    String?
+  tableNumber  String?
+  billNumber   String  @unique
 
-  restaurant      Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  order           Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  session         DiningSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
-  payments        Payment[]
+  subtotal            Float
+  discountAmount      Float   @default(0.0)
+  discountPercent     Float   @default(0.0)
+  discountType        String  @default("NONE") // NONE, PERCENTAGE, FIXED, COMPLIMENTARY
+  discountReason      String?
+  complimentaryReason String?
+
+  cgstAmount     Float
+  sgstAmount     Float
+  serviceCharge  Float @default(0.0)
+  roundOffAmount Float @default(0.0)
+  grandTotal     Float
+
+  paymentStatus String    @default("PENDING") // PENDING, PROCESSING, PAID, PARTIALLY_PAID, FAILED, REFUNDED, VOID
+  paymentMethod String? // UPI, CARD, NET_BANKING, WALLET, CASH, SPLIT
+  paidAt        DateTime?
+
+  settledBy String?
+  settledAt DateTime?
+
+  isVoid     Boolean   @default(false)
+  voidReason String?
+  voidedBy   String?
+  voidedAt   DateTime?
+
+  reprintCount  Int       @default(0)
+  lastPrintedAt DateTime?
+
+  splitType        String  @default("SINGLE") // SINGLE, EQUAL, ITEM, GUEST, CUSTOM
+  splitDetailsJson String?
+  thermalSlip      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  restaurant Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  order      Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  session    DiningSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  payments   Payment[]
 }
 
 model Payment {
-  id             String        @id @default(uuid())
-  billId         String
-  transactionRef String        @unique
-  method         String        // UPI, CARD, NET_BANKING, WALLET, CASH
-  status         String        @default("PENDING") // PENDING, PROCESSING, PAID, FAILED, REFUNDED
-  amount         Float
-  gatewayPayload String?
-  operatorId     String?
-  operatorName   String?
+  id              String    @id @default(uuid())
+  billId          String
+  transactionRef  String    @unique
+  method          String // UPI, CARD, NET_BANKING, WALLET, CASH
+  status          String    @default("PENDING") // PENDING, PROCESSING, PAID, FAILED, REFUNDED
+  amount          Float
+  gatewayPayload  String?
+  operatorId      String?
+  operatorName    String?
   referenceNumber String?
-  note           String?
-  refundAmount   Float         @default(0.0)
-  refundReason   String?
-  refundedAt     DateTime?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  note            String?
+  refundAmount    Float     @default(0.0)
+  refundReason    String?
+  refundedAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-  bill           Bill          @relation(fields: [billId], references: [id], onDelete: Cascade)
+  bill Bill @relation(fields: [billId], references: [id], onDelete: Cascade)
 }
 
 model CashierShift {
-  id                      String      @id @default(uuid())
-  restaurantId            String
-  branchId                String?
-  userId                  String
-  userName                String
-  shiftNumber             String      @unique // e.g. SHIFT-260830-001
-  openedAt                DateTime    @default(now())
-  closedAt                DateTime?
-  status                  String      @default("OPEN") // OPEN, CLOSED
-  openingCash             Float       @default(0.0)
-  cashPaymentsCollected   Float       @default(0.0)
-  upiPaymentsCollected    Float       @default(0.0)
-  cardPaymentsCollected   Float       @default(0.0)
-  cashIn                  Float       @default(0.0)
-  cashOut                 Float       @default(0.0)
-  expectedCash            Float       @default(0.0)
-  actualCash              Float?
-  cashVariance            Float?
-  notes                   String?
-  closedBy                String?
-  createdAt               DateTime    @default(now())
-  updatedAt               DateTime    @updatedAt
+  id                    String    @id @default(uuid())
+  restaurantId          String
+  branchId              String?
+  userId                String
+  userName              String
+  shiftNumber           String    @unique // e.g. SHIFT-260830-001
+  openedAt              DateTime  @default(now())
+  closedAt              DateTime?
+  status                String    @default("OPEN") // OPEN, CLOSED
+  openingCash           Float     @default(0.0)
+  cashPaymentsCollected Float     @default(0.0)
+  upiPaymentsCollected  Float     @default(0.0)
+  cardPaymentsCollected Float     @default(0.0)
+  cashIn                Float     @default(0.0)
+  cashOut               Float     @default(0.0)
+  expectedCash          Float     @default(0.0)
+  actualCash            Float?
+  cashVariance          Float?
+  notes                 String?
+  closedBy              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
-  restaurant              Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 }
 
 model Coupon {
-  id             String    @id @default(uuid())
-  restaurantId   String?   // Null means platform-wide
-  code           String    @unique
+  id              String   @id @default(uuid())
+  restaurantId    String? // Null means platform-wide
+  code            String   @unique
   discountPercent Float    @default(10.0)
-  maxDiscount    Float     @default(200.0)
-  minOrderAmount Float     @default(300.0)
-  validUntil     DateTime
-  isActive       Boolean   @default(true)
+  maxDiscount     Float    @default(200.0)
+  minOrderAmount  Float    @default(300.0)
+  validUntil      DateTime
+  isActive        Boolean  @default(true)
 
-  restaurant     Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurant Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 }
 
 model ServiceRequest {
@@ -528,31 +528,31 @@ model ServiceRequest {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  session      DiningSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
-  user         User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  restaurant Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  session    DiningSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  user       User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
 
 model Review {
-  id           String     @id @default(uuid())
+  id           String   @id @default(uuid())
   restaurantId String
   userId       String
-  rating       Int        @default(5)
+  rating       Int      @default(5)
   comment      String
-  createdAt    DateTime   @default(now())
+  createdAt    DateTime @default(now())
 
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Favorite {
-  id           String     @id @default(uuid())
+  id           String   @id @default(uuid())
   restaurantId String
   userId       String
-  createdAt    DateTime   @default(now())
+  createdAt    DateTime @default(now())
 
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([restaurantId, userId])
 }
@@ -567,28 +567,28 @@ model Notification {
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Role {
   id           String   @id // e.g. SUPER_ADMIN, RESTAURANT_OWNER, GENERAL_MANAGER, WAITER, CHEF
   name         String
   description  String?
-  restaurantId String?  // Null for platform role template, or restaurant UUID for custom role
+  restaurantId String? // Null for platform role template, or restaurant UUID for custom role
   isSystem     Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  restaurant   Restaurant?      @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  permissions  RolePermission[]
-  userRoles    UserRole[]
+  restaurant  Restaurant?      @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  permissions RolePermission[]
+  userRoles   UserRole[]
 }
 
 model Permission {
   id          String   @id // format: resource.action (e.g. orders.read, tables.assign)
-  resource    String   // orders, tables, service_requests, menu, payments, billing, staff, reports, inventory, audit, kds
-  action      String   // read, create, update, delete, cancel, accept, prepare, ready, serve, assign, transfer, merge, close, resolve, discount, settle, refund, view
-  category    String   // Operations, Kitchen, Floor, Billing, Administration, Inventory
+  resource    String // orders, tables, service_requests, menu, payments, billing, staff, reports, inventory, audit, kds
+  action      String // read, create, update, delete, cancel, accept, prepare, ready, serve, assign, transfer, merge, close, resolve, discount, settle, refund, view
+  category    String // Operations, Kitchen, Floor, Billing, Administration, Inventory
   description String?
   createdAt   DateTime @default(now())
 
@@ -601,8 +601,8 @@ model RolePermission {
   permissionId String
   createdAt    DateTime @default(now())
 
-  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
   @@id([roleId, permissionId])
 }
@@ -616,73 +616,73 @@ model UserRole {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role         Role              @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  restaurant   Restaurant?       @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  branch       RestaurantBranch? @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  scopes       RoleScope[]
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       Role              @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  restaurant Restaurant?       @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  branch     RestaurantBranch? @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  scopes     RoleScope[]
 }
 
 model RoleScope {
   id         String   @id @default(uuid())
   userRoleId String
-  scopeType  String   // PLATFORM, RESTAURANT, BRANCH, FLOOR, TABLE, DEPARTMENT, SHIFT
-  scopeValue String   // e.g. "ALL", "T12,T13,T14", "Ground Floor", "Kitchen", "Morning"
+  scopeType  String // PLATFORM, RESTAURANT, BRANCH, FLOOR, TABLE, DEPARTMENT, SHIFT
+  scopeValue String // e.g. "ALL", "T12,T13,T14", "Ground Floor", "Kitchen", "Morning"
   createdAt  DateTime @default(now())
 
-  userRole   UserRole @relation(fields: [userRoleId], references: [id], onDelete: Cascade)
+  userRole UserRole @relation(fields: [userRoleId], references: [id], onDelete: Cascade)
 }
 
 model UserPermissionOverride {
   id           String   @id @default(uuid())
   userId       String
   permissionId String
-  isGranted    Boolean  // true = explicitly allowed, false = explicitly denied
+  isGranted    Boolean // true = explicitly allowed, false = explicitly denied
   restaurantId String?
   branchId     String?
   createdAt    DateTime @default(now())
 
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
   @@unique([userId, permissionId, restaurantId, branchId])
 }
 
 model AuditLog {
-  id          String   @id @default(uuid())
-  actorId     String?
-  actorRole   String?
-  action      String   // e.g. staff.create, role.assign, payment.verify, menu.price.update, kds.accept, kds.refire
-  resource    String   // staff, role, order, bill, payment, menu, inventory, kds, kot
-  resourceId  String
-  scope       String?  // e.g. RESTAURANT:rest_punjab_heritage
-  beforeJson  String?
-  afterJson   String?
-  result      String   @default("SUCCESS") // SUCCESS, DENIED, FAILED
-  ipAddress   String?
-  createdAt   DateTime @default(now())
+  id         String   @id @default(uuid())
+  actorId    String?
+  actorRole  String?
+  action     String // e.g. staff.create, role.assign, payment.verify, menu.price.update, kds.accept, kds.refire
+  resource   String // staff, role, order, bill, payment, menu, inventory, kds, kot
+  resourceId String
+  scope      String? // e.g. RESTAURANT:rest_punjab_heritage
+  beforeJson String?
+  afterJson  String?
+  result     String   @default("SUCCESS") // SUCCESS, DENIED, FAILED
+  ipAddress  String?
+  createdAt  DateTime @default(now())
 
-  actor       User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  actor User? @relation(fields: [actorId], references: [id], onDelete: SetNull)
 }
 
 model RestaurantSettlement {
-  id                 String   @id @default(uuid())
-  settlementNumber   String   @unique
+  id                 String    @id @default(uuid())
+  settlementNumber   String    @unique
   restaurantId       String
   periodStart        DateTime
   periodEnd          DateTime
   grossOrderValue    Float
   dinedeckCommission Float
   taxCollected       Float
-  discountAbsorbed   Float    @default(0.0)
+  discountAbsorbed   Float     @default(0.0)
   netPayable         Float
-  status             String   @default("PENDING") // PENDING, PROCESSING, SETTLED, FAILED
+  status             String    @default("PENDING") // PENDING, PROCESSING, SETTLED, FAILED
   payoutRef          String?
   settledAt          DateTime?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
-  restaurant         Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 }
 
 model SupportTicket {
@@ -703,8 +703,8 @@ model SupportTicket {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  restaurant    Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  user          User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  restaurant Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  user       User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
 
 model BannerPromotion {
@@ -725,4 +725,3 @@ model BannerPromotion {
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 }
-
