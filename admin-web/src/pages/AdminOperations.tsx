@@ -56,20 +56,20 @@ export const AdminOperations: React.FC = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-black text-white tracking-tight">Live Operations & Orders Monitor</h1>
+            <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Live Operations & Orders Monitor</h1>
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Real-time cross-tenant KDS telemetry, dining sessions, and order state flow.
           </p>
         </div>
 
         <button
           onClick={() => loadOperations()}
-          className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700 self-start sm:self-auto"
+          className="p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition border border-slate-300 dark:border-slate-700 self-start sm:self-auto cursor-pointer"
           title="Refresh Live Operations"
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
@@ -78,37 +78,37 @@ export const AdminOperations: React.FC = () => {
 
       {/* Live Operational Health Widgets */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 bg-gradient-to-br from-[#121826] to-orange-950/30 border border-orange-500/30 rounded-3xl space-y-2">
-          <div className="flex items-center justify-between text-orange-400 text-xs font-bold uppercase">
+        <div className="p-5 bg-white dark:bg-gradient-to-br dark:from-[#121826] dark:to-orange-950/30 border border-orange-500/30 rounded-3xl space-y-2 shadow-sm">
+          <div className="flex items-center justify-between text-orange-600 dark:text-orange-400 text-xs font-bold uppercase">
             <span>Active Kitchen Tickets</span>
             <ChefHat className="w-4 h-4" />
           </div>
-          <div className="text-2xl sm:text-3xl font-black text-white">
+          <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             {orders.filter((o) => ['CONFIRMED', 'PREPARING', 'READY'].includes(o.status)).length}
           </div>
-          <div className="text-[11px] text-slate-400">Cooking across all restaurants</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400">Cooking across all restaurants</div>
         </div>
 
-        <div className="p-5 bg-gradient-to-br from-[#121826] to-blue-950/30 border border-blue-500/30 rounded-3xl space-y-2">
-          <div className="flex items-center justify-between text-blue-400 text-xs font-bold uppercase">
+        <div className="p-5 bg-white dark:bg-gradient-to-br dark:from-[#121826] dark:to-blue-950/30 border border-blue-500/30 rounded-3xl space-y-2 shadow-sm">
+          <div className="flex items-center justify-between text-blue-600 dark:text-blue-400 text-xs font-bold uppercase">
             <span>Occupied Dining Tables</span>
             <UtensilsCrossed className="w-4 h-4" />
           </div>
-          <div className="text-2xl sm:text-3xl font-black text-white">
+          <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             {liveOps?.activeTablesCount || 1}
           </div>
-          <div className="text-[11px] text-slate-400">Active table sessions</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400">Active table sessions</div>
         </div>
 
-        <div className="p-5 bg-gradient-to-br from-[#121826] to-emerald-950/30 border border-emerald-500/30 rounded-3xl space-y-2">
-          <div className="flex items-center justify-between text-emerald-400 text-xs font-bold uppercase">
+        <div className="p-5 bg-white dark:bg-gradient-to-br dark:from-[#121826] dark:to-emerald-950/30 border border-emerald-500/30 rounded-3xl space-y-2 shadow-sm">
+          <div className="flex items-center justify-between text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase">
             <span>Realtime WS Gateway</span>
             <Activity className="w-4 h-4" />
           </div>
-          <div className="text-2xl sm:text-3xl font-black text-white">
+          <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             {liveOps?.activeWebSocketClients || 6} Clients
           </div>
-          <div className="text-[11px] text-emerald-400">Subscribed & synchronized</div>
+          <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">Subscribed & synchronized</div>
         </div>
       </div>
 
@@ -121,17 +121,17 @@ export const AdminOperations: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by order #, restaurant name, or table #..."
-            className="w-full bg-[#121826] border border-slate-800 rounded-2xl pl-10 pr-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
+            className="w-full bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
           />
         </div>
 
-        <div className="flex bg-[#121826] border border-slate-800 rounded-2xl p-1 shrink-0 overflow-x-auto">
+        <div className="flex bg-slate-100 dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-2xl p-1 shrink-0 overflow-x-auto">
           {(['ALL', 'CONFIRMED', 'PREPARING', 'READY', 'SERVED', 'COMPLETED'] as const).map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
-                statusFilter === st ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                statusFilter === st ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               {st}
@@ -141,10 +141,10 @@ export const AdminOperations: React.FC = () => {
       </div>
 
       {/* Global Orders Table */}
-      <div className="bg-[#121826] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+      <div className="bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-800">
+            <thead className="bg-slate-100 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-200 dark:border-slate-800">
               <tr>
                 <th className="px-5 py-4">Order Token</th>
                 <th className="px-4 py-4">Restaurant & Table</th>
@@ -155,37 +155,37 @@ export const AdminOperations: React.FC = () => {
                 <th className="px-5 py-4 text-right">Time</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800 text-slate-300">
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
               {filteredOrders.map((o) => (
-                <tr key={o.id} className="hover:bg-slate-800/40 transition">
-                  <td className="px-5 py-4 font-mono font-black text-white">
+                <tr key={o.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+                  <td className="px-5 py-4 font-mono font-black text-slate-900 dark:text-white">
                     {o.orderNumber}
                   </td>
                   <td className="px-4 py-4">
-                    <div className="font-bold text-white">{o.restaurant?.name || 'The Punjab Heritage Kitchen'}</div>
-                    <div className="text-[10px] text-cyan-400 font-extrabold">Table #{o.tableNumber}</div>
+                    <div className="font-bold text-slate-900 dark:text-white">{o.restaurant?.name || 'The Punjab Heritage Kitchen'}</div>
+                    <div className="text-[10px] text-cyan-600 dark:text-cyan-400 font-extrabold">Table #{o.tableNumber}</div>
                   </td>
-                  <td className="px-4 py-4 text-slate-400">
+                  <td className="px-4 py-4 text-slate-500 dark:text-slate-400">
                     {o.items?.length || 2} Items
                   </td>
-                  <td className="px-4 py-4 font-bold text-white">
+                  <td className="px-4 py-4 font-bold text-slate-900 dark:text-white">
                     ₹{o.totalAmount.toFixed(2)}
                   </td>
                   <td className="px-4 py-4">
                     <span
                       className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase ${
                         o.status === 'READY' || o.status === 'SERVED' || o.status === 'COMPLETED'
-                          ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                          ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30'
                           : o.status === 'PREPARING'
-                          ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                          : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                          ? 'bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/30'
+                          : 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30'
                       }`}
                     >
                       {o.status}
                     </span>
                   </td>
                   <td className="px-4 py-4">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/15 text-purple-700 dark:text-purple-400 border border-purple-500/30">
                       {o.bill?.paymentStatus || 'PAID'}
                     </span>
                   </td>

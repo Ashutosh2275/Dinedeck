@@ -73,10 +73,10 @@ export const AdminSupport: React.FC = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 p-5 rounded-3xl shadow-sm dark:shadow-xl">
         <div>
-          <h1 className="text-xl font-black text-white tracking-tight">Support Desk & Platform Notifications</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Support Desk & Platform Notifications</h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Merchant incident ticketing, customer support cases, and real-time operational alerts.
           </p>
         </div>
@@ -84,17 +84,17 @@ export const AdminSupport: React.FC = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => loadData()}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition border border-slate-200 dark:border-slate-700"
             title="Refresh Support Desk"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
           </button>
 
-          <div className="flex bg-slate-900 border border-slate-800 rounded-2xl p-1">
+          <div className="flex bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-1">
             <button
               onClick={() => setActiveTab('TICKETS')}
               className={`px-4 py-1.5 rounded-xl text-xs font-bold transition ${
-                activeTab === 'TICKETS' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                activeTab === 'TICKETS' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Support Tickets ({tickets.length})
@@ -102,7 +102,7 @@ export const AdminSupport: React.FC = () => {
             <button
               onClick={() => setActiveTab('NOTIFICATIONS')}
               className={`px-4 py-1.5 rounded-xl text-xs font-bold transition ${
-                activeTab === 'NOTIFICATIONS' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                activeTab === 'NOTIFICATIONS' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Notifications ({notifications.length})
@@ -113,10 +113,10 @@ export const AdminSupport: React.FC = () => {
 
       {/* Tickets Desk */}
       {activeTab === 'TICKETS' && (
-        <div className="bg-[#121826] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <div className="bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-800">
+              <thead className="bg-slate-100 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-5 py-4">Ticket #</th>
                   <th className="px-4 py-4">Merchant / Diner</th>
@@ -126,12 +126,12 @@ export const AdminSupport: React.FC = () => {
                   <th className="px-5 py-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                 {tickets.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
-                      <LifeBuoy className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-50" />
-                      <p className="font-semibold text-slate-400">No support tickets reported</p>
+                      <LifeBuoy className="w-8 h-8 mx-auto mb-2 text-slate-400 dark:text-slate-600 opacity-50" />
+                      <p className="font-semibold text-slate-600 dark:text-slate-400">No support tickets reported</p>
                       <p className="text-[11px] text-slate-500 mt-0.5">
                         Inquiries and hardware incident reports logged by merchants or diners will appear here.
                       </p>
@@ -139,12 +139,12 @@ export const AdminSupport: React.FC = () => {
                   </tr>
                 ) : (
                   tickets.map((t) => (
-                    <tr key={t.id} className="hover:bg-slate-800/40 transition">
-                      <td className="px-5 py-4 font-mono font-bold text-white">{t.ticketNumber || t.id}</td>
-                      <td className="px-4 py-4 font-bold text-white">{t.restaurantName || 'General User'}</td>
-                      <td className="px-4 py-4 text-slate-300">{t.subject}</td>
+                    <tr key={t.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+                      <td className="px-5 py-4 font-mono font-bold text-slate-900 dark:text-white">{t.ticketNumber || t.id}</td>
+                      <td className="px-4 py-4 font-bold text-slate-900 dark:text-white">{t.restaurantName || 'General User'}</td>
+                      <td className="px-4 py-4 text-slate-700 dark:text-slate-300">{t.subject}</td>
                       <td className="px-4 py-4">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-500 dark:text-amber-400 border border-amber-500/30">
                           {t.priority}
                         </span>
                       </td>
@@ -152,8 +152,8 @@ export const AdminSupport: React.FC = () => {
                         <span
                           className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase ${
                             t.status === 'RESOLVED'
-                              ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                              : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                              ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                              : 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30'
                           }`}
                         >
                           {t.status}
@@ -182,9 +182,9 @@ export const AdminSupport: React.FC = () => {
       {activeTab === 'NOTIFICATIONS' && (
         <div className="space-y-3">
           {notifications.length === 0 ? (
-            <div className="p-12 text-center bg-[#121826] border border-slate-800 rounded-3xl text-slate-500 shadow-lg">
-              <Bell className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-50" />
-              <p className="font-semibold text-slate-400">No operational alerts or notifications</p>
+            <div className="p-12 text-center bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-3xl text-slate-500 shadow-sm dark:shadow-lg">
+              <Bell className="w-8 h-8 mx-auto mb-2 text-slate-400 dark:text-slate-600 opacity-50" />
+              <p className="font-semibold text-slate-600 dark:text-slate-400">No operational alerts or notifications</p>
               <p className="text-[11px] text-slate-500 mt-0.5">
                 Audit events, settlement alerts, and compliance updates will stream here.
               </p>
@@ -193,23 +193,23 @@ export const AdminSupport: React.FC = () => {
             notifications.map((n) => (
               <div
                 key={n.id}
-                className="p-4 bg-[#121826] border border-slate-800 rounded-3xl flex items-start justify-between gap-3 shadow-lg"
+                className="p-4 bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-3xl flex items-start justify-between gap-3 shadow-sm dark:shadow-lg"
               >
                 <div className="flex items-start space-x-3">
                   <div
                     className={`p-2 rounded-xl mt-0.5 ${
                       n.severity === 'SUCCESS'
-                        ? 'bg-emerald-500/20 text-emerald-400'
+                        ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
                         : n.severity === 'WARNING'
-                        ? 'bg-amber-500/20 text-amber-400'
-                        : 'bg-cyan-500/20 text-cyan-400'
+                        ? 'bg-amber-500/20 text-amber-600 dark:text-amber-400'
+                        : 'bg-cyan-500/20 text-cyan-600 dark:text-cyan-400'
                     }`}
                   >
                     <Bell className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-extrabold text-white text-xs">{n.title}</div>
-                    <div className="text-xs text-slate-400 mt-0.5">{n.message}</div>
+                    <div className="font-extrabold text-slate-900 dark:text-white text-xs">{n.title}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{n.message}</div>
                   </div>
                 </div>
 

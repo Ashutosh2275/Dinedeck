@@ -426,7 +426,7 @@ export const CustomerProvider: React.FC<{ children: ReactNode }> = ({ children }
     restaurantId: string = session.restaurantId,
     restaurantName: string = session.restaurantName
   ) => {
-    const cleanRestName = restaurantName ? restaurantName.replace(/\s*\d{6,}\b/g, '').trim() : 'Grand Peshawari Grill';
+    const cleanRestName = (restaurantName || '').replace(/\s*\d{6,}\b/g, '').trim() || 'DINEDECK Dining';
     const timestamp = tableNumber ? Date.now() : undefined;
     const newSession: DiningSession = {
       restaurantId,

@@ -360,11 +360,11 @@ fun GlobalSearchDialog(
             }
         },
         confirmButton = {
-            Button(onClick = onDismiss, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF151C26))) {
-                Text("Close", color = Color.White)
+            Button(onClick = onDismiss, colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
+                Text("Close", color = MaterialTheme.colorScheme.onSurface)
             }
         },
-        containerColor = Color(0xFF0E131A)
+        containerColor = MaterialTheme.colorScheme.surface
     )
 }
 
@@ -432,9 +432,9 @@ fun OnboardRestaurantDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = Color(0xFF8E9BAE))
+                Text("Cancel", color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         },
-        containerColor = Color(0xFF0E131A)
+        containerColor = MaterialTheme.colorScheme.surface
     )
 }

@@ -231,11 +231,11 @@ const AdminLayout: React.FC = () => {
       />
 
       {/* Mobile Bottom Quick Navigation (lg:hidden) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#0E131F]/95 backdrop-blur-md border-t border-slate-800 px-3 py-2 flex items-center justify-around shadow-2xl">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 dark:bg-[#0E131F]/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-3 py-2 flex items-center justify-around shadow-2xl">
         <button
           onClick={() => setCurrentTab('OVERVIEW')}
           className={`flex flex-col items-center py-1 px-2 rounded-xl transition ${
-            currentTab === 'OVERVIEW' ? 'text-cyan-400 font-extrabold' : 'text-slate-400'
+            currentTab === 'OVERVIEW' ? 'text-cyan-600 dark:text-cyan-400 font-extrabold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           <LayoutDashboard className="w-5 h-5" />
@@ -245,7 +245,7 @@ const AdminLayout: React.FC = () => {
         <button
           onClick={() => setCurrentTab('ORDERS')}
           className={`flex flex-col items-center py-1 px-2 rounded-xl transition ${
-            currentTab === 'ORDERS' ? 'text-cyan-400 font-extrabold' : 'text-slate-400'
+            currentTab === 'ORDERS' ? 'text-cyan-600 dark:text-cyan-400 font-extrabold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           <ShoppingBag className="w-5 h-5" />
@@ -255,7 +255,7 @@ const AdminLayout: React.FC = () => {
         <button
           onClick={() => setCurrentTab('OPERATIONS')}
           className={`flex flex-col items-center py-1 px-2 rounded-xl transition ${
-            currentTab === 'OPERATIONS' ? 'text-cyan-400 font-extrabold' : 'text-slate-400'
+            currentTab === 'OPERATIONS' ? 'text-cyan-600 dark:text-cyan-400 font-extrabold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           <Activity className="w-5 h-5" />
@@ -265,7 +265,7 @@ const AdminLayout: React.FC = () => {
         <button
           onClick={() => setCurrentTab('RESTAURANTS')}
           className={`flex flex-col items-center py-1 px-2 rounded-xl transition ${
-            currentTab === 'RESTAURANTS' ? 'text-cyan-400 font-extrabold' : 'text-slate-400'
+            currentTab === 'RESTAURANTS' ? 'text-cyan-600 dark:text-cyan-400 font-extrabold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           <Building2 className="w-5 h-5" />
@@ -275,7 +275,7 @@ const AdminLayout: React.FC = () => {
         <button
           onClick={() => setCurrentTab('FINANCE')}
           className={`flex flex-col items-center py-1 px-2 rounded-xl transition ${
-            currentTab === 'FINANCE' ? 'text-cyan-400 font-extrabold' : 'text-slate-400'
+            currentTab === 'FINANCE' ? 'text-cyan-600 dark:text-cyan-400 font-extrabold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           <DollarSign className="w-5 h-5" />

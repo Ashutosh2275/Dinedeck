@@ -233,26 +233,26 @@ export const CustomerBill: React.FC = () => {
       {/* SECTION 1: ACTIVE DINING TABLE BILL (TOP CARD)                             */}
       {/* ========================================================================= */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between text-xs font-bold text-slate-300">
-          <span className="flex items-center gap-1.5 uppercase tracking-wider text-xs font-extrabold text-orange-400">
+        <div className="flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-300">
+          <span className="flex items-center gap-1.5 uppercase tracking-wider text-xs font-extrabold text-orange-600 dark:text-orange-400">
             <Sparkles className="w-3.5 h-3.5" /> Current Table Order
           </span>
           {hasActiveSession && (
-            <span className="text-[11px] text-slate-400 font-mono">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
               Table #{session.tableNumber}
             </span>
           )}
         </div>
 
         {hasActiveSession ? (
-          <div className="bg-[#151D30] border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-5">
+          <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl space-y-5">
             {/* Header Status */}
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
               <div>
                 <div className="flex items-center space-x-2">
-                  <h2 className="text-base font-black text-white">{session.restaurantName}</h2>
+                  <h2 className="text-base font-black text-slate-900 dark:text-white">{session.restaurantName}</h2>
                 </div>
-                <div className="text-xs text-slate-400 mt-0.5">
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Table #{session.tableNumber} • Active Session
                 </div>
               </div>
@@ -261,18 +261,18 @@ export const CustomerBill: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleOpenCurrentThermalBill}
-                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition flex items-center gap-1.5 cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold border border-slate-300 dark:border-slate-700 transition flex items-center gap-1.5 cursor-pointer"
                   title="View Exact Thermal POS Bill"
                 >
-                  <Receipt className="w-3.5 h-3.5 text-orange-400" />
+                  <Receipt className="w-3.5 h-3.5 text-orange-500" />
                   <span>View Bill</span>
                 </button>
 
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-black uppercase ${
                     isPaid
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                      : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                      ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30'
+                      : 'bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-500/30'
                   }`}
                 >
                   {isPaid ? 'PAID IN FULL' : 'PAYMENT PENDING'}
@@ -282,29 +282,29 @@ export const CustomerBill: React.FC = () => {
 
             {/* Itemized Dishes List */}
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
+              <div className="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 <span>Ordered Items ({allItems.length})</span>
                 <span>Rate & Amount</span>
               </div>
 
-              <div className="bg-slate-900/60 rounded-2xl border border-slate-800 divide-y divide-slate-800 max-h-52 overflow-y-auto custom-scrollbar">
+              <div className="bg-slate-50 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 divide-y divide-slate-200 dark:divide-slate-800 max-h-52 overflow-y-auto custom-scrollbar">
                 {allItems.map((item, idx) => (
                   <div key={idx} className="p-3 flex items-start justify-between text-xs gap-2">
                     <div className="flex items-start space-x-2 min-w-0">
-                      <span className="w-5 h-5 rounded-lg bg-slate-800 text-orange-400 font-extrabold flex items-center justify-center shrink-0 text-[11px]">
+                      <span className="w-5 h-5 rounded-lg bg-slate-200 dark:bg-slate-800 text-orange-600 dark:text-orange-400 font-extrabold flex items-center justify-center shrink-0 text-[11px]">
                         {item.quantity}
                       </span>
                       <div className="min-w-0">
-                        <div className="font-bold text-white truncate">{item.name}</div>
+                        <div className="font-bold text-slate-900 dark:text-white truncate">{item.name}</div>
                         {item.variantName && (
-                          <div className="text-[10px] text-orange-300 font-semibold">• Portion: {item.variantName}</div>
+                          <div className="text-[10px] text-orange-600 dark:text-orange-300 font-semibold">• Portion: {item.variantName}</div>
                         )}
                         {item.addonsSummary && (
-                          <div className="text-[10px] text-emerald-300 font-semibold">• {item.addonsSummary}</div>
+                          <div className="text-[10px] text-emerald-600 dark:text-emerald-300 font-semibold">• {item.addonsSummary}</div>
                         )}
                       </div>
                     </div>
-                    <span className="font-mono font-bold text-slate-200 shrink-0">
+                    <span className="font-mono font-bold text-slate-800 dark:text-slate-200 shrink-0">
                       ₹{(item.totalPrice || item.unitPrice * item.quantity).toFixed(2)}
                     </span>
                   </div>
@@ -313,26 +313,26 @@ export const CustomerBill: React.FC = () => {
             </div>
 
             {/* Indian GST Billing Breakdown */}
-            <div className="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 space-y-2 text-xs">
-              <div className="flex justify-between text-slate-400">
+            <div className="p-4 bg-slate-50 dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+              <div className="flex justify-between text-slate-500 dark:text-slate-400">
                 <span>Food Subtotal</span>
-                <span className="font-mono text-white font-bold">₹{rawSubtotal.toFixed(2)}</span>
+                <span className="font-mono text-slate-900 dark:text-white font-bold">₹{rawSubtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-slate-500 dark:text-slate-400">
                 <span>CGST (2.5%)</span>
-                <span className="font-mono text-purple-300 font-bold">₹{cgst.toFixed(2)}</span>
+                <span className="font-mono text-purple-700 dark:text-purple-300 font-bold">₹{cgst.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-slate-500 dark:text-slate-400">
                 <span>SGST (2.5%)</span>
-                <span className="font-mono text-purple-300 font-bold">₹{sgst.toFixed(2)}</span>
+                <span className="font-mono text-purple-700 dark:text-purple-300 font-bold">₹{sgst.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-slate-500 dark:text-slate-400">
                 <span>Service Charge (5.0%)</span>
-                <span className="font-mono text-slate-300 font-bold">₹{serviceCharge.toFixed(2)}</span>
+                <span className="font-mono text-slate-700 dark:text-slate-300 font-bold">₹{serviceCharge.toFixed(2)}</span>
               </div>
-              <div className="pt-2 border-t border-slate-700 flex justify-between text-base font-black text-white">
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-700 flex justify-between text-base font-black text-slate-900 dark:text-white">
                 <span>Grand Total</span>
-                <span className="text-orange-400 font-mono text-lg">₹{grandTotal.toFixed(2)}</span>
+                <span className="text-orange-600 dark:text-orange-400 font-mono text-lg">₹{grandTotal.toFixed(2)}</span>
               </div>
             </div>
 
@@ -341,20 +341,20 @@ export const CustomerBill: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowSplitCalculator(!showSplitCalculator)}
-                className="text-xs font-bold text-slate-400 hover:text-white flex items-center gap-1.5 transition cursor-pointer"
+                className="text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition cursor-pointer"
               >
-                <Users className="w-3.5 h-3.5 text-blue-400" />
+                <Users className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
                 <span>{showSplitCalculator ? 'Hide Split Calculator' : 'Split Bill with Friends →'}</span>
               </button>
 
               {showSplitCalculator && (
-                <div className="mt-2 p-3 bg-slate-900/60 rounded-2xl border border-slate-800 flex items-center justify-between text-xs animate-in fade-in">
+                <div className="mt-2 p-3 bg-slate-50 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs animate-in fade-in">
                   <div className="flex items-center space-x-2">
-                    <span className="text-slate-400 font-bold">Split between:</span>
+                    <span className="text-slate-600 dark:text-slate-400 font-bold">Split between:</span>
                     <select
                       value={splitCount}
                       onChange={(e) => setSplitCount(parseInt(e.target.value) || 1)}
-                      className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1 text-white font-bold"
+                      className="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2 py-1 text-slate-900 dark:text-white font-bold"
                     >
                       <option value={1}>1 Person (Full)</option>
                       <option value={2}>2 People (50%)</option>
@@ -364,8 +364,8 @@ export const CustomerBill: React.FC = () => {
                     </select>
                   </div>
                   <div className="text-right">
-                    <div className="text-slate-400 text-[10px]">Each Pays</div>
-                    <div className="text-sm font-black text-emerald-400 font-mono">₹{splitPerPerson.toFixed(2)}</div>
+                    <div className="text-slate-500 dark:text-slate-400 text-[10px]">Each Pays</div>
+                    <div className="text-sm font-black text-emerald-600 dark:text-emerald-400 font-mono">₹{splitPerPerson.toFixed(2)}</div>
                   </div>
                 </div>
               )}
@@ -375,7 +375,7 @@ export const CustomerBill: React.FC = () => {
             {!isPaid ? (
               <div className="space-y-4 pt-2">
                 <div className="space-y-2">
-                  <label className="block text-xs font-bold text-slate-300">
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
                     Choose Instant Payment Method
                   </label>
                   <div className="grid grid-cols-3 gap-2">
@@ -387,7 +387,7 @@ export const CustomerBill: React.FC = () => {
                         className={`py-2.5 rounded-2xl text-xs font-bold transition flex items-center justify-center space-x-1.5 cursor-pointer ${
                           paymentMethod === m
                             ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20'
-                            : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white'
+                            : 'bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                       >
                         {m === 'UPI' && <QrCode className="w-3.5 h-3.5" />}
@@ -400,16 +400,16 @@ export const CustomerBill: React.FC = () => {
                 </div>
 
                 {paymentMethod === 'UPI' && (
-                  <div className="p-4 bg-slate-900 rounded-2xl border border-slate-800 flex items-center space-x-4">
-                    <div className="p-2.5 bg-white rounded-xl shadow-md shrink-0">
+                  <div className="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center space-x-4">
+                    <div className="p-2.5 bg-white rounded-xl shadow-md shrink-0 border border-slate-200">
                       <QrCode className="w-14 h-14 text-slate-900" />
                     </div>
                     <div className="space-y-1">
-                      <div className="text-xs font-bold text-white">Direct Dynamic UPI QR</div>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-xs font-bold text-slate-900 dark:text-white">Direct Dynamic UPI QR</div>
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400">
                         Scan via GPay, PhonePe, Paytm, or BHIM
                       </div>
-                      <div className="text-xs font-black text-emerald-400 font-mono">
+                      <div className="text-xs font-black text-emerald-600 dark:text-emerald-400 font-mono">
                         Exact Payable: ₹{grandTotal.toFixed(2)}
                       </div>
                     </div>
@@ -417,18 +417,18 @@ export const CustomerBill: React.FC = () => {
                 )}
 
                 {paymentMethod === 'CARD' && (
-                  <div className="p-3.5 bg-slate-900 rounded-2xl border border-slate-800 text-xs space-y-1">
-                    <div className="font-bold text-white">Tap & Pay Wireless Terminal</div>
-                    <div className="text-[10px] text-slate-400">
+                  <div className="p-3.5 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs space-y-1">
+                    <div className="font-bold text-slate-900 dark:text-white">Tap & Pay Wireless Terminal</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400">
                       Handheld POS terminal will be brought to Table #{session.tableNumber}
                     </div>
                   </div>
                 )}
 
                 {paymentMethod === 'CASH' && (
-                  <div className="p-3.5 bg-slate-900 rounded-2xl border border-slate-800 text-xs space-y-1">
-                    <div className="font-bold text-white">Cash Settlement at Table</div>
-                    <div className="text-[10px] text-slate-400">
+                  <div className="p-3.5 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs space-y-1">
+                    <div className="font-bold text-slate-900 dark:text-white">Cash Settlement at Table</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400">
                       Floor Captain will collect cash and provide physical change.
                     </div>
                   </div>
@@ -446,9 +446,9 @@ export const CustomerBill: React.FC = () => {
               </div>
             ) : (
               <div className="p-5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center space-y-3">
-                <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto animate-bounce" />
-                <div className="text-sm font-black text-white">Bill Settled Successfully!</div>
-                <p className="text-xs text-slate-300">
+                <CheckCircle2 className="w-10 h-10 text-emerald-500 dark:text-emerald-400 mx-auto animate-bounce" />
+                <div className="text-sm font-black text-slate-900 dark:text-white">Bill Settled Successfully!</div>
+                <p className="text-xs text-slate-600 dark:text-slate-300">
                   Your official printed thermal bill is saved and ready to share.
                 </p>
 
@@ -474,9 +474,9 @@ export const CustomerBill: React.FC = () => {
                       paidAt: new Date().toISOString(),
                       items: allItems
                     })}
-                    className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition border border-slate-700 flex items-center gap-1.5 cursor-pointer"
+                    className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl text-xs transition border border-slate-300 dark:border-slate-700 flex items-center gap-1.5 cursor-pointer"
                   >
-                    <Share2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <Share2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     <span>Share Bill</span>
                   </button>
                 </div>
@@ -484,13 +484,13 @@ export const CustomerBill: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="bg-[#151D30] border border-slate-800 rounded-3xl p-6 text-center space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-slate-800/80 text-orange-400 flex items-center justify-center mx-auto border border-slate-700">
+          <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 text-center space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800/80 text-orange-500 dark:text-orange-400 flex items-center justify-center mx-auto border border-slate-200 dark:border-slate-700">
               <Receipt className="w-6 h-6" />
             </div>
             <div className="space-y-1">
-              <h2 className="text-sm font-bold text-white">No active table order at the moment</h2>
-              <p className="text-xs text-slate-400 max-w-sm mx-auto">
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white">No active table order at the moment</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
                 Orders placed from any partner restaurant will appear here live with split pay and digital settlement.
               </p>
             </div>
@@ -510,19 +510,19 @@ export const CustomerBill: React.FC = () => {
       {/* SECTION 2: PAST DINING ORDERS & INVOICES (AMAZON / FLIPKART TIMELINE FEED) */}
       {/* ========================================================================= */}
       <div className="space-y-3 pt-2">
-        <div className="flex items-center justify-between text-xs font-bold text-slate-300">
-          <span className="flex items-center gap-1.5 uppercase tracking-wider text-xs font-extrabold text-white">
-            <History className="w-4 h-4 text-orange-400" /> Dining History & Past Bills
+        <div className="flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-300">
+          <span className="flex items-center gap-1.5 uppercase tracking-wider text-xs font-extrabold text-slate-900 dark:text-white">
+            <History className="w-4 h-4 text-orange-500 dark:text-orange-400" /> Dining History & Past Bills
           </span>
-          <span className="text-[11px] text-slate-400">
+          <span className="text-[11px] text-slate-500 dark:text-slate-400">
             {offlineReceipts.length} past visits
           </span>
         </div>
 
         {offlineReceipts.length === 0 ? (
-          <div className="bg-[#151D30] border border-slate-800 rounded-3xl p-8 text-center space-y-2">
-            <History className="w-8 h-8 text-slate-600 mx-auto" />
-            <div className="text-xs font-bold text-slate-300">No past dining bills recorded yet</div>
+          <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-2">
+            <History className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto" />
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-300">No past dining bills recorded yet</div>
             <p className="text-[11px] text-slate-500 max-w-xs mx-auto">
               Completed table bills and payments will be saved here in chronological order.
             </p>
@@ -533,17 +533,17 @@ export const CustomerBill: React.FC = () => {
               <div
                 key={rcpt.receiptId}
                 onClick={() => setViewingReceipt(rcpt)}
-                className="bg-[#151D30] hover:bg-[#182236] border border-slate-800/90 hover:border-slate-700 rounded-3xl p-4 sm:p-5 shadow-lg transition space-y-3 group cursor-pointer active:scale-[0.99]"
+                className="bg-white dark:bg-[#151D30] hover:bg-slate-50 dark:hover:bg-[#182236] border border-slate-200 dark:border-slate-800/90 hover:border-slate-300 dark:hover:border-slate-700 rounded-3xl p-4 sm:p-5 shadow-lg transition space-y-3 group cursor-pointer active:scale-[0.99]"
               >
                 {/* Order Card Header */}
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-1 min-w-0">
-                    <div className="text-sm sm:text-base font-extrabold text-white group-hover:text-orange-400 transition truncate">
+                    <div className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white group-hover:text-orange-500 transition truncate">
                       {rcpt.restaurantName}
                     </div>
-                    <div className="text-xs text-slate-400 flex items-center gap-2 flex-wrap">
+                    <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 flex-wrap">
                       <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-slate-500" />
+                        <Calendar className="w-3 h-3 text-slate-400 dark:text-slate-500" />
                         <span>{new Date(rcpt.paidAt || Date.now()).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                         <span>• {new Date(rcpt.paidAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       </span>
@@ -552,23 +552,23 @@ export const CustomerBill: React.FC = () => {
                   </div>
 
                   <div className="text-right shrink-0">
-                    <div className="text-sm sm:text-base font-black text-white font-mono">
+                    <div className="text-sm sm:text-base font-black text-slate-900 dark:text-white font-mono">
                       ₹{rcpt.grandTotal.toFixed(2)}
                     </div>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-500/20 text-emerald-400 uppercase tracking-wider">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
                       PAID ({rcpt.paymentMethod})
                     </span>
                   </div>
                 </div>
 
                 {/* Dishes Summary Line */}
-                <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 text-xs text-slate-300 line-clamp-2 leading-relaxed">
-                  <span className="font-bold text-orange-400 mr-1">Dishes:</span>
+                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 text-xs text-slate-700 dark:text-slate-300 line-clamp-2 leading-relaxed">
+                  <span className="font-bold text-orange-600 dark:text-orange-400 mr-1">Dishes:</span>
                   {(rcpt.items || []).map((it) => `${it.quantity}x ${it.name}`).join(' • ') || 'Session bill'}
                 </div>
 
                 {/* Order Actions */}
-                <div className="flex items-center justify-between pt-1 border-t border-slate-800/80">
+                <div className="flex items-center justify-between pt-1 border-t border-slate-200 dark:border-slate-800/80">
                   <span className="font-mono text-[10px] text-slate-500">
                     {rcpt.orderNumber || rcpt.receiptId}
                   </span>
@@ -580,10 +580,10 @@ export const CustomerBill: React.FC = () => {
                         e.stopPropagation();
                         handleShareReceipt(rcpt);
                       }}
-                      className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-700 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
                       title="Share this exact bill"
                     >
-                      <Share2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <Share2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                       <span>Share</span>
                     </button>
 
@@ -605,10 +605,10 @@ export const CustomerBill: React.FC = () => {
                         e.stopPropagation();
                         handleReorder(rcpt);
                       }}
-                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition hidden sm:flex items-center gap-1 border border-slate-700 cursor-pointer"
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition hidden sm:flex items-center gap-1 border border-slate-300 dark:border-slate-700 cursor-pointer"
                       title="Order again from this restaurant"
                     >
-                      <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
+                      <RotateCcw className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
                       <span>Reorder</span>
                     </button>
                   </div>

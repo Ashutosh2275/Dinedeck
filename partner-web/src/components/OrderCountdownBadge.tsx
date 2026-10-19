@@ -57,7 +57,7 @@ export const OrderCountdownBadge: React.FC<OrderCountdownBadgeProps> = ({
   if (remaining === 0) {
     return (
       <span
-        className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-xl text-xs font-black bg-rose-500/20 text-rose-400 border border-rose-500/40 ${className}`}
+        className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-xl text-xs font-black bg-rose-50 text-rose-700 border-rose-300 dark:bg-rose-500/20 dark:text-rose-400 dark:border-rose-500/40 ${className}`}
       >
         <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
         <span>Acceptance Expired</span>
@@ -66,11 +66,11 @@ export const OrderCountdownBadge: React.FC<OrderCountdownBadgeProps> = ({
   }
 
   // Visual urgency styling
-  let urgencyStyles = 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400';
+  let urgencyStyles = 'bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-500/15 dark:border-emerald-500/30 dark:text-emerald-400';
   if (remaining <= 15) {
-    urgencyStyles = 'bg-rose-500/25 border-rose-500/60 text-rose-400 animate-pulse font-black shadow-lg shadow-rose-500/20';
+    urgencyStyles = 'bg-rose-50 text-rose-800 border-rose-300 dark:bg-rose-500/25 dark:border-rose-500/60 dark:text-rose-400 animate-pulse font-black shadow-lg shadow-rose-500/20';
   } else if (remaining <= 45) {
-    urgencyStyles = 'bg-amber-500/20 border-amber-500/40 text-amber-300 font-bold';
+    urgencyStyles = 'bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-500/20 dark:border-amber-500/40 dark:text-amber-300 font-bold';
   }
 
   return (

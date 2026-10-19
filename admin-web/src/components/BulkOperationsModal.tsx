@@ -71,19 +71,19 @@ export const BulkOperationsModal: React.FC<BulkOperationsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
-      <div className="bg-[#0E131F] border border-slate-700/80 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden p-6 space-y-6">
+      <div className="bg-white dark:bg-[#0E131F] border border-slate-200 dark:border-slate-700/80 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden p-6 space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 flex items-center justify-center">
               <Layers className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-black text-white">Bulk Multi-Tenant Operation</h2>
-              <p className="text-xs text-slate-400">Target Count Verification & Audit-Locked Mutation</p>
+              <h2 className="text-base font-black text-slate-900 dark:text-white">Bulk Multi-Tenant Operation</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Target Count Verification & Audit-Locked Mutation</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-full bg-slate-800 text-slate-400 hover:text-white">
+          <button onClick={onClose} className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -91,27 +91,27 @@ export const BulkOperationsModal: React.FC<BulkOperationsModalProps> = ({
         {/* Target Count Box */}
         <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />
+            <AlertTriangle className="w-5 h-5 text-amber-500 dark:text-amber-400 shrink-0" />
             <div>
-              <div className="text-xs font-bold text-amber-300">Exact Target Count Verification</div>
-              <div className="text-[11px] text-amber-200/80">
+              <div className="text-xs font-bold text-amber-800 dark:text-amber-300">Exact Target Count Verification</div>
+              <div className="text-[11px] text-amber-900/80 dark:text-amber-200/80">
                 Action will affect <span className="font-black underline">{count} restaurants</span> simultaneously.
               </div>
             </div>
           </div>
-          <span className="px-3 py-1 bg-amber-500 text-black font-black text-xs rounded-xl shadow">
+          <span className="px-3 py-1 bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow">
             {count} Selected
           </span>
         </div>
 
         {error && (
-          <div className="p-3 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl text-xs font-bold text-center">
+          <div className="p-3 bg-rose-500/10 border border-rose-500/20 text-rose-500 dark:text-rose-400 rounded-2xl text-xs font-bold text-center">
             {error}
           </div>
         )}
 
         {resultMessage && (
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-xs font-bold text-center flex items-center justify-center space-x-2">
+          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-2xl text-xs font-bold text-center flex items-center justify-center space-x-2">
             <CheckCircle2 className="w-4 h-4" />
             <span>{resultMessage}</span>
           </div>
@@ -119,11 +119,11 @@ export const BulkOperationsModal: React.FC<BulkOperationsModalProps> = ({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">Select Action</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Select Action</label>
             <select
               value={action}
               onChange={(e: any) => setAction(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 font-bold"
+              className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 font-bold"
             >
               <option value="BULK_ACTIVATE">Bulk Activate & Restore (Set status ACTIVE)</option>
               <option value="BULK_SUSPEND">Bulk Emergency Suspend (Set status SUSPENDED)</option>
@@ -134,7 +134,7 @@ export const BulkOperationsModal: React.FC<BulkOperationsModalProps> = ({
 
           {action === 'BULK_SET_COMMISSION' && (
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">New Commission Rate (%)</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">New Commission Rate (%)</label>
               <input
                 type="number"
                 step="0.1"
@@ -143,14 +143,14 @@ export const BulkOperationsModal: React.FC<BulkOperationsModalProps> = ({
                 value={commissionRate}
                 onChange={(e) => setCommissionRate(Number(e.target.value))}
                 required
-                className="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 font-bold"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 font-bold"
               />
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">
-              Audit Reason <span className="text-rose-400">*</span>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+              Audit Reason <span className="text-rose-500 dark:text-rose-400">*</span>
             </label>
             <textarea
               value={reason}
@@ -158,7 +158,7 @@ export const BulkOperationsModal: React.FC<BulkOperationsModalProps> = ({
               placeholder="e.g. Scheduled regional tariff update or emergency operational quarantine"
               rows={2}
               required
-              className="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3 text-xs text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500"
             />
           </div>
 
@@ -166,7 +166,7 @@ export const BulkOperationsModal: React.FC<BulkOperationsModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-2xl text-xs font-bold transition"
+              className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 rounded-2xl text-xs font-bold transition"
             >
               Cancel
             </button>

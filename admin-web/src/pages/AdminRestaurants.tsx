@@ -228,15 +228,15 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-black text-white tracking-tight">Restaurants & Branches</h1>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+            <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Restaurants & Branches</h1>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">
               ALL RESTAURANTS
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Manage restaurants, branches, tables, QR codes, and onboarding status.
           </p>
         </div>
@@ -245,7 +245,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
           {selectedIds.length > 0 && (
             <button
               onClick={() => setShowBulkModal(true)}
-              className="px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-2xl text-xs transition shadow-lg flex items-center space-x-1.5 animate-in zoom-in-95"
+              className="px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-2xl text-xs transition shadow-lg flex items-center space-x-1.5 animate-in zoom-in-95 cursor-pointer"
             >
               <Layers className="w-4 h-4" />
               <span>Bulk Action ({selectedIds.length})</span>
@@ -254,7 +254,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
 
           <button
             onClick={() => loadRestaurants()}
-            className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700"
+            className="p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition border border-slate-300 dark:border-slate-700 cursor-pointer"
             title="Refresh Restaurant List"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
@@ -262,7 +262,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
 
           <button
             onClick={() => setShowOnboardModal(true)}
-            className="px-4 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold rounded-2xl text-xs transition shadow-lg flex items-center space-x-1.5"
+            className="px-4 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold rounded-2xl text-xs transition shadow-lg flex items-center space-x-1.5 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Add Restaurant</span>
@@ -271,9 +271,9 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
       </div>
 
       {feedback && (
-        <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center justify-between">
+        <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold flex items-center justify-between">
           <span>{feedback}</span>
-          <button onClick={() => setFeedback(null)} className="text-slate-400 hover:text-white">
+          <button onClick={() => setFeedback(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-white">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -288,17 +288,17 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by restaurant name, city, cuisine, GSTIN..."
-            className="w-full bg-[#121826] border border-slate-800 rounded-2xl pl-10 pr-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
+            className="w-full bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
           />
         </div>
 
-        <div className="flex bg-[#121826] border border-slate-800 rounded-2xl p-1 shrink-0">
+        <div className="flex bg-slate-100 dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-2xl p-1 shrink-0">
           {(['ALL', 'ACTIVE', 'SUSPENDED', 'PENDING'] as const).map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
-                statusFilter === st ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                statusFilter === st ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               {st === 'ALL' ? `All (${restaurants.length})` : st}
@@ -308,14 +308,14 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
       </div>
 
       {/* Merchants Table Grid */}
-      <div className="bg-[#121826] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
-        <div className="p-3.5 border-b border-slate-800 flex items-center justify-between text-xs font-bold text-slate-400 bg-slate-900/60">
+      <div className="bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl">
+        <div className="p-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/60">
           <div className="flex items-center space-x-2">
             <input
               type="checkbox"
               checked={selectedIds.length > 0 && selectedIds.length === filteredRestaurants.length}
               onChange={toggleSelectAll}
-              className="rounded bg-slate-800 border-slate-700 text-cyan-500 focus:ring-0 w-4 h-4 cursor-pointer"
+              className="rounded bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-cyan-500 focus:ring-0 w-4 h-4 cursor-pointer"
             />
             <span>Select All Restaurants for Batch Action</span>
           </div>
@@ -324,7 +324,7 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-800">
+            <thead className="bg-slate-100 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-200 dark:border-slate-800">
               <tr>
                 <th className="w-10 px-3 py-4 text-center">#</th>
                 <th className="px-5 py-4">Restaurant / Business Name</th>
@@ -460,15 +460,15 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
       {/* Onboarding Wizard Modal */}
       {showOnboardModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-[#121826] border border-slate-700 rounded-3xl max-w-lg w-full p-6 space-y-5 shadow-2xl animate-in zoom-in-95">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-700 rounded-3xl max-w-lg w-full p-6 space-y-5 shadow-2xl animate-in zoom-in-95 text-slate-900 dark:text-white">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <Building2 className="w-5 h-5 text-cyan-400" />
-                <h3 className="text-base font-black text-white">Add New Restaurant</h3>
+                <Building2 className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
+                <h3 className="text-base font-black text-slate-900 dark:text-white">Add New Restaurant</h3>
               </div>
               <button
                 onClick={() => setShowOnboardModal(false)}
-                className="p-1.5 rounded-full bg-slate-800 text-slate-400 hover:text-white"
+                className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -476,26 +476,26 @@ export const AdminRestaurants: React.FC<AdminRestaurantsProps> = ({ initialResta
 
             <form onSubmit={handleCreateRestaurant} className="space-y-4 text-xs">
               <div>
-                <label className="block font-bold text-slate-300 mb-1">Restaurant Legal / Display Name</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Restaurant Legal / Display Name</label>
                 <input
                   type="text"
                   value={newRestName}
                   onChange={(e) => setNewRestName(e.target.value)}
                   placeholder="e.g. Bukhara Royal Tandoor"
                   required
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1">City</label>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">City</label>
                   <input
                     type="text"
                     value={newRestCity}
                     onChange={(e) => setNewRestCity(e.target.value)}
                     required
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-cyan-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
                   />
                 </div>
                 <div>

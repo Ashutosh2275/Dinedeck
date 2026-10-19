@@ -37,13 +37,40 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dinedeck.partner.data.*
 
-// Color Palette (DineDeck Brand System)
+// Color Palette (DineDeck Brand System - Adaptive Theme)
 val PartnerPrimary = Color(0xFFFBA337)
 val PartnerPrimaryDark = Color(0xFFE58A13)
-val PartnerBg = Color(0xFF081326)
-val PartnerSurface = Color(0xFF0F1B2E)
-val PartnerSurfaceHighlight = Color(0xFF18263D)
-val PartnerBorder = Color(0xFF22354F)
+
+val PartnerBg: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.background
+
+val PartnerSurface: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.surface
+
+val PartnerSurfaceHighlight: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.surfaceVariant
+
+val PartnerBorder: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.outline
+
+val PartnerTextPrimary: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.onSurface
+
+val PartnerTextSecondary: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.onSurfaceVariant
+
 val PartnerSuccess = Color(0xFF10B981)
 val PartnerWarning = Color(0xFFF59E0B)
 val PartnerError = Color(0xFFEF4444)

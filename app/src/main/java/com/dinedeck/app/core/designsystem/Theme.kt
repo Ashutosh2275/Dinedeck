@@ -11,13 +11,13 @@ private val DarkColorScheme = darkColorScheme(
     primary = OrangePrimary,
     onPrimary = Color.White,
     secondary = AmberAccent,
-    background = DarkBackground,
-    surface = DarkSurface,
-    surfaceVariant = DarkSurfaceElevated,
+    background = Color(0xFF081326),
+    surface = Color(0xFF0F1B2E),
+    surfaceVariant = Color(0xFF18263D),
     onBackground = Color.White,
     onSurface = Color.White,
     onSurfaceVariant = Color(0xFFCBD5E1),
-    outline = DarkBorder,
+    outline = Color(0xFF22354F),
     error = RedDanger
 )
 

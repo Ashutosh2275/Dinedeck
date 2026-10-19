@@ -185,13 +185,13 @@ export const CustomerMenu: React.FC = () => {
 
   if (!session.restaurantId && categories.length === 0) {
     return (
-      <div className="space-y-6 pb-28 max-w-xl mx-auto text-center p-10 bg-[#151D30] border border-slate-800 rounded-3xl shadow-xl mt-6">
-        <div className="w-16 h-16 rounded-3xl bg-orange-500/15 text-orange-400 flex items-center justify-center mx-auto border border-orange-500/30">
+      <div className="space-y-6 pb-28 max-w-xl mx-auto text-center p-10 bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl shadow-sm dark:shadow-xl mt-6">
+        <div className="w-16 h-16 rounded-3xl bg-orange-500/15 text-orange-500 dark:text-orange-400 flex items-center justify-center mx-auto border border-orange-500/30">
           <UtensilsCrossed className="w-8 h-8" />
         </div>
         <div className="space-y-1.5">
-          <h2 className="text-lg font-black text-white">Select a Partner Restaurant</h2>
-          <p className="text-xs text-slate-400 max-w-xs mx-auto">
+          <h2 className="text-lg font-black text-slate-900 dark:text-white">Select a Partner Restaurant</h2>
+          <p className="text-xs text-slate-600 dark:text-slate-400 max-w-xs mx-auto">
             Choose a partner restaurant or scan your table QR code to browse its live menu and order.
           </p>
         </div>
@@ -207,9 +207,9 @@ export const CustomerMenu: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowQrScannerModal(true)}
-            className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-2xl text-xs transition border border-slate-700 inline-flex items-center justify-center gap-1.5 cursor-pointer"
+            className="px-6 py-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-2xl text-xs transition border border-slate-300 dark:border-slate-700 inline-flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <QrCode className="w-4 h-4 text-orange-400" />
+            <QrCode className="w-4 h-4 text-orange-500 dark:text-orange-400" />
             <span>Scan Table QR</span>
           </button>
         </div>
@@ -232,56 +232,56 @@ export const CustomerMenu: React.FC = () => {
   return (
     <div className="space-y-5 pb-32 max-w-6xl mx-auto">
       {/* 1. TOP DINING TABLE HEADER & REFRESH */}
-      <div className="bg-[#151D30] border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-xl flex items-center justify-between">
+      <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-5 shadow-sm dark:shadow-xl flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-2xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold">
+          <div className="w-10 h-10 rounded-2xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-500 dark:text-orange-400 font-bold">
             <ChefHat className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-sm font-black text-white">{session.restaurantName}</span>
+              <span className="text-sm font-black text-slate-900 dark:text-white">{session.restaurantName}</span>
               {session.tableNumber && isTableSessionValid() && (
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500 text-white">
                   Table #{session.tableNumber}
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">Live Kitchen Ordering & Custom Recipes</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Live Kitchen Ordering & Custom Recipes</p>
           </div>
         </div>
 
         <button
           onClick={() => loadMenu()}
           disabled={isLoadingMenu}
-          className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition border border-slate-700 disabled:opacity-50 cursor-pointer"
+          className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs transition border border-slate-300 dark:border-slate-700 disabled:opacity-50 cursor-pointer"
           title="Refresh Menu"
         >
-          <RefreshCw className={`w-4 h-4 ${isLoadingMenu ? 'animate-spin text-orange-400' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${isLoadingMenu ? 'animate-spin text-orange-500' : ''}`} />
         </button>
       </div>
 
       {/* Table Verification / Scan QR In-Dining Status Banner */}
       {session.tableNumber && isTableSessionValid() ? (
-        <div className="bg-emerald-950/40 border border-emerald-500/40 rounded-2xl px-4 py-2.5 flex items-center justify-between text-xs">
+        <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-500/40 rounded-2xl px-4 py-2.5 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-            <span className="font-extrabold text-emerald-300">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
+            <span className="font-extrabold text-emerald-800 dark:text-emerald-300">
               Seated at Table #{session.tableNumber} (Verified by Table QR)
             </span>
           </div>
-          <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">In-Dining Active</span>
+          <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold uppercase tracking-wider">In-Dining Active</span>
         </div>
       ) : (
-        <div className="bg-orange-500/10 border border-orange-500/40 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div className="bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/40 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0 border border-orange-500/30">
+            <div className="w-8 h-8 rounded-xl bg-orange-500/15 text-orange-600 dark:text-orange-400 flex items-center justify-center shrink-0 border border-orange-500/30">
               <QrCode className="w-4 h-4" />
             </div>
             <div>
-              <div className="font-extrabold text-white text-xs sm:text-sm">
+              <div className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
                 Browsing Digital Menu • In-Dining Only
               </div>
-              <div className="text-[11px] text-slate-400">
+              <div className="text-[11px] text-slate-600 dark:text-slate-400">
                 You can explore dishes and customize orders freely. To send your order to the kitchen, scan your table QR code when seated.
               </div>
             </div>
@@ -301,10 +301,10 @@ export const CustomerMenu: React.FC = () => {
                 const query = encodeURIComponent(`${session.restaurantName}`);
                 window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
               }}
-              className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
+              className="px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
               title="Get directions to restaurant"
             >
-              <Navigation className="w-3.5 h-3.5 text-orange-400" />
+              <Navigation className="w-3.5 h-3.5 text-orange-500" />
               <span className="hidden sm:inline">Directions</span>
             </button>
           </div>
@@ -312,14 +312,27 @@ export const CustomerMenu: React.FC = () => {
       )}
 
       {/* 2. SUB-TAB SWITCHER: DISHES & MENU vs ACTIVE ORDER STATUS */}
-      <div className="p-1 bg-[#151D30] border border-slate-800 rounded-2xl flex items-center shadow-lg">
+      <div className="p-1 bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center shadow-sm dark:shadow-lg">
         <button
           type="button"
           onClick={() => setMenuSubTab('DISHES')}
           className={`flex-1 py-2.5 rounded-xl text-xs font-black transition flex items-center justify-center space-x-2 cursor-pointer ${
             menuSubTab === 'DISHES'
               ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
-              : 'text-slate-400 hover:text-slate-200'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+          }`}
+        >
+          <UtensilsCrossed className="w-4 h-4" />
+          <span>Dishes & Menu</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setMenuSubTab('ORDER_STATUS')}
+          className={`flex-1 py-2.5 rounded-xl text-xs font-black transition flex items-center justify-center space-x-2 cursor-pointer ${
+            menuSubTab === 'ORDER_STATUS'
+              ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <UtensilsCrossed className="w-4 h-4" />
@@ -375,238 +388,238 @@ export const CustomerMenu: React.FC = () => {
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
               <input
                 type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search dishes (e.g. Biryani, Paneer, Dosa, Naan)..."
-            className="w-full bg-[#151D30] border border-slate-800 rounded-2xl pl-10 pr-10 py-3 text-xs font-bold text-white placeholder-slate-500 focus:outline-none focus:border-orange-500 shadow-md transition"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
-        </div>
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search dishes (e.g. Biryani, Paneer, Dosa, Naan)..."
+                className="w-full bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 pr-10 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500 shadow-sm dark:shadow-md transition"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-700 dark:hover:text-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
 
-        {/* Dietary Filters & Bestseller Toggle */}
-        <div className="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar">
-          <div className="flex items-center gap-1.5 bg-[#151D30] p-1 rounded-2xl border border-slate-800 text-xs font-bold shrink-0">
-            <button
-              type="button"
-              onClick={() => setDietFilter('ALL')}
-              className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
-                dietFilter === 'ALL' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              All
-            </button>
-            <button
-              type="button"
-              onClick={() => setDietFilter('VEG')}
-              className={`px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer ${
-                dietFilter === 'VEG'
-                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                  : 'text-emerald-400 hover:text-emerald-300'
-              }`}
-            >
-              <Leaf className="w-3 h-3" />
-              <span>Veg Only</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setDietFilter('NON_VEG')}
-              className={`px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer ${
-                dietFilter === 'NON_VEG'
-                  ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20'
-                  : 'text-rose-400 hover:text-rose-300'
-              }`}
-            >
-              <Drumstick className="w-3 h-3" />
-              <span>Non-Veg</span>
-            </button>
+            {/* Dietary Filters & Bestseller Toggle */}
+            <div className="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar">
+              <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-[#151D30] p-1 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs font-bold shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setDietFilter('ALL')}
+                  className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
+                    dietFilter === 'ALL' ? 'bg-slate-900 dark:bg-slate-700 text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                >
+                  All
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDietFilter('VEG')}
+                  className={`px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer ${
+                    dietFilter === 'VEG'
+                      ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
+                      : 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300'
+                  }`}
+                >
+                  <Leaf className="w-3 h-3" />
+                  <span>Veg Only</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDietFilter('NON_VEG')}
+                  className={`px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer ${
+                    dietFilter === 'NON_VEG'
+                      ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20'
+                      : 'text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300'
+                  }`}
+                >
+                  <Drumstick className="w-3 h-3" />
+                  <span>Non-Veg</span>
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelectedCat(selectedCat === 'BESTSELLERS' ? 'ALL' : 'BESTSELLERS')}
+                className={`px-3.5 py-2 rounded-2xl border text-xs font-black transition flex items-center gap-1.5 shrink-0 cursor-pointer shadow-md ${
+                  selectedCat === 'BESTSELLERS'
+                    ? 'bg-amber-500 text-white border-amber-400 shadow-amber-500/20'
+                    : 'bg-white dark:bg-[#151D30] border-slate-200 dark:border-slate-800 text-amber-600 dark:text-amber-400 hover:border-amber-500/50'
+                }`}
+              >
+                <Star className="w-3.5 h-3.5 fill-current" />
+                <span>Today's Specials</span>
+              </button>
+            </div>
+
+            {/* Categories Bar */}
+            <div className="flex items-center space-x-1.5 overflow-x-auto no-scrollbar">
+              <button
+                type="button"
+                onClick={() => setSelectedCat('ALL')}
+                className={`px-4 py-2 rounded-2xl text-xs font-black transition whitespace-nowrap cursor-pointer ${
+                  selectedCat === 'ALL'
+                    ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20'
+                    : 'bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                }`}
+              >
+                All Dishes ({allItems.length})
+              </button>
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedCat(cat.id)}
+                  className={`px-4 py-2 rounded-2xl text-xs font-black transition whitespace-nowrap cursor-pointer ${
+                    selectedCat === cat.id
+                      ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20'
+                      : 'bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                >
+                  {cat.name} ({cat.items?.length || 0})
+                </button>
+              ))}
+            </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setSelectedCat(selectedCat === 'BESTSELLERS' ? 'ALL' : 'BESTSELLERS')}
-            className={`px-3.5 py-2 rounded-2xl border text-xs font-black transition flex items-center gap-1.5 shrink-0 cursor-pointer shadow-md ${
-              selectedCat === 'BESTSELLERS'
-                ? 'bg-amber-500 text-white border-amber-400 shadow-amber-500/20'
-                : 'bg-[#151D30] border-slate-800 text-amber-400 hover:border-amber-500/50'
-            }`}
-          >
-            <Star className="w-3.5 h-3.5 fill-current" />
-            <span>Today's Specials</span>
-          </button>
-        </div>
-
-        {/* Categories Bar */}
-        <div className="flex items-center space-x-1.5 overflow-x-auto no-scrollbar">
-          <button
-            type="button"
-            onClick={() => setSelectedCat('ALL')}
-            className={`px-4 py-2 rounded-2xl text-xs font-black transition whitespace-nowrap cursor-pointer ${
-              selectedCat === 'ALL'
-                ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20'
-                : 'bg-[#151D30] border border-slate-800 text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            All Dishes ({allItems.length})
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setSelectedCat(cat.id)}
-              className={`px-4 py-2 rounded-2xl text-xs font-black transition whitespace-nowrap cursor-pointer ${
-                selectedCat === cat.id
-                  ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20'
-                  : 'bg-[#151D30] border border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              {cat.name} ({cat.items?.length || 0})
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 3. DISHES GRID */}
-      {filteredItems.length === 0 ? (
-        <div className="p-12 text-center bg-[#151D30] border border-slate-800 rounded-3xl space-y-3">
-          <ChefHat className="w-10 h-10 mx-auto text-slate-600" />
-          <h3 className="text-sm font-bold text-white">No dishes matched your selection</h3>
-          <p className="text-xs text-slate-400">Try clearing your search query or dietary filters.</p>
-          <button
-            onClick={() => {
-              setSearchQuery('');
-              setDietFilter('ALL');
-              setSelectedCat('ALL');
-            }}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl transition"
-          >
-            Reset Filters
-          </button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          {filteredItems.map((item) => {
-            const inCartItems = cart.filter((c) => c.menuItemId === item.id);
-            const totalQtyInCart = inCartItems.reduce((s, i) => s + i.quantity, 0);
-
-            return (
-              <div
-                key={item.id}
-                className="bg-[#151D30] border border-slate-800 hover:border-orange-500/40 rounded-3xl p-4 shadow-xl transition space-y-3 flex flex-col justify-between group relative overflow-hidden"
+          {/* 3. DISHES GRID */}
+          {filteredItems.length === 0 ? (
+            <div className="p-12 text-center bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl space-y-3 shadow-sm dark:shadow-none">
+              <ChefHat className="w-10 h-10 mx-auto text-slate-400 dark:text-slate-600" />
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">No dishes matched your selection</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Try clearing your search query or dietary filters.</p>
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setDietFilter('ALL');
+                  setSelectedCat('ALL');
+                }}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-bold rounded-xl transition border border-slate-200 dark:border-slate-700"
               >
-                <div className="space-y-2">
-                  {/* Top Badges */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-1.5">
-                      <span
-                        className={`w-4 h-4 rounded-md flex items-center justify-center border text-[8px] font-black ${
-                          item.isVeg
-                            ? 'border-emerald-500 text-emerald-400 bg-emerald-500/10'
-                            : 'border-rose-500 text-rose-400 bg-rose-500/10'
-                        }`}
-                        title={item.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
-                      >
-                        ●
-                      </span>
-                      {item.isBestseller && (
-                        <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center gap-1">
-                          <Star className="w-2.5 h-2.5 fill-amber-400" /> Bestseller
+                Reset Filters
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              {filteredItems.map((item) => {
+                const inCartItems = cart.filter((c) => c.menuItemId === item.id);
+                const totalQtyInCart = inCartItems.reduce((s, i) => s + i.quantity, 0);
+
+                return (
+                  <div
+                    key={item.id}
+                    className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 hover:border-orange-500/40 rounded-3xl p-4 shadow-sm dark:shadow-xl transition space-y-3 flex flex-col justify-between group relative overflow-hidden"
+                  >
+                    <div className="space-y-2">
+                      {/* Top Badges */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-1.5">
+                          <span
+                            className={`w-4 h-4 rounded-md flex items-center justify-center border text-[8px] font-black ${
+                              item.isVeg
+                                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
+                                : 'border-rose-500 text-rose-600 dark:text-rose-400 bg-rose-500/10'
+                            }`}
+                            title={item.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
+                          >
+                            ●
+                          </span>
+                          {item.isBestseller && (
+                            <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30 flex items-center gap-1">
+                              <Star className="w-2.5 h-2.5 fill-amber-400" /> Bestseller
+                            </span>
+                          )}
+                        </div>
+
+                        <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                          <Clock className="w-3 h-3 text-slate-400 dark:text-slate-500" />
+                          <span>{item.preparationTime || 15}m</span>
                         </span>
+                      </div>
+
+                      {/* Food Item Image Visual */}
+                      {item.imageUrl && (
+                        <div className="relative h-28 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 mb-2 group-hover:border-orange-500/40 transition">
+                          <img
+                            src={item.imageUrl}
+                            alt={item.name}
+                            loading="lazy"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          <div className="absolute bottom-1 right-1.5 px-1.5 py-0.5 rounded bg-black/75 backdrop-blur-md text-[8px] font-mono font-bold text-slate-300">
+                            WebP
+                          </div>
+                        </div>
                       )}
-                    </div>
 
-                    <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-slate-500" />
-                      <span>{item.preparationTime || 15}m</span>
-                    </span>
-                  </div>
-
-                  {/* Food Item Image Visual */}
-                  {item.imageUrl && (
-                    <div className="relative h-28 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 mb-2 group-hover:border-orange-500/40 transition">
-                      <img
-                        src={item.imageUrl}
-                        alt={item.name}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute bottom-1 right-1.5 px-1.5 py-0.5 rounded bg-black/75 backdrop-blur-md text-[8px] font-mono font-bold text-slate-300">
-                        WebP
+                      {/* Title & Description */}
+                      <div>
+                        <h4 className="font-extrabold text-sm text-slate-900 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug">
+                          {item.name}
+                        </h4>
+                        {item.description && (
+                          <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                            {item.description}
+                          </p>
+                        )}
                       </div>
                     </div>
-                  )}
 
-                  {/* Title & Description */}
-                  <div>
-                    <h4 className="font-extrabold text-sm text-white group-hover:text-orange-400 transition leading-snug">
-                      {item.name}
-                    </h4>
-                    {item.description && (
-                      <p className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Pricing & Add / Customizer Trigger */}
-                <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2">
-                  <div>
-                    <div className="text-base font-black text-white font-mono">₹{item.price.toFixed(2)}</div>
-                    <span className="text-[9px] text-slate-500 font-semibold">Portions & Notes customizable</span>
-                  </div>
-
-                  <div className="flex items-center gap-1.5">
-                    {totalQtyInCart > 0 ? (
-                      <div className="flex items-center bg-slate-900 border border-orange-500/40 rounded-2xl p-1 shadow-md">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (inCartItems.length > 0) {
-                              updateCartQty(inCartItems[0].cartItemId, -1);
-                            }
-                          }}
-                          className="w-7 h-7 rounded-xl bg-slate-800 hover:bg-slate-700 text-white flex items-center justify-center font-bold text-xs cursor-pointer"
-                        >
-                          <Minus className="w-3 h-3" />
-                        </button>
-                        <span className="px-2.5 font-black text-orange-400 text-xs font-mono">
-                          {totalQtyInCart}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => handleOpenCustomizer(item)}
-                          className="w-7 h-7 rounded-xl bg-orange-500 hover:bg-orange-400 text-white flex items-center justify-center font-bold text-xs cursor-pointer shadow-sm"
-                          title="Add with customizations"
-                        >
-                          <Plus className="w-3 h-3" />
-                        </button>
+                    {/* Pricing & Add / Customizer Trigger */}
+                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+                      <div>
+                        <div className="text-base font-black text-slate-900 dark:text-white font-mono">₹{item.price.toFixed(2)}</div>
+                        <span className="text-[9px] text-slate-500 font-semibold">Portions & Notes customizable</span>
                       </div>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => handleOpenCustomizer(item)}
-                        className="px-3.5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-black rounded-2xl text-xs transition flex items-center space-x-1.5 shadow-lg shadow-orange-500/20 cursor-pointer transform active:scale-95"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Add</span>
-                      </button>
-                    )}
+
+                      <div className="flex items-center gap-1.5">
+                        {totalQtyInCart > 0 ? (
+                          <div className="flex items-center bg-slate-100 dark:bg-slate-900 border border-orange-500/40 rounded-2xl p-1 shadow-md">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (inCartItems.length > 0) {
+                                  updateCartQty(inCartItems[0].cartItemId, -1);
+                                }
+                              }}
+                              className="w-7 h-7 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white flex items-center justify-center font-bold text-xs cursor-pointer"
+                            >
+                              <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="px-2.5 font-black text-orange-500 dark:text-orange-400 text-xs font-mono">
+                              {totalQtyInCart}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleOpenCustomizer(item)}
+                              className="w-7 h-7 rounded-xl bg-orange-500 hover:bg-orange-400 text-white flex items-center justify-center font-bold text-xs cursor-pointer shadow-sm"
+                              title="Add with customizations"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => handleOpenCustomizer(item)}
+                            className="px-3.5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-black rounded-2xl text-xs transition flex items-center space-x-1.5 shadow-lg shadow-orange-500/20 cursor-pointer transform active:scale-95"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                            <span>Add</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      </>
-    )}
+                );
+              })}
+            </div>
+          )}
+          </>
+        )}
 
       {/* 4. DISH CUSTOMIZATION MODAL (Portions, Spice, Add-ons, Cooking Notes) */}
       {customizingItem && (
@@ -616,29 +629,29 @@ export const CustomerMenu: React.FC = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#151D30] border border-slate-700 w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar cursor-default"
+            className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-700 w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar cursor-default"
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div>
                 <div className="flex items-center space-x-2">
                   <span
                     className={`w-3.5 h-3.5 rounded-md flex items-center justify-center border text-[7px] font-black ${
                       customizingItem.isVeg
-                        ? 'border-emerald-500 text-emerald-400 bg-emerald-500/10'
-                        : 'border-rose-500 text-rose-400 bg-rose-500/10'
+                        ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
+                        : 'border-rose-500 text-rose-600 dark:text-rose-400 bg-rose-500/10'
                     }`}
                   >
                     ●
                   </span>
-                  <h3 className="text-base font-black text-white">{customizingItem.name}</h3>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white">{customizingItem.name}</h3>
                 </div>
-                <p className="text-xs text-slate-400 mt-0.5">Customize portion size, spice level, and cooking notes</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Customize portion size, spice level, and cooking notes</p>
               </div>
 
               <button
                 onClick={() => setCustomizingItem(null)}
-                className="p-2 rounded-full bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
+                className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -646,7 +659,7 @@ export const CustomerMenu: React.FC = () => {
 
             {/* Food Item Image Banner */}
             {customizingItem.imageUrl && (
-              <div className="relative h-40 w-full overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-900 shadow-inner">
+              <div className="relative h-40 w-full overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-slate-100 dark:bg-slate-900 shadow-inner">
                 <img
                   src={customizingItem.imageUrl}
                   alt={customizingItem.name}
@@ -661,9 +674,9 @@ export const CustomerMenu: React.FC = () => {
 
             {/* A. Portion Size Selector */}
             <div className="space-y-2.5">
-              <label className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center justify-between">
+              <label className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center justify-between">
                 <span>1. Portion Size</span>
-                <span className="text-[10px] text-orange-400 lowercase">Required</span>
+                <span className="text-[10px] text-orange-500 dark:text-orange-400 lowercase font-bold">Required</span>
               </label>
 
               <div className="grid grid-cols-2 gap-2">
@@ -677,15 +690,15 @@ export const CustomerMenu: React.FC = () => {
                     onClick={() => setSelectedPortion(portion.key)}
                     className={`p-3 rounded-2xl border text-left transition cursor-pointer flex flex-col justify-between ${
                       selectedPortion === portion.key
-                        ? 'bg-orange-500/15 border-orange-500 text-white shadow-md'
-                        : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200'
+                        ? 'bg-orange-500/15 border-orange-500 text-orange-700 dark:text-white shadow-md'
+                        : 'bg-slate-50 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold">{portion.label}</span>
-                      {selectedPortion === portion.key && <Check className="w-3.5 h-3.5 text-orange-400" />}
+                      {selectedPortion === portion.key && <Check className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />}
                     </div>
-                    <div className="text-sm font-black text-white font-mono mt-1">₹{portion.price.toFixed(2)}</div>
+                    <div className="text-sm font-black text-slate-900 dark:text-white font-mono mt-1">₹{portion.price.toFixed(2)}</div>
                   </button>
                 ))}
               </div>
@@ -693,7 +706,7 @@ export const CustomerMenu: React.FC = () => {
 
             {/* B. Spice Level Selector */}
             <div className="space-y-2.5">
-              <label className="text-xs font-black uppercase tracking-wider text-slate-300">
+              <label className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 2. Spice Preference
               </label>
 
@@ -710,7 +723,7 @@ export const CustomerMenu: React.FC = () => {
                     className={`p-2.5 rounded-2xl border text-center transition cursor-pointer ${
                       selectedSpice === spice.key
                         ? 'bg-orange-500 text-white border-orange-400 shadow-md'
-                        : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200'
+                        : 'bg-slate-50 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                     }`}
                   >
                     {spice.label}
@@ -721,7 +734,7 @@ export const CustomerMenu: React.FC = () => {
 
             {/* C. Optional Add-ons */}
             <div className="space-y-2.5">
-              <label className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center justify-between">
+              <label className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center justify-between">
                 <span>3. Add-ons & Accompaniments</span>
                 <span className="text-[10px] text-slate-500">Optional</span>
               </label>
@@ -736,17 +749,17 @@ export const CustomerMenu: React.FC = () => {
                       onClick={() => handleToggleAddon(addon)}
                       className={`p-2.5 rounded-2xl border text-left transition cursor-pointer flex items-center justify-between ${
                         isChecked
-                          ? 'bg-emerald-500/15 border-emerald-500 text-white'
-                          : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200'
+                          ? 'bg-emerald-500/15 border-emerald-500 text-emerald-800 dark:text-white'
+                          : 'bg-slate-50 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                       }`}
                     >
                       <div>
-                        <div className="text-xs font-bold text-white">{addon.name}</div>
-                        <div className="text-[10px] text-slate-400">+₹{addon.price}</div>
+                        <div className="text-xs font-bold text-slate-900 dark:text-white">{addon.name}</div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400">+₹{addon.price}</div>
                       </div>
                       <div
                         className={`w-4 h-4 rounded-md flex items-center justify-center border ${
-                          isChecked ? 'bg-emerald-500 border-emerald-400 text-white' : 'border-slate-700'
+                          isChecked ? 'bg-emerald-500 border-emerald-400 text-white' : 'border-slate-300 dark:border-slate-700'
                         }`}
                       >
                         {isChecked && <Check className="w-3 h-3" />}
@@ -759,8 +772,8 @@ export const CustomerMenu: React.FC = () => {
 
             {/* D. Special Cooking Instructions */}
             <div className="space-y-1.5">
-              <label className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-orange-400" />
+              <label className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
                 <span>4. Cooking Notes for Chef</span>
               </label>
               <textarea
@@ -768,15 +781,15 @@ export const CustomerMenu: React.FC = () => {
                 onChange={(e) => setItemSpecialNotes(e.target.value)}
                 placeholder="e.g. Steam for poori, 38 idli, crisp dosa, less oil, no onion/garlic..."
                 rows={2}
-                className="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500 transition resize-none"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl p-3 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500 transition resize-none"
               />
             </div>
 
             {/* Modal Footer / Add Button */}
-            <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-3">
+            <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
               <div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Item Total</span>
-                <div className="text-lg font-black text-white font-mono">
+                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Item Total</span>
+                <div className="text-lg font-black text-slate-900 dark:text-white font-mono">
                   ₹{(() => {
                     let p = selectedVariant
                       ? selectedVariant.price
@@ -842,28 +855,28 @@ export const CustomerMenu: React.FC = () => {
           onClick={() => setShowCartDrawer(false)}
           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in cursor-pointer"
         >
-          <div
+            <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#151D30] border border-slate-700 w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar flex flex-col justify-between cursor-default"
+            className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-700 w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto custom-scrollbar flex flex-col justify-between cursor-default"
           >
             <div className="space-y-4">
               {/* Drawer Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
                 <div>
-                  <h3 className="text-base font-black text-white flex items-center gap-2">
-                    <ShoppingBag className="w-5 h-5 text-orange-400" />
+                  <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+                    <ShoppingBag className="w-5 h-5 text-orange-500" />
                     <span>
                       {session.tableNumber && isTableSessionValid()
                         ? `Table #${session.tableNumber} Order Cart`
                         : 'Your Dining Cart'}
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">{cartItemCount} items ready for the kitchen</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{cartItemCount} items ready for the kitchen</p>
                 </div>
 
                 <button
                   onClick={() => setShowCartDrawer(false)}
-                  className="p-2 rounded-full bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
+                  className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -872,11 +885,11 @@ export const CustomerMenu: React.FC = () => {
               {/* Table QR Required Notice if not yet seated / table session expired */}
               {(!session.tableNumber || !isTableSessionValid()) && (
                 <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-xs space-y-2.5">
-                  <div className="flex items-center gap-2 text-amber-300 font-bold">
-                    <QrCode className="w-4 h-4 text-orange-400 shrink-0" />
+                  <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300 font-bold">
+                    <QrCode className="w-4 h-4 text-orange-500 shrink-0" />
                     <span>Table QR scan required to send order</span>
                   </div>
-                  <p className="text-[11px] text-slate-300 leading-relaxed">
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
                     DineDeck routes orders directly to the restaurant kitchen. To send your order, please scan the QR code at your dining table.
                   </p>
                   <div className="flex items-center gap-2 pt-0.5">
@@ -897,9 +910,9 @@ export const CustomerMenu: React.FC = () => {
                         const query = encodeURIComponent(`${session.restaurantName}`);
                         window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
                       }}
-                      className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-medium rounded-xl text-[11px] flex items-center gap-1.5 transition cursor-pointer"
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 font-medium rounded-xl text-[11px] flex items-center gap-1.5 transition cursor-pointer"
                     >
-                      <Navigation className="w-3.5 h-3.5 text-orange-400" />
+                      <Navigation className="w-3.5 h-3.5 text-orange-500" />
                       <span>Directions</span>
                     </button>
                   </div>
@@ -911,66 +924,66 @@ export const CustomerMenu: React.FC = () => {
                 {cart.map((c) => (
                   <div
                     key={c.cartItemId}
-                    className="p-3.5 bg-slate-900/80 rounded-2xl border border-slate-800 flex items-start justify-between gap-3"
+                    className="p-3.5 bg-slate-50 dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-start justify-between gap-3"
                   >
                     <div className="min-w-0 space-y-1">
                       <div className="flex items-center space-x-1.5">
                         <span
                           className={`w-3 h-3 rounded-sm flex items-center justify-center border text-[6px] font-black ${
                             c.isVeg
-                              ? 'border-emerald-500 text-emerald-400 bg-emerald-500/10'
-                              : 'border-rose-500 text-rose-400 bg-rose-500/10'
+                              ? 'border-emerald-500 text-emerald-500 bg-emerald-500/10'
+                              : 'border-rose-500 text-rose-500 bg-rose-500/10'
                           }`}
                         >
                           ●
                         </span>
-                        <span className="font-extrabold text-xs text-white truncate">{c.name}</span>
+                        <span className="font-extrabold text-xs text-slate-900 dark:text-white truncate">{c.name}</span>
                       </div>
 
                       {/* Customization Details */}
-                      <div className="text-[10px] text-slate-400 space-y-0.5 pl-4">
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400 space-y-0.5 pl-4">
                         {c.customization?.portionSize && c.customization.portionSize !== 'REGULAR' && (
-                          <div>• Portion: <span className="text-orange-300 font-bold">{c.customization.portionSize}</span></div>
+                          <div>• Portion: <span className="text-orange-600 dark:text-orange-300 font-bold">{c.customization.portionSize}</span></div>
                         )}
                         {c.customization?.spiceLevel && (
-                          <div>• Spice: <span className="text-amber-300 font-bold">{c.customization.spiceLevel}</span></div>
+                          <div>• Spice: <span className="text-amber-600 dark:text-amber-300 font-bold">{c.customization.spiceLevel}</span></div>
                         )}
                         {c.customization?.selectedAddons && c.customization.selectedAddons.length > 0 && (
                           <div>
                             • Addons:{' '}
-                            <span className="text-emerald-300 font-bold">
+                            <span className="text-emerald-600 dark:text-emerald-300 font-bold">
                               {c.customization.selectedAddons.map((a) => a.name).join(', ')}
                             </span>
                           </div>
                         )}
                         {c.customization?.specialNotes && (
-                          <div className="text-orange-400 font-bold italic">
+                          <div className="text-orange-600 dark:text-orange-400 font-bold italic">
                             "{c.customization.specialNotes}"
                           </div>
                         )}
                       </div>
 
-                      <div className="text-xs font-black text-white font-mono pl-4">
+                      <div className="text-xs font-black text-slate-900 dark:text-white font-mono pl-4">
                         ₹{(c.unitPrice * c.quantity).toFixed(2)}
                       </div>
                     </div>
 
                     {/* Quantity Controls */}
-                    <div className="flex items-center bg-slate-800 rounded-xl p-1 shrink-0">
+                    <div className="flex items-center bg-slate-200 dark:bg-slate-800 rounded-xl p-1 shrink-0">
                       <button
                         type="button"
                         onClick={() => updateCartQty(c.cartItemId, -1)}
-                        className="w-6 h-6 rounded-lg bg-slate-700 hover:bg-slate-600 text-white flex items-center justify-center font-bold text-xs"
+                        className="w-6 h-6 rounded-lg bg-slate-300 hover:bg-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-white flex items-center justify-center font-bold text-xs"
                       >
                         <Minus className="w-3 h-3" />
                       </button>
-                      <span className="px-2 font-black text-orange-400 text-xs font-mono">
+                      <span className="px-2 font-black text-orange-600 dark:text-orange-400 text-xs font-mono">
                         {c.quantity}
                       </span>
                       <button
                         type="button"
                         onClick={() => updateCartQty(c.cartItemId, 1)}
-                        className="w-6 h-6 rounded-lg bg-orange-500 hover:bg-orange-400 text-white flex items-center justify-center font-bold text-xs"
+                        className="w-6 h-6 rounded-lg bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center font-bold text-xs"
                       >
                         <Plus className="w-3 h-3" />
                       </button>
@@ -981,8 +994,8 @@ export const CustomerMenu: React.FC = () => {
 
               {/* Special Table Instructions */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-slate-300 uppercase flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5 text-orange-400" />
+                <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-orange-500" />
                   <span>General Table Request (Optional)</span>
                 </label>
                 <input
@@ -990,36 +1003,36 @@ export const CustomerMenu: React.FC = () => {
                   value={tableNotes}
                   onChange={(e) => setTableNotes(e.target.value)}
                   placeholder="e.g. Serve starters first, bring extra plates & spoons..."
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500"
                 />
               </div>
 
               {/* Bill Breakdown (Authentic Dining Calculation) */}
-              <div className="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-1.5 text-xs">
-                <div className="flex justify-between text-slate-400">
+              <div className="p-3.5 bg-slate-50 dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-1.5 text-xs">
+                <div className="flex justify-between text-slate-500 dark:text-slate-400">
                   <span>Food Subtotal</span>
-                  <span className="text-white font-mono font-bold">₹{cartSubtotal.toFixed(2)}</span>
+                  <span className="text-slate-900 dark:text-white font-mono font-bold">₹{cartSubtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-slate-500 dark:text-slate-400">
                   <span>CGST (2.5%)</span>
-                  <span className="text-purple-300 font-mono font-bold">₹{cgstAmount.toFixed(2)}</span>
+                  <span className="text-purple-700 dark:text-purple-300 font-mono font-bold">₹{cgstAmount.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-slate-500 dark:text-slate-400">
                   <span>SGST (2.5%)</span>
-                  <span className="text-purple-300 font-mono font-bold">₹{sgstAmount.toFixed(2)}</span>
+                  <span className="text-purple-700 dark:text-purple-300 font-mono font-bold">₹{sgstAmount.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-slate-500 dark:text-slate-400">
                   <span>Service Charge (5%)</span>
-                  <span className="text-slate-300 font-mono font-bold">₹{serviceCharge.toFixed(2)}</span>
+                  <span className="text-slate-700 dark:text-slate-300 font-mono font-bold">₹{serviceCharge.toFixed(2)}</span>
                 </div>
-                <div className="border-t border-slate-800 pt-1.5 flex justify-between text-sm font-black">
-                  <span className="text-white">Total Amount</span>
-                  <span className="text-emerald-400 font-mono text-base">₹{cartGrandTotal.toFixed(2)}</span>
+                <div className="border-t border-slate-200 dark:border-slate-800 pt-1.5 flex justify-between text-sm font-black">
+                  <span className="text-slate-900 dark:text-white">Total Amount</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-mono text-base">₹{cartGrandTotal.toFixed(2)}</span>
                 </div>
               </div>
 
               {orderError && (
-                <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs flex items-center gap-2">
+                <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-500 text-xs flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{orderError}</span>
                 </div>
@@ -1027,11 +1040,11 @@ export const CustomerMenu: React.FC = () => {
             </div>
 
             {/* Send Order Button */}
-            <div className="pt-4 border-t border-slate-800 flex gap-2">
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex gap-2">
               <button
                 type="button"
                 onClick={clearCart}
-                className="px-4 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-rose-400 text-xs font-bold transition cursor-pointer"
+                className="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 text-xs font-bold transition cursor-pointer"
               >
                 Clear
               </button>

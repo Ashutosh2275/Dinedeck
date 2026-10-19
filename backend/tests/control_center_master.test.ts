@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { prisma } from '../src/config/db.js';
 
 const BASE_URL = 'http://127.0.0.1:8080';
@@ -356,4 +356,17 @@ describe('DINEDECK Control Center — Master Production Governance Suite', () =>
     expect(custRes.status).toBe(403);
     expect(custRes.data?.message).toContain('Forbidden');
   });
+
+  afterAll(async () => {
+    if (onboardedRestaurantId) {
+      await prisma.table.deleteMany({ where: { branch: { restaurantId: onboardedRestaurantId } } });
+      await prisma.restaurantBranch.deleteMany({ where: { restaurantId: onboardedRestaurantId } });
+      await prisma.restaurantStaff.deleteMany({ where: { restaurantId: onboardedRestaurantId } });
+      await prisma.kitchenStation.deleteMany({ where: { restaurantId: onboardedRestaurantId } });
+      await prisma.kitchenKdsSetting.deleteMany({ where: { restaurantId: onboardedRestaurantId } });
+      await prisma.supportTicket.deleteMany({ where: { restaurantId: onboardedRestaurantId } });
+      await prisma.restaurant.delete({ where: { id: onboardedRestaurantId } }).catch(() => {});
+    }
+  });
 });
+

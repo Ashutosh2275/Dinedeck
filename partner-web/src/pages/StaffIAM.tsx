@@ -544,25 +544,25 @@ export const StaffIAM: React.FC = () => {
       {activeSubTab === 'SECURITY_AUDIT' ? (
         /* SIMPLIFIED IMMUTABLE SECURITY AND OPERATIONAL AUDIT LOG */
         <div className="space-y-4">
-          <div className="bg-[#1E293B] border border-slate-700/80 rounded-2xl overflow-hidden shadow-xl">
-            <div className="p-5 bg-slate-900/90 border-b border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/80 rounded-2xl overflow-hidden shadow-sm dark:shadow-xl">
+            <div className="p-5 bg-slate-50 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-orange-400" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-orange-500 dark:text-orange-400" />
                   <span>Staff & System Activity History</span>
                 </h3>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                   Chronological records of permissions assigned, revoked, roles changed, and refunds executed.
                 </p>
               </div>
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 self-start sm:self-auto">
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30 self-start sm:self-auto">
                 {auditLogs.length} Records Verified
               </span>
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-slate-300">
-                <thead className="bg-slate-900 text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-700/80">
+              <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+                <thead className="bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200 dark:border-slate-700/80">
                   <tr>
                     <th className="px-5 py-4">Timestamp</th>
                     <th className="px-5 py-4">Actor</th>
@@ -571,7 +571,7 @@ export const StaffIAM: React.FC = () => {
                     <th className="px-5 py-4 text-right">Result</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-700/60">
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-700/60">
                   {auditLogs.length === 0 ? (
                     <tr>
                       <td colSpan={5} className="px-5 py-14 text-center text-slate-500">
@@ -592,11 +592,11 @@ export const StaffIAM: React.FC = () => {
                       const targetBranch = franchises.find((f) => f.id === afterData?.branchId)?.name || actorBranch;
 
                       return (
-                        <tr key={log.id} className="hover:bg-slate-800/50 transition">
+                        <tr key={log.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
                           {/* 1. Timestamp */}
-                          <td className="px-5 py-4 text-slate-400 whitespace-nowrap">
+                          <td className="px-5 py-4 text-slate-500 dark:text-slate-400 whitespace-nowrap">
                             <div className="flex items-center gap-1.5 font-medium">
-                              <History className="w-3.5 h-3.5 text-slate-500" />
+                              <History className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                               <span>
                                 {new Date(log.createdAt).toLocaleString('en-IN', {
                                   day: '2-digit',
@@ -611,10 +611,10 @@ export const StaffIAM: React.FC = () => {
 
                           {/* 2. Actor: Name (User ID) [Branch Name] */}
                           <td className="px-5 py-4">
-                            <div className="font-bold text-white text-xs">
+                            <div className="font-bold text-slate-900 dark:text-white text-xs">
                               {log.actor?.name || 'System Root'}
                             </div>
-                            <div className="text-[11px] text-slate-400 font-mono mt-0.5">
+                            <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
                               ID: {log.actorId?.slice(0, 10) || 'ROOT'} ({actorBranch})
                             </div>
                           </td>

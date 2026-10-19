@@ -66,17 +66,17 @@ export const AdminFinance: React.FC = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#121826] border border-slate-800 p-5 rounded-3xl shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 p-5 rounded-3xl shadow-xl">
         <div>
-          <h1 className="text-xl font-black text-white tracking-tight">Finance & Merchant Settlement Center</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Finance & Merchant Settlement Center</h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Canonical 15% platform commission ledger, tax invoicing, and merchant payouts.
           </p>
         </div>
 
         <button
           onClick={() => loadFinancialData()}
-          className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700 self-start sm:self-auto"
+          className="p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition border border-slate-300 dark:border-slate-700 self-start sm:self-auto cursor-pointer"
           title="Refresh Financial Ledger"
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
@@ -85,59 +85,58 @@ export const AdminFinance: React.FC = () => {
 
       {/* Financial KPIs Banner */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 bg-gradient-to-br from-[#121826] to-slate-900 border border-slate-800 rounded-3xl space-y-2">
-          <div className="text-xs font-bold uppercase text-slate-400">Total Gross Platform GMV</div>
-          <div className="text-2xl sm:text-3xl font-black text-white">₹{totalGrossSettled.toFixed(2)}</div>
+        <div className="p-5 bg-white dark:bg-gradient-to-br dark:from-[#121826] dark:to-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-2 shadow-sm">
+          <div className="text-xs font-bold uppercase text-slate-500 dark:text-slate-400">Total Gross Platform GMV</div>
+          <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">₹{totalGrossSettled.toFixed(2)}</div>
           <div className="text-[11px] text-slate-500">Authoritative backend settled revenue</div>
         </div>
 
-        <div className="p-5 bg-gradient-to-br from-[#121826] to-cyan-950/30 border border-cyan-500/30 rounded-3xl space-y-2">
-          <div className="text-xs font-bold uppercase text-cyan-400">DINEDECK 15% Platform Commission</div>
-          <div className="text-2xl sm:text-3xl font-black text-cyan-400">₹{totalCommissionEarned.toFixed(2)}</div>
-          <div className="text-[11px] text-slate-400">Automatic platform deduction</div>
+        <div className="p-5 bg-white dark:bg-gradient-to-br dark:from-[#121826] dark:to-cyan-950/30 border border-cyan-500/30 rounded-3xl space-y-2 shadow-sm">
+          <div className="text-xs font-bold uppercase text-cyan-600 dark:text-cyan-400">DINEDECK 15% Platform Commission</div>
+          <div className="text-2xl sm:text-3xl font-black text-cyan-600 dark:text-cyan-400">₹{totalCommissionEarned.toFixed(2)}</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400">Automatic platform deduction</div>
         </div>
 
-        <div className="p-5 bg-gradient-to-br from-[#121826] to-emerald-950/30 border border-emerald-500/30 rounded-3xl space-y-2">
-          <div className="text-xs font-bold uppercase text-emerald-400">Net Merchant Payable Payout</div>
-          <div className="text-2xl sm:text-3xl font-black text-emerald-400">₹{netPayable.toFixed(2)}</div>
-          <div className="text-[11px] text-slate-400">Direct NEFT/RTGS settlement batch</div>
+        <div className="p-5 bg-white dark:bg-gradient-to-br dark:from-[#121826] dark:to-emerald-950/30 border border-emerald-500/30 rounded-3xl space-y-2 shadow-sm">
+          <div className="text-xs font-bold uppercase text-emerald-600 dark:text-emerald-400">Net Merchant Payable Payout</div>
+          <div className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">₹{netPayable.toFixed(2)}</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400">Direct NEFT/RTGS settlement batch</div>
         </div>
       </div>
 
       {/* Sub-Tab Navigation */}
-      <div className="flex bg-[#121826] border border-slate-800 rounded-2xl p-1 max-w-md">
+      <div className="flex bg-slate-100 dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-2xl p-1 max-w-md">
         <button
           onClick={() => setActiveSubTab('SETTLEMENTS')}
-          className={`flex-1 py-2 rounded-xl text-xs font-bold transition ${
-            activeSubTab === 'SETTLEMENTS' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+          className={`flex-1 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${
+            activeSubTab === 'SETTLEMENTS' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           Settlements & Payouts
         </button>
         <button
           onClick={() => setActiveSubTab('INVOICES')}
-          className={`flex-1 py-2 rounded-xl text-xs font-bold transition ${
-            activeSubTab === 'INVOICES' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+          className={`flex-1 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${
+            activeSubTab === 'INVOICES' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           Tax Invoices ({bills.length})
         </button>
         <button
           onClick={() => setActiveSubTab('PAYMENTS')}
-          className={`flex-1 py-2 rounded-xl text-xs font-bold transition ${
-            activeSubTab === 'PAYMENTS' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+          className={`flex-1 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${
+            activeSubTab === 'PAYMENTS' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           Gateway Ledger
         </button>
       </div>
 
-      {/* Settlements View */}
       {activeSubTab === 'SETTLEMENTS' && (
-        <div className="bg-[#121826] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <div className="bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-800">
+              <thead className="bg-slate-100 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-5 py-4">Merchant</th>
                   <th className="px-4 py-4">Gross Sales</th>
@@ -219,10 +218,10 @@ export const AdminFinance: React.FC = () => {
 
       {/* Invoices View */}
       {activeSubTab === 'INVOICES' && (
-        <div className="bg-[#121826] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <div className="bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-800">
+              <thead className="bg-slate-100 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-5 py-4">Invoice #</th>
                   <th className="px-4 py-4">Restaurant & Table</th>
@@ -233,38 +232,38 @@ export const AdminFinance: React.FC = () => {
                   <th className="px-5 py-4 text-right">Timestamp</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                 {bills.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
-                      <Receipt className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-50" />
-                      <p className="font-semibold text-slate-400">No invoices generated yet</p>
-                      <p className="text-[11px] text-slate-500 mt-0.5">
+                      <Receipt className="w-8 h-8 mx-auto mb-2 text-slate-400 dark:text-slate-600 opacity-50" />
+                      <p className="font-semibold text-slate-600 dark:text-slate-400">No invoices generated yet</p>
+                      <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
                         Invoices generated for dine-in and online orders will appear here automatically.
                       </p>
                     </td>
                   </tr>
                 ) : (
                   bills.map((b) => (
-                    <tr key={b.id} className="hover:bg-slate-800/40 transition">
-                      <td className="px-5 py-4 font-mono font-bold text-white">
+                    <tr key={b.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+                      <td className="px-5 py-4 font-mono font-bold text-slate-900 dark:text-white">
                         {b.billNumber || b.id}
                       </td>
-                      <td className="px-4 py-4 font-bold text-white">
+                      <td className="px-4 py-4 font-bold text-slate-900 dark:text-white">
                         {b.restaurant?.name || 'Restaurant'}
-                        <div className="text-[10px] text-cyan-400 font-normal">
+                        <div className="text-[10px] text-cyan-600 dark:text-cyan-400 font-normal">
                           {b.tableNumber ? `Table #${b.tableNumber}` : 'Direct Order'}
                         </div>
                       </td>
                       <td className="px-4 py-4 font-mono">₹{Number(b.subtotal || 0).toFixed(2)}</td>
-                      <td className="px-4 py-4 font-mono text-purple-400">
+                      <td className="px-4 py-4 font-mono text-purple-600 dark:text-purple-400">
                         ₹{(Number(b.cgstAmount || 0) + Number(b.sgstAmount || 0) + Number(b.serviceCharge || 0)).toFixed(2)}
                       </td>
-                      <td className="px-4 py-4 font-mono font-black text-emerald-400">
+                      <td className="px-4 py-4 font-mono font-black text-emerald-600 dark:text-emerald-400">
                         ₹{Number(b.grandTotal || 0).toFixed(2)}
                       </td>
                       <td className="px-4 py-4">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">
                           {b.paymentStatus}
                         </span>
                       </td>
@@ -282,10 +281,10 @@ export const AdminFinance: React.FC = () => {
 
       {/* Gateway Payments View */}
       {activeSubTab === 'PAYMENTS' && (
-        <div className="bg-[#121826] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <div className="bg-white dark:bg-[#121826] border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-800">
+              <thead className="bg-slate-100 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-5 py-4">Gateway Ref</th>
                   <th className="px-4 py-4">Method</th>
@@ -294,7 +293,7 @@ export const AdminFinance: React.FC = () => {
                   <th className="px-5 py-4 text-right">Settlement Time</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                 {payments.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="px-6 py-12 text-center text-slate-500">

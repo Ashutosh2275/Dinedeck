@@ -212,34 +212,34 @@ export const CustomerAccount: React.FC = () => {
   return (
     <div className="space-y-6 pb-32 max-w-4xl mx-auto animate-in fade-in">
       {/* 1. TOP PROFILE HERO BANNER */}
-      <div className="bg-[#151D30] border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+      <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-orange-600 via-orange-500 to-amber-400 p-0.5 shadow-xl shadow-orange-500/30 flex items-center justify-center shrink-0">
-              <div className="w-full h-full rounded-[22px] bg-[#0B0F19] flex items-center justify-center text-orange-400 font-black text-2xl">
+              <div className="w-full h-full rounded-[22px] bg-slate-100 dark:bg-[#0B0F19] flex items-center justify-center text-orange-500 font-black text-2xl">
                 {user?.name ? user.name.slice(0, 2).toUpperCase() : <img src="/dinedeck-emblem.png" alt="DineDeck" className="w-9 h-9 object-contain" draggable={false} />}
               </div>
             </div>
 
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-black text-white">
+                <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
                   {user?.name || 'Guest Diner'}
                 </h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-500/30 flex items-center gap-1">
                   <Star className="w-3 h-3 fill-amber-400" />
                   <span>DineDeck VIP</span>
                 </span>
               </div>
-              <p className="text-xs text-slate-400 flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-orange-400" />
+              <p className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-orange-500" />
                 <span>{user?.email || 'guest.diner@dinedeck.io'}</span>
                 {user?.phone && (
                   <>
                     <span>•</span>
-                    <Smartphone className="w-3.5 h-3.5 text-blue-400" />
+                    <Smartphone className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
                     <span>{user.phone}</span>
                   </>
                 )}
@@ -253,15 +253,15 @@ export const CustomerAccount: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsEditing(!isEditing)}
-                  className="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-700 cursor-pointer"
+                  className="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-300 dark:border-slate-700 cursor-pointer"
                 >
-                  <Edit3 className="w-3.5 h-3.5 text-orange-400" />
+                  <Edit3 className="w-3.5 h-3.5 text-orange-500" />
                   <span>{isEditing ? 'Cancel' : 'Edit Profile'}</span>
                 </button>
                 <button
                   type="button"
                   onClick={logout}
-                  className="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white text-xs font-bold transition flex items-center justify-center gap-1.5 border border-rose-500/30 cursor-pointer"
+                  className="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-rose-500/15 hover:bg-rose-500 text-rose-600 dark:text-rose-400 hover:text-white text-xs font-bold transition flex items-center justify-center gap-1.5 border border-rose-500/30 cursor-pointer"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span>Logout</span>
@@ -281,7 +281,7 @@ export const CustomerAccount: React.FC = () => {
         </div>
 
         {savedSuccess && (
-          <div className="mt-4 p-3 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center gap-2 animate-in fade-in">
+          <div className="mt-4 p-3 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold flex items-center gap-2 animate-in fade-in">
             <CheckCircle2 className="w-4 h-4" />
             <span>Profile and dining preferences updated successfully!</span>
           </div>
@@ -292,47 +292,47 @@ export const CustomerAccount: React.FC = () => {
       {isEditing && (
         <form
           onSubmit={handleSaveProfile}
-          className="bg-[#151D30] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4 animate-in zoom-in-95"
+          className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-4 animate-in zoom-in-95"
         >
-          <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-            <h3 className="text-sm font-black text-white flex items-center gap-1.5">
-              <User className="w-4 h-4 text-orange-400" />
+          <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+            <h3 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+              <User className="w-4 h-4 text-orange-500" />
               <span>Update Profile Info</span>
             </h3>
-            <span className="text-[11px] text-slate-400">Stored securely on your device</span>
+            <span className="text-[11px] text-slate-500 dark:text-slate-400">Stored securely on your device</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-300">Your Full Name</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Your Full Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Rahul Sharma"
-                className="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-xs font-bold text-white focus:outline-none focus:border-orange-500 transition font-sans"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500 transition font-sans"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-300">Email Address</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Email Address</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
-                className="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-xs font-bold text-white focus:outline-none focus:border-orange-500 transition font-mono"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500 transition font-mono"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-300">Mobile Number (+91)</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Mobile Number (+91)</label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="98765 43210"
-                className="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-xs font-bold text-white focus:outline-none focus:border-orange-500 transition font-mono"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500 transition font-mono"
               />
             </div>
           </div>
@@ -350,14 +350,14 @@ export const CustomerAccount: React.FC = () => {
       )}
 
       {/* 3. ORDER HISTORY & SAVED TAX INVOICES VAULT */}
-      <div className="bg-[#151D30] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <h2 className="text-base font-black text-white flex items-center gap-2">
-              <Receipt className="w-4 h-4 text-orange-400" />
+            <h2 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <Receipt className="w-4 h-4 text-orange-500" />
               <span>Order History & Digital Invoices</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Live orders and official GST tax invoices for your dining visits
             </p>
           </div>
@@ -366,7 +366,7 @@ export const CustomerAccount: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveView('HISTORY')}
-              className="text-xs font-bold text-orange-400 hover:text-orange-300 hover:underline cursor-pointer flex items-center gap-1"
+              className="text-xs font-bold text-orange-600 dark:text-orange-400 hover:text-orange-500 hover:underline cursor-pointer flex items-center gap-1"
             >
               <span>View All History</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -375,11 +375,11 @@ export const CustomerAccount: React.FC = () => {
         </div>
 
         {!user ? (
-          <div className="p-6 text-center rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
-            <Receipt className="w-9 h-9 text-orange-400/60 mx-auto" />
+          <div className="p-6 text-center rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+            <Receipt className="w-9 h-9 text-orange-500/60 mx-auto" />
             <div className="space-y-1">
-              <h3 className="text-sm font-bold text-white">Sign In to See Your Orders</h3>
-              <p className="text-xs text-slate-400 max-w-sm mx-auto">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Sign In to See Your Orders</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
                 Sign in to view previous orders, check live table status, and download tax receipts anytime.
               </p>
             </div>
@@ -410,22 +410,22 @@ export const CustomerAccount: React.FC = () => {
                 <div
                   key={orderId}
                   onClick={() => openInvoiceForOrder(ord)}
-                  className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 group cursor-pointer active:scale-[0.99]"
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 group cursor-pointer active:scale-[0.99]"
                 >
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-sm text-white group-hover:text-orange-400 transition">
+                      <span className="font-extrabold text-sm text-slate-900 dark:text-white group-hover:text-orange-500 transition">
                         {restName}
                       </span>
                       {getStatusBadge(ord.status || 'COMPLETED')}
                     </div>
-                    <div className="text-xs text-slate-400 flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-[11px] text-orange-400/90 font-bold">
+                    <div className="text-xs text-slate-500 dark:text-slate-400 flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-[11px] text-orange-600 dark:text-orange-400/90 font-bold">
                         {ord.orderNumber || `#ORD-${orderId.slice(-4)}`}
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-slate-500" />
+                        <Calendar className="w-3 h-3 text-slate-400 dark:text-slate-500" />
                         <span>{dateStr}</span>
                       </span>
                       <span>•</span>
@@ -435,12 +435,12 @@ export const CustomerAccount: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
+                  <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200 dark:border-slate-800/80">
                     <div className="text-left sm:text-right">
-                      <div className="text-sm font-black text-white font-mono">
+                      <div className="text-sm font-black text-slate-900 dark:text-white font-mono">
                         ₹{total.toFixed(2)}
                       </div>
-                      <span className="text-[10px] text-slate-400">
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400">
                         {ord.paymentMethod ? `via ${ord.paymentMethod}` : 'Tax Inclusive'}
                       </span>
                     </div>
@@ -462,12 +462,12 @@ export const CustomerAccount: React.FC = () => {
             })}
           </div>
         ) : (
-          <div className="p-6 text-center rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
-            <Receipt className="w-8 h-8 text-slate-600 mx-auto" />
-            <p className="text-xs text-slate-400">No past dining orders recorded yet.</p>
+          <div className="p-6 text-center rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-2">
+            <Receipt className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto" />
+            <p className="text-xs text-slate-600 dark:text-slate-400">No past dining orders recorded yet.</p>
             <button
               onClick={() => setActiveView('HOME')}
-              className="px-4 py-2 bg-orange-500/20 text-orange-400 text-xs font-bold rounded-xl hover:bg-orange-500 hover:text-white transition cursor-pointer"
+              className="px-4 py-2 bg-orange-500/10 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 text-xs font-bold rounded-xl hover:bg-orange-500 hover:text-white transition cursor-pointer"
             >
               Explore Restaurants & Menus
             </button>
@@ -476,14 +476,14 @@ export const CustomerAccount: React.FC = () => {
       </div>
 
       {/* 4. DINING & TASTE PREFERENCES (Compact & Practical) */}
-      <div className="bg-[#151D30] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-5">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-5">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <h2 className="text-base font-black text-white flex items-center gap-2">
-              <UtensilsCrossed className="w-4 h-4 text-orange-400" />
+            <h2 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <UtensilsCrossed className="w-4 h-4 text-orange-500" />
               <span>Dining & Kitchen Preferences</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Automatically included in your orders for the head chef
             </p>
           </div>
@@ -491,8 +491,8 @@ export const CustomerAccount: React.FC = () => {
 
         {/* Spice Level Preference */}
         <div className="space-y-2">
-          <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-            <Flame className="w-3.5 h-3.5 text-orange-400" />
+          <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+            <Flame className="w-3.5 h-3.5 text-orange-500" />
             <span>Default Spice Level</span>
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -511,8 +511,8 @@ export const CustomerAccount: React.FC = () => {
                 }}
                 className={`p-3 rounded-2xl border text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
                   spicePref === sp.key
-                    ? 'bg-orange-500/15 border-orange-500 text-white shadow-md'
-                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                    ? 'bg-orange-500/15 border-orange-500 text-orange-600 dark:text-white shadow-md'
+                    : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
                 <span>{sp.icon}</span>
@@ -524,8 +524,8 @@ export const CustomerAccount: React.FC = () => {
 
         {/* Dietary Preference */}
         <div className="space-y-2">
-          <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-            <Leaf className="w-3.5 h-3.5 text-emerald-400" />
+          <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+            <Leaf className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
             <span>Dietary Filter</span>
           </label>
           <div className="grid grid-cols-3 gap-2">
@@ -543,11 +543,11 @@ export const CustomerAccount: React.FC = () => {
                 }}
                 className={`p-3 rounded-2xl border text-left transition cursor-pointer ${
                   dietPref === dt.key
-                    ? 'bg-orange-500/15 border-orange-500 text-white shadow-md'
-                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                    ? 'bg-orange-500/15 border-orange-500 text-orange-600 dark:text-white shadow-md'
+                    : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
-                <div className="font-extrabold text-xs text-white">{dt.label}</div>
+                <div className="font-extrabold text-xs text-slate-900 dark:text-white">{dt.label}</div>
                 <div className="text-[10px] text-slate-500 mt-0.5">{dt.desc}</div>
               </button>
             ))}
@@ -556,8 +556,8 @@ export const CustomerAccount: React.FC = () => {
 
         {/* Special Allergy / Cooking Notes */}
         <div className="space-y-2">
-          <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+          <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
             <span>Special Allergies & Chef Instructions</span>
           </label>
           <input
@@ -568,20 +568,20 @@ export const CustomerAccount: React.FC = () => {
               updateUserProfile({ specialDietNotes: e.target.value });
             }}
             placeholder="e.g. Jain food (no onion/garlic), Peanut allergy, Gluten sensitive"
-            className="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-xs font-bold text-white placeholder-slate-500 focus:outline-none focus:border-orange-500 transition font-sans"
+            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500 transition font-sans"
           />
         </div>
       </div>
 
       {/* 5. APP THEME & VISUAL APPEARANCE */}
-      <div className="bg-[#151D30] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <h2 className="text-base font-black text-white flex items-center gap-2">
-              <Palette className="w-4 h-4 text-pink-400" />
+            <h2 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <Palette className="w-4 h-4 text-pink-500 dark:text-pink-400" />
               <span>Display Theme & Appearance</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Personalize your visual experience across light and dark modes
             </p>
           </div>
@@ -618,14 +618,14 @@ export const CustomerAccount: React.FC = () => {
               className={`p-4 rounded-2xl border-2 text-left transition cursor-pointer ${
                 theme === key
                   ? 'border-orange-500 bg-orange-500/10'
-                  : 'border-slate-800 bg-slate-900/60 hover:border-slate-700'
+                  : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 hover:border-slate-300 dark:hover:border-slate-700'
               }`}
             >
               <div className={`w-full h-8 rounded-xl mb-3 border ${preview}`} />
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <Icon className={`w-4 h-4 ${theme === key ? 'text-orange-400' : 'text-slate-400'}`} />
-                  <span className="font-black text-xs text-white">{label}</span>
+                  <Icon className={`w-4 h-4 ${theme === key ? 'text-orange-500 dark:text-orange-400' : 'text-slate-400'}`} />
+                  <span className="font-black text-xs text-slate-900 dark:text-white">{label}</span>
                 </div>
                 {theme === key && (
                   <span className="px-1.5 py-0.5 bg-orange-500 text-white text-[9px] font-black rounded-full">
@@ -633,37 +633,37 @@ export const CustomerAccount: React.FC = () => {
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-slate-400 leading-relaxed">{desc}</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
             </button>
           ))}
         </div>
       </div>
 
       {/* 6. ACTIVE TABLE STATUS */}
-      <div className="bg-[#151D30] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <h2 className="text-base font-black text-white flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-orange-400" />
+            <h2 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-orange-500" />
               <span>Active Dining Pairing</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Live connection to restaurant kitchen and steward
             </p>
           </div>
         </div>
 
         {session.isActive && session.tableNumber ? (
-          <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-black text-white">{session.restaurantName}</span>
+                <span className="text-sm font-black text-slate-900 dark:text-white">{session.restaurantName}</span>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-orange-500 text-white">
                   Table #{session.tableNumber}
                 </span>
               </div>
-              <p className="text-[11px] text-emerald-400 font-semibold flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Live Session Active
               </p>
             </div>
@@ -679,7 +679,7 @@ export const CustomerAccount: React.FC = () => {
               <button
                 type="button"
                 onClick={clearTableSession}
-                className="px-3 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white text-xs font-bold transition border border-rose-500/30 flex items-center gap-1 cursor-pointer"
+                className="px-3 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500 text-rose-600 dark:text-rose-400 hover:text-white text-xs font-bold transition border border-rose-500/30 flex items-center gap-1 cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Leave</span>
@@ -687,12 +687,12 @@ export const CustomerAccount: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 text-center space-y-2">
-            <p className="text-xs text-slate-400">No active dining table connected.</p>
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-center space-y-2">
+            <p className="text-xs text-slate-500 dark:text-slate-400">No active dining table connected.</p>
             <button
               type="button"
               onClick={() => setActiveView('HOME')}
-              className="px-5 py-2.5 rounded-xl bg-orange-500/20 text-orange-400 text-xs font-bold hover:bg-orange-500 hover:text-white transition cursor-pointer"
+              className="px-5 py-2.5 rounded-xl bg-orange-500/10 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 text-xs font-bold hover:bg-orange-500 hover:text-white transition cursor-pointer"
             >
               Scan Table QR or Browse Restaurants
             </button>

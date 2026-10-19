@@ -34,6 +34,26 @@ fun formatInr(amount: Double): String {
     }
 }
 
+val AdminCardBg: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.surface
+
+val AdminCardVariantBg: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.surfaceVariant
+
+val AdminTextPrimary: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.onSurface
+
+val AdminTextSecondary: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.colorScheme.onSurfaceVariant
+
 @Composable
 fun StatusPill(status: String) {
     val (bg, fg) = when (status.uppercase()) {
@@ -98,7 +118,7 @@ fun OverviewScreen(
                         Surface(
                             modifier = Modifier
                                 .clickable { onSelectRange(key) },
-                            color = if (isSelected) Color(0xFFFF6B00) else Color(0xFF151C26),
+                            color = if (isSelected) Color(0xFFFF6B00) else AdminCardVariantBg,
                             shape = RoundedCornerShape(20.dp),
                             border = if (isSelected) null else androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.1f))
                         ) {
@@ -129,7 +149,7 @@ fun OverviewScreen(
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFF151C26))
+                        colors = CardDefaults.cardColors(containerColor = AdminCardVariantBg)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text("TOTAL ORDER VALUE", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
@@ -159,7 +179,7 @@ fun OverviewScreen(
                         Card(
                             modifier = Modifier.weight(1f).clickable { onNavigateSection(1) },
                             shape = RoundedCornerShape(14.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
+                            colors = CardDefaults.cardColors(containerColor = AdminCardBg)
                         ) {
                             Column(modifier = Modifier.padding(14.dp)) {
                                 Text("🏪 ACTIVE RESTAURANTS", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
@@ -172,7 +192,7 @@ fun OverviewScreen(
                         Card(
                             modifier = Modifier.weight(1f).clickable { onNavigateSection(2) },
                             shape = RoundedCornerShape(14.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
+                            colors = CardDefaults.cardColors(containerColor = AdminCardBg)
                         ) {
                             Column(modifier = Modifier.padding(14.dp)) {
                                 Text("🍳 COOKING TODAY", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
@@ -187,7 +207,7 @@ fun OverviewScreen(
                         Card(
                             modifier = Modifier.weight(1f).clickable { onNavigateSection(4) },
                             shape = RoundedCornerShape(14.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
+                            colors = CardDefaults.cardColors(containerColor = AdminCardBg)
                         ) {
                             Column(modifier = Modifier.padding(14.dp)) {
                                 Text("👥 USERS & SESSIONS", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
@@ -200,7 +220,7 @@ fun OverviewScreen(
                         Card(
                             modifier = Modifier.weight(1f).clickable { onNavigateSection(3) },
                             shape = RoundedCornerShape(14.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
+                            colors = CardDefaults.cardColors(containerColor = AdminCardBg)
                         ) {
                             Column(modifier = Modifier.padding(14.dp)) {
                                 Text("💳 PAYMENTS & REFUNDS", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
@@ -277,7 +297,7 @@ fun RestaurantsScreen(
                 val isSelected = state.statusFilter == status
                 Surface(
                     modifier = Modifier.clickable { onSelectStatus(status) },
-                    color = if (isSelected) Color(0xFFFF6B00) else Color(0xFF151C26),
+                    color = if (isSelected) Color(0xFFFF6B00) else AdminCardVariantBg,
                     shape = RoundedCornerShape(16.dp),
                     border = if (isSelected) null else androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.1f))
                 ) {
@@ -312,7 +332,7 @@ fun RestaurantsScreen(
                             .fillMaxWidth()
                             .clickable { onSelectRestaurant(r.id) },
                         shape = RoundedCornerShape(14.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
+                        colors = CardDefaults.cardColors(containerColor = AdminCardBg)
                     ) {
                         Column(modifier = Modifier.padding(14.dp)) {
                             Row(
@@ -376,7 +396,7 @@ fun RestaurantDetailScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         // Detail Header
-        Surface(color = Color(0xFF0E131A), modifier = Modifier.fillMaxWidth()) {
+        Surface(color = AdminCardBg, modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = onBack) {
@@ -396,7 +416,7 @@ fun RestaurantDetailScreen(
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(
                         onClick = { showEditProfileDialog = true },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF151C26)),
+                        colors = ButtonDefaults.buttonColors(containerColor = AdminCardVariantBg),
                         shape = RoundedCornerShape(8.dp),
                         modifier = Modifier.weight(1f)
                     ) {
@@ -431,7 +451,7 @@ fun RestaurantDetailScreen(
         // Detail Tabs
         ScrollableTabRow(
             selectedTabIndex = selectedTab,
-            containerColor = Color(0xFF151C26),
+            containerColor = AdminCardVariantBg,
             contentColor = Color(0xFFFF6B00),
             edgePadding = 16.dp
         ) {
@@ -453,7 +473,7 @@ fun RestaurantDetailScreen(
             when (selectedTab) {
                 0 -> {
                     item {
-                        Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A)), shape = RoundedCornerShape(12.dp)) {
+                        Card(colors = CardDefaults.cardColors(containerColor = AdminCardBg), shape = RoundedCornerShape(12.dp)) {
                             Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Text("RESTAURANT COMPLIANCE & VERIFICATION", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
                                 Text("Legal Entity: ${restaurant.legalBusinessName ?: "N/A"}", fontSize = 13.sp, color = Color.White)
@@ -467,7 +487,7 @@ fun RestaurantDetailScreen(
                         }
                     }
                     item {
-                        Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A)), shape = RoundedCornerShape(12.dp)) {
+                        Card(colors = CardDefaults.cardColors(containerColor = AdminCardBg), shape = RoundedCornerShape(12.dp)) {
                             Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Text("COMMERCIAL & BILLING CONFIGURATION", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
                                 Text("DINEDECK Commission: ${restaurant.commissionRatePercent}%", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF10B981))
@@ -503,13 +523,13 @@ fun RestaurantDetailScreen(
                         item { Text("No branches configured.", color = Color(0xFF8E9BAE)) }
                     } else {
                         items(branches) { b ->
-                            Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A)), shape = RoundedCornerShape(12.dp)) {
+                            Card(colors = CardDefaults.cardColors(containerColor = AdminCardBg), shape = RoundedCornerShape(12.dp)) {
                                 Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         Text(b.name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
                                         Button(
                                             onClick = { showAddTableBranchId = b.id },
-                                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF151C26)),
+                                            colors = ButtonDefaults.buttonColors(containerColor = AdminCardVariantBg),
                                             shape = RoundedCornerShape(6.dp),
                                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                         ) {
@@ -533,7 +553,7 @@ fun RestaurantDetailScreen(
                                             }
                                             Button(
                                                 onClick = { onRegenerateQr(t.id) },
-                                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF151C26)),
+                                                colors = ButtonDefaults.buttonColors(containerColor = AdminCardVariantBg),
                                                 shape = RoundedCornerShape(6.dp),
                                                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                             ) {
@@ -573,7 +593,7 @@ fun RestaurantDetailScreen(
                         item { Text("No menu categories created yet.", color = Color(0xFF8E9BAE)) }
                     } else {
                         items(cats) { c ->
-                            Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A)), shape = RoundedCornerShape(12.dp)) {
+                            Card(colors = CardDefaults.cardColors(containerColor = AdminCardBg), shape = RoundedCornerShape(12.dp)) {
                                 Column(modifier = Modifier.padding(14.dp)) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
@@ -583,7 +603,7 @@ fun RestaurantDetailScreen(
                                         Text(c.name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFFFF6B00))
                                         Button(
                                             onClick = { showAddItemCategoryId = c.id },
-                                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF151C26)),
+                                            colors = ButtonDefaults.buttonColors(containerColor = AdminCardVariantBg),
                                             shape = RoundedCornerShape(6.dp),
                                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                         ) {
@@ -636,7 +656,7 @@ fun RestaurantDetailScreen(
                         item { Text("No staff assigned yet.", color = Color(0xFF8E9BAE)) }
                     } else {
                         items(staff) { s ->
-                            Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A)), shape = RoundedCornerShape(12.dp)) {
+                            Card(colors = CardDefaults.cardColors(containerColor = AdminCardBg), shape = RoundedCornerShape(12.dp)) {
                                 Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         Text(s.user?.name ?: "Staff Member", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -646,7 +666,7 @@ fun RestaurantDetailScreen(
                                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                         Button(
                                             onClick = { onSetPermissionOverride(s.userId, "orders", "refund", "DENY", "RESTAURANT:${restaurant.id}") },
-                                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF151C26)),
+                                            colors = ButtonDefaults.buttonColors(containerColor = AdminCardVariantBg),
                                             shape = RoundedCornerShape(6.dp),
                                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                         ) {
@@ -654,7 +674,7 @@ fun RestaurantDetailScreen(
                                         }
                                         Button(
                                             onClick = { onSetPermissionOverride(s.userId, "menu", "update", "ALLOW", "RESTAURANT:${restaurant.id}") },
-                                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF151C26)),
+                                            colors = ButtonDefaults.buttonColors(containerColor = AdminCardVariantBg),
                                             shape = RoundedCornerShape(6.dp),
                                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                         ) {
@@ -682,7 +702,7 @@ fun RestaurantDetailScreen(
                         item { Text("No payouts generated yet.", color = Color(0xFF8E9BAE)) }
                     } else {
                         items(sets) { s ->
-                            Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A)), shape = RoundedCornerShape(12.dp)) {
+                            Card(colors = CardDefaults.cardColors(containerColor = AdminCardBg), shape = RoundedCornerShape(12.dp)) {
                                 Column(modifier = Modifier.padding(14.dp)) {
                                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         Text(s.settlementNumber, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -750,7 +770,7 @@ fun RestaurantDetailScreen(
             dismissButton = {
                 TextButton(onClick = { showEditProfileDialog = false }) { Text("Cancel", color = Color(0xFF8E9BAE)) }
             },
-            containerColor = Color(0xFF0E131A)
+            containerColor = AdminCardBg
         )
     }
 
@@ -786,7 +806,7 @@ fun RestaurantDetailScreen(
             dismissButton = {
                 TextButton(onClick = { showAddBranchDialog = false }) { Text("Cancel", color = Color(0xFF8E9BAE)) }
             },
-            containerColor = Color(0xFF0E131A)
+            containerColor = AdminCardBg
         )
     }
 
@@ -820,7 +840,7 @@ fun RestaurantDetailScreen(
             dismissButton = {
                 TextButton(onClick = { showAddTableBranchId = null }) { Text("Cancel", color = Color(0xFF8E9BAE)) }
             },
-            containerColor = Color(0xFF0E131A)
+            containerColor = AdminCardBg
         )
     }
 
@@ -850,7 +870,7 @@ fun RestaurantDetailScreen(
             dismissButton = {
                 TextButton(onClick = { showAddCategoryDialog = false }) { Text("Cancel", color = Color(0xFF8E9BAE)) }
             },
-            containerColor = Color(0xFF0E131A)
+            containerColor = AdminCardBg
         )
     }
 
@@ -891,7 +911,7 @@ fun RestaurantDetailScreen(
             dismissButton = {
                 TextButton(onClick = { showAddItemCategoryId = null }) { Text("Cancel", color = Color(0xFF8E9BAE)) }
             },
-            containerColor = Color(0xFF0E131A)
+            containerColor = AdminCardBg
         )
     }
 
@@ -929,7 +949,7 @@ fun RestaurantDetailScreen(
             dismissButton = {
                 TextButton(onClick = { showAddStaffDialog = false }) { Text("Cancel", color = Color(0xFF8E9BAE)) }
             },
-            containerColor = Color(0xFF0E131A)
+            containerColor = AdminCardBg
         )
     }
 }
@@ -983,7 +1003,7 @@ fun OperationsScreen(
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
+                        colors = CardDefaults.cardColors(containerColor = AdminCardBg)
                     ) {
                         Column(modifier = Modifier.padding(14.dp)) {
                             Row(
@@ -1026,7 +1046,7 @@ fun FinanceScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         TabRow(
             selectedTabIndex = subTab,
-            containerColor = Color(0xFF0E131A),
+            containerColor = AdminCardBg,
             contentColor = Color(0xFFFF6B00)
         ) {
             Tab(selected = subTab == 0, onClick = { subTab = 0 }, text = { Text("Payments & Refunds", fontWeight = FontWeight.Bold) })
@@ -1054,7 +1074,7 @@ fun FinanceScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
+                            colors = CardDefaults.cardColors(containerColor = AdminCardBg)
                         ) {
                             Column(modifier = Modifier.padding(14.dp)) {
                                 Row(
@@ -1078,7 +1098,7 @@ fun FinanceScreen(
                                     if (p.status == "PAID") {
                                         Button(
                                             onClick = { onRefund(p.id, "Customer requested refund via Control Center") },
-                                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF151C26)),
+                                            colors = ButtonDefaults.buttonColors(containerColor = AdminCardVariantBg),
                                             shape = RoundedCornerShape(6.dp),
                                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)
                                         ) {
@@ -1119,7 +1139,7 @@ fun FinanceScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
+                            colors = CardDefaults.cardColors(containerColor = AdminCardBg)
                         ) {
                             Column(modifier = Modifier.padding(14.dp)) {
                                 Row(
@@ -1179,7 +1199,7 @@ fun MoreCommandCenterScreen(
                         .fillMaxWidth()
                         .clickable { onSelectSubSection(key) },
                     shape = RoundedCornerShape(14.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))
+                    colors = CardDefaults.cardColors(containerColor = AdminCardBg)
                 ) {
                     Row(
                         modifier = Modifier.padding(16.dp),
@@ -1200,7 +1220,7 @@ fun MoreCommandCenterScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF0E131A))
+                    .background(AdminCardBg)
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -1229,7 +1249,7 @@ fun MoreCommandCenterScreen(
                             item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Customers...", sublabel = null) } }
                         } else {
                             items(custs) { c ->
-                                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))) {
+                                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = AdminCardBg)) {
                                     Column(modifier = Modifier.padding(14.dp)) {
                                         Text(c.name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
                                         Text("${c.email} • ${c.phone ?: "No phone"}", fontSize = 11.sp, color = Color(0xFF8E9BAE))
@@ -1246,7 +1266,7 @@ fun MoreCommandCenterScreen(
                             item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Offers...", sublabel = null) } }
                         } else {
                             items(coupons) { cp ->
-                                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))) {
+                                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = AdminCardBg)) {
                                     Column(modifier = Modifier.padding(14.dp)) {
                                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                             Text(cp.code, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFFFF6B00))
@@ -1264,7 +1284,7 @@ fun MoreCommandCenterScreen(
                             item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Support Tickets...", sublabel = null) } }
                         } else {
                             items(tickets) { tk ->
-                                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))) {
+                                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = AdminCardBg)) {
                                     Column(modifier = Modifier.padding(14.dp)) {
                                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                             Text(tk.ticketNumber, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -1283,7 +1303,7 @@ fun MoreCommandCenterScreen(
                             item { Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) { DineDeckBrandedLoader(fullScreen = false, sizeDp = 72.dp, label = "Loading Audit History...", sublabel = null) } }
                         } else {
                             items(logs) { lg ->
-                                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))) {
+                                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = AdminCardBg)) {
                                     Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                             Text(lg.action, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFFFF6B00))
@@ -1299,7 +1319,7 @@ fun MoreCommandCenterScreen(
                     "SYSTEM" -> {
                         val h = state.systemHealth
                         item {
-                            Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF0E131A))) {
+                            Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = AdminCardBg)) {
                                 Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                     Text("PLATFORM HEALTH TELEMETRY", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8E9BAE))
                                     Text("Status: ${h?.status ?: "HEALTHY"}", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFF10B981))
