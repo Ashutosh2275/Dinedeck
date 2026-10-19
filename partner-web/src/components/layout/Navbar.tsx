@@ -13,7 +13,6 @@ import {
   UserCheck,
   Menu,
   X,
-  Trash2,
   Maximize2,
   Minimize2,
   Power,
@@ -39,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const primaryRole = assignedRoles.length > 0 ? assignedRoles[0] : 'STAFF';
 
   return (
-    <header className="h-16 bg-white/95 dark:bg-[#0F172A]/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm dark:shadow-md transition-colors duration-150">
+    <header className="h-16 bg-white/95 dark:bg-[#0F172A]/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-[60] shadow-sm dark:shadow-md transition-colors duration-150">
       {/* Left Brand + Restaurant Identity + Mobile Drawer Trigger */}
       <div className="flex items-center space-x-3 sm:space-x-4 min-w-0">
         <button
@@ -123,28 +122,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             </>
           )}
         </div>
-
-        {/* Clean Reset to 0 Action */}
-        <button
-          onClick={() => {
-            const confirmed = window.confirm('Are you sure you want to reset all live operational records (orders, bills, test data) to clean 0?');
-            if (confirmed) {
-              // Clear local state caches
-              try {
-                localStorage.removeItem('dinedeck_cashier_shifts');
-                localStorage.removeItem('dinedeck_recent_bills');
-                localStorage.removeItem('dinedeck_inventory_transactions');
-              } catch (e) {}
-              if (onRefresh) onRefresh();
-              alert('✓ All local caches and operational test records reset to 0.');
-            }
-          }}
-          className="px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 transition border border-slate-700 text-xs font-bold flex items-center space-x-1.5 shrink-0"
-          title="Reset All Live Records & Caches to 0"
-        >
-          <Trash2 className="w-3.5 h-3.5" />
-          <span className="hidden md:inline">Reset to 0</span>
-        </button>
 
         {/* Quick Theme Toggle */}
         <button

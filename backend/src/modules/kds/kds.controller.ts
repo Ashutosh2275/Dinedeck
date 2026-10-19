@@ -25,7 +25,8 @@ export const kdsRoutes: FastifyPluginAsync = async (server: FastifyInstance) => 
       stationCode: query.stationCode,
       statusFilter: query.status,
       priorityFilter: query.priority,
-      searchQuery: query.search
+      searchQuery: query.search,
+      dateFilter: query.dateFilter
     });
 
     return reply.send({ success: true, data: queueData });

@@ -25,6 +25,7 @@ export class KdsService {
     statusFilter?: string;
     priorityFilter?: string;
     searchQuery?: string;
+    dateFilter?: string;
   }): Promise<{
     tickets: KdsTicketCard[];
     stations: KdsStationSummary[];
@@ -34,7 +35,7 @@ export class KdsService {
     delayedCount: number;
     heldCount: number;
   }> {
-    const { restaurantId, stationCode, statusFilter, priorityFilter, searchQuery } = params;
+    const { restaurantId, stationCode, statusFilter, priorityFilter, searchQuery, dateFilter } = params;
 
     // Fetch configured stations
     const dbStations = await prisma.kitchenStation.findMany({
@@ -62,7 +63,21 @@ export class KdsService {
       statusWhere.status = { in: ['PLACED', 'ACCEPTED', 'CONFIRMED', 'QUEUED', 'PREPARING', 'READY', 'ON_HOLD', 'RE_FIRE'] };
     }
 
-    const orders = await prisma.order.findMany({
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    // Date range filter: when viewing ALL & HISTORY, default to TODAY unless specifically requested otherwise
+    if (statusFilter === 'ALL' || dateFilter) {
+      const effectiveDateFilter = dateFilter || 'TODAY';
+      if (effectiveDateFilter === 'TODAY') {
+        statusWhere.createdAt = { gte: startOfToday };
+      } else if (effectiveDateFilter === 'YESTERDAY') {
+        const startOfYesterday = new Date(startOfToday.getTime() - 24 * 60 * 60 * 1000);
+        statusWhere.createdAt = { gte: startOfYesterday, lt: startOfToday };
+      }
+    }
+
+    const rawOrders = await prisma.order.findMany({
       where: {
         restaurantId,
         ...statusWhere,
@@ -83,6 +98,22 @@ export class KdsService {
         { priority: 'desc' },
         { createdAt: 'asc' }
       ]
+    });
+
+    // In ACTIVE mode: exclude expired PLACED orders (exceeded 90s) and auto-reject in background
+    const orders = rawOrders.filter((order) => {
+      if (statusFilter === 'ACTIVE' || !statusFilter) {
+        if (order.status === 'PLACED') {
+          const deadline = order.acceptanceDeadline
+            ? new Date(order.acceptanceDeadline)
+            : new Date(new Date(order.createdAt).getTime() + 90 * 1000);
+          if (now > deadline) {
+            orderTimeoutService.handleOrderTimeout(order.id).catch(() => {});
+            return false;
+          }
+        }
+      }
+      return true;
     });
 
     const activeKitchenOrdersCount = orders.filter(o => ['ACCEPTED', 'CONFIRMED', 'PREPARING'].includes(o.status)).length;
@@ -265,7 +296,8 @@ export class KdsService {
     const now = new Date();
 
     // Check if 90-second acceptance timeout deadline has passed
-    if (order.acceptanceDeadline && now > order.acceptanceDeadline && order.status === 'PLACED') {
+    const effectiveDeadline = order.acceptanceDeadline || new Date(new Date(order.createdAt).getTime() + 90 * 1000);
+    if (now > effectiveDeadline && order.status === 'PLACED') {
       await orderTimeoutService.handleOrderTimeout(orderId);
       throw new Error('Order acceptance window of 90 seconds has expired');
     }
@@ -550,7 +582,21 @@ export class KdsService {
       throw new Error(`Order '${orderId}' not found`);
     }
 
+    if (order.status === 'REJECTED') {
+      throw new Error(`Order has already been rejected (${order.rejectionReasonCode || 'REJECTED'})`);
+    }
+
+    if (order.status === 'CANCELLED') {
+      throw new Error('Order has already been cancelled');
+    }
+
     const now = new Date();
+    const effectiveDeadline = order.acceptanceDeadline || new Date(new Date(order.createdAt).getTime() + 90 * 1000);
+    if (now > effectiveDeadline && order.status === 'PLACED') {
+      await orderTimeoutService.handleOrderTimeout(orderId);
+      throw new Error('Order acceptance window of 90 seconds has expired');
+    }
+
     const decisionMap = new Map(itemDecisions.map((d) => [d.itemId, d]));
 
     const acceptedItems: typeof order.items = [];

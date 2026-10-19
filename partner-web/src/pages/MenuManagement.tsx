@@ -344,7 +344,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
       {/* ------------------------------------------------------------- */}
       {/* 1. HEADER & TOP CONTROLS                                      */}
       {/* ------------------------------------------------------------- */}
-      <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl">
+      <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center space-x-3.5">
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center shadow-lg shadow-orange-500/25 shrink-0">
@@ -352,12 +352,12 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
             </div>
             <div>
               <div className="flex items-center space-x-2 flex-wrap">
-                <h1 className="text-xl font-black text-white tracking-tight">Menu</h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-orange-500/20 text-orange-400 border border-orange-500/30 uppercase tracking-wider">
+                <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Menu</h1>
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-orange-500/20 text-orange-600 dark:text-orange-400 border border-orange-500/30 uppercase tracking-wider">
                   {allItems.length} Dishes
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Compact food catalog grid. Click any dish card to edit prices, photography, ingredients, category, and station.
               </p>
             </div>
@@ -376,7 +376,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
             <button
               type="button"
               onClick={onRefresh}
-              className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition cursor-pointer"
+              className="p-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl border border-slate-300 dark:border-slate-700 transition cursor-pointer"
               title="Refresh Menu Catalog"
             >
               <RefreshCw className="w-4 h-4" />
@@ -385,7 +385,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
         </div>
 
         {/* Search & Filter Bar */}
-        <div className="mt-4 pt-4 border-t border-slate-800 flex flex-col md:flex-row items-center gap-3">
+        <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row items-center gap-3">
           {/* Search Box */}
           <div className="relative flex-1 w-full">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -394,13 +394,13 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               placeholder="Search food by name, ingredients, category, or station..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500 transition"
+              className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl pl-9 pr-8 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500 transition"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -408,7 +408,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
           </div>
 
           {/* Dietary Filter */}
-          <div className="flex items-center space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-bold shrink-0">
+          <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-bold shrink-0">
             {(['ALL', 'VEG', 'NON_VEG'] as const).map((d) => (
               <button
                 key={d}
@@ -417,10 +417,10 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                 className={`px-3 py-1 rounded-lg transition flex items-center space-x-1.5 ${
                   dietFilter === d
                     ? 'bg-orange-500 text-white shadow'
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                {d === 'VEG' && <span className="w-2 h-2 rounded-full bg-emerald-400" />}
+                {d === 'VEG' && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
                 {d === 'NON_VEG' && <span className="w-2 h-2 rounded-full bg-rose-500" />}
                 <span>{d === 'ALL' ? 'All Diets' : d === 'VEG' ? 'Veg' : 'Non-Veg'}</span>
               </button>
@@ -428,12 +428,12 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
           </div>
 
           {/* Stock & Specials Filter */}
-          <div className="flex items-center space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-bold shrink-0">
+          <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-bold shrink-0">
             <button
               type="button"
               onClick={() => setStockFilter('ALL')}
               className={`px-3 py-1 rounded-lg transition ${
-                stockFilter === 'ALL' ? 'bg-orange-500 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                stockFilter === 'ALL' ? 'bg-orange-500 text-white shadow' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               All Dishes ({allItems.length})
@@ -443,7 +443,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               type="button"
               onClick={() => setStockFilter('TODAYS_SPECIAL')}
               className={`px-3 py-1 rounded-lg transition flex items-center space-x-1 ${
-                stockFilter === 'TODAYS_SPECIAL' ? 'bg-amber-500 text-slate-950 shadow font-extrabold' : 'text-slate-400 hover:text-slate-200'
+                stockFilter === 'TODAYS_SPECIAL' ? 'bg-amber-500 text-slate-950 shadow font-extrabold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               <Sparkles className="w-3 h-3" />
@@ -454,7 +454,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               type="button"
               onClick={() => setStockFilter('OUT_OF_STOCK')}
               className={`px-3 py-1 rounded-lg transition flex items-center space-x-1 ${
-                stockFilter === 'OUT_OF_STOCK' ? 'bg-rose-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                stockFilter === 'OUT_OF_STOCK' ? 'bg-rose-600 text-white shadow' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               <AlertOctagon className="w-3 h-3" />
@@ -465,7 +465,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               type="button"
               onClick={() => setStockFilter('NEAR_OUT_OF_STOCK')}
               className={`px-3 py-1 rounded-lg transition ${
-                stockFilter === 'NEAR_OUT_OF_STOCK' ? 'bg-amber-500 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                stockFilter === 'NEAR_OUT_OF_STOCK' ? 'bg-amber-500 text-white shadow' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               ⚠️ Near Out of Stock ({nearOutOfStockDishes.length})
@@ -481,7 +481,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
             className={`px-3.5 py-1.5 rounded-xl font-bold whitespace-nowrap transition ${
               selectedCategory === 'ALL'
                 ? 'bg-orange-500 text-white shadow'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
             }`}
           >
             All Categories ({allItems.length})
@@ -494,7 +494,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               className={`px-3.5 py-1.5 rounded-xl font-bold whitespace-nowrap transition ${
                 selectedCategory === cat.id
                   ? 'bg-orange-500 text-white shadow'
-                  : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                  : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
               }`}
             >
               {cat.name} ({cat.items.length})
@@ -547,10 +547,10 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
       {/* 2. COMPACT SMALL GRID-LIKE MENU ITEMS CATALOG                 */}
       {/* ------------------------------------------------------------- */}
       {filteredItems.length === 0 ? (
-        <div className="bg-[#111827] border border-slate-800 rounded-2xl p-12 text-center space-y-3">
-          <Utensils className="w-10 h-10 text-slate-600 mx-auto" />
-          <h3 className="text-sm font-bold text-white">No food items found</h3>
-          <p className="text-xs text-slate-400">
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-12 text-center space-y-3">
+          <Utensils className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto" />
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white">No food items found</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Try adjusting your search query, category, or dietary filters.
           </p>
         </div>
@@ -564,14 +564,14 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               <div
                 key={item.id}
                 onClick={() => openEditModal(item)}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 shadow-md hover:scale-[1.02] ${
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 shadow-sm dark:shadow-md hover:scale-[1.02] ${
                   !isAvailable || cap.status === 'OUT_OF_STOCK'
-                    ? 'bg-slate-900/40 border-slate-800/80 opacity-60 hover:opacity-100 hover:border-slate-700'
+                    ? 'bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800/80 opacity-60 hover:opacity-100 hover:border-slate-400 dark:hover:border-slate-700'
                     : cap.status === 'CRITICAL'
-                    ? 'bg-[#111827] border-rose-500/40 hover:border-rose-500 shadow-rose-500/5'
+                    ? 'bg-white dark:bg-[#111827] border-rose-500/40 hover:border-rose-500 shadow-rose-500/5'
                     : cap.status === 'NEAR_OUT_OF_STOCK'
-                    ? 'bg-[#111827] border-amber-500/40 hover:border-amber-500 shadow-amber-500/5'
-                    : 'bg-[#111827] border-slate-800 hover:border-orange-500/60 hover:shadow-orange-500/10'
+                    ? 'bg-white dark:bg-[#111827] border-amber-500/40 hover:border-amber-500 shadow-amber-500/5'
+                    : 'bg-white dark:bg-[#111827] border-slate-200 dark:border-slate-800 hover:border-orange-500/60 hover:shadow-orange-500/10'
                 }`}
               >
                 {/* Card Top: Veg Dot, Category & Today's Special / Out of Stock Toggles */}
@@ -592,7 +592,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                         }`}
                       />
                     </div>
-                    <span className="text-[10px] font-semibold text-slate-400 truncate max-w-[90px]">
+                    <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 truncate max-w-[90px]">
                       {item.category?.name || 'Dish'}
                     </span>
                   </div>
@@ -605,12 +605,12 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                       disabled={togglingId === item.id}
                       className={`p-1 rounded-lg text-xs transition cursor-pointer ${
                         item.isBestseller
-                          ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 hover:bg-amber-500/30'
-                          : 'bg-slate-800/80 text-slate-500 border border-slate-700 hover:text-amber-300'
+                          ? 'bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/40 hover:bg-amber-500/30'
+                          : 'bg-slate-100 dark:bg-slate-800/80 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 hover:text-amber-500'
                       }`}
                       title={item.isBestseller ? "Today's Special (Click to remove)" : "Click to mark as Today's Special"}
                     >
-                      <Sparkles className={`w-3 h-3 ${item.isBestseller ? 'text-amber-400' : ''}`} />
+                      <Sparkles className={`w-3 h-3 ${item.isBestseller ? 'text-amber-500 dark:text-amber-400' : ''}`} />
                     </button>
 
                     {/* Out of Stock Toggle Pill */}
@@ -620,8 +620,8 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                       disabled={togglingId === item.id}
                       className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider transition cursor-pointer ${
                         isAvailable && cap.status !== 'OUT_OF_STOCK'
-                          ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25'
-                          : 'bg-rose-500/15 text-rose-400 border border-rose-500/30 hover:bg-rose-500/25'
+                          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25'
+                          : 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-500/25'
                       }`}
                       title="Click to toggle In Stock / Out of Stock"
                     >
@@ -654,15 +654,15 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
 
                 {/* Dish Name & Description */}
                 <div className="space-y-1">
-                  <h3 className="text-xs font-black text-white line-clamp-1 leading-snug">
+                  <h3 className="text-xs font-black text-slate-900 dark:text-white line-clamp-1 leading-snug">
                     {item.name}
                   </h3>
                   {item.description ? (
-                    <p className="text-[11px] text-slate-400 line-clamp-2 leading-tight">
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-tight">
                       {item.description}
                     </p>
                   ) : (
-                    <p className="text-[11px] text-slate-600 italic">No description provided</p>
+                    <p className="text-[11px] text-slate-400 dark:text-slate-600 italic">No description provided</p>
                   )}
                 </div>
 
@@ -670,33 +670,33 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                 <div className="pt-1">
                   {cap.status === 'CRITICAL' ? (
                     <div
-                      className="px-2 py-1 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-[10px] font-black flex items-center justify-between"
+                      className="px-2 py-1 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-600 dark:text-rose-300 text-[10px] font-black flex items-center justify-between"
                       title={cap.recommendationMessage}
                     >
                       <span className="flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3 text-rose-400" />
+                        <AlertCircle className="w-3 h-3 text-rose-500 dark:text-rose-400" />
                         <span>Only ~{cap.portionsLeft} Left</span>
                       </span>
-                      <span className="text-[9px] text-rose-400 font-medium truncate max-w-[80px]">
+                      <span className="text-[9px] text-rose-500 dark:text-rose-400 font-medium truncate max-w-[80px]">
                         Low {cap.limitingIngredient?.name.split(' ')[0]}
                       </span>
                     </div>
                   ) : cap.status === 'NEAR_OUT_OF_STOCK' ? (
                     <div
-                      className="px-2 py-1 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[10px] font-black flex items-center justify-between"
+                      className="px-2 py-1 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-[10px] font-black flex items-center justify-between"
                       title={cap.recommendationMessage}
                     >
                       <span className="flex items-center gap-1">
-                        <AlertTriangle className="w-3 h-3 text-amber-400" />
+                        <AlertTriangle className="w-3 h-3 text-amber-500 dark:text-amber-400" />
                         <span>~{cap.portionsLeft} Portions Left</span>
                       </span>
-                      <span className="text-[9px] text-amber-400 font-medium truncate max-w-[80px]">
+                      <span className="text-[9px] text-amber-500 dark:text-amber-400 font-medium truncate max-w-[80px]">
                         Low {cap.limitingIngredient?.name.split(' ')[0]}
                       </span>
                     </div>
                   ) : cap.status === 'OUT_OF_STOCK' ? (
                     <div
-                      className="px-2 py-1 rounded-xl bg-rose-950/40 border border-rose-800/40 text-rose-400 text-[10px] font-bold flex items-center gap-1"
+                      className="px-2 py-1 rounded-xl bg-rose-100 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800/40 text-rose-600 dark:text-rose-400 text-[10px] font-bold flex items-center gap-1"
                       title={cap.recommendationMessage}
                     >
                       <XCircle className="w-3 h-3" />
@@ -704,27 +704,27 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                     </div>
                   ) : (
                     <div
-                      className="px-2 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold flex items-center justify-between"
+                      className="px-2 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold flex items-center justify-between"
                       title={cap.recommendationMessage}
                     >
                       <span className="flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                        <CheckCircle2 className="w-3 h-3 text-emerald-500 dark:text-emerald-400" />
                         <span>~{cap.portionsLeft} in Stock</span>
                       </span>
-                      <span className="text-[9px] text-emerald-500">Abundant</span>
+                      <span className="text-[9px] text-emerald-600 dark:text-emerald-500">Abundant</span>
                     </div>
                   )}
                 </div>
 
                 {/* Card Bottom: Price, Station & Edit Action */}
-                <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
                   <div>
                     <div className="flex items-center space-x-1.5">
-                      <span className="font-mono font-black text-sm text-white">
+                      <span className="font-mono font-black text-sm text-slate-900 dark:text-white">
                         ₹{item.price.toFixed(0)}
                       </span>
                       {item.discountedPrice && item.discountedPrice < item.price && (
-                        <span className="font-mono text-[10px] text-slate-500 line-through">
+                        <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500 line-through">
                           ₹{item.discountedPrice.toFixed(0)}
                         </span>
                       )}
@@ -733,12 +733,12 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
 
                   <div className="flex items-center space-x-1.5">
                     {item.stationCode && (
-                      <span className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[9px] font-bold">
+                      <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[9px] font-bold">
                         {item.stationCode}
                       </span>
                     )}
 
-                    <div className="p-1 rounded-lg bg-slate-800 text-slate-400 group-hover:text-orange-400 transition">
+                    <div className="p-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition">
                       <Edit2 className="w-3 h-3" />
                     </div>
                   </div>
@@ -939,21 +939,21 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
 
               {/* Item Name */}
               <div>
-                <label className="block text-slate-400 font-bold mb-1">
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">
                   Food Item Name
                 </label>
                 <input
                   type="text"
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold focus:outline-none focus:border-orange-500"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-orange-500"
                   required
                 />
               </div>
 
-              {/* Description / Ingredients */}
+              {/* Description & Ingredients */}
               <div>
-                <label className="block text-slate-400 font-bold mb-1">
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">
                   Description & Ingredients
                 </label>
                 <textarea
@@ -961,14 +961,14 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
                   placeholder="e.g. Fresh paneer cubes simmered in creamy spiced tomato butter gravy"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-orange-500"
                 />
               </div>
 
               {/* Price & Discounted Price */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">
                     Selling Price (₹)
                   </label>
                   <input
@@ -977,13 +977,13 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                     step="1"
                     value={editPrice}
                     onChange={(e) => setEditPrice(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono font-bold focus:outline-none focus:border-orange-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono font-bold focus:outline-none focus:border-orange-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">
                     Discounted Price (₹) <span className="text-[10px] text-slate-500">(Optional)</span>
                   </label>
                   <input
@@ -993,7 +993,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                     placeholder="e.g. 299"
                     value={editDiscountedPrice}
                     onChange={(e) => setEditDiscountedPrice(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-orange-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono focus:outline-none focus:border-orange-500"
                   />
                 </div>
               </div>
@@ -1001,13 +1001,13 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               {/* Category & Kitchen Station */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">
                     Menu Category
                   </label>
                   <select
                     value={editCategoryId}
                     onChange={(e) => setEditCategoryId(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-semibold focus:outline-none focus:border-orange-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-semibold focus:outline-none focus:border-orange-500"
                   >
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>
@@ -1018,13 +1018,13 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">
                     Kitchen Station
                   </label>
                   <select
                     value={editStationCode}
                     onChange={(e) => setEditStationCode(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-semibold focus:outline-none focus:border-orange-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-semibold focus:outline-none focus:border-orange-500"
                   >
                     <option value="CURRY">CURRY (Gravies & Curries)</option>
                     <option value="TANDOOR">TANDOOR (Breads & Kebabs)</option>
@@ -1039,7 +1039,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               {/* Dietary Type & Prep Time */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">
                     Dietary Type
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -1049,7 +1049,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                       className={`py-2 rounded-xl font-bold text-xs flex items-center justify-center space-x-1.5 transition ${
                         editIsVeg
                           ? 'bg-emerald-600 text-white shadow'
-                          : 'bg-slate-900 text-slate-400 border border-slate-800'
+                          : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-800'
                       }`}
                     >
                       <span className="w-2 h-2 rounded-full bg-emerald-400" />
@@ -1061,7 +1061,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                       className={`py-2 rounded-xl font-bold text-xs flex items-center justify-center space-x-1.5 transition ${
                         !editIsVeg
                           ? 'bg-rose-600 text-white shadow'
-                          : 'bg-slate-900 text-slate-400 border border-slate-800'
+                          : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-800'
                       }`}
                     >
                       <span className="w-2 h-2 rounded-full bg-rose-500" />
@@ -1071,7 +1071,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">
                     Prep Time (Minutes)
                   </label>
                   <input
@@ -1079,7 +1079,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                     min="1"
                     value={editPrepTime}
                     onChange={(e) => setEditPrepTime(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-orange-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono focus:outline-none focus:border-orange-500"
                   />
                 </div>
               </div>
@@ -1088,25 +1088,25 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               {(() => {
                 const cap = getDishCapacity(editName || editingItem.name);
                 return (
-                  <div className="p-3.5 bg-slate-950/90 rounded-2xl border border-slate-800 space-y-2">
+                  <div className="p-3.5 bg-slate-50 dark:bg-slate-950/90 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <UtensilsCrossed className="w-4 h-4 text-orange-400" />
-                        <span className="font-bold text-white text-xs">Recipe Raw Ingredients & Capacity</span>
+                        <UtensilsCrossed className="w-4 h-4 text-orange-500 dark:text-orange-400" />
+                        <span className="font-bold text-slate-900 dark:text-white text-xs">Recipe Raw Ingredients & Capacity</span>
                       </div>
                       <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${cap.badgeColor}`}>
                         ~{cap.portionsLeft} Portions Left
                       </span>
                     </div>
 
-                    <p className="text-[11px] text-slate-400">
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400">
                       {cap.recommendationMessage}
                     </p>
 
                     {cap.limitingIngredient && (
-                      <div className="text-[10px] text-slate-500 pt-1 border-t border-slate-800/80 flex items-center justify-between">
-                        <span>Limiting ingredient: <span className="text-slate-300 font-semibold">{cap.limitingIngredient.name}</span></span>
-                        <span className="font-mono text-white">In Hand: {cap.limitingIngredient.currentStock.toFixed(1)} {cap.limitingIngredient.unit}</span>
+                      <div className="text-[10px] text-slate-500 pt-1 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
+                        <span>Limiting ingredient: <span className="text-slate-700 dark:text-slate-300 font-semibold">{cap.limitingIngredient.name}</span></span>
+                        <span className="font-mono text-slate-900 dark:text-white">In Hand: {cap.limitingIngredient.currentStock.toFixed(1)} {cap.limitingIngredient.unit}</span>
                       </div>
                     )}
                   </div>
@@ -1114,14 +1114,14 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               })()}
 
               {/* Today's Special Toggle */}
-              <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-center justify-between">
+              <div className="p-3 bg-slate-50 dark:bg-slate-900/80 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <div className="flex items-center space-x-2.5">
-                  <div className={`p-1.5 rounded-lg ${editIsBestseller ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-800 text-slate-500'}`}>
+                  <div className={`p-1.5 rounded-lg ${editIsBestseller ? 'bg-amber-500/20 text-amber-500 dark:text-amber-400' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'}`}>
                     <Sparkles className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-bold text-white text-xs">Today's Special Recommendation</div>
-                    <div className="text-[10px] text-slate-400">Featured at the top of the customer QR menu</div>
+                    <div className="font-bold text-slate-900 dark:text-white text-xs">Today's Special Recommendation</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400">Featured at the top of the customer QR menu</div>
                   </div>
                 </div>
                 <button
@@ -1130,7 +1130,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                   className={`px-3 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer flex items-center space-x-1 ${
                     editIsBestseller
                       ? 'bg-amber-500 text-slate-950 font-black shadow-amber-500/30'
-                      : 'bg-slate-800 text-slate-400 border border-slate-700 hover:text-white'
+                      : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <Sparkles className="w-3 h-3" />
@@ -1139,15 +1139,15 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               </div>
 
               {/* Availability Toggle */}
-              <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-center justify-between">
+              <div className="p-3 bg-slate-50 dark:bg-slate-900/80 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <div>
-                  <div className="font-bold text-white">Item Availability</div>
-                  <div className="text-[10px] text-slate-400">Controls whether customers can order this dish</div>
+                  <div className="font-bold text-slate-900 dark:text-white">Item Availability</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400">Controls whether customers can order this dish</div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setEditIsAvailable(!editIsAvailable)}
-                  className={`px-3 py-1.5 rounded-xl font-black text-xs uppercase tracking-wider transition ${
+                  className={`px-3 py-1.5 rounded-xl font-black text-xs uppercase tracking-wider transition cursor-pointer ${
                     editIsAvailable
                       ? 'bg-emerald-600 text-white shadow'
                       : 'bg-rose-600 text-white shadow'
@@ -1158,11 +1158,11 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-end space-x-2">
+              <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-2">
                 <button
                   type="button"
                   onClick={() => setEditingItem(null)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs transition"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-xs transition border border-slate-300 dark:border-slate-700 cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -1170,7 +1170,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="px-5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold rounded-xl text-xs transition shadow-lg shadow-orange-500/20 flex items-center space-x-1.5"
+                  className="px-5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold rounded-xl text-xs transition shadow-lg shadow-orange-500/20 flex items-center space-x-1.5 cursor-pointer"
                 >
                   {isSaving ? (
                     <span>Saving...</span>

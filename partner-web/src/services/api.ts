@@ -399,13 +399,14 @@ class ApiService {
   // ---------------------------------------------------------------------------
   // KDS PRODUCTION API ENGINE
   // ---------------------------------------------------------------------------
-  async fetchKdsQueue(restaurantId?: string, params?: { stationCode?: string; status?: string; priority?: string; search?: string }) {
+  async fetchKdsQueue(restaurantId?: string, params?: { stationCode?: string; status?: string; priority?: string; search?: string; dateFilter?: string }) {
     const searchParams = new URLSearchParams();
     if (restaurantId) searchParams.set('restaurantId', restaurantId);
     if (params?.stationCode) searchParams.set('stationCode', params.stationCode);
     if (params?.status) searchParams.set('status', params.status);
     if (params?.priority) searchParams.set('priority', params.priority);
     if (params?.search) searchParams.set('search', params.search);
+    if (params?.dateFilter) searchParams.set('dateFilter', params.dateFilter);
 
     const q = searchParams.toString() ? `?${searchParams.toString()}` : '';
     return this.request<{

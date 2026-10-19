@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Order } from '../types';
 import {
   BellRing,
@@ -31,10 +31,41 @@ export const IncomingOrderModal: React.FC<IncomingOrderModalProps> = ({
 }) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [showRejectModal, setShowRejectModal] = useState<boolean>(false);
+  const [now, setNow] = useState<number>(Date.now());
+
+  // 1-second cadence timer to guarantee exact real-time expiry sync
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const deadlineTime = order?.acceptanceDeadline
+    ? new Date(order.acceptanceDeadline).getTime()
+    : order?.createdAt
+    ? new Date(order.createdAt).getTime() + 90 * 1000
+    : 0;
+
+  const isExpired = Boolean(
+    order &&
+      ((deadlineTime > 0 && now >= deadlineTime) ||
+        order.status === 'REJECTED' ||
+        order.status === 'CANCELLED')
+  );
+
+  // Auto-dismiss once expired after brief countdown feedback (3 seconds)
+  useEffect(() => {
+    if (isExpired && order) {
+      const dismissTimer = setTimeout(() => {
+        onDismiss();
+      }, 3500);
+      return () => clearTimeout(dismissTimer);
+    }
+  }, [isExpired, order, onDismiss]);
 
   if (!order) return null;
 
   const handleAccept = async () => {
+    if (isExpired || isProcessing) return;
     setIsProcessing(true);
     try {
       await onAccept(order.id);
@@ -61,20 +92,30 @@ export const IncomingOrderModal: React.FC<IncomingOrderModalProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
+      <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 pt-20 animate-in fade-in duration-200">
         <div className="bg-[#111827] border-2 border-orange-500 rounded-3xl max-w-lg w-full p-6 space-y-5 shadow-2xl shadow-orange-500/20 text-white relative">
           {/* Header Row */}
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 animate-pulse shrink-0">
-                <BellRing className="w-5 h-5 text-white" />
+              <div
+                className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-lg ${
+                  isExpired
+                    ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                    : 'bg-orange-500 text-white shadow-orange-500/30 animate-pulse'
+                }`}
+              >
+                <BellRing className="w-5 h-5" />
               </div>
               <div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm font-black text-orange-400 uppercase tracking-wider">
-                    NEW INCOMING ORDER
+                  <span
+                    className={`text-sm font-black uppercase tracking-wider ${
+                      isExpired ? 'text-rose-400' : 'text-orange-400'
+                    }`}
+                  >
+                    {isExpired ? 'ACCEPTANCE EXPIRED' : 'NEW INCOMING ORDER'}
                   </span>
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  {!isExpired && <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />}
                 </div>
                 <h2 className="text-base font-black text-white">
                   Table #{order.tableNumber} • {order.orderNumber}
@@ -87,13 +128,15 @@ export const IncomingOrderModal: React.FC<IncomingOrderModalProps> = ({
                 createdAt={order.createdAt}
                 acceptanceDeadline={order.acceptanceDeadline}
                 onExpire={() => {
-                  // Notification will auto-dismiss or update once backend marks REJECTED
+                  // Instant expiration trigger
+                  setNow(Date.now() + 1000);
                 }}
               />
               <button
                 onClick={onDismiss}
                 disabled={isProcessing}
-                className="text-slate-400 hover:text-white p-1 rounded-xl bg-slate-800 hover:bg-slate-700 transition"
+                className="text-slate-400 hover:text-white p-1 rounded-xl bg-slate-800 hover:bg-slate-700 transition cursor-pointer"
+                title="Dismiss Dialog"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -143,24 +186,48 @@ export const IncomingOrderModal: React.FC<IncomingOrderModalProps> = ({
             </div>
           )}
 
+          {/* Expired Status Notice */}
+          {isExpired && (
+            <div className="p-3 bg-rose-500/15 border border-rose-500/30 rounded-2xl text-xs text-rose-300 flex items-center space-x-2 animate-pulse">
+              <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
+              <span>
+                90-second acceptance timeout reached. Order cannot be accepted and is auto-rejected.
+              </span>
+            </div>
+          )}
+
           {/* Primary Actions */}
           <div className="space-y-2">
             <button
               type="button"
               onClick={handleAccept}
-              disabled={isProcessing}
-              className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 active:scale-[0.98] text-white font-black rounded-2xl text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 cursor-pointer"
+              disabled={isProcessing || isExpired}
+              className={`w-full py-3.5 font-black rounded-2xl text-xs uppercase tracking-wider transition shadow-lg flex items-center justify-center space-x-2 ${
+                isExpired
+                  ? 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed shadow-none'
+                  : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-emerald-600/30 active:scale-[0.98] cursor-pointer'
+              }`}
             >
               <CheckCircle2 className="w-5 h-5" />
-              <span>{isProcessing ? 'Accepting...' : 'Accept Order'}</span>
+              <span>
+                {isExpired
+                  ? 'Acceptance Expired (Cannot Accept)'
+                  : isProcessing
+                  ? 'Accepting...'
+                  : 'Accept Order'}
+              </span>
             </button>
 
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => setShowRejectModal(true)}
-                disabled={isProcessing}
-                className="py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold rounded-xl text-xs border border-rose-500/30 transition flex items-center justify-center space-x-1.5 cursor-pointer"
+                disabled={isProcessing || isExpired}
+                className={`py-2.5 rounded-xl text-xs font-bold border transition flex items-center justify-center space-x-1.5 ${
+                  isExpired
+                    ? 'bg-slate-800/50 text-slate-600 border-slate-800 cursor-not-allowed'
+                    : 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border-rose-500/30 cursor-pointer'
+                }`}
               >
                 <Ban className="w-3.5 h-3.5" />
                 <span>Reject Order</span>

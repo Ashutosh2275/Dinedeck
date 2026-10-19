@@ -118,10 +118,55 @@ export async function orderRoutes(fastify: FastifyInstance) {
     const initialStatus = isStaffPos ? 'CONFIRMED' : 'PLACED';
     const acceptanceDeadline = !isStaffPos ? new Date(Date.now() + ORDER_ACCEPTANCE_TIMEOUT_MS) : null;
 
+    // Resolve or Auto-Create DiningSession and mark table occupied so Cashier & Billing workstation tracks it immediately
+    let resolvedSessionId = sessionId || null;
+    try {
+      const dbTable = await prisma.table.findFirst({
+        where: {
+          tableNumber,
+          branch: { restaurantId }
+        }
+      });
+
+      if (dbTable) {
+        if (!resolvedSessionId) {
+          let activeSession = await prisma.diningSession.findFirst({
+            where: {
+              tableId: dbTable.id,
+              restaurantId,
+              status: 'ACTIVE'
+            }
+          });
+
+          if (!activeSession) {
+            activeSession = await prisma.diningSession.create({
+              data: {
+                restaurantId,
+                tableId: dbTable.id,
+                userId: userAuth.id,
+                sessionToken: `sess_${Date.now()}_${Math.random().toString(36).substring(7)}`,
+                status: 'ACTIVE'
+              }
+            });
+          }
+          resolvedSessionId = activeSession.id;
+        }
+
+        if (!dbTable.isOccupied) {
+          await prisma.table.update({
+            where: { id: dbTable.id },
+            data: { isOccupied: true }
+          });
+        }
+      }
+    } catch (sessionErr) {
+      console.warn('[Orders] Session linkage non-fatal fallback:', sessionErr);
+    }
+
     const order = await prisma.order.create({
       data: {
         restaurantId,
-        sessionId: sessionId || null,
+        sessionId: resolvedSessionId,
         userId: userAuth.id,
         tableNumber,
         orderNumber,
@@ -164,7 +209,7 @@ export async function orderRoutes(fastify: FastifyInstance) {
       data: {
         restaurantId,
         orderId: order.id,
-        sessionId: sessionId || null,
+        sessionId: resolvedSessionId,
         billNumber,
         subtotal: billBreakdown.subtotal,
         discountAmount: billBreakdown.discountAmount,

@@ -129,14 +129,15 @@ export const App: React.FC = () => {
         (type === 'ORDER_STATUS_CHANGED' ||
           type === 'KDS_ORDER_ACCEPTED' ||
           type === 'KDS_ORDER_REJECTED' ||
-          type === 'KDS_ORDER_REVERTED') &&
+          type === 'KDS_ORDER_REVERTED' ||
+          type === 'ORDER_TIMEOUT') &&
         data
       ) {
         const targetStatus =
           data.status ||
           (type === 'KDS_ORDER_ACCEPTED'
             ? 'PREPARING'
-            : type === 'KDS_ORDER_REJECTED'
+            : (type === 'KDS_ORDER_REJECTED' || type === 'ORDER_TIMEOUT')
             ? 'REJECTED'
             : type === 'KDS_ORDER_REVERTED'
             ? 'PLACED'
@@ -149,6 +150,16 @@ export const App: React.FC = () => {
               : o
           )
         );
+
+        if (type === 'KDS_ORDER_REJECTED' || type === 'ORDER_TIMEOUT' || targetStatus === 'REJECTED') {
+          setIncomingOrderAlert((current) => {
+            if (current && (current.id === data.orderId || current.id === data.id)) {
+              return null;
+            }
+            return current;
+          });
+        }
+
         fetchAllData();
       } else if (type === 'SERVICE_REQUEST_CREATED' && data) {
         setServiceCalls((prev) => [data, ...prev.filter((c) => c.id !== data.id)]);
@@ -275,6 +286,8 @@ export const App: React.FC = () => {
           onSelectTab={setCurrentTab}
           serviceCallsCount={pendingServiceCalls}
           ordersCount={activeOrdersCount}
+          isOpenMobile={isMobileMenuOpen}
+          onCloseMobile={() => setIsMobileMenuOpen(false)}
         />
 
         <main className="flex-1 overflow-y-auto min-h-0 p-4 md:p-6 lg:p-8 bg-slate-100 dark:bg-[#0B0F19] transition-colors duration-150">

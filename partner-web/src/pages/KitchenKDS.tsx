@@ -56,6 +56,7 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
 
   // Primary Tab View Mode: 'ACTIVE' (currently in kitchen) vs 'ALL' (active + past history)
   const [viewMode, setViewMode] = useState<'ACTIVE' | 'ALL'>('ACTIVE');
+  const [dateFilter, setDateFilter] = useState<'TODAY' | 'YESTERDAY' | 'ALL'>('TODAY');
 
   // Core Data States
   const [tickets, setTickets] = useState<KdsTicketCard[]>([]);
@@ -146,7 +147,8 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
       const res = await api.fetchKdsQueue(restaurant.id, {
         stationCode: selectedStation,
         status: statusParam,
-        search: searchQuery
+        search: searchQuery,
+        dateFilter: viewMode === 'ALL' ? dateFilter : undefined
       });
 
       if (res.success && res.data) {
@@ -189,7 +191,7 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
     }, 4000);
 
     return () => clearInterval(pollInterval);
-  }, [restaurant?.id, viewMode, selectedStation, searchQuery]);
+  }, [restaurant?.id, viewMode, selectedStation, searchQuery, dateFilter]);
 
   // Item-level acceptance decision toggle (for PLACED orders)
   const handleSetItemDecision = (orderId: string, itemId: string, accepted: boolean) => {
@@ -426,7 +428,39 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
 
   // Filtered & Sorted Tickets
   const filteredTickets = useMemo(() => {
+    const now = Date.now();
     let list = [...tickets];
+
+    if (viewMode === 'ACTIVE') {
+      // Exclude expired PLACED orders from active display
+      list = list.filter((t) => {
+        if (['REJECTED', 'CANCELLED', 'SERVED', 'COMPLETED'].includes(t.status)) return false;
+        if (t.status === 'PLACED') {
+          const deadline = (t as any).acceptanceDeadline
+            ? new Date((t as any).acceptanceDeadline).getTime()
+            : new Date(t.createdAt).getTime() + 90 * 1000;
+          if (now >= deadline) return false;
+        }
+        return true;
+      });
+    } else {
+      // In ALL & HISTORY mode: filter by date
+      if (dateFilter === 'TODAY') {
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
+        list = list.filter((t) => new Date(t.createdAt).getTime() >= startOfToday.getTime());
+      } else if (dateFilter === 'YESTERDAY') {
+        const startOfYesterday = new Date();
+        startOfYesterday.setDate(startOfYesterday.getDate() - 1);
+        startOfYesterday.setHours(0, 0, 0, 0);
+        const endOfYesterday = new Date(startOfYesterday);
+        endOfYesterday.setHours(23, 59, 59, 999);
+        list = list.filter((t) => {
+          const tTime = new Date(t.createdAt).getTime();
+          return tTime >= startOfYesterday.getTime() && tTime <= endOfYesterday.getTime();
+        });
+      }
+    }
 
     // Sub-status filter
     if (subStatusFilter !== 'ALL') {
@@ -458,10 +492,16 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
     }
 
     return list;
-  }, [tickets, subStatusFilter, sortBy]);
+  }, [tickets, subStatusFilter, sortBy, viewMode, dateFilter]);
 
   // Counts
-  const placedCount = tickets.filter((t) => t.status === 'PLACED').length;
+  const placedCount = tickets.filter((t) => {
+    if (t.status !== 'PLACED') return false;
+    const deadline = (t as any).acceptanceDeadline
+      ? new Date((t as any).acceptanceDeadline).getTime()
+      : new Date(t.createdAt).getTime() + 90 * 1000;
+    return Date.now() < deadline;
+  }).length;
   const cookingCount = tickets.filter((t) => ['ACCEPTED', 'CONFIRMED', 'PREPARING', 'RE_FIRE'].includes(t.status)).length;
   const readyCount = tickets.filter((t) => t.status === 'READY').length;
   const heldCount = tickets.filter((t) => t.status === 'ON_HOLD' || t.isHeld).length;
@@ -546,6 +586,26 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
               </span>
             </button>
           </div>
+
+          {/* Date Filter Pills (When in ALL & HISTORY mode) */}
+          {viewMode === 'ALL' && (
+            <div className="flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-800 gap-1 shadow-inner animate-in fade-in">
+              {(['TODAY', 'YESTERDAY', 'ALL'] as const).map((period) => (
+                <button
+                  key={period}
+                  type="button"
+                  onClick={() => setDateFilter(period)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    dateFilter === period
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {period === 'TODAY' ? 'Today' : period === 'YESTERDAY' ? 'Yesterday' : 'All Dates'}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Essential Quick Utilities */}
           <div className="flex items-center gap-2">
@@ -1081,6 +1141,20 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
                   <div className="flex items-center gap-1.5">
                     {isPlaced ? (
                       (() => {
+                        const deadline = (ticket as any).acceptanceDeadline
+                          ? new Date((ticket as any).acceptanceDeadline).getTime()
+                          : new Date(ticket.createdAt).getTime() + 90 * 1000;
+                        const isExpired = Date.now() >= deadline;
+
+                        if (isExpired) {
+                          return (
+                            <div className="flex-1 py-2 px-3 rounded-xl bg-slate-800/80 border border-slate-700/80 text-rose-400 text-xs font-bold flex items-center justify-center gap-1.5">
+                              <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+                              <span>Acceptance Expired (Cannot Accept)</span>
+                            </div>
+                          );
+                        }
+
                         const orderDecisions = itemDecisions[ticket.id] || {};
                         const acceptedCount = ticket.items.filter((i) => orderDecisions[i.id] !== false).length;
                         const rejectedCount = ticket.items.length - acceptedCount;
