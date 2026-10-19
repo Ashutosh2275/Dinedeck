@@ -1,0 +1,29 @@
+{
+  "short_name": "DineDeck Admin",
+  "name": "DINEDECK Control Center — Multi-Outlet Management",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#090D16",
+  "theme_color": "#06B6D4",
+  "display": "standalone",
+  "orientation": "any",
+  "scope": "/"
+}

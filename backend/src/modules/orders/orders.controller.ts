@@ -4,6 +4,8 @@ import { prisma } from '../../config/db.js';
 import { IndiaBillingEngine } from '../../common/money.js';
 import { realtimeHub } from '../../realtime/websocket.js';
 import { kdsService } from '../kds/kds.service.js';
+import { orderTimeoutService } from './order-timeout.service.js';
+import { ORDER_ACCEPTANCE_TIMEOUT_MS } from '../../constants/orderRejection.js';
 
 const orderItemSchema = z.object({
   menuItemId: z.string(),
@@ -114,6 +116,7 @@ export async function orderRoutes(fastify: FastifyInstance) {
 
     const isStaffPos = userAuth.role && userAuth.role !== 'CUSTOMER';
     const initialStatus = isStaffPos ? 'CONFIRMED' : 'PLACED';
+    const acceptanceDeadline = !isStaffPos ? new Date(Date.now() + ORDER_ACCEPTANCE_TIMEOUT_MS) : null;
 
     const order = await prisma.order.create({
       data: {
@@ -123,6 +126,7 @@ export async function orderRoutes(fastify: FastifyInstance) {
         tableNumber,
         orderNumber,
         status: initialStatus,
+        acceptanceDeadline,
         subtotal: billBreakdown.subtotal,
         discountAmount: billBreakdown.discountAmount,
         cgstAmount: billBreakdown.cgstAmount,
@@ -148,6 +152,11 @@ export async function orderRoutes(fastify: FastifyInstance) {
         restaurant: true
       }
     });
+
+    // Schedule 90-second acceptance timeout sweeper/timer for customer orders
+    if (!isStaffPos && acceptanceDeadline) {
+      orderTimeoutService.scheduleOrderTimeout(order.id, acceptanceDeadline);
+    }
 
     // Create Initial Bill record
     const billNumber = `INV-${new Date().getFullYear()}-${Date.now().toString().slice(-5)}`;
@@ -184,6 +193,7 @@ export async function orderRoutes(fastify: FastifyInstance) {
       orderNumber: order.orderNumber,
       tableNumber: order.tableNumber,
       status: order.status,
+      acceptanceDeadline: order.acceptanceDeadline,
       subtotal: order.subtotal,
       discountAmount: order.discountAmount,
       totalAmount: order.totalAmount,
@@ -250,6 +260,7 @@ export async function orderRoutes(fastify: FastifyInstance) {
         orderNumber: order.orderNumber,
         tableNumber: order.tableNumber,
         status: order.status,
+        acceptanceDeadline: order.acceptanceDeadline,
         subtotal: order.subtotal,
         discountAmount: order.discountAmount,
         cgstAmount: order.cgstAmount,

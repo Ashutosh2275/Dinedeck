@@ -219,6 +219,9 @@ data class Order(
     val totalAmount: Double,
     val status: OrderStatus = OrderStatus.PLACED,
     val paymentStatus: PaymentStatus = PaymentStatus.PENDING,
+    val rejectionReason: String? = null,
+    val rejectionReasonCode: String? = null,
+    val acceptanceDeadline: Long? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val estimatedDeliveryTimeMinutes: Int = 20
 )

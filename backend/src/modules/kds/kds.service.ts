@@ -3,6 +3,8 @@ import { realtimeHub } from '../../realtime/websocket.js';
 import { iamService } from '../iam/iam.service.js';
 import { IndiaBillingEngine } from '../../common/money.js';
 import { getTableAssignedWaiterByTableNumber } from '../tables/tables.controller.js';
+import { orderTimeoutService } from '../orders/order-timeout.service.js';
+import { TIMEOUT_REJECTION_CODE } from '../../constants/orderRejection.js';
 import { KdsEngine } from './kds.engine.js';
 import {
   KdsItemStatus,
@@ -252,7 +254,24 @@ export class KdsService {
       throw new Error(`Order '${orderId}' not found`);
     }
 
+    if (order.status === 'REJECTED') {
+      throw new Error(`Order has already been rejected (${order.rejectionReasonCode || 'REJECTED'})`);
+    }
+
+    if (order.status === 'CANCELLED') {
+      throw new Error('Order has already been cancelled');
+    }
+
     const now = new Date();
+
+    // Check if 90-second acceptance timeout deadline has passed
+    if (order.acceptanceDeadline && now > order.acceptanceDeadline && order.status === 'PLACED') {
+      await orderTimeoutService.handleOrderTimeout(orderId);
+      throw new Error('Order acceptance window of 90 seconds has expired');
+    }
+
+    // Cancel pending background timeout
+    orderTimeoutService.cancelOrderTimeout(orderId);
 
     // 1. Group items by station for automatic routing
     const itemsByStation: Record<string, typeof order.items> = {};
@@ -319,7 +338,8 @@ export class KdsService {
       where: { id: order.id },
       data: {
         status: 'PREPARING',
-        acceptedAt: now
+        acceptedAt: now,
+        acceptanceDeadline: null
       },
       include: { items: true, kotTickets: true }
     });
@@ -392,7 +412,8 @@ export class KdsService {
   async rejectOrder(
     orderId: string,
     reason: string,
-    actor: { id: string; name?: string; role?: string }
+    actor: { id: string; name?: string; role?: string },
+    reasonCode?: string
   ): Promise<any> {
     const order = await prisma.order.findUnique({
       where: { id: orderId },
@@ -403,7 +424,11 @@ export class KdsService {
       throw new Error(`Order '${orderId}' not found`);
     }
 
+    // Cancel pending background timeout
+    orderTimeoutService.cancelOrderTimeout(orderId);
+
     const now = new Date();
+    const effectiveReasonCode = reasonCode || 'CUSTOM';
 
     // 1. Mark order and items as REJECTED
     await prisma.orderItem.updateMany({
@@ -415,7 +440,11 @@ export class KdsService {
       where: { id: order.id },
       data: {
         status: 'REJECTED',
-        rejectionReason: reason
+        rejectionReason: reason,
+        rejectionReasonCode: effectiveReasonCode,
+        rejectedAt: now,
+        rejectedBy: actor.name || actor.id || 'STAFF',
+        acceptanceDeadline: null
       },
       include: { items: true }
     });
@@ -426,13 +455,19 @@ export class KdsService {
       data: { status: 'CANCELLED' }
     });
 
+    // 2b. Void pending bills
+    await prisma.bill.updateMany({
+      where: { orderId: order.id, paymentStatus: 'PENDING' },
+      data: { paymentStatus: 'VOID' }
+    });
+
     // 3. Status History & Audit Log
     await prisma.orderStatusHistory.create({
       data: {
         orderId,
         status: 'REJECTED',
         changedBy: actor.name || actor.id,
-        remarks: `Rejected: ${reason}`
+        remarks: `Rejected [${effectiveReasonCode}]: ${reason}`
       }
     });
 
@@ -443,7 +478,12 @@ export class KdsService {
       resource: 'order',
       resourceId: orderId,
       scope: `REST:${order.restaurantId}|TABLE:${order.tableNumber}`,
-      after: { reason, status: 'REJECTED' }
+      after: {
+        reason,
+        reasonCode: effectiveReasonCode,
+        status: 'REJECTED',
+        rejectedBy: actor.name || actor.id
+      }
     });
 
     // Notify Customer and Staff immediately
@@ -451,7 +491,10 @@ export class KdsService {
       orderId: order.id,
       orderNumber: order.orderNumber,
       tableNumber: order.tableNumber,
-      reason
+      reason,
+      reasonCode: effectiveReasonCode,
+      rejectedBy: actor.name || actor.id,
+      rejectedAt: now.toISOString()
     });
 
     if (order.userId) {
@@ -460,6 +503,8 @@ export class KdsService {
         orderNumber: order.orderNumber,
         tableNumber: order.tableNumber,
         status: 'REJECTED',
+        reason,
+        reasonCode: effectiveReasonCode,
         remarks: `Order could not be accepted: ${reason}`,
         timestamp: now.toISOString()
       });
@@ -476,7 +521,10 @@ export class KdsService {
         tableNumber: order.tableNumber,
         status: 'REJECTED',
         reason,
+        reasonCode: effectiveReasonCode,
         remarks: `Order could not be accepted: ${reason}`,
+        rejectedBy: actor.name || actor.id,
+        rejectedAt: now.toISOString(),
         timestamp: now.toISOString(),
         userId: order.userId
       }

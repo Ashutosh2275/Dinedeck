@@ -211,6 +211,13 @@ async function start() {
   await iamService.seedIamDefinitions().catch(err => console.error('[IAM] Seed warning:', err.message));
 
   const server = await buildServer();
+  const { orderTimeoutService } = await import('./modules/orders/order-timeout.service.js');
+  orderTimeoutService.start();
+
+  server.addHook('onClose', async () => {
+    orderTimeoutService.stop();
+  });
+
   try {
     await server.listen({ port: ENV.PORT, host: ENV.HOST });
     console.log(`\n🚀 DINEDECK India Production Backend is running at http://${ENV.HOST}:${ENV.PORT}`);

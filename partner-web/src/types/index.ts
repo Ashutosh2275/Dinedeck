@@ -164,7 +164,7 @@ export interface Order {
   id: string;
   orderNumber: string;
   tableNumber: string;
-  status: 'PLACED' | 'CONFIRMED' | 'PREPARING' | 'READY' | 'SERVED' | 'COMPLETED' | 'CANCELLED';
+  status: 'PLACED' | 'CONFIRMED' | 'PREPARING' | 'READY' | 'SERVED' | 'COMPLETED' | 'CANCELLED' | 'REJECTED';
   subtotal: number;
   discountAmount: number;
   cgstAmount: number;
@@ -172,6 +172,11 @@ export interface Order {
   serviceCharge: number;
   totalAmount: number;
   specialNotes?: string | null;
+  acceptanceDeadline?: string | null;
+  rejectionReason?: string | null;
+  rejectionReasonCode?: string | null;
+  rejectedAt?: string | null;
+  rejectedBy?: string | null;
   createdAt: string;
   items: OrderItem[];
   bills?: BillSummary[];
@@ -425,6 +430,10 @@ export interface KdsTicketCard {
   kitchenNotes?: string | null;
   dietaryAlerts?: string | null;
   rejectionReason?: string | null;
+  rejectionReasonCode?: string | null;
+  rejectedAt?: string | null;
+  rejectedBy?: string | null;
+  acceptanceDeadline?: string | null;
   recallReason?: string | null;
   holdReason?: string | null;
   isHeld: boolean;

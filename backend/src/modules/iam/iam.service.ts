@@ -638,10 +638,13 @@ export class IamService {
     ipAddress?: string;
   }): Promise<void> {
     try {
+      // If actorId is 'SYSTEM' or not a User UUID, set to null because AuditLog.actorId references User.id
+      const validActorId = params.actorId && params.actorId !== 'SYSTEM' ? params.actorId : null;
+
       await prisma.auditLog.create({
         data: {
-          actorId: params.actorId || null,
-          actorRole: params.actorRole || null,
+          actorId: validActorId,
+          actorRole: params.actorRole || (params.actorId === 'SYSTEM' ? 'SYSTEM' : null),
           action: params.action,
           resource: params.resource,
           resourceId: params.resourceId,

@@ -200,10 +200,15 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleRejectIncomingOrder = async (orderId: string, reason: string) => {
+  const handleRejectIncomingOrder = async (
+    orderId: string,
+    reason: string,
+    reasonCode?: string,
+    customReason?: string
+  ) => {
     if (!restaurant?.id) return;
     try {
-      await api.rejectKdsOrder(orderId, reason, restaurant.id);
+      await api.rejectKdsOrder(orderId, reason, restaurant.id, reasonCode, customReason);
       setIncomingOrderAlert(null);
       await fetchAllData();
     } catch (err: any) {

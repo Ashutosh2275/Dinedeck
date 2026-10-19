@@ -43,6 +43,8 @@ import {
   Layers,
   Filter
 } from 'lucide-react';
+import { OrderRejectionModal } from '../components/OrderRejectionModal';
+import { OrderCountdownBadge } from '../components/OrderCountdownBadge';
 
 interface KitchenKDSProps {
   orders?: any[];
@@ -252,12 +254,17 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
   };
 
   // Reject Order
-  const handleConfirmReject = async () => {
-    if (!rejectModalOrder || !restaurant?.id || !rejectReason.trim()) return;
-    const res = await api.rejectKdsOrder(rejectModalOrder.id, rejectReason, restaurant.id);
+  const handleConfirmReject = async (payload: { reasonCode: string; reason: string; customReason?: string }) => {
+    if (!rejectModalOrder || !restaurant?.id) return;
+    const res = await api.rejectKdsOrder(
+      rejectModalOrder.id,
+      payload.reason,
+      restaurant.id,
+      payload.reasonCode,
+      payload.customReason
+    );
     if (res.success) {
       setRejectModalOrder(null);
-      setRejectReason('');
       setToastMessage(`Order #${rejectModalOrder.orderNumber} rejected.`);
       setTimeout(() => setToastMessage(null), 4000);
       fetchKdsData();
@@ -902,11 +909,18 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
 
                   {/* Timer Strip */}
                   <div className="flex items-center justify-between text-[11px] pt-1 border-t border-slate-800 text-slate-300">
-                    <div className="flex items-center space-x-1 font-semibold">
-                      <Clock className="w-3 h-3 text-orange-400" />
-                      <span>{ticket.elapsedMinutes}m elapsed</span>
-                      <span className="text-slate-500">/ ETA {ticket.dynamicEtaMinutes}m</span>
-                    </div>
+                    {isPlaced ? (
+                      <OrderCountdownBadge
+                        createdAt={ticket.createdAt}
+                        acceptanceDeadline={ticket.acceptanceDeadline}
+                      />
+                    ) : (
+                      <div className="flex items-center space-x-1 font-semibold">
+                        <Clock className="w-3 h-3 text-orange-400" />
+                        <span>{ticket.elapsedMinutes}m elapsed</span>
+                        <span className="text-slate-500">/ ETA {ticket.dynamicEtaMinutes}m</span>
+                      </div>
+                    )}
 
                     <span
                       className={`px-1.5 py-0.2 rounded text-[9px] font-bold border ${
@@ -1153,10 +1167,25 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
                         </button>
                       </div>
                     ) : isRejected ? (
-                      <div className="flex items-center justify-between w-full text-xs text-rose-400 font-bold">
-                        <span className="flex items-center gap-1">
-                          <X className="w-3.5 h-3.5" /> Rejected / Cancelled
-                        </span>
+                      <div className="flex flex-col gap-1 w-full text-xs">
+                        <div className="flex items-center justify-between text-rose-400 font-bold">
+                          <span className="flex items-center gap-1">
+                            <X className="w-3.5 h-3.5 shrink-0" />
+                            {ticket.rejectionReasonCode === 'ACCEPTANCE_TIMEOUT'
+                              ? 'Auto-Rejected (90s Timeout)'
+                              : `Rejected (${ticket.rejectionReasonCode || 'STAFF'})`}
+                          </span>
+                          {ticket.rejectedBy && (
+                            <span className="text-[10px] text-slate-400 font-normal">
+                              by {ticket.rejectedBy}
+                            </span>
+                          )}
+                        </div>
+                        {ticket.rejectionReason && (
+                          <p className="text-[11px] text-slate-300 italic bg-rose-950/30 p-2 rounded-lg border border-rose-500/20">
+                            "{ticket.rejectionReason}"
+                          </p>
+                        )}
                       </div>
                     ) : (
                       <div className="flex items-center gap-1.5 flex-1">
@@ -1223,50 +1252,13 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
       {/* ========================================================================= */}
       {/* 3. REJECT ORDER MODAL                                                    */}
       {/* ========================================================================= */}
-      {rejectModalOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#1E293B] border border-slate-700 rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold">
-                <X className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-bold text-white">Reject Order #{rejectModalOrder.orderNumber}</h3>
-                <p className="text-xs text-slate-400">Table #{rejectModalOrder.tableNumber}</p>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                Rejection Reason (Notified to Customer)
-              </label>
-              <textarea
-                value={rejectReason}
-                onChange={(e) => setRejectReason(e.target.value)}
-                placeholder="e.g. Kitchen closing, Item out of stock"
-                rows={3}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-rose-500"
-              />
-            </div>
-
-            <div className="flex items-center justify-end space-x-2 pt-2">
-              <button
-                onClick={() => setRejectModalOrder(null)}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleConfirmReject}
-                disabled={!rejectReason.trim()}
-                className="bg-rose-600 hover:bg-rose-500 text-white font-bold px-4 py-2 rounded-xl text-xs transition disabled:opacity-50"
-              >
-                Confirm Rejection
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <OrderRejectionModal
+        isOpen={Boolean(rejectModalOrder)}
+        orderNumber={rejectModalOrder?.orderNumber || ''}
+        tableNumber={String(rejectModalOrder?.tableNumber || '')}
+        onConfirm={handleConfirmReject}
+        onCancel={() => setRejectModalOrder(null)}
+      />
 
       {/* ========================================================================= */}
       {/* 4. HOLD ORDER MODAL                                                      */}

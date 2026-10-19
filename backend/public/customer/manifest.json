@@ -1,0 +1,29 @@
+{
+  "short_name": "DineDeck Guest",
+  "name": "DINEDECK — Guest QR Ordering & Digital Menu",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0B0F19",
+  "theme_color": "#F97316",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/"
+}

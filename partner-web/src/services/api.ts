@@ -447,10 +447,16 @@ class ApiService {
     });
   }
 
-  async rejectKdsOrder(orderId: string, reason: string, restaurantId?: string) {
+  async rejectKdsOrder(
+    orderId: string,
+    reason: string,
+    restaurantId?: string,
+    reasonCode?: string,
+    customReason?: string
+  ) {
     return this.request(`/kds/orders/${orderId}/reject`, {
       method: 'POST',
-      body: JSON.stringify({ reason, restaurantId })
+      body: JSON.stringify({ reason, restaurantId, reasonCode, customReason })
     });
   }
 

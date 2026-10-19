@@ -273,6 +273,7 @@ export const CustomerProvider: React.FC<{ children: ReactNode }> = ({ children }
             sgstAmount: Number(data.sgstAmount || 0),
             serviceCharge: Number(data.serviceCharge || 0),
             totalAmount: Number(data.totalAmount || 0),
+            acceptanceDeadline: data.acceptanceDeadline || null,
             createdAt: data.createdAt || new Date().toISOString()
           };
           setCurrentOrder(createdOrder as any);
@@ -283,13 +284,25 @@ export const CustomerProvider: React.FC<{ children: ReactNode }> = ({ children }
         }
       }
 
-      if (['ORDER_STATUS_CHANGED', 'ORDER_ACCEPTED', 'ORDER_REJECTED', 'KOT_GENERATED'].includes(type) && data) {
+      if (['ORDER_STATUS_CHANGED', 'ORDER_ACCEPTED', 'ORDER_REJECTED', 'ORDER_TIMEOUT', 'KOT_GENERATED'].includes(type) && data) {
         const targetOrderId = data.orderId || data.id;
-        const newStatus = data.status || (type === 'ORDER_ACCEPTED' ? 'CONFIRMED' : type === 'ORDER_REJECTED' ? 'REJECTED' : 'PREPARING');
+        const newStatus = data.status || (type === 'ORDER_ACCEPTED' ? 'CONFIRMED' : (type === 'ORDER_REJECTED' || type === 'ORDER_TIMEOUT') ? 'REJECTED' : 'PREPARING');
+        const reason = data.reason || data.remarks || undefined;
+        const reasonCode = data.reasonCode || (type === 'ORDER_TIMEOUT' ? 'ACCEPTANCE_TIMEOUT' : undefined);
         
-        setCurrentOrder((prev) => (prev && (prev.id === targetOrderId) ? { ...prev, status: newStatus } : prev));
+        setCurrentOrder((prev) => (prev && (prev.id === targetOrderId) ? {
+          ...prev,
+          status: newStatus,
+          rejectionReason: reason || prev.rejectionReason,
+          rejectionReasonCode: reasonCode || prev.rejectionReasonCode
+        } : prev));
         setSessionOrders((prev) =>
-          prev.map((o) => (o.id === targetOrderId ? { ...o, status: newStatus } : o))
+          prev.map((o) => (o.id === targetOrderId ? {
+            ...o,
+            status: newStatus,
+            rejectionReason: reason || o.rejectionReason,
+            rejectionReasonCode: reasonCode || o.rejectionReasonCode
+          } : o))
         );
       } else if (['PAYMENT_SUCCESS', 'BILL_SETTLED'].includes(type) && data) {
         const targetBillId = data.billId || data.id;

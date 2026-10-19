@@ -148,10 +148,53 @@ export const AdminOrders: React.FC = () => {
   const totalValue = filteredOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
   const totalCommission = totalValue * 0.15;
 
-  const getStatusBadge = (status: string) => {
+  const AdminOrderCountdown: React.FC<{ deadline?: string; createdAt?: string }> = ({ deadline, createdAt }) => {
+    const [remaining, setRemaining] = useState<number>(() => {
+      const now = Date.now();
+      if (deadline) return Math.max(0, Math.floor((new Date(deadline).getTime() - now) / 1000));
+      if (createdAt) return Math.max(0, 90 - Math.floor((now - new Date(createdAt).getTime()) / 1000));
+      return 90;
+    });
+
+    useEffect(() => {
+      const calc = () => {
+        const now = Date.now();
+        if (deadline) return Math.max(0, Math.floor((new Date(deadline).getTime() - now) / 1000));
+        if (createdAt) return Math.max(0, 90 - Math.floor((now - new Date(createdAt).getTime()) / 1000));
+        return 90;
+      };
+      setRemaining(calc());
+      const t = setInterval(() => setRemaining(calc()), 1000);
+      return () => clearInterval(t);
+    }, [deadline, createdAt]);
+
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    const timeStr = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+    if (remaining === 0) {
+      return <span className="text-[10px] font-bold text-rose-400">SLA Expired</span>;
+    }
+    return (
+      <span className={`text-[10px] font-mono font-bold ${remaining <= 15 ? 'text-rose-400 animate-pulse' : remaining <= 45 ? 'text-amber-400' : 'text-cyan-400'}`}>
+        · {timeStr}
+      </span>
+    );
+  };
+
+  const getStatusBadge = (status: string, order?: any) => {
     switch (status) {
       case 'PLACED':
-        return <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-black bg-blue-500/20 text-blue-400 border border-blue-500/30">PLACED</span>;
+        return (
+          <div className="flex items-center space-x-1.5 flex-wrap">
+            <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-black bg-blue-500/20 text-blue-400 border border-blue-500/30">
+              PLACED
+            </span>
+            {(order?.acceptanceDeadline || order?.createdAt) && (
+              <AdminOrderCountdown deadline={order?.acceptanceDeadline} createdAt={order?.createdAt} />
+            )}
+          </div>
+        );
       case 'CONFIRMED':
         return <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">CONFIRMED</span>;
       case 'PREPARING':
@@ -163,6 +206,20 @@ export const AdminOrders: React.FC = () => {
         return <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">SERVED</span>;
       case 'CANCELLED':
         return <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-black bg-rose-500/20 text-rose-400 border border-rose-500/30">CANCELLED</span>;
+      case 'REJECTED':
+        const isTimeout = order?.rejectionReasonCode === 'ACCEPTANCE_TIMEOUT' || String(order?.rejectionReason || '').includes('90 seconds');
+        return (
+          <div className="flex flex-col gap-0.5">
+            <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-rose-500/20 text-rose-400 border border-rose-500/40 inline-flex items-center gap-1">
+              {isTimeout ? 'AUTO-REJECTED (TIMEOUT)' : `REJECTED: ${order?.rejectionReasonCode || 'STAFF'}`}
+            </span>
+            {order?.rejectionReason && (
+              <span className="text-[10px] text-slate-400 max-w-[200px] truncate" title={order.rejectionReason}>
+                {order.rejectionReason}
+              </span>
+            )}
+          </div>
+        );
       default:
         return <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-black bg-slate-800 text-slate-400">{status}</span>;
     }
@@ -377,7 +434,7 @@ export const AdminOrders: React.FC = () => {
                     </td>
 
                     <td className="p-3.5">
-                      {getStatusBadge(ord.status)}
+                      {getStatusBadge(ord.status, ord)}
                     </td>
 
                     <td className="p-3.5 text-right">
@@ -464,6 +521,23 @@ export const AdminOrders: React.FC = () => {
                 <span>{selectedOrder.user?.name || 'Walk-in Diner'}</span>
               </div>
             </div>
+
+            {selectedOrder.status === 'REJECTED' && (
+              <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs space-y-1">
+                <div className="font-black flex items-center justify-between">
+                  <span>Rejection Status:</span>
+                  <span className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300">
+                    {selectedOrder.rejectionReasonCode || 'REJECTED'}
+                  </span>
+                </div>
+                {selectedOrder.rejectionReason && (
+                  <p className="italic text-[11px] text-slate-300">"{selectedOrder.rejectionReason}"</p>
+                )}
+                {selectedOrder.rejectedBy && (
+                  <div className="text-[10px] text-slate-400">Recorded by: {selectedOrder.rejectedBy}</div>
+                )}
+              </div>
+            )}
 
             <div className="border-t border-b border-dashed border-slate-700 py-2.5 space-y-1 text-xs">
               {selectedOrder.items?.map((it: any, i: number) => (

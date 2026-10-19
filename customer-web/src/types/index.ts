@@ -88,6 +88,11 @@ export interface Order {
   serviceCharge: number;
   totalAmount?: number;
   specialNotes?: string | null;
+  acceptanceDeadline?: string | null;
+  rejectionReason?: string | null;
+  rejectionReasonCode?: string | null;
+  rejectedAt?: string | null;
+  rejectedBy?: string | null;
   createdAt: string;
   items: OrderItem[];
   restaurantId?: string;

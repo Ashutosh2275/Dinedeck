@@ -2,6 +2,7 @@ import { FastifyInstance, FastifyPluginAsync, FastifyRequest, FastifyReply } fro
 import { z } from 'zod';
 import { kdsService } from './kds.service.js';
 import { iamService } from '../iam/iam.service.js';
+import { PREDEFINED_REJECTION_REASONS } from '../../constants/orderRejection.js';
 
 export const kdsRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
   // 1. Get Live KDS Queue (Multi-Station, ETA, SLA)
@@ -50,18 +51,57 @@ export const kdsRoutes: FastifyPluginAsync = async (server: FastifyInstance) => 
       });
       return reply.send({ success: true, message: 'Order accepted and station KOTs generated', data: result });
     } catch (err: any) {
-      return reply.status(400).send({ success: false, message: err.message });
+      const isConflict = err.message?.includes('expired') || err.message?.includes('already been rejected') || err.message?.includes('cancelled');
+      return reply.status(isConflict ? 409 : 400).send({ success: false, message: err.message });
     }
+  });
+
+  // 2b. List Predefined Rejection Reasons
+  server.get('/rejection-reasons', async (_req, reply) => {
+    return reply.send({
+      success: true,
+      data: PREDEFINED_REJECTION_REASONS
+    });
   });
 
   // 3. Reject Order with Reason
   server.post('/orders/:id/reject', { preHandler: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
     const userAuth = (request as any).user;
     const { id: orderId } = request.params as { id: string };
-    const body = request.body as { reason: string; restaurantId?: string };
+    const body = request.body as {
+      reason?: string;
+      reasonCode?: string;
+      customReason?: string;
+      restaurantId?: string;
+    };
 
-    if (!body.reason || body.reason.trim().length < 2) {
-      return reply.status(400).send({ success: false, message: 'Rejection reason is mandatory' });
+    const reasonCode = (body.reasonCode || '').trim().toUpperCase();
+    let finalReason = (body.reason || '').trim();
+
+    const predefined = PREDEFINED_REJECTION_REASONS.find(r => r.code === reasonCode);
+    if (predefined) {
+      finalReason = predefined.description;
+    } else if (reasonCode === 'OTHER' || reasonCode === 'CUSTOM') {
+      finalReason = (body.customReason || body.reason || '').trim();
+      if (!finalReason || finalReason.length < 2) {
+        return reply.status(400).send({
+          success: false,
+          message: 'Custom rejection reason is mandatory and must be at least 2 characters'
+        });
+      }
+      if (finalReason.length > 250) {
+        return reply.status(400).send({
+          success: false,
+          message: 'Custom rejection reason cannot exceed 250 characters'
+        });
+      }
+    } else {
+      if (!finalReason || finalReason.length < 2) {
+        return reply.status(400).send({
+          success: false,
+          message: 'Rejection reason is mandatory and must be at least 2 characters'
+        });
+      }
     }
 
     const restaurantId = body.restaurantId || userAuth.restaurantId;
@@ -71,11 +111,16 @@ export const kdsRoutes: FastifyPluginAsync = async (server: FastifyInstance) => 
     }
 
     try {
-      const order = await kdsService.rejectOrder(orderId, body.reason, {
-        id: userAuth.id,
-        name: userAuth.name,
-        role: userAuth.role
-      });
+      const order = await kdsService.rejectOrder(
+        orderId,
+        finalReason,
+        {
+          id: userAuth.id,
+          name: userAuth.name,
+          role: userAuth.role
+        },
+        reasonCode || 'CUSTOM'
+      );
       return reply.send({ success: true, message: 'Order rejected', data: order });
     } catch (err: any) {
       return reply.status(400).send({ success: false, message: err.message });

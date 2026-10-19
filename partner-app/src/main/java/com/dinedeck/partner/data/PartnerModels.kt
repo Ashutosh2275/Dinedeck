@@ -322,6 +322,10 @@ data class PartnerKdsTicketCard(
     @SerializedName("specialNotes") val specialNotes: String? = null,
     @SerializedName("dietaryAlerts") val dietaryAlerts: String? = null,
     @SerializedName("rejectionReason") val rejectionReason: String? = null,
+    @SerializedName("rejectionReasonCode") val rejectionReasonCode: String? = null,
+    @SerializedName("acceptanceDeadline") val acceptanceDeadline: String? = null,
+    @SerializedName("rejectedAt") val rejectedAt: String? = null,
+    @SerializedName("rejectedBy") val rejectedBy: String? = null,
     @SerializedName("isHeld") val isHeld: Boolean = false
 )
 
