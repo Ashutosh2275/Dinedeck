@@ -61,23 +61,15 @@ const AdminLogin: React.FC = () => {
     <div className="min-h-screen bg-[#090D16] flex items-center justify-center p-4">
       <div className="bg-[#0E131F] border border-slate-800 rounded-3xl max-w-md w-full p-8 space-y-6 shadow-2xl">
         <div className="text-center space-y-3">
-          <div className="w-14 h-14 rounded-2xl bg-[#090D16] border border-orange-500/40 flex items-center justify-center mx-auto shadow-xl shadow-orange-500/20 p-2.5">
-            <img
-              src="/dinedeck-emblem.png"
-              alt="DineDeck Emblem"
-              className="w-full h-full object-contain"
-              draggable={false}
-            />
-          </div>
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2.5">
             <img
               src="/dinedeck-logo-dark.png"
               alt="DineDeck"
-              className="h-6 object-contain"
+              className="h-8 object-contain"
               draggable={false}
             />
-            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-              Control Center
+            <span className="text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+              SUPER ADMIN
             </span>
           </div>
           <p className="text-xs text-slate-400">Platform Governance & Multi-Tenant SuperAdmin</p>

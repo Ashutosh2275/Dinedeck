@@ -34,22 +34,14 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
           {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
 
-        <div className="flex items-center space-x-2.5">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#090D16] border border-orange-500/40 flex items-center justify-center shadow-lg shadow-orange-500/20 shrink-0 p-1.5">
-            <img
-              src="/dinedeck-emblem.png"
-              alt="DineDeck Emblem"
-              className="w-full h-full object-contain"
-              draggable={false}
-            />
-          </div>
+        <div className="flex items-center space-x-3">
           <div>
             <div className="flex items-center space-x-2">
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <img
                   src="/dinedeck-logo-dark.png"
                   alt="DineDeck"
-                  className="h-4.5 sm:h-5 object-contain"
+                  className="h-6 sm:h-7 object-contain"
                   draggable={false}
                 />
                 <span className="font-bold text-xs text-slate-300 hidden sm:inline">Control Center</span>

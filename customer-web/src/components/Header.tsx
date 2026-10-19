@@ -10,22 +10,13 @@ export const Header: React.FC = () => {
       {/* Clean Brand Identity */}
       <div
         onClick={() => setActiveView('HOME')}
-        className="flex items-center space-x-2 sm:space-x-2.5 cursor-pointer select-none group shrink-0"
+        className="flex items-center cursor-pointer select-none group shrink-0 py-1"
         title="DineDeck Home"
       >
-        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#0B1120] border border-orange-500/40 flex items-center justify-center shadow-lg shadow-orange-500/20 shrink-0 p-1.5 transform active:scale-95 group-hover:scale-105 transition">
-          <img
-            src="/dinedeck-emblem.png"
-            alt="DineDeck Emblem"
-            className="w-full h-full object-contain"
-            draggable={false}
-          />
-        </div>
-
         <img
           src="/dinedeck-logo-dark.png"
           alt="DineDeck"
-          className="h-6 sm:h-7 object-contain"
+          className="h-7 sm:h-8 object-contain transform active:scale-95 group-hover:opacity-95 transition"
           draggable={false}
         />
       </div>

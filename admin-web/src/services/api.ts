@@ -22,13 +22,20 @@ import {
   ConfigVersion
 } from '../types';
 
-const API_BASE_URL =
-  (import.meta as any).env?.VITE_API_URL ||
-  (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
-    ? `${window.location.protocol}//${window.location.hostname}:8080/api`
-    : 'http://localhost:8080/api');
+const resolveDefaultBaseUrl = (): string => {
+  const envUrl = (import.meta as any).env?.VITE_API_URL;
+  if (envUrl) return envUrl;
+  if (typeof window !== 'undefined') {
+    const { hostname, protocol } = window.location;
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return `${protocol}//${hostname}:8080/api`;
+    }
+  }
+  return 'http://127.0.0.1:8080/api';
+};
 
 class AdminApiService {
+  private baseUrl: string = resolveDefaultBaseUrl();
   private token: string | null = localStorage.getItem('dinedeck_admin_token');
 
   setToken(token: string | null) {
@@ -58,7 +65,7 @@ class AdminApiService {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      const response = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,
         headers
       });
@@ -67,15 +74,46 @@ class AdminApiService {
       if (!response.ok) {
         return {
           success: false,
-          message: json.message || json.error || `HTTP error ${response.status}`,
+          message: json.message || json.error || `Server error (${response.status})`,
           error: json
         };
       }
       return json;
     } catch (err: any) {
+      // Loopback fallback: If 127.0.0.1 or localhost fails, try alternative local loopback address
+      if (this.baseUrl.includes('127.0.0.1:8080') || this.baseUrl.includes('localhost:8080')) {
+        const altBaseUrl = this.baseUrl.includes('127.0.0.1:8080')
+          ? this.baseUrl.replace('127.0.0.1:8080', 'localhost:8080')
+          : this.baseUrl.replace('localhost:8080', '127.0.0.1:8080');
+
+        try {
+          const altResponse = await fetch(`${altBaseUrl}${endpoint}`, { ...options, headers });
+          const altJson = await altResponse.json();
+          this.baseUrl = altBaseUrl;
+          if (!altResponse.ok) {
+            return {
+              success: false,
+              message: altJson.message || altJson.error || `Server error (${altResponse.status})`,
+              error: altJson
+            };
+          }
+          return altJson;
+        } catch {
+          // Both loopback attempts failed
+        }
+      }
+
+      const isNetworkError =
+        err?.name === 'TypeError' ||
+        err?.message === 'Failed to fetch' ||
+        err?.message?.includes('NetworkError') ||
+        err?.message?.includes('network');
+
       return {
         success: false,
-        message: err.message || 'Network connection failed'
+        message: isNetworkError
+          ? 'Unable to connect to DineDeck Backend Server on port 8080. Please ensure the backend server is running.'
+          : (err.message || 'Network connection failed')
       };
     }
   }
@@ -435,7 +473,7 @@ class AdminApiService {
 
   // 19. Authoritative Exports
   async exportData(entity: 'FINANCIAL' | 'RESTAURANTS' | 'ORDERS' | 'COMPLIANCE', format: 'CSV' | 'JSON' = 'CSV') {
-    window.open(`${API_BASE_URL}/admin/reports/export?entity=${entity}&format=${format}`, '_blank');
+    window.open(`${this.baseUrl}/admin/reports/export?entity=${entity}&format=${format}`, '_blank');
   }
 
   // 20. Customer Frontend CMS & Promotional Scrolls

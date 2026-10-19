@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { UtensilsCrossed, Lock, Mail, ArrowRight, ShieldCheck, Zap, Loader2, AlertCircle, Sparkles, ChefHat, Receipt, Eye, EyeOff, HelpCircle } from 'lucide-react';
+import { UtensilsCrossed, Lock, Mail, ArrowRight, ShieldCheck, Zap, Loader2, AlertCircle, ChefHat, Receipt, Eye, EyeOff, HelpCircle } from 'lucide-react';
 import { AccountRecoveryModal } from '../components/AccountRecoveryModal';
 
 export const Login: React.FC = () => {
@@ -149,38 +149,17 @@ export const Login: React.FC = () => {
               transition: logoTransform.transition,
               willChange: 'transform'
             }}
-            className="flex items-center space-x-3.5 origin-center select-none"
+            className="flex items-center gap-3 origin-center select-none"
           >
-            <div className="relative group flex-shrink-0">
-              {logoTransform.isCenter && (
-                <div className="absolute inset-0 bg-orange-500/40 rounded-2xl blur-xl animate-pulse" />
-              )}
-              <div className="w-12 h-12 rounded-2xl bg-[#0B1120] border border-orange-500/40 flex items-center justify-center shadow-xl shadow-orange-500/20 p-2">
-                <img
-                  src="/dinedeck-emblem.png"
-                  alt="DineDeck Emblem"
-                  className="w-8 h-8 object-contain"
-                  draggable={false}
-                />
-              </div>
-            </div>
-            <div>
-              <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-widest text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">
-                <Sparkles className="w-2.5 h-2.5" />
-                OPERATING SYSTEM
-              </span>
-              <div className="flex items-center gap-2 mt-0.5">
-                <img
-                  src="/dinedeck-logo-dark.png"
-                  alt="DineDeck"
-                  className="h-6 sm:h-7 object-contain"
-                  draggable={false}
-                />
-                <span className="text-[11px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-orange-500 text-white shadow-sm">
-                  Partner
-                </span>
-              </div>
-            </div>
+            <img
+              src="/dinedeck-logo-dark.png"
+              alt="DineDeck"
+              className="h-8 sm:h-9 object-contain"
+              draggable={false}
+            />
+            <span className="text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md bg-orange-500 text-white shadow-sm">
+              PARTNER
+            </span>
           </div>
 
           {/* Value Prop & Clean Headings */}

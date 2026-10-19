@@ -20,7 +20,7 @@ class WebSocketService {
     (import.meta as any).env?.VITE_WS_URL ||
     (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
       ? `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.hostname}:8080/ws`
-      : 'ws://localhost:8080/ws');
+      : 'ws://127.0.0.1:8080/ws');
   private connectionParams: { restaurantId?: string; userId?: string; role?: string } = {};
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 50;

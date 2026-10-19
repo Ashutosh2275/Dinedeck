@@ -129,7 +129,7 @@ fun PartnerLoginScreen(viewModel: PartnerViewModel) {
             letterSpacing = 1.sp
         )
         Text(
-            "Universal Restaurant Operating System",
+            "Restaurant & Kitchen Workspace",
             fontSize = 12.sp,
             color = Color(0xFF9CA3AF),
             fontWeight = FontWeight.Medium
