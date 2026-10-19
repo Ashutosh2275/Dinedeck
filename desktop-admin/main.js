@@ -76,7 +76,7 @@ function createWindow() {
   } else if (fs.existsSync(siblingDistPath)) {
     mainWindow.loadFile(siblingDistPath);
   } else {
-    mainWindow.loadURL('http://localhost:5174');
+    mainWindow.loadURL('http://localhost:5175');
   }
 
   mainWindow.on('closed', () => {

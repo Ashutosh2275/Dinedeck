@@ -4,8 +4,12 @@
   "description": "DineDeck Super Admin & Platform Control Center for Windows",
   "main": "main.js",
   "scripts": {
+    "build:web": "node build-web.js",
+    "prestart": "node build-web.js",
+    "predist": "node build-web.js",
     "start": "electron .",
-    "dist": "electron-builder --win nsis"
+    "dist": "electron-builder --win nsis",
+    "dist:win": "electron-builder --win nsis"
   },
   "author": "DineDeck Technologies",
   "license": "Proprietary",
