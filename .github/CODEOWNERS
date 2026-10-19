@@ -1,0 +1,35 @@
+# ==============================================================================
+# DineDeck Authoritative CODEOWNERS Policy
+# ==============================================================================
+# Global repository maintainer and release authorization authority
+* @Ashutosh2275
+
+# Core Backend Engine, Database Schema & Financial Architecture
+/backend/ @Ashutosh2275
+/backend/prisma/ @Ashutosh2275
+/backend/src/modules/auth/ @Ashutosh2275
+/backend/src/modules/iam/ @Ashutosh2275
+/backend/src/modules/payments/ @Ashutosh2275
+/backend/src/modules/billing/ @Ashutosh2275
+/backend/src/modules/admin/ @Ashutosh2275
+/backend/src/realtime/ @Ashutosh2275
+
+# CI/CD Workflows, Secret Handling & Automation Pipeline
+/.github/ @Ashutosh2275
+/.github/workflows/ @Ashutosh2275
+/scripts/ @Ashutosh2275
+
+# Native Android Build Configuration, ProGuard/R8 & Keystores
+/build.gradle.kts @Ashutosh2275
+/settings.gradle.kts @Ashutosh2275
+/gradle.properties @Ashutosh2275
+/app/build.gradle.kts @Ashutosh2275
+/app/proguard-rules.pro @Ashutosh2275
+/partner-app/build.gradle.kts @Ashutosh2275
+/partner-app/proguard-rules.pro @Ashutosh2275
+/admin-app/build.gradle.kts @Ashutosh2275
+/admin-app/proguard-rules.pro @Ashutosh2275
+
+# Windows Desktop Shells
+/desktop-partner/ @Ashutosh2275
+/desktop-admin/ @Ashutosh2275

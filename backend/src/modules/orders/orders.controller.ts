@@ -52,18 +52,38 @@ export async function orderRoutes(fastify: FastifyInstance) {
       return reply.status(404).send({ success: false, message: 'Restaurant not found' });
     }
 
-    // Calculate Subtotal
+    // Authoritative Item Price Verification (Anti-Tampering)
+    const menuItemIds = items.map((i) => i.menuItemId).filter(Boolean) as string[];
+    const dbMenuItems = await prisma.menuItem.findMany({
+      where: {
+        id: { in: menuItemIds },
+        restaurantId
+      }
+    });
+    const dbItemMap = new Map(dbMenuItems.map((i) => [i.id, i]));
+
+    // Calculate Subtotal with Server-Authoritative Pricing
     let subtotal = 0;
     const orderItemsData = items.map((item) => {
-      const lineTotal = item.unitPrice * item.quantity;
+      const dbItem = item.menuItemId ? dbItemMap.get(item.menuItemId) : null;
+      let unitPrice = item.unitPrice;
+      if (dbItem) {
+        // Enforce valid menu pricing: client price must match regular price or discounted price
+        const isValidMenuPrice = (item.unitPrice === dbItem.price) ||
+                                (dbItem.discountedPrice != null && item.unitPrice === dbItem.discountedPrice);
+        if (!isValidMenuPrice && userAuth.role === 'CUSTOMER') {
+          unitPrice = dbItem.discountedPrice ?? dbItem.price;
+        }
+      }
+      const lineTotal = unitPrice * item.quantity;
       subtotal += lineTotal;
       return {
         menuItemId: item.menuItemId,
-        name: item.name,
+        name: dbItem?.name || item.name,
         variantName: item.variantName || null,
         addonsSummary: item.addonsSummary || null,
         quantity: item.quantity,
-        unitPrice: item.unitPrice,
+        unitPrice,
         totalPrice: lineTotal
       };
     });

@@ -68,15 +68,23 @@ class RealtimeSyncManager @Inject constructor(
         startWebSocketConnection()
     }
 
+    private var currentBackoffMs = 3000L
+    private val maxBackoffMs = 60000L
+
     private fun startWebSocketConnection() {
         scope.launch {
             while (true) {
-                try {
-                    connectWebSocket()
-                } catch (e: Exception) {
-                    Log.w(TAG, "WebSocket connection attempt error: ${e.message}")
+                if (!isConnected) {
+                    try {
+                        connectWebSocket()
+                    } catch (e: Exception) {
+                        Log.w(TAG, "WebSocket connection attempt error: ${e.message}")
+                    }
                 }
-                delay(5000)
+                delay(if (isConnected) 15000L else currentBackoffMs)
+                if (!isConnected) {
+                    currentBackoffMs = minOf(currentBackoffMs * 2, maxBackoffMs)
+                }
             }
         }
     }
@@ -91,6 +99,7 @@ class RealtimeSyncManager @Inject constructor(
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
             override fun onOpen(ws: WebSocket, response: Response) {
                 isConnected = true
+                currentBackoffMs = 3000L
                 Log.i(TAG, "⚡ Realtime WebSocket connected to DineDeck backend at $WS_URL")
             }
 

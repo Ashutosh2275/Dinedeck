@@ -956,7 +956,7 @@ export class BillingService {
     });
     if (existing) return this.formatShift(existing);
 
-    const shiftNumber = `SHIFT-${new Date().toISOString().slice(2, 10).replace(/-/g, '')}-${Date.now().toString().slice(-4)}`;
+    const shiftNumber = `SHIFT-${new Date().toISOString().slice(2, 10).replace(/-/g, '')}-${Date.now().toString().slice(-6)}-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const created = await prisma.cashierShift.create({
       data: {

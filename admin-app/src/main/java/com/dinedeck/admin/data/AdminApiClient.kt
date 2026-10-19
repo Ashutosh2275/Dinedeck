@@ -23,7 +23,11 @@ object AdminApiClient {
     var baseUrl = "http://10.0.2.2:8080/api"
     var token: String? = null
 
-    suspend fun login(email: String = "superadmin@dinedeck.in", password: String = "Dinedeck@2026"): Boolean = withContext(Dispatchers.IO) {
+    suspend fun login(
+        email: String = if (com.dinedeck.admin.BuildConfig.DEBUG) "superadmin@dinedeck.in" else "",
+        password: String = if (com.dinedeck.admin.BuildConfig.DEBUG) "Dinedeck@2026" else ""
+    ): Boolean = withContext(Dispatchers.IO) {
+        if (email.isBlank() || password.isBlank()) return@withContext false
         try {
             val bodyJson = gson.toJson(mapOf("email" to email, "password" to password))
             val request = Request.Builder()
@@ -48,7 +52,7 @@ object AdminApiClient {
 
     private suspend fun <T> executeGet(endpoint: String, typeToken: java.lang.reflect.Type): T? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val request = Request.Builder()
                 .url("$baseUrl/$endpoint")
                 .header("Authorization", "Bearer ${token.orEmpty()}")
@@ -67,7 +71,7 @@ object AdminApiClient {
 
     private suspend fun <T> executePost(endpoint: String, body: Any, typeToken: java.lang.reflect.Type): T? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val bodyJson = gson.toJson(body)
             val request = Request.Builder()
                 .url("$baseUrl/$endpoint")
@@ -87,7 +91,7 @@ object AdminApiClient {
 
     private suspend fun <T> executePatch(endpoint: String, body: Any, typeToken: java.lang.reflect.Type): T? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val bodyJson = gson.toJson(body)
             val request = Request.Builder()
                 .url("$baseUrl/$endpoint")
@@ -107,7 +111,7 @@ object AdminApiClient {
 
     private suspend fun <T> executePut(endpoint: String, body: Any, typeToken: java.lang.reflect.Type): T? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val bodyJson = gson.toJson(body)
             val request = Request.Builder()
                 .url("$baseUrl/$endpoint")
@@ -140,7 +144,7 @@ object AdminApiClient {
     // 3. Restaurants
     suspend fun getRestaurants(search: String? = null, status: String? = null, city: String? = null): List<AdminRestaurant>? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val queryParams = mutableListOf<String>()
             if (!search.isNullOrBlank()) queryParams.add("search=$search")
             if (!status.isNullOrBlank() && status != "ALL") queryParams.add("status=$status")
@@ -317,7 +321,7 @@ object AdminApiClient {
     // 8. Payments & Refunds
     suspend fun getPayments(): List<AdminPayment>? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val request = Request.Builder()
                 .url("$baseUrl/admin/payments?limit=50")
                 .header("Authorization", "Bearer ${token.orEmpty()}")
@@ -348,7 +352,7 @@ object AdminApiClient {
     // 9. Settlements
     suspend fun getSettlements(): List<AdminSettlement>? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val request = Request.Builder()
                 .url("$baseUrl/admin/settlements")
                 .header("Authorization", "Bearer ${token.orEmpty()}")
@@ -384,7 +388,7 @@ object AdminApiClient {
     // 10. Customers
     suspend fun getCustomers(): List<AdminCustomer>? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val request = Request.Builder()
                 .url("$baseUrl/admin/customers")
                 .header("Authorization", "Bearer ${token.orEmpty()}")
@@ -405,7 +409,7 @@ object AdminApiClient {
     // 11. Coupons
     suspend fun getCoupons(): List<AdminCoupon>? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val request = Request.Builder()
                 .url("$baseUrl/admin/coupons")
                 .header("Authorization", "Bearer ${token.orEmpty()}")
@@ -445,7 +449,7 @@ object AdminApiClient {
     // 12. Support & Incidents
     suspend fun getSupportTickets(): List<AdminSupportTicket>? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val request = Request.Builder()
                 .url("$baseUrl/admin/support/tickets")
                 .header("Authorization", "Bearer ${token.orEmpty()}")
@@ -496,7 +500,7 @@ object AdminApiClient {
     // 13. Security Audit
     suspend fun getSecurityAuditLogs(): List<AdminAuditLog>? = withContext(Dispatchers.IO) {
         try {
-            if (token == null) login()
+            if (token == null && com.dinedeck.admin.BuildConfig.DEBUG) login()
             val request = Request.Builder()
                 .url("$baseUrl/admin/security/audit-logs")
                 .header("Authorization", "Bearer ${token.orEmpty()}")

@@ -36,9 +36,9 @@ fun LoginScreen(
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     var loginMode by remember { mutableStateOf(LoginMode.EMAIL) }
-    var email by remember { mutableStateOf("alex.vance@dinedeck.io") }
-    var phone by remember { mutableStateOf("+91 98201 23456") }
-    var password by remember { mutableStateOf("Password123!") }
+    var email by remember { mutableStateOf(if (com.dinedeck.app.BuildConfig.DEBUG) "alex.vance@dinedeck.io" else "") }
+    var phone by remember { mutableStateOf(if (com.dinedeck.app.BuildConfig.DEBUG) "+91 98201 23456" else "") }
+    var password by remember { mutableStateOf(if (com.dinedeck.app.BuildConfig.DEBUG) "Password123!" else "") }
 
     // Forgot Password State
     var showForgotPasswordDialog by remember { mutableStateOf(false) }

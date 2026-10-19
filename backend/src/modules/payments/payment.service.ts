@@ -54,8 +54,30 @@ export class PaymentService {
       throw { statusCode: 400, message: 'Bill is already marked PAID IN FULL' };
     }
 
-    // Exact INR / Paise calculations
-    const amountInr = new Decimal(params.amount ?? bill.grandTotal).toDecimalPlaces(2).toNumber();
+    // Calculate remaining unbilled/unpaid balance
+    const paidAmount = bill.payments
+      .filter((p) => p.status === 'PAID')
+      .reduce((sum, p) => sum + p.amount, 0);
+    const remainingBalance = new Decimal(bill.grandTotal).minus(paidAmount);
+
+    if (remainingBalance.lessThanOrEqualTo(0)) {
+      throw { statusCode: 400, message: 'Bill has already been completely settled' };
+    }
+
+    // Server-authoritative amount validation (Anti-Tampering)
+    let amountInr: number;
+    if (params.amount !== undefined && params.amount !== null) {
+      const requestedAmount = new Decimal(params.amount).toDecimalPlaces(2);
+      if (requestedAmount.lessThanOrEqualTo(0)) {
+        throw { statusCode: 400, message: 'Invalid payment amount specified' };
+      }
+      if (requestedAmount.greaterThan(remainingBalance)) {
+        throw { statusCode: 400, message: `Payment amount ₹${requestedAmount} exceeds remaining bill balance ₹${remainingBalance}` };
+      }
+      amountInr = requestedAmount.toNumber();
+    } else {
+      amountInr = remainingBalance.toDecimalPlaces(2).toNumber();
+    }
     const amountPaise = Math.round(amountInr * 100);
 
     // Call Payment Provider
@@ -158,6 +180,11 @@ export class PaymentService {
 
     if (!payment) {
       throw { statusCode: 404, message: 'Payment record not found' };
+    }
+
+    // Verify transaction reference matches the initialized intent (Anti-Tampering)
+    if (payment.transactionRef !== transactionRef) {
+      throw { statusCode: 400, message: 'Transaction reference mismatch: Forged or invalid transactionRef' };
     }
 
     if (payment.status === 'PAID' && payment.bill.paymentStatus === 'PAID') {

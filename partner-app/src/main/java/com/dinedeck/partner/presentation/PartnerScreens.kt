@@ -93,8 +93,8 @@ fun PartnerAppRoot(viewModel: PartnerViewModel) {
 // -------------------------------------------------------------
 @Composable
 fun PartnerLoginScreen(viewModel: PartnerViewModel) {
-    var email by remember { mutableStateOf("owner.punjab@dinedeck.in") }
-    var password by remember { mutableStateOf("Dinedeck@2026") }
+    var email by remember { mutableStateOf(if (com.dinedeck.partner.BuildConfig.DEBUG) "owner.punjab@dinedeck.in" else "") }
+    var password by remember { mutableStateOf(if (com.dinedeck.partner.BuildConfig.DEBUG) "Dinedeck@2026" else "") }
 
     Column(
         modifier = Modifier
@@ -199,50 +199,52 @@ fun PartnerLoginScreen(viewModel: PartnerViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        if (com.dinedeck.partner.BuildConfig.DEBUG) {
+            Spacer(modifier = Modifier.height(20.dp))
 
-        // Quick Role Personas
-        Text(
-            "1-Click Role Login (Fast Test)",
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF9CA3AF)
-        )
-        Spacer(modifier = Modifier.height(10.dp))
+            // Quick Role Personas (Debug Mode Only)
+            Text(
+                "1-Click Role Login (Debug Sandbox)",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF9CA3AF)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
 
-        val personas = listOf(
-            Triple("👑 Owner (Punjab Heritage)", "owner.punjab@dinedeck.in", PartnerPrimary),
-            Triple("👔 General Manager", "manager.sunil@punjabheritage.in", PartnerInfo),
-            Triple("👨‍🍳 Head Chef (Kitchen Display)", "chef.vikram@punjabheritage.in", PartnerSuccess),
-            Triple("🛎️ Floor Waiter / Captain", "waiter.ramesh@punjabheritage.in", PartnerWarning),
-            Triple("🧾 Cashier & Billing", "cashier.priya@punjabheritage.in", PartnerPurple),
-            Triple("🏢 Restaurant 2 Owner (Peshawari)", "owner.peshawari@dinedeck.in", PartnerTeal)
-        )
+            val personas = listOf(
+                Triple("👑 Owner (Punjab Heritage)", "owner.punjab@dinedeck.in", PartnerPrimary),
+                Triple("👔 General Manager", "manager.sunil@punjabheritage.in", PartnerInfo),
+                Triple("👨‍🍳 Head Chef (Kitchen Display)", "chef.vikram@punjabheritage.in", PartnerSuccess),
+                Triple("🛎️ Floor Waiter / Captain", "waiter.ramesh@punjabheritage.in", PartnerWarning),
+                Triple("🧾 Cashier & Billing", "cashier.priya@punjabheritage.in", PartnerPurple),
+                Triple("🏢 Restaurant 2 Owner (Peshawari)", "owner.peshawari@dinedeck.in", PartnerTeal)
+            )
 
-        Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            personas.forEach { (title, pEmail, color) ->
-                Surface(
-                    color = color.copy(alpha = 0.1f),
-                    shape = RoundedCornerShape(10.dp),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, color.copy(alpha = 0.3f)),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            email = pEmail
-                            password = "Dinedeck@2026"
-                            viewModel.login(pEmail, "Dinedeck@2026")
-                        }
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+            Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                personas.forEach { (title, pEmail, color) ->
+                    Surface(
+                        color = color.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(10.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, color.copy(alpha = 0.3f)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                email = pEmail
+                                password = "Dinedeck@2026"
+                                viewModel.login(pEmail, "Dinedeck@2026")
+                            }
                     ) {
-                        Column {
-                            Text(title, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                            Text(pEmail, fontSize = 11.sp, color = color)
+                        Row(
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column {
+                                Text(title, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                                Text(pEmail, fontSize = 11.sp, color = color)
+                            }
+                            Icon(Icons.Default.ArrowForward, contentDescription = null, tint = color, modifier = Modifier.size(16.dp))
                         }
-                        Icon(Icons.Default.ArrowForward, contentDescription = null, tint = color, modifier = Modifier.size(16.dp))
                     }
                 }
             }
