@@ -9,3 +9,298 @@ body {
   color: #F8FAFC;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090D16;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar,
+.scrollbar-none,
+.custom-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* ========================================================================= */
+/* 🎨 DYNAMIC LIGHT / DARK THEME SYSTEM (WCAG 2.2 AA COMPLIANT)               */
+/* ========================================================================= */
+html.light,
+html.light-mode,
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+html.dark,
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Light Mode Core Surface Overrides */
+html.light body,
+html.light-mode body,
+[data-theme="light"] body,
+body.light,
+body.light-mode {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+html.light ::-webkit-scrollbar-track,
+html.light-mode ::-webkit-scrollbar-track,
+body.light ::-webkit-scrollbar-track,
+body.light-mode ::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+html.light ::-webkit-scrollbar-thumb,
+html.light-mode ::-webkit-scrollbar-thumb,
+body.light ::-webkit-scrollbar-thumb,
+body.light-mode ::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+}
+
+/* Canvas & Container Backgrounds */
+.light .bg-\[\#090D16\],
+.light .bg-\[\#080B10\],
+.light .bg-\[\#0B0F19\],
+.light .bg-\[\#0F172A\],
+.light-mode .bg-\[\#090D16\],
+.light-mode .bg-\[\#080B10\],
+.light-mode .bg-\[\#0B0F19\],
+.light-mode .bg-\[\#0F172A\],
+[data-theme="light"] .bg-\[\#090D16\],
+[data-theme="light"] .bg-\[\#080B10\],
+[data-theme="light"] .bg-\[\#0B0F19\],
+[data-theme="light"] .bg-\[\#0F172A\] {
+  background-color: #F8FAFC !important;
+}
+
+/* Cards, Modals, Panels, Bottom Sheets */
+.light .bg-\[\#0E131F\],
+.light .bg-\[\#0E131F\]\/90,
+.light .bg-\[\#121826\],
+.light .bg-\[\#111827\],
+.light .bg-\[\#1F2937\],
+.light .bg-slate-900,
+.light .bg-slate-900\/90,
+.light .bg-slate-900\/95,
+.light .bg-slate-900\/80,
+.light .bg-slate-900\/70,
+.light .bg-slate-900\/60,
+.light .bg-slate-900\/50,
+.light .bg-slate-900\/40,
+.light .bg-slate-950,
+.light .bg-slate-950\/90,
+.light .bg-slate-950\/80,
+.light .bg-slate-950\/60,
+.light .bg-slate-950\/50,
+.light-mode .bg-\[\#0E131F\],
+.light-mode .bg-\[\#0E131F\]\/90,
+.light-mode .bg-\[\#121826\],
+.light-mode .bg-\[\#111827\],
+.light-mode .bg-\[\#1F2937\],
+.light-mode .bg-slate-900,
+.light-mode .bg-slate-900\/90,
+.light-mode .bg-slate-900\/95,
+.light-mode .bg-slate-900\/80,
+.light-mode .bg-slate-900\/70,
+.light-mode .bg-slate-900\/60,
+.light-mode .bg-slate-900\/50,
+.light-mode .bg-slate-900\/40,
+.light-mode .bg-slate-950,
+.light-mode .bg-slate-950\/90,
+.light-mode .bg-slate-950\/80,
+.light-mode .bg-slate-950\/60,
+.light-mode .bg-slate-950\/50,
+[data-theme="light"] .bg-\[\#0E131F\],
+[data-theme="light"] .bg-\[\#0E131F\]\/90,
+[data-theme="light"] .bg-\[\#121826\],
+[data-theme="light"] .bg-\[\#111827\],
+[data-theme="light"] .bg-\[\#1F2937\],
+[data-theme="light"] .bg-slate-900,
+[data-theme="light"] .bg-slate-900\/90,
+[data-theme="light"] .bg-slate-900\/95,
+[data-theme="light"] .bg-slate-900\/80,
+[data-theme="light"] .bg-slate-900\/70,
+[data-theme="light"] .bg-slate-900\/60,
+[data-theme="light"] .bg-slate-900\/50,
+[data-theme="light"] .bg-slate-900\/40,
+[data-theme="light"] .bg-slate-950,
+[data-theme="light"] .bg-slate-950\/90,
+[data-theme="light"] .bg-slate-950\/80,
+[data-theme="light"] .bg-slate-950\/60,
+[data-theme="light"] .bg-slate-950\/50 {
+  background-color: #FFFFFF !important;
+}
+
+/* Secondary & Muted Surfaces */
+.light .bg-slate-800,
+.light .bg-slate-800\/80,
+.light .bg-slate-800\/60,
+.light .bg-slate-800\/50,
+.light-mode .bg-slate-800,
+.light-mode .bg-slate-800\/80,
+.light-mode .bg-slate-800\/60,
+.light-mode .bg-slate-800\/50,
+[data-theme="light"] .bg-slate-800,
+[data-theme="light"] .bg-slate-800\/80,
+[data-theme="light"] .bg-slate-800\/60,
+[data-theme="light"] .bg-slate-800\/50 {
+  background-color: #F1F5F9 !important;
+}
+
+/* Borders */
+.light .border-slate-800,
+.light .border-slate-800\/80,
+.light .border-slate-800\/60,
+.light .border-slate-700,
+.light .border-slate-700\/80,
+.light .border-slate-700\/60,
+.light-mode .border-slate-800,
+.light-mode .border-slate-800\/80,
+.light-mode .border-slate-800\/60,
+.light-mode .border-slate-700,
+.light-mode .border-slate-700\/80,
+.light-mode .border-slate-700\/60,
+[data-theme="light"] .border-slate-800,
+[data-theme="light"] .border-slate-800\/80,
+[data-theme="light"] .border-slate-800\/60,
+[data-theme="light"] .border-slate-700,
+[data-theme="light"] .border-slate-700\/80,
+[data-theme="light"] .border-slate-700\/60 {
+  border-color: #E2E8F0 !important;
+}
+
+/* Neutral Text Overrides (Do not target white text globally to preserve buttons) */
+.light .text-slate-100,
+.light .text-slate-200,
+.light-mode .text-slate-100,
+.light-mode .text-slate-200,
+[data-theme="light"] .text-slate-100,
+[data-theme="light"] .text-slate-200 {
+  color: #0F172A !important;
+}
+
+.light .text-slate-300,
+.light .text-slate-400,
+.light-mode .text-slate-300,
+.light-mode .text-slate-400,
+[data-theme="light"] .text-slate-300,
+[data-theme="light"] .text-slate-400 {
+  color: #475569 !important;
+}
+
+.light .text-slate-500,
+.light-mode .text-slate-500,
+[data-theme="light"] .text-slate-500 {
+  color: #64748B !important;
+}
+
+/* Headings / Title text that used text-white on dark surfaces */
+.light h1.text-white,
+.light-mode h1.text-white,
+[data-theme="light"] h1.text-white,
+.light h2.text-white,
+.light-mode h2.text-white,
+[data-theme="light"] h2.text-white,
+.light h3.text-white,
+.light-mode h3.text-white,
+[data-theme="light"] h3.text-white,
+.light h4.text-white,
+.light-mode h4.text-white,
+[data-theme="light"] h4.text-white,
+.light p.text-white,
+.light-mode p.text-white,
+[data-theme="light"] p.text-white,
+.light span.text-white:not([class*="bg-"]):not([class*="from-"]):not([class*="to-"]),
+.light-mode span.text-white:not([class*="bg-"]):not([class*="from-"]):not([class*="to-"]),
+[data-theme="light"] span.text-white:not([class*="bg-"]):not([class*="from-"]):not([class*="to-"]) {
+  color: #0F172A !important;
+}
+
+/* Form Controls */
+.light input:not([type="checkbox"]):not([type="radio"]),
+.light select,
+.light textarea,
+.light-mode input:not([type="checkbox"]):not([type="radio"]),
+.light-mode select,
+.light-mode textarea,
+[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+.light input::placeholder,
+.light textarea::placeholder,
+.light-mode input::placeholder,
+.light-mode textarea::placeholder,
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+.light select option,
+.light-mode select option,
+[data-theme="light"] select option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+/* CRITICAL: Retain crisp white text on colored buttons & badges in light mode */
+.light button[class*="bg-blue-"] .text-white,
+.light-mode button[class*="bg-blue-"] .text-white,
+[data-theme="light"] button[class*="bg-blue-"] .text-white,
+.light button[class*="bg-cyan-"] .text-white,
+.light-mode button[class*="bg-cyan-"] .text-white,
+[data-theme="light"] button[class*="bg-cyan-"] .text-white,
+.light button[class*="bg-rose-"] .text-white,
+.light-mode button[class*="bg-rose-"] .text-white,
+[data-theme="light"] button[class*="bg-rose-"] .text-white,
+.light button[class*="bg-emerald-"] .text-white,
+.light-mode button[class*="bg-emerald-"] .text-white,
+[data-theme="light"] button[class*="bg-emerald-"] .text-white,
+.light button[class*="bg-orange-"] .text-white,
+.light-mode button[class*="bg-orange-"] .text-white,
+[data-theme="light"] button[class*="bg-orange-"] .text-white,
+.light a[class*="bg-gradient-"] .text-white,
+.light button[class*="bg-gradient-"] .text-white,
+.light a[class*="bg-gradient-"],
+.light button[class*="bg-gradient-"] {
+  color: #FFFFFF !important;
+}
+
+/* Modals & Dropdown Elevation in Light Mode */
+.light .shadow-xl,
+.light-mode .shadow-xl,
+[data-theme="light"] .shadow-xl,
+.light .shadow-2xl,
+.light-mode .shadow-2xl,
+[data-theme="light"] .shadow-2xl {
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.05), 0 0 0 1px rgba(15, 23, 42, 0.06) !important;
+}

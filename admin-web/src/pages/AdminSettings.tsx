@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTheme, ThemeMode } from '../context/ThemeContext';
 import {
   Settings,
   Percent,
@@ -6,10 +7,15 @@ import {
   Save,
   CheckCircle2,
   Lock,
-  DollarSign
+  DollarSign,
+  Palette,
+  Sun,
+  Moon,
+  Monitor
 } from 'lucide-react';
 
 export const AdminSettings: React.FC = () => {
+  const { theme, setTheme } = useTheme();
   const [defaultCommission, setDefaultCommission] = useState<number>(15.0);
   const [defaultCgst, setDefaultCgst] = useState<number>(2.5);
   const [defaultSgst, setDefaultSgst] = useState<number>(2.5);
@@ -144,6 +150,65 @@ export const AdminSettings: React.FC = () => {
                 <option value="OPTIONAL">Optional for Development</option>
               </select>
             </div>
+          </div>
+        </div>
+
+        {/* Display & Visual Theme Policy */}
+        <div className="space-y-4 pt-2">
+          <h2 className="text-sm font-black text-white flex items-center gap-2 border-b border-slate-800 pb-2">
+            <Palette className="w-4 h-4 text-pink-400" />
+            <span>Display Appearance & System Theme</span>
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {[
+              {
+                key: 'LIGHT' as ThemeMode,
+                label: 'Light Mode',
+                icon: Sun,
+                desc: 'Clean, high-contrast daytime governance workspace.',
+                preview: 'bg-white border-slate-300'
+              },
+              {
+                key: 'DARK' as ThemeMode,
+                label: 'Dark Mode',
+                icon: Moon,
+                desc: 'Deep slate theme for NOC operations and low fatigue.',
+                preview: 'bg-[#090D16] border-slate-700'
+              },
+              {
+                key: 'SYSTEM' as ThemeMode,
+                label: 'System Adaptive',
+                icon: Monitor,
+                desc: 'Follows operating system dark/light configuration.',
+                preview: 'bg-gradient-to-r from-white to-[#090D16] border-slate-500'
+              }
+            ].map(({ key, label, icon: Icon, desc, preview }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setTheme(key)}
+                className={`p-4 rounded-2xl border-2 text-left transition cursor-pointer ${
+                  theme === key
+                    ? 'border-cyan-500 bg-cyan-500/10'
+                    : 'border-slate-800 bg-slate-900/60 hover:border-slate-700'
+                }`}
+              >
+                <div className={`w-full h-8 rounded-xl mb-3 border ${preview}`} />
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <Icon className={`w-4 h-4 ${theme === key ? 'text-cyan-400' : 'text-slate-400'}`} />
+                    <span className="font-black text-xs text-white">{label}</span>
+                  </div>
+                  {theme === key && (
+                    <span className="px-1.5 py-0.5 bg-cyan-500 text-white text-[9px] font-black rounded-full">
+                      ACTIVE
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">{desc}</p>
+              </button>
+            ))}
           </div>
         </div>
 

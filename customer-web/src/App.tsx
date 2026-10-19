@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThemeProvider } from './context/ThemeContext';
 import { CustomerProvider, useCustomer } from './context/CustomerContext';
 import { Header } from './components/Header';
 import { MobileBottomNav } from './components/MobileBottomNav';
@@ -17,7 +18,7 @@ const CustomerMain: React.FC = () => {
   const { activeView } = useCustomer();
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-slate-100 flex flex-col selection:bg-orange-500 selection:text-white antialiased">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-orange-500 selection:text-white antialiased transition-colors duration-150">
       <Header />
       <ServiceModal />
       <QrScannerModal />

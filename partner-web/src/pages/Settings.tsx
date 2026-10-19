@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   Building2,
   MapPin,
@@ -140,9 +141,7 @@ export const Settings: React.FC = () => {
   const [receiptPreviewMode, setReceiptPreviewMode] = useState<'FINAL_BILL' | 'KITCHEN_KOT'>('FINAL_BILL');
   const [browserNotificationPerm, setBrowserNotificationPerm] = useState<NotificationPermission>('default');
 
-  const [appTheme, setAppTheme] = useState<AppTheme>(
-    () => (localStorage.getItem(THEME_KEY) as AppTheme) || 'DARK'
-  );
+  const { theme: appTheme, setTheme: setAppTheme } = useTheme();
 
   // Check notification permission on mount
   useEffect(() => {
@@ -150,24 +149,6 @@ export const Settings: React.FC = () => {
       setBrowserNotificationPerm(Notification.permission);
     }
   }, []);
-
-  // Synchronize App Theme Live
-  useEffect(() => {
-    const applyTheme = () => {
-      const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const isLight = appTheme === 'LIGHT' || (appTheme === 'SYSTEM' && !isSystemDark);
-      if (isLight) {
-        document.documentElement.classList.add('light-mode');
-        document.body.classList.add('light-mode');
-      } else {
-        document.documentElement.classList.remove('light-mode');
-        document.body.classList.remove('light-mode');
-      }
-    };
-
-    applyTheme();
-    localStorage.setItem(THEME_KEY, appTheme);
-  }, [appTheme]);
 
   const p = loadSettings();
   const [s, setS] = useState<SettingsState>({

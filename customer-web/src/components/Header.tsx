@@ -1,12 +1,14 @@
 import React from 'react';
 import { useCustomer } from '../context/CustomerContext';
-import { Download, QrCode, User } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+import { Download, QrCode, User, Sun, Moon } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const { setActiveView, setShowQrScannerModal, user, openAuthModal } = useCustomer();
+  const { isDark, toggleTheme } = useTheme();
 
   return (
-    <header className="h-16 bg-[#121824]/95 backdrop-blur-xl border-b border-slate-800 px-3 sm:px-6 sticky top-0 z-30 flex items-center justify-between shadow-xl">
+    <header className="h-16 bg-white/95 dark:bg-[#121824]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 px-3 sm:px-6 sticky top-0 z-30 flex items-center justify-between shadow-sm dark:shadow-xl transition-colors duration-150">
       {/* Clean Brand Identity */}
       <div
         onClick={() => setActiveView('HOME')}
@@ -14,15 +16,30 @@ export const Header: React.FC = () => {
         title="DineDeck Home"
       >
         <img
-          src="/dinedeck-logo-dark.png"
+          src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
           alt="DineDeck"
           className="h-7 sm:h-8 object-contain transform active:scale-95 group-hover:opacity-95 transition"
           draggable={false}
         />
       </div>
 
-      {/* Top Right Controls: Account/Login + Scanner (Desktop only) + Download App */}
+      {/* Top Right Controls: Theme Toggle + Account/Login + Scanner (Desktop only) + Download App */}
       <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* Theme Toggle Button */}
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="p-1.5 sm:p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-900/90 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700/80 text-slate-700 dark:text-orange-400 transition flex items-center justify-center cursor-pointer shadow-sm active:scale-95 shrink-0"
+          title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+          aria-label="Toggle visual theme"
+        >
+          {isDark ? (
+            <Sun className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-amber-400" />
+          ) : (
+            <Moon className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-slate-700" />
+          )}
+        </button>
+
         {/* User Account / Log in Pill */}
         {user ? (
           <button

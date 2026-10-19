@@ -9,35 +9,35 @@ import androidx.compose.ui.graphics.Color
 
 private val DarkColorScheme = darkColorScheme(
     primary = OrangePrimary,
-    onPrimary = TextPrimary,
+    onPrimary = Color.White,
     secondary = AmberAccent,
     background = DarkBackground,
     surface = DarkSurface,
     surfaceVariant = DarkSurfaceElevated,
-    onBackground = TextPrimary,
-    onSurface = TextPrimary,
-    onSurfaceVariant = TextSecondary,
+    onBackground = Color.White,
+    onSurface = Color.White,
+    onSurfaceVariant = Color(0xFFCBD5E1),
     outline = DarkBorder,
     error = RedDanger
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = OrangeDark,
-    onPrimary = TextPrimary,
+    primary = OrangePrimary,
+    onPrimary = Color.White,
     secondary = AmberAccent,
     background = Color(0xFFF8FAFC),
     surface = Color(0xFFFFFFFF),
     surfaceVariant = Color(0xFFF1F5F9),
     onBackground = Color(0xFF0F172A),
     onSurface = Color(0xFF0F172A),
-    onSurfaceVariant = Color(0xFF64748B),
-    outline = Color(0xFFE2E8F0),
+    onSurfaceVariant = Color(0xFF475569),
+    outline = Color(0xFFCBD5E1),
     error = RedDanger
 )
 
 @Composable
 fun DineDeckTheme(
-    darkTheme: Boolean = true,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) DarkColorScheme else LightColorScheme

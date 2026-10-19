@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import {
   UtensilsCrossed,
   Bell,
@@ -14,7 +15,9 @@ import {
   Trash2,
   Maximize2,
   Minimize2,
-  Power
+  Power,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -31,10 +34,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   isMobileMenuOpen = false
 }) => {
   const { user, restaurant, branch, wsStatus, logout, assignedRoles } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
   const primaryRole = assignedRoles.length > 0 ? assignedRoles[0] : 'STAFF';
 
   return (
-    <header className="h-16 bg-[#0F172A]/90 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-md">
+    <header className="h-16 bg-white/95 dark:bg-[#0F172A]/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm dark:shadow-md transition-colors duration-150">
       {/* Left Brand + Mobile Drawer Trigger */}
       <div className="flex items-center space-x-3">
         <button
@@ -118,11 +122,26 @@ export const Navbar: React.FC<NavbarProps> = ({
           <span className="hidden md:inline">Reset to 0</span>
         </button>
 
+        {/* Quick Theme Toggle */}
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-orange-400 transition border border-slate-300 dark:border-slate-700 shrink-0 cursor-pointer shadow-sm active:scale-95"
+          title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+          aria-label="Toggle visual theme"
+        >
+          {isDark ? (
+            <Sun className="w-4 h-4 text-amber-400" />
+          ) : (
+            <Moon className="w-4 h-4 text-slate-700" />
+          )}
+        </button>
+
         {/* Refresh Action */}
         {onRefresh && (
           <button
             onClick={onRefresh}
-            className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition border border-slate-700 shrink-0"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition border border-slate-300 dark:border-slate-700 shrink-0 cursor-pointer shadow-sm active:scale-95"
             title="Refresh Live State"
           >
             <RefreshCw className="w-4 h-4" />

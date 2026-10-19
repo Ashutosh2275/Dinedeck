@@ -49,35 +49,6 @@ export const App: React.FC = () => {
   // Incoming Order Pop-up Alert State
   const [incomingOrderAlert, setIncomingOrderAlert] = useState<Order | null>(null);
 
-  // Global App Theme Synchronization (Dark, Light, System)
-  useEffect(() => {
-    const applyTheme = () => {
-      const saved = (localStorage.getItem('dinedeck_app_theme') as 'DARK' | 'LIGHT' | 'SYSTEM') || 'DARK';
-      const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const isLight = saved === 'LIGHT' || (saved === 'SYSTEM' && !isSystemDark);
-
-      if (isLight) {
-        document.documentElement.classList.add('light-mode');
-        document.body.classList.add('light-mode');
-      } else {
-        document.documentElement.classList.remove('light-mode');
-        document.body.classList.remove('light-mode');
-      }
-    };
-
-    applyTheme();
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const listener = () => applyTheme();
-    mediaQuery.addEventListener('change', listener);
-    window.addEventListener('storage', listener);
-
-    return () => {
-      mediaQuery.removeEventListener('change', listener);
-      window.removeEventListener('storage', listener);
-    };
-  }, []);
-
   const playOrderChime = useCallback(() => {
     try {
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
@@ -274,7 +245,7 @@ export const App: React.FC = () => {
   const activeOrdersCount = orders.filter((o) => ['CONFIRMED', 'PREPARING', 'READY'].includes(o.status)).length;
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[#0F172A] text-slate-100 flex flex-col selection:bg-orange-500 selection:text-white antialiased">
+    <div className="h-screen w-screen overflow-hidden bg-slate-50 dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-orange-500 selection:text-white antialiased transition-colors duration-150">
       {/* 1. Global Incoming Order Pop-up Alert */}
       <IncomingOrderModal
         order={incomingOrderAlert}
@@ -301,7 +272,7 @@ export const App: React.FC = () => {
           ordersCount={activeOrdersCount}
         />
 
-        <main className="flex-1 overflow-y-auto min-h-0 p-4 md:p-6 lg:p-8 bg-[#0B0F19]">
+        <main className="flex-1 overflow-y-auto min-h-0 p-4 md:p-6 lg:p-8 bg-slate-100 dark:bg-[#0B0F19] transition-colors duration-150">
           {currentTab === 'DASHBOARD' && (
             <Dashboard
               overview={overview}

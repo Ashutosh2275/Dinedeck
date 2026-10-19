@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAdminAuth } from '../context/AdminAuthContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   Shield,
   LogOut,
@@ -7,7 +8,9 @@ import {
   Menu,
   X,
   Maximize2,
-  Power
+  Power,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 interface AdminNavbarProps {
@@ -22,9 +25,10 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
   onOpenSearch
 }) => {
   const { logout } = useAdminAuth();
+  const { isDark, toggleTheme } = useTheme();
 
   return (
-    <header className="h-16 bg-[#0E131F]/90 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-lg shrink-0">
+    <header className="h-16 bg-white/95 dark:bg-[#0E131F]/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm dark:shadow-lg shrink-0 transition-colors duration-150">
       <div className="flex items-center space-x-3">
         <button
           onClick={onToggleMobileMenu}
@@ -39,7 +43,7 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
             <div className="flex items-center space-x-2">
               <div className="flex items-center gap-2">
                 <img
-                  src="/dinedeck-logo-dark.png"
+                  src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
                   alt="DineDeck"
                   className="h-6 sm:h-7 object-contain"
                   draggable={false}
@@ -117,6 +121,21 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
               </button>
             </>
           )}
+
+          {/* Quick Theme Toggle */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-cyan-400 transition shrink-0 cursor-pointer shadow-sm active:scale-95"
+            title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+            aria-label="Toggle visual theme"
+          >
+            {isDark ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-slate-700" />
+            )}
+          </button>
 
           <button
             onClick={logout}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
+import { useTheme } from './context/ThemeContext';
 import { AdminNavbar } from './components/AdminNavbar';
 import { AdminSidebar, AdminTab } from './components/AdminSidebar';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
@@ -36,11 +37,14 @@ import {
   DollarSign,
   FileCheck,
   Lock,
-  ArrowRight
+  ArrowRight,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 const AdminLogin: React.FC = () => {
   const { login } = useAdminAuth();
+  const { isDark, toggleTheme } = useTheme();
   const [email, setEmail] = useState('superadmin@dinedeck.in');
   const [password, setPassword] = useState('Dinedeck@2026');
   const [isLoading, setIsLoading] = useState(false);
@@ -58,12 +62,25 @@ const AdminLogin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#090D16] flex items-center justify-center p-4">
-      <div className="bg-[#0E131F] border border-slate-800 rounded-3xl max-w-md w-full p-8 space-y-6 shadow-2xl">
+    <div className="relative min-h-screen bg-slate-50 dark:bg-[#090D16] flex items-center justify-center p-4 transition-colors duration-150">
+      {/* Top Right Quick Theme Switcher */}
+      <div className="absolute top-4 right-4 z-20">
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="p-2.5 rounded-2xl bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-cyan-400 border border-slate-200 dark:border-slate-700 shadow-md backdrop-blur-md transition flex items-center gap-1.5 cursor-pointer active:scale-95 text-xs font-bold"
+          title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+        >
+          {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
+          <span className="hidden sm:inline">{isDark ? 'Light' : 'Dark'}</span>
+        </button>
+      </div>
+
+      <div className="bg-white dark:bg-[#0E131F] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-8 space-y-6 shadow-xl dark:shadow-2xl">
         <div className="text-center space-y-3">
           <div className="flex items-center justify-center gap-2.5">
             <img
-              src="/dinedeck-logo-dark.png"
+              src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
               alt="DineDeck"
               className="h-8 object-contain"
               draggable={false}
@@ -164,7 +181,7 @@ const AdminLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#090D16] text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white antialiased">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white antialiased transition-colors duration-150">
       <AdminNavbar
         onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         isMobileMenuOpen={isMobileMenuOpen}
@@ -182,7 +199,7 @@ const AdminLayout: React.FC = () => {
           onCloseMobile={() => setIsMobileMenuOpen(false)}
         />
 
-        <main className="flex-1 p-4 sm:p-6 overflow-y-auto max-h-[calc(100vh-4rem)] pb-20 lg:pb-6 custom-scrollbar">
+        <main className="flex-1 p-4 sm:p-6 overflow-y-auto max-h-[calc(100vh-4rem)] pb-20 lg:pb-6 custom-scrollbar bg-slate-100/60 dark:bg-[#090D16] transition-colors duration-150">
           {currentTab === 'OVERVIEW' && <AdminOverview onNavigate={setCurrentTab} />}
           {currentTab === 'TENANT_SUITE' && <AdminTenantDeepDive />}
           {currentTab === 'USER_DATABASE' && <AdminUserDatabase />}

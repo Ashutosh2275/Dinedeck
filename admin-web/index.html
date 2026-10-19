@@ -16,8 +16,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('dinedeck_theme') || localStorage.getItem('dinedeck_app_theme');
+          var isDark = true;
+          if (saved === 'LIGHT') {
+            isDark = false;
+          } else if (saved === 'SYSTEM' || !saved) {
+            isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          }
+          var doc = document.documentElement;
+          if (isDark) {
+            doc.classList.add('dark');
+            doc.classList.remove('light', 'light-mode');
+            doc.setAttribute('data-theme', 'dark');
+          } else {
+            doc.classList.remove('dark');
+            doc.classList.add('light', 'light-mode');
+            doc.setAttribute('data-theme', 'light');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body class="bg-[#090D16] text-slate-100 antialiased font-['Plus_Jakarta_Sans',sans-serif] selection:bg-blue-600 selection:text-white">
+  <body class="bg-[#F8FAFC] dark:bg-[#090D16] text-slate-900 dark:text-slate-100 antialiased font-['Plus_Jakarta_Sans',sans-serif] selection:bg-blue-600 selection:text-white transition-colors duration-150">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

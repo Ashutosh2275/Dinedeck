@@ -25,6 +25,8 @@ import com.dinedeck.admin.data.AdminRestaurant
 import com.dinedeck.admin.presentation.*
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.res.painterResource
 import com.dinedeck.admin.R
 
@@ -39,17 +41,38 @@ class AdminMainActivity : ComponentActivity() {
     }
 }
 
+private val AdminDarkColorScheme = darkColorScheme(
+    primary = Color(0xFFFF6B00),
+    background = Color(0xFF080B10),
+    surface = Color(0xFF0E131A),
+    surfaceVariant = Color(0xFF151C26),
+    onPrimary = Color.White,
+    onBackground = Color.White,
+    onSurface = Color.White,
+    onSurfaceVariant = Color(0xFF94A3B8),
+    outline = Color(0xFF263345)
+)
+
+private val AdminLightColorScheme = lightColorScheme(
+    primary = Color(0xFFFF6B00),
+    background = Color(0xFFF8FAFC),
+    surface = Color(0xFFFFFFFF),
+    surfaceVariant = Color(0xFFF1F5F9),
+    onPrimary = Color.White,
+    onBackground = Color(0xFF0F172A),
+    onSurface = Color(0xFF0F172A),
+    onSurfaceVariant = Color(0xFF475569),
+    outline = Color(0xFFE2E8F0)
+)
+
 @Composable
-fun AdminAppTheme(content: @Composable () -> Unit) {
+fun AdminAppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colors = if (darkTheme) AdminDarkColorScheme else AdminLightColorScheme
     MaterialTheme(
-        colorScheme = darkColorScheme(
-            primary = Color(0xFFFF6B00),
-            background = Color(0xFF080B10),
-            surface = Color(0xFF0E131A),
-            onPrimary = Color.White,
-            onBackground = Color.White,
-            onSurface = Color.White
-        ),
+        colorScheme = colors,
         content = content
     )
 }
@@ -79,7 +102,7 @@ fun AdminControlCenterApp(
                                 "DINEDECK Control Center",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
                                 "PLATFORM ADMIN • superadmin@dinedeck.in",
@@ -99,12 +122,12 @@ fun AdminControlCenterApp(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0E131A)
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             )
         },
         bottomBar = {
-            NavigationBar(containerColor = Color(0xFF0E131A)) {
+            NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 NavigationBarItem(
                     selected = state.selectedTab == 0 && state.selectedRestaurant == null,
                     onClick = { viewModel.setTab(0) },
@@ -137,7 +160,7 @@ fun AdminControlCenterApp(
                 )
             }
         },
-        containerColor = Color(0xFF080B10)
+        containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         Box(
             modifier = Modifier
