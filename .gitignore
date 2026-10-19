@@ -99,3 +99,9 @@ _quarantine/
 test-results/
 coverage/
 scratch/
+docs/assets/screenshots/
+screenshots/
+*.bak
+*.backup
+*.old
+*.tmp

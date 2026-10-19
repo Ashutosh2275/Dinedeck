@@ -462,7 +462,7 @@ class MockDataEngine @Inject constructor() {
         onlyOpen: Boolean = false,
         vegOnly: Boolean = false
     ): List<Restaurant> {
-        return restaurants.values.filter { r ->
+        return restaurants.values.distinctBy { it.id }.filter { r ->
             val matchesQuery = query.isBlank() || r.name.contains(query, ignoreCase = true) || r.address.contains(query, ignoreCase = true)
             val matchesCuisine = cuisine.isNullOrBlank() || r.cuisines.any { it.contains(cuisine, ignoreCase = true) }
             val matchesRating = minRating == null || r.rating >= minRating
@@ -536,11 +536,20 @@ class MockDataEngine @Inject constructor() {
                 tableNum = uri.getQueryParameter("table")?.toIntOrNull() ?: uri.getQueryParameter("t")?.toIntOrNull() ?: 4
             } else if (qrData.contains("/")) {
                 val parts = qrData.trimEnd('/').split("/")
-                val last = parts.lastOrNull()?.toIntOrNull()
-                if (last != null) {
-                    tableNum = last
-                    if (parts.size >= 2) {
-                        restId = parts[parts.size - 2]
+                val tblPart = parts.find { it.startsWith("tbl_") }
+                if (tblPart != null) {
+                    tableNum = tblPart.removePrefix("tbl_").toIntOrNull() ?: 4
+                    val tblIdx = parts.indexOf(tblPart)
+                    if (tblIdx >= 2) {
+                        restId = parts[tblIdx - 2]
+                    }
+                } else {
+                    val last = parts.lastOrNull()?.toIntOrNull()
+                    if (last != null) {
+                        tableNum = last
+                        if (parts.size >= 2) {
+                            restId = parts[parts.size - 2]
+                        }
                     }
                 }
             } else if (qrData.contains(":")) {

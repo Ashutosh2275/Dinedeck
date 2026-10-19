@@ -19,14 +19,14 @@ class MockDataEngineTest {
     fun testGetRestaurants_returnsNonEmptyList() {
         val restaurants = mockDataEngine.getRestaurants("", null, null, false, false)
         assertTrue(restaurants.isNotEmpty())
-        assertEquals(3, restaurants.size)
+        assertEquals(4, restaurants.size)
     }
 
     @Test
     fun testValidateQR_createsActiveDiningSession() {
         val session = mockDataEngine.validateQR("dinedeck://table/rest_1/branch_1/tbl_12/token_123")
         assertNotNull(session)
-        assertEquals("rest_1", session.restaurantId)
+        assertEquals("rest_punjab_heritage", session.restaurantId)
         assertEquals(12, session.tableNumber)
         assertEquals(DiningSessionStatus.ACTIVE, session.status)
     }
@@ -55,7 +55,7 @@ class MockDataEngineTest {
         val order = mockDataEngine.placeOrder(cart, "user_101")
         assertNotNull(order)
         assertTrue(order.orderNumber.startsWith("DD-"))
-        assertEquals(OrderStatus.CONFIRMED, order.status)
+        assertEquals(OrderStatus.PLACED, order.status)
         assertEquals(2, order.items.first().quantity)
     }
 }

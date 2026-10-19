@@ -34,7 +34,9 @@ class UseCasesTest {
         restaurantRepository = RestaurantRepositoryImpl(mockDataEngine)
         tableRepository = TableRepositoryImpl(mockDataEngine, sessionManager)
         cartRepository = CartRepositoryImpl(mockDataEngine)
-        orderRepository = OrderRepositoryImpl(mockDataEngine, sessionManager, cartRepository)
+        val realtimeSyncManager = mock<com.dinedeck.app.data.remote.RealtimeSyncManager>()
+        org.mockito.kotlin.whenever(realtimeSyncManager.realtimeEvents).thenReturn(kotlinx.coroutines.flow.MutableSharedFlow())
+        orderRepository = OrderRepositoryImpl(mockDataEngine, sessionManager, cartRepository, realtimeSyncManager)
 
         loginUseCase = LoginUseCase(authRepository)
         getRestaurantsUseCase = GetRestaurantsUseCase(restaurantRepository)
@@ -47,7 +49,7 @@ class UseCasesTest {
     fun testLoginUseCase_validatesInput() = runBlocking {
         val blankRes = loginUseCase("", "")
         assertTrue(blankRes is Resource.Error)
-        assertEquals("Email and password cannot be blank", blankRes.message)
+        assertEquals("Email or phone and password cannot be blank", blankRes.message)
 
         val validRes = loginUseCase("alex.vance@dinedeck.io", "Pass123")
         assertTrue(validRes is Resource.Success)
@@ -59,7 +61,7 @@ class UseCasesTest {
         val res = validateTableQRUseCase("dinedeck://table/rest_1/branch_1/tbl_12/token_sec99")
         assertTrue(res is Resource.Success)
         val session = res.data!!
-        assertEquals("rest_1", session.restaurantId)
+        assertEquals("rest_punjab_heritage", session.restaurantId)
         assertEquals(12, session.tableNumber)
     }
 

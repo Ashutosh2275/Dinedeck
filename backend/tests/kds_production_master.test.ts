@@ -41,6 +41,17 @@ describe('DINEDECK KDS Engine & Multi-Station Production Master Suite', () => {
     }
 
     // Ensure staff role exists
+    await prisma.role.upsert({
+      where: { id: 'CHEF' },
+      update: {},
+      create: {
+        id: 'CHEF',
+        name: 'CHEF / KITCHEN STAFF',
+        description: 'Kitchen chef and cooking station staff',
+        isSystem: true
+      }
+    });
+
     await prisma.userRole.upsert({
       where: { id: `role_chef_${testChefUser.id}` },
       update: {},

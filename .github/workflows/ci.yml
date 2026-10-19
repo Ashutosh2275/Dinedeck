@@ -59,12 +59,28 @@ jobs:
         working-directory: backend
         run: npm run build
 
+      - name: Push Database Schema
+        working-directory: backend
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/dinedeck_prod?schema=public"
+        run: npx prisma db push
+
+      - name: Seed Database
+        working-directory: backend
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/dinedeck_prod?schema=public"
+          REDIS_URL: "redis://localhost:6379"
+          JWT_SECRET: "test_secret_ci_cd_key_2026"
+        run: npm run db:seed
+
       - name: Run Test Suite
         working-directory: backend
         env:
           DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/dinedeck_prod?schema=public"
           REDIS_URL: "redis://localhost:6379"
           JWT_SECRET: "test_secret_ci_cd_key_2026"
+          PORT: 8080
+          HOST: "0.0.0.0"
         run: npm test
 
   frontend-builds:

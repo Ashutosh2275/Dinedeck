@@ -196,6 +196,59 @@ export const ROLE_TEMPLATES: Record<string, {
       'settings.read',
       'audit.read'
     ]
+  },
+  GENERAL_MANAGER: {
+    id: 'GENERAL_MANAGER',
+    name: 'GENERAL MANAGER',
+    badgeColor: 'bg-blue-500/20 text-blue-400 border-blue-500/40',
+    description: 'Operational manager with authority over floor, kitchen, service, and inventory',
+    permissions: [
+      'orders.read', 'orders.accept', 'orders.reject', 'orders.update', 'orders.cancel', 'orders.history', 'orders.create',
+      'kds.view', 'kds.orders.accept', 'orders.prepare', 'orders.ready', 'orders.serve', 'kds.queue.manage', 'kds.analytics.read',
+      'service_requests.read', 'service_requests.acknowledge', 'service_requests.resolve', 'service_requests.assign', 'service_requests.history', 'service_requests.create',
+      'menu.read', 'menu.update', 'menu.availability.update', 'menu.availability.manage',
+      'tables.read', 'tables.update', 'tables.status.update', 'tables.assign', 'tables.transfer', 'tables.merge', 'tables.close',
+      'billing.read', 'billing.create', 'billing.print', 'billing.taxes.view', 'billing.payment_status.view',
+      'payments.read', 'reports.read', 'reports.daily', 'reports.sales', 'reports.kitchen', 'reports.staff',
+      'reservations.read', 'reservations.create', 'reservations.update', 'reservations.cancel', 'reservations.seat',
+      'inventory.read', 'inventory.update', 'inventory.adjust', 'inventory.reports.view',
+      'settings.read', 'audit.read'
+    ]
+  },
+  CHEF: {
+    id: 'CHEF',
+    name: 'CHEF / KITCHEN STAFF',
+    badgeColor: 'bg-amber-500/20 text-amber-400 border-amber-500/40',
+    description: 'Kitchen chef with cooking queue management and KOT advancement authority',
+    permissions: [
+      'orders.read', 'orders.accept', 'orders.update',
+      'kds.view', 'kds.orders.accept', 'orders.prepare', 'orders.ready', 'kds.queue.manage',
+      'menu.read', 'menu.availability.update',
+      'inventory.read', 'inventory.update'
+    ]
+  },
+  WAITER: {
+    id: 'WAITER',
+    name: 'WAITER / CAPTAIN',
+    badgeColor: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/40',
+    description: 'Floor steward with order taking, food delivery, table assignment, and service assistance authority',
+    permissions: [
+      'orders.read', 'orders.create', 'orders.update', 'orders.serve',
+      'service_requests.read', 'service_requests.acknowledge', 'service_requests.resolve',
+      'tables.read', 'tables.status.update', 'tables.assign', 'tables.transfer',
+      'menu.read', 'reservations.read', 'reservations.seat'
+    ]
+  },
+  CASHIER: {
+    id: 'CASHIER',
+    name: 'CASHIER / BILLING DESK',
+    badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40',
+    description: 'Cashier with bill generation, printing, payment settlement, and tax receipt authority',
+    permissions: [
+      'billing.read', 'billing.create', 'billing.print', 'billing.discount', 'billing.taxes.view', 'billing.payment_status.view', 'billing.settle',
+      'payments.read', 'payments.create', 'payments.verify',
+      'orders.read', 'tables.read', 'reports.daily', 'reports.sales'
+    ]
   }
 };
 
