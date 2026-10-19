@@ -1012,29 +1012,29 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* ------------------------------------------------------------- */}
       {selectedTableDetails && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111827] border border-slate-800 rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl space-y-4 p-6">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl space-y-4 p-6">
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800 gap-3">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800 gap-3">
               <div className="flex items-center space-x-3 min-w-0">
                 <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center font-mono font-black text-white text-xs shrink-0 shadow-lg shadow-orange-500/20 whitespace-nowrap">
                   {getTableShortBadge(selectedTableDetails.tableNumber)}
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center space-x-2">
-                    <h3 className="text-base font-black text-white whitespace-nowrap truncate">
+                    <h3 className="text-base font-black text-slate-900 dark:text-white whitespace-nowrap truncate">
                       {getFormattedTableTitle(selectedTableDetails.tableNumber)}
                     </h3>
                     <button
                       type="button"
                       onClick={() => setIsEditingTable(!isEditingTable)}
-                      className="px-2 py-0.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-orange-400 text-[10px] font-bold transition flex items-center space-x-1 border border-slate-700"
+                      className="px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 text-[10px] font-bold transition flex items-center space-x-1 border border-slate-200 dark:border-slate-700"
                       title="Configure Table Floor & Seating Capacity"
                     >
-                      <Settings className="w-3 h-3 text-orange-400" />
+                      <Settings className="w-3 h-3 text-orange-500 dark:text-orange-400" />
                       <span>Configure Floor & Seats</span>
                     </button>
                   </div>
-                  <span className="text-xs text-slate-400 whitespace-nowrap truncate block">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap truncate block">
                     {getTableFloor(selectedTableDetails)} • {selectedTableDetails.capacity || 4} Seater Dining Table
                   </span>
                 </div>
@@ -1156,12 +1156,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
             {/* Modal Body: QR Standee & Operational Details */}
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center">
               {/* Left 5 Cols: Live Scannable Table QR Standee */}
-              <div className="sm:col-span-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 text-center space-y-3 flex flex-col items-center">
-                <div className="text-[10px] font-black uppercase tracking-wider text-orange-400">
+              <div className="sm:col-span-5 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 text-center space-y-3 flex flex-col items-center">
+                <div className="text-[10px] font-black uppercase tracking-wider text-orange-600 dark:text-orange-400">
                   Dine-In QR Code Standee
                 </div>
 
-                <div className="p-3 bg-white rounded-2xl shadow-xl">
+                <div className="p-3 bg-white rounded-2xl shadow-md border border-slate-200 dark:border-transparent">
                   <img
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(
                       getTableQrUrl(selectedTableDetails)
@@ -1172,7 +1172,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </div>
 
                 <div className="space-y-1">
-                  <div className="text-xs font-bold text-white">Scan & Order on Mobile</div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-white">Scan & Order on Mobile</div>
                   <div className="text-[10px] text-slate-500">Self-serve menu, live orders & UPI payment</div>
                 </div>
 
@@ -1180,16 +1180,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <button
                     type="button"
                     onClick={() => copyTableLink(selectedTableDetails)}
-                    className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-slate-700"
+                    className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-slate-200 dark:border-slate-700"
                   >
-                    {copySuccess ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    {copySuccess ? <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-3 h-3" />}
                     <span>{copySuccess ? 'Link Copied!' : 'Copy Link'}</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => window.print()}
-                    className="flex-1 py-2 bg-orange-500/15 hover:bg-orange-500/25 text-orange-400 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-orange-500/30"
+                    className="flex-1 py-2 bg-orange-500/10 hover:bg-orange-500/20 text-orange-600 dark:text-orange-400 font-bold rounded-xl text-[10px] transition flex items-center justify-center space-x-1 border border-orange-500/30"
                   >
                     <Printer className="w-3 h-3" />
                     <span>Print QR</span>
@@ -1200,8 +1200,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
               {/* Right 7 Cols: Live Running Order & Table Actions */}
               <div className="sm:col-span-7 space-y-4">
                 {/* Active Session Summary */}
-                <div className="p-3.5 bg-slate-900/90 border border-slate-800 rounded-2xl space-y-2">
-                  <div className="text-xs font-bold text-slate-400 flex items-center justify-between">
+                <div className="p-3.5 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl space-y-2">
+                  <div className="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center justify-between">
                     <span>Live Dining Session</span>
                     <span className="text-slate-500">Floor: {getTableFloor(selectedTableDetails)}</span>
                   </div>
@@ -1213,18 +1213,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   ) : (
                     <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1">
                       {getTableActiveOrders(selectedTableDetails.tableNumber).map((ord) => (
-                        <div key={ord.id} className="p-2 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-between text-xs">
+                        <div key={ord.id} className="p-2 bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
                           <div>
-                            <div className="font-bold text-white font-mono">{ord.orderNumber}</div>
-                            <div className="text-[10px] text-slate-400">
+                            <div className="font-bold text-slate-900 dark:text-white font-mono">{ord.orderNumber}</div>
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400">
                               {ord.items?.map((i) => `${i.quantity}x ${i.name}`).join(', ')}
                             </div>
                           </div>
                           <div className="text-right">
-                            <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 font-bold text-[10px]">
+                            <span className="px-2 py-0.5 rounded bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-bold text-[10px]">
                               {ord.status}
                             </span>
-                            <div className="font-bold text-white text-xs font-mono mt-0.5">
+                            <div className="font-bold text-slate-900 dark:text-white text-xs font-mono mt-0.5">
                               ₹{(ord.totalAmount || 0).toFixed(2)}
                             </div>
                           </div>
@@ -1238,16 +1238,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 {tableReservationMap.has(selectedTableDetails.tableNumber) && (
                   <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-center justify-between text-xs animate-in fade-in">
                     <div className="flex items-center space-x-2.5">
-                      <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 font-black flex items-center justify-center text-xs shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-500 dark:text-amber-400 font-black flex items-center justify-center text-xs shrink-0">
                         📅
                       </div>
                       <div>
-                        <div className="text-[10px] uppercase font-bold text-amber-400">Guest Reservation</div>
-                        <div className="text-white font-bold text-xs">
+                        <div className="text-[10px] uppercase font-bold text-amber-600 dark:text-amber-400">Guest Reservation</div>
+                        <div className="text-slate-900 dark:text-white font-bold text-xs">
                           {tableReservationMap.get(selectedTableDetails.tableNumber).guestName} • {tableReservationMap.get(selectedTableDetails.tableNumber).partySize} Guests • {tableReservationMap.get(selectedTableDetails.tableNumber).time}
                         </div>
                         {tableReservationMap.get(selectedTableDetails.tableNumber).notes && (
-                          <div className="text-[10px] text-slate-400 italic">
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400 italic">
                             Note: {tableReservationMap.get(selectedTableDetails.tableNumber).notes}
                           </div>
                         )}
@@ -1272,17 +1272,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 )}
 
                 {/* Assigned Waiter & Inline Reassign Card */}
-                <div className="p-3.5 bg-slate-900/90 border border-slate-800 rounded-2xl space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-slate-400">
-                    <span className="flex items-center space-x-1.5 text-slate-300">
-                      <UserCheck className="w-3.5 h-3.5 text-amber-400" />
+                <div className="p-3.5 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl space-y-2">
+                  <div className="flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-400">
+                    <span className="flex items-center space-x-1.5 text-slate-700 dark:text-slate-300">
+                      <UserCheck className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
                       <span>Assigned Waiter</span>
                     </span>
                     {!isEditingWaiter ? (
                       <button
                         type="button"
                         onClick={() => setIsEditingWaiter(true)}
-                        className="text-[11px] font-bold text-orange-400 hover:text-orange-300 transition"
+                        className="text-[11px] font-bold text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition"
                       >
                         Reassign Waiter
                       </button>
@@ -1290,7 +1290,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       <button
                         type="button"
                         onClick={() => setIsEditingWaiter(false)}
-                        className="text-[11px] text-slate-500 hover:text-white"
+                        className="text-[11px] text-slate-500 hover:text-slate-800 dark:hover:text-white"
                       >
                         Cancel
                       </button>
@@ -1298,20 +1298,20 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   </div>
 
                   {waiterChangeSuccess && (
-                    <div className="p-2 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded-xl text-[11px] font-bold flex items-center space-x-1.5 animate-in fade-in">
+                    <div className="p-2 bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 rounded-xl text-[11px] font-bold flex items-center space-x-1.5 animate-in fade-in">
                       <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                       <span>{waiterChangeSuccess}</span>
                     </div>
                   )}
 
                   {!isEditingWaiter ? (
-                    <div className="flex items-center justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800 text-xs">
+                    <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-xs">
                       <div className="flex items-center space-x-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs border border-amber-500/30">
+                        <div className="w-8 h-8 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-xs border border-amber-500/30">
                           {selectedTableDetails.assignedServer?.name?.charAt(0) || 'R'}
                         </div>
                         <div>
-                          <div className="font-bold text-white text-xs">
+                          <div className="font-bold text-slate-900 dark:text-white text-xs">
                             {selectedTableDetails.assignedServer?.name || 'Ramesh Kumar'}
                           </div>
                           <div className="text-[10px] text-slate-500">
@@ -1319,7 +1319,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                           </div>
                         </div>
                       </div>
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
                         Active Server
                       </span>
                     </div>
@@ -1429,26 +1429,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* ------------------------------------------------------------- */}
       {showPosModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111827] border border-slate-800 rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
             {/* Modal Header */}
-            <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+            <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-900/80">
               <div className="flex items-center space-x-2">
-                <div className="p-2 rounded-xl bg-orange-500/20 text-orange-400">
+                <div className="p-2 rounded-xl bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400">
                   <Utensils className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-black text-white">Take POS Order</h3>
-                  <span className="text-[10px] text-slate-400">Direct Kitchen Ticket & KOT Generation</span>
+                  <h3 className="text-sm font-black text-slate-900 dark:text-white">Take POS Order</h3>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Direct Kitchen Ticket & KOT Generation</span>
                 </div>
               </div>
 
               {/* Dine-In vs Takeaway Toggle */}
-              <div className="flex items-center space-x-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-bold">
+              <div className="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-bold">
                 <button
                   type="button"
                   onClick={() => setOrderType('DINE_IN')}
                   className={`px-3 py-1 rounded-lg transition ${
-                    orderType === 'DINE_IN' ? 'bg-orange-500 text-white' : 'text-slate-400 hover:text-white'
+                    orderType === 'DINE_IN' ? 'bg-orange-500 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   Dine-In
@@ -1457,7 +1457,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   type="button"
                   onClick={() => setOrderType('TAKEAWAY')}
                   className={`px-3 py-1 rounded-lg transition ${
-                    orderType === 'TAKEAWAY' ? 'bg-orange-500 text-white' : 'text-slate-400 hover:text-white'
+                    orderType === 'TAKEAWAY' ? 'bg-orange-500 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   Takeaway / Parcel
@@ -1466,7 +1466,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowPosModal(false)}
-                  className="p-1.5 text-slate-400 hover:text-white ml-2"
+                  className="p-1.5 text-slate-400 hover:text-slate-800 dark:hover:text-white ml-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -1572,7 +1572,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         className={`p-2.5 rounded-xl border transition cursor-pointer flex items-center justify-between ${
                           inCartQty > 0
                             ? 'bg-orange-500/10 border-orange-500/60'
-                            : 'bg-slate-900 border-slate-800 hover:border-slate-700'
+                            : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                         }`}
                       >
                         <div className="min-w-0 pr-2">
@@ -1582,9 +1582,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                                 item.isVeg ? 'bg-emerald-500' : 'bg-rose-500'
                               }`}
                             />
-                            <h4 className="text-xs font-bold text-white truncate">{item.name}</h4>
+                            <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate">{item.name}</h4>
                           </div>
-                          <div className="text-xs font-black text-orange-400 font-mono mt-0.5">
+                          <div className="text-xs font-black text-orange-600 dark:text-orange-400 font-mono mt-0.5">
                             ₹{item.price.toFixed(2)}
                           </div>
                         </div>
@@ -1601,7 +1601,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                               e.stopPropagation();
                               addToCart(item);
                             }}
-                            className="p-1 rounded-lg bg-slate-800 hover:bg-orange-500 hover:text-white text-slate-300 transition"
+                            className="p-1 rounded-lg bg-slate-100 hover:bg-orange-500 dark:bg-slate-800 dark:hover:bg-orange-500 text-slate-700 hover:text-white dark:text-slate-300 transition"
                           >
                             <Plus className="w-3.5 h-3.5" />
                           </button>
@@ -1613,23 +1613,23 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
 
               {/* Right 5 Cols: POS Ticket Cart & Dispatch */}
-              <div className="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 flex flex-col justify-between space-y-3">
+              <div className="lg:col-span-5 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 flex flex-col justify-between space-y-3">
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-xs">
-                    <span className="font-bold text-white">Current Ticket</span>
-                    <span className="text-orange-400 font-bold">{totalCartCount} items</span>
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
+                    <span className="font-bold text-slate-900 dark:text-white">Current Ticket</span>
+                    <span className="text-orange-600 dark:text-orange-400 font-bold">{totalCartCount} items</span>
                   </div>
 
                   {/* Target Table */}
                   {orderType === 'DINE_IN' ? (
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-400 mb-1">
+                      <label className="block text-[10px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                         Seated Table Number
                       </label>
                       <select
                         value={posTableNumber}
                         onChange={(e) => setPosTableNumber(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white font-bold focus:outline-none focus:border-orange-500"
+                        className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white font-bold focus:outline-none focus:border-orange-500"
                       >
                         {sortedTables.map((t) => (
                           <option key={t.id} value={t.tableNumber}>
@@ -1640,7 +1640,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     </div>
                   ) : (
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-400 mb-1">
+                      <label className="block text-[10px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                         Customer / Token Name
                       </label>
                       <input
@@ -1648,7 +1648,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         placeholder="e.g. Ramesh (+91 98200...)"
                         value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-orange-500"
+                        className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-orange-500"
                       />
                     </div>
                   )}
@@ -1663,11 +1663,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       cart.map((item) => (
                         <div
                           key={item.menuItemId}
-                          className="p-2 bg-slate-950/80 rounded-lg border border-slate-800 flex items-center justify-between text-xs"
+                          className="p-2 bg-white dark:bg-slate-950/80 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs"
                         >
                           <div className="truncate pr-1">
-                            <div className="font-bold text-white truncate">{item.name}</div>
-                            <div className="text-[10px] text-slate-400 font-mono">
+                            <div className="font-bold text-slate-900 dark:text-white truncate">{item.name}</div>
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
                               ₹{item.unitPrice} × {item.quantity}
                             </div>
                           </div>
@@ -1676,24 +1676,24 @@ export const Dashboard: React.FC<DashboardProps> = ({
                             <button
                               type="button"
                               onClick={() => updateQuantity(item.menuItemId, -1)}
-                              className="p-0.5 text-slate-400 hover:text-white"
+                              className="p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-white"
                             >
                               <Minus className="w-3 h-3" />
                             </button>
-                            <span className="font-mono font-bold text-xs text-white px-1">
+                            <span className="font-mono font-bold text-xs text-slate-900 dark:text-white px-1">
                               {item.quantity}
                             </span>
                             <button
                               type="button"
                               onClick={() => updateQuantity(item.menuItemId, 1)}
-                              className="p-0.5 text-slate-400 hover:text-white"
+                              className="p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-white"
                             >
                               <Plus className="w-3.5 h-3.5" />
                             </button>
                             <button
                               type="button"
                               onClick={() => removeFromCart(item.menuItemId)}
-                              className="p-0.5 text-rose-400 hover:text-rose-300 ml-1"
+                              className="p-0.5 text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 ml-1"
                             >
                               <Trash2 className="w-3 h-3" />
                             </button>
@@ -1705,7 +1705,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
                   {/* Kitchen Instructions */}
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 mb-1">
+                    <label className="block text-[10px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                       Kitchen Notes
                     </label>
                     <input
@@ -1713,16 +1713,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       placeholder="e.g. Less spicy, serve hot..."
                       value={specialNotes}
                       onChange={(e) => setSpecialNotes(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-orange-500"
+                      className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-orange-500"
                     />
                   </div>
                 </div>
 
                 {/* Submit Button with clean 'Print KOT' text */}
-                <div className="pt-2 border-t border-slate-800 space-y-2">
-                  <div className="flex justify-between items-center text-xs font-bold text-slate-400">
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                  <div className="flex justify-between items-center text-xs font-bold text-slate-600 dark:text-slate-400">
                     <span>Total Amount:</span>
-                    <span className="font-mono text-white font-black text-sm">
+                    <span className="font-mono text-slate-900 dark:text-white font-black text-sm">
                       ₹{cartTotal.toFixed(2)}
                     </span>
                   </div>
@@ -1748,16 +1748,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* ------------------------------------------------------------- */}
       {showResModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <CalendarDays className="w-4 h-4 text-blue-400" />
-                <h3 className="text-sm font-black text-white">New Table Booking</h3>
+                <CalendarDays className="w-4 h-4 text-blue-500 dark:text-blue-400" />
+                <h3 className="text-sm font-black text-slate-900 dark:text-white">New Table Booking</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowResModal(false)}
-                className="p-1 text-slate-400 hover:text-white"
+                className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1765,7 +1765,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
             <form onSubmit={handleAddReservation} className="space-y-3 text-xs">
               <div>
-                <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                   Guest Name
                 </label>
                 <input
@@ -1773,14 +1773,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   placeholder="e.g. Kapil Dev"
                   value={resGuestName}
                   onChange={(e) => setResGuestName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold focus:outline-none focus:border-orange-500"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-orange-500"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                  <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                     Phone Contact
                   </label>
                   <input
@@ -1788,13 +1788,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     placeholder="+91 98112..."
                     value={resGuestPhone}
                     onChange={(e) => setResGuestPhone(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-orange-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-orange-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                  <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                     Party Size
                   </label>
                   <input
@@ -1802,7 +1802,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     min="1"
                     value={resPartySize}
                     onChange={(e) => setResPartySize(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold focus:outline-none focus:border-orange-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-orange-500"
                     required
                   />
                 </div>
@@ -1810,7 +1810,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                  <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                     Booking Time
                   </label>
                   <input
@@ -1818,19 +1818,19 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     value={resTime}
                     onChange={(e) => setResTime(e.target.value)}
                     placeholder="20:30"
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-orange-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-orange-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                  <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
                     Assign Table
                   </label>
                   <select
                     value={resTable}
                     onChange={(e) => setResTable(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold focus:outline-none focus:border-orange-500"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-orange-500"
                   >
                     {sortedTables.map((t) => (
                       <option key={t.id} value={t.tableNumber}>
@@ -1841,11 +1841,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-end space-x-2">
+              <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-2">
                 <button
                   type="button"
                   onClick={() => setShowResModal(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-xs"
                 >
                   Cancel
                 </button>
@@ -1866,41 +1866,41 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* ------------------------------------------------------------- */}
       {showServiceCallsModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111827] border border-slate-800 rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-hidden shadow-2xl flex flex-col">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-hidden shadow-2xl flex flex-col">
             {/* Modal Header */}
-            <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+            <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-900/80">
               <div className="flex items-center space-x-3">
                 <button
                   type="button"
                   onClick={() => setShowServiceCallsModal(false)}
-                  className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center space-x-1 text-xs font-bold"
+                  className="p-1.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition flex items-center space-x-1 text-xs font-bold"
                   title="Back to Home Dashboard"
                 >
-                  <ArrowLeft className="w-4 h-4 text-orange-400" />
+                  <ArrowLeft className="w-4 h-4 text-orange-500" />
                   <span>Back</span>
                 </button>
                 <div>
                   <div className="flex items-center space-x-2">
-                    <h3 className="text-sm font-black text-white">Table Service Call Logs</h3>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                    <h3 className="text-sm font-black text-slate-900 dark:text-white">Table Service Call Logs</h3>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/10 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400 border border-rose-500/30">
                       {pendingCalls.length} Pending
                     </span>
                   </div>
-                  <span className="text-[10px] text-slate-400">Live diner waiter calls, water refills, and bill assistance</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Live diner waiter calls, water refills, and bill assistance</span>
                 </div>
               </div>
 
               <button
                 type="button"
                 onClick={() => setShowServiceCallsModal(false)}
-                className="p-1.5 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition"
+                className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Search & Filter Strip */}
-            <div className="p-4 border-b border-slate-800/80 bg-slate-900/40 space-y-2.5">
+            <div className="p-4 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 space-y-2.5">
               <div className="relative">
                 <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
@@ -1908,13 +1908,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   placeholder="Search service calls by table # (e.g. 10), request type, or note..."
                   value={serviceCallSearch}
                   onChange={(e) => setServiceCallSearch(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl pl-9 pr-8 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500"
                 />
                 {serviceCallSearch && (
                   <button
                     type="button"
                     onClick={() => setServiceCallSearch('')}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -1927,8 +1927,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   onClick={() => setServiceCallStatusFilter('ALL')}
                   className={`px-3 py-1 rounded-xl transition ${
                     serviceCallStatusFilter === 'ALL'
-                      ? 'bg-slate-800 text-white border border-slate-700'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700'
+                      : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                   }`}
                 >
                   All ({localServiceCalls.length})
@@ -1939,7 +1939,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   className={`px-3 py-1 rounded-xl transition flex items-center space-x-1 ${
                     serviceCallStatusFilter === 'PENDING'
                       ? 'bg-rose-600 text-white'
-                      : 'text-rose-400 hover:text-white'
+                      : 'text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-white'
                   }`}
                 >
                   <span className="w-2 h-2 rounded-full bg-rose-400 animate-pulse" />
@@ -1951,7 +1951,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   className={`px-3 py-1 rounded-xl transition ${
                     serviceCallStatusFilter === 'ACKNOWLEDGED'
                       ? 'bg-blue-600 text-white'
-                      : 'text-blue-400 hover:text-white'
+                      : 'text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-white'
                   }`}
                 >
                   In Progress ({acknowledgedCalls.length})
@@ -1962,7 +1962,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   className={`px-3 py-1 rounded-xl transition ${
                     serviceCallStatusFilter === 'COMPLETED'
                       ? 'bg-emerald-600 text-white'
-                      : 'text-emerald-400 hover:text-white'
+                      : 'text-emerald-500 hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-white'
                   }`}
                 >
                   Completed ({completedCalls.length})
@@ -1973,10 +1973,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
             {/* Sequential Service Call Logs List */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {filteredLocalServiceCalls.length === 0 ? (
-                <div className="p-8 text-center bg-slate-900/60 rounded-2xl border border-slate-800 text-slate-400 text-xs space-y-2">
-                  <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
-                  <div className="font-bold text-white">All Clear! No Service Requests</div>
-                  <p className="text-slate-500 text-[11px]">All table service requests are currently resolved and acknowledged.</p>
+                <div className="p-8 text-center bg-slate-50 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs space-y-2">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
+                  <div className="font-bold text-slate-900 dark:text-white">All Clear! No Service Requests</div>
+                  <p className="text-slate-500 dark:text-slate-400 text-[11px]">All table service requests are currently resolved and acknowledged.</p>
                 </div>
               ) : (
                 filteredLocalServiceCalls.map((call) => {
@@ -1990,18 +1990,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       key={call.id}
                       className={`p-4 rounded-2xl border transition-all flex flex-col justify-between space-y-3 ${
                         isPending
-                          ? 'bg-rose-950/20 border-rose-500/50 shadow-lg shadow-rose-500/5'
+                          ? 'bg-rose-50 dark:bg-rose-950/20 border-rose-300 dark:border-rose-500/50 shadow-lg shadow-rose-500/5'
                           : isAck
-                          ? 'bg-blue-950/20 border-blue-500/50'
-                          : 'bg-slate-900/60 border-slate-800 opacity-80'
+                          ? 'bg-blue-50 dark:bg-blue-950/20 border-blue-300 dark:border-blue-500/50'
+                          : 'bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 opacity-90'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2.5">
-                          <span className="px-2.5 py-1 rounded-xl bg-orange-500/20 text-orange-400 font-mono font-black text-xs">
+                          <span className="px-2.5 py-1 rounded-xl bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 font-mono font-black text-xs">
                             {getFormattedTableTitle(call.tableNumber || '1')}
                           </span>
-                          <span className="text-xs font-bold text-white uppercase tracking-wider">
+                          <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                             {typeLabel}
                           </span>
                         </div>
@@ -2012,14 +2012,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
                               isPending
                                 ? 'bg-rose-500 text-white animate-pulse'
                                 : isAck
-                                ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                                : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                ? 'bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30'
+                                : 'bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
                             }`}
                           >
                             {call.status || 'PENDING'}
                           </span>
 
-                          <span className="text-[10px] text-slate-400 font-mono">
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
                             {new Date(call.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
@@ -2027,14 +2027,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
                       {/* Notes */}
                       {(call.notes || call.customNote) && (
-                        <div className="text-xs text-slate-300 bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                        <div className="text-xs text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900/80 p-2 rounded-xl border border-slate-200 dark:border-slate-800">
                           {call.notes || call.customNote}
                         </div>
                       )}
 
                       {/* Action Buttons */}
-                      <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
-                        <span className="text-[10px] text-slate-400">
+                      <div className="pt-2 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400">
                           Floor: {getTableFloor(call.tableNumber || '1')}
                         </span>
 
@@ -2064,14 +2064,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
                             <button
                               type="button"
                               onClick={() => handleUpdateServiceCallStatus(call.id, 'CANCELLED')}
-                              className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-bold rounded-xl text-[11px] transition"
+                              className="px-2.5 py-1.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold rounded-xl text-[11px] transition"
                             >
                               Cancel
                             </button>
                           )}
 
                           {isComp && (
-                            <span className="text-[11px] text-emerald-400 font-bold flex items-center space-x-1">
+                            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center space-x-1">
                               <CheckCircle2 className="w-3.5 h-3.5" />
                               <span>Resolved</span>
                             </span>

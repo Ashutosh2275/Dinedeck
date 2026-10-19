@@ -545,11 +545,11 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
       {/* ========================================================================= */}
       {/* 1. TOP HEADER & PRIMARY TABS (ACTIVE vs ALL / HISTORY)                    */}
       {/* ========================================================================= */}
-      <div className="bg-[#1E293B] border border-slate-700/80 p-3.5 rounded-2xl shadow-xl space-y-3">
+      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/80 p-3.5 rounded-2xl shadow-sm dark:shadow-xl space-y-3">
         {/* Row 1: Primary View Switcher (Active vs All) + Quick Tools */}
         <div className="flex items-center justify-between gap-3 flex-wrap">
           {/* Active vs All Tabs Segmented Switcher */}
-          <div className="flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+          <div className="flex items-center bg-slate-100 dark:bg-slate-900/90 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
             <button
               onClick={() => {
                 setViewMode('ACTIVE');
@@ -558,12 +558,12 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
               className={`px-4 py-2 rounded-lg text-xs font-black transition flex items-center space-x-2 ${
                 viewMode === 'ACTIVE'
                   ? 'bg-orange-500 text-white shadow-md shadow-orange-500/30'
-                  : 'text-slate-400 hover:text-white'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <Flame className="w-4 h-4" />
               <span>ACTIVE ORDERS</span>
-              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${viewMode === 'ACTIVE' ? 'bg-black/30 text-white' : 'bg-slate-800 text-slate-400'}`}>
+              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${viewMode === 'ACTIVE' ? 'bg-black/30 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400'}`}>
                 {activeCount}
               </span>
             </button>
@@ -575,13 +575,13 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
               }}
               className={`px-4 py-2 rounded-lg text-xs font-black transition flex items-center space-x-2 ${
                 viewMode === 'ALL'
-                  ? 'bg-slate-700 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white shadow-md'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <History className="w-4 h-4" />
               <span>ALL & HISTORY</span>
-              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${viewMode === 'ALL' ? 'bg-black/30 text-white' : 'bg-slate-800 text-slate-400'}`}>
+              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${viewMode === 'ALL' ? 'bg-black/30 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400'}`}>
                 {tickets.length}
               </span>
             </button>
@@ -589,7 +589,7 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
 
           {/* Date Filter Pills (When in ALL & HISTORY mode) */}
           {viewMode === 'ALL' && (
-            <div className="flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-800 gap-1 shadow-inner animate-in fade-in">
+            <div className="flex items-center bg-slate-100 dark:bg-slate-900/90 p-1 rounded-xl border border-slate-200 dark:border-slate-800 gap-1 shadow-inner animate-in fade-in">
               {(['TODAY', 'YESTERDAY', 'ALL'] as const).map((period) => (
                 <button
                   key={period}
@@ -598,7 +598,7 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     dateFilter === period
                       ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
-                      : 'text-slate-400 hover:text-white'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   {period === 'TODAY' ? 'Today' : period === 'YESTERDAY' ? 'Yesterday' : 'All Dates'}
@@ -617,7 +617,7 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Table / Order #..."
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange-500"
               />
             </div>
 
@@ -625,7 +625,7 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-orange-500"
+              className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-orange-500"
             >
               <option value="FIFO">Oldest (FIFO)</option>
               <option value="NEWEST">Newest</option>
@@ -639,7 +639,7 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
               className={`p-2 rounded-xl border text-xs font-bold transition cursor-pointer ${
                 isAudioEnabled
                   ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
-                  : 'bg-slate-900 text-slate-500 border-slate-700'
+                  : 'bg-slate-100 dark:bg-slate-900 text-slate-500 border-slate-300 dark:border-slate-700'
               }`}
               title={isAudioEnabled ? 'Sound alerts ON' : 'Sound alerts MUTED'}
             >
@@ -918,16 +918,16 @@ export const KitchenKDS: React.FC<KitchenKDSProps> = () => {
             return (
               <div
                 key={ticket.id}
-                className={`bg-[#1E293B] rounded-2xl border ${borderClass} transition flex flex-col justify-between overflow-hidden shadow-xl`}
+                className={`bg-white dark:bg-[#1E293B] rounded-2xl border ${borderClass} transition flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-xl`}
               >
                 {/* A. TICKET HEADER: Table #, Order #, Status & Timer */}
-                <div className="p-3 bg-slate-900/90 border-b border-slate-700/80 space-y-1.5">
+                <div className="p-3 bg-slate-50 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-700/80 space-y-1.5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <span className="px-2.5 py-0.5 rounded-lg bg-orange-500 text-white font-black text-xs shadow">
                         T-{ticket.tableNumber}
                       </span>
-                      <span className="font-mono text-xs font-bold text-slate-200">#{ticket.orderNumber}</span>
+                      <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200">#{ticket.orderNumber}</span>
                     </div>
 
                     <div className="flex items-center space-x-1">

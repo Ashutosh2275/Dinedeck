@@ -285,8 +285,8 @@ export const Settings: React.FC = () => {
   };
 
   const ic =
-    'w-full bg-slate-900/70 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-orange-500/70 focus:ring-1 focus:ring-orange-500/30 transition';
-  const lc = 'block text-xs text-slate-400 mb-1.5 font-medium';
+    'w-full bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500/70 focus:ring-1 focus:ring-orange-500/30 transition';
+  const lc = 'block text-xs text-slate-600 dark:text-slate-400 mb-1.5 font-medium';
 
   const Toggle = ({
     label,
@@ -299,16 +299,16 @@ export const Settings: React.FC = () => {
     val: boolean;
     onChange: (v: boolean) => void;
   }) => (
-    <div className="flex items-center justify-between py-3 border-b border-slate-800/60 last:border-0">
+    <div className="flex items-center justify-between py-3 border-b border-slate-200 dark:border-slate-800/60 last:border-0">
       <div>
-        <div className="text-sm font-semibold text-white">{label}</div>
-        {sub && <div className="text-xs text-slate-400 mt-0.5">{sub}</div>}
+        <div className="text-sm font-semibold text-slate-900 dark:text-white">{label}</div>
+        {sub && <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{sub}</div>}
       </div>
       <button
         type="button"
         onClick={() => onChange(!val)}
         className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer flex-shrink-0 ${
-          val ? 'bg-orange-500' : 'bg-slate-700'
+          val ? 'bg-orange-500' : 'bg-slate-300 dark:bg-slate-700'
         }`}
       >
         <span
@@ -321,13 +321,13 @@ export const Settings: React.FC = () => {
   );
 
   const Hdr = ({ icon: I, title, sub, color }: { icon: any; title: string; sub: string; color: string }) => (
-    <div className="flex items-center space-x-3 pb-4 border-b border-slate-700/80 mb-6">
-      <div className="p-2.5 rounded-xl bg-slate-800 border border-slate-700">
+    <div className="flex items-center space-x-3 pb-4 border-b border-slate-200 dark:border-slate-700/80 mb-6">
+      <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
         <I className={`w-5 h-5 ${color}`} />
       </div>
       <div>
-        <h3 className="text-base font-black text-white">{title}</h3>
-        <p className="text-xs text-slate-400 mt-0.5">{sub}</p>
+        <h3 className="text-base font-black text-slate-900 dark:text-white">{title}</h3>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{sub}</p>
       </div>
     </div>
   );
@@ -338,7 +338,7 @@ export const Settings: React.FC = () => {
       onClick={() => handleSave(section)}
       className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition border cursor-pointer ${
         savedSection === section
-          ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+          ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
           : 'bg-orange-500 hover:bg-orange-400 text-white border-orange-400 shadow-md'
       }`}
     >
@@ -412,7 +412,7 @@ export const Settings: React.FC = () => {
               <div>
                 <label className={lc}>Restaurant Contact Phone (10 Digits)</label>
                 <div className="flex items-center space-x-2">
-                  <span className="px-3 py-2.5 bg-slate-900/70 border border-slate-700 rounded-xl text-slate-300 text-sm font-mono font-bold">
+                  <span className="px-3 py-2.5 bg-slate-100 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-300 text-sm font-mono font-bold">
                     +91
                   </span>
                   <input
@@ -426,11 +426,11 @@ export const Settings: React.FC = () => {
                 </div>
                 <div className="mt-1 text-[11px]">
                   {s.contactPhone.length === 10 ? (
-                    <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                    <span className="text-emerald-500 dark:text-emerald-400 font-semibold flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" /> Valid 10-digit Indian Mobile Number
                     </span>
                   ) : (
-                    <span className="text-rose-400">
+                    <span className="text-rose-500 dark:text-rose-400">
                       ⚠ Exactly 10 digits required ({10 - s.contactPhone.length} digits remaining)
                     </span>
                   )}
@@ -469,14 +469,14 @@ export const Settings: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-slate-900/60 border border-slate-700/80 rounded-2xl p-4">
-              <div className="text-xs text-slate-400 font-bold mb-3 flex items-center space-x-2">
-                <Eye className="w-3.5 h-3.5 text-orange-400" />
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-bold mb-3 flex items-center space-x-2">
+                <Eye className="w-3.5 h-3.5 text-orange-500" />
                 <span>LIVE BRAND HEADER PREVIEW</span>
               </div>
               <div className="font-mono text-xs text-center space-y-0.5 border-l-2 border-orange-500/40 pl-3">
-                <div className="font-bold text-base text-white">{s.displayName || 'Restaurant Name'}</div>
-                <div className="text-slate-400">{s.tagline}</div>
+                <div className="font-bold text-base text-slate-900 dark:text-white">{s.displayName || 'Restaurant Name'}</div>
+                <div className="text-slate-600 dark:text-slate-400">{s.tagline}</div>
                 <div className="text-slate-500">
                   Since {s.yearEstablished} • +91 {s.contactPhone || 'XXXXXXXXXX'}
                 </div>
@@ -564,7 +564,7 @@ export const Settings: React.FC = () => {
               <div>
                 <label className={lc}>Branch Direct Phone (10 Digits)</label>
                 <div className="flex items-center space-x-2">
-                  <span className="px-3 py-2.5 bg-slate-900/70 border border-slate-700 rounded-xl text-slate-300 text-sm font-mono font-bold">
+                  <span className="px-3 py-2.5 bg-slate-100 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-300 text-sm font-mono font-bold">
                     +91
                   </span>
                   <input
@@ -578,11 +578,11 @@ export const Settings: React.FC = () => {
                 </div>
                 <div className="mt-1 text-[11px]">
                   {s.branchPhone.length === 10 ? (
-                    <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                    <span className="text-emerald-500 dark:text-emerald-400 font-semibold flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" /> 10 digits verified
                     </span>
                   ) : (
-                    <span className="text-rose-400">
+                    <span className="text-rose-500 dark:text-rose-400">
                       ⚠ Exactly 10 digits required ({10 - s.branchPhone.length} left)
                     </span>
                   )}
@@ -591,9 +591,9 @@ export const Settings: React.FC = () => {
             </div>
 
             {/* Operating Hours */}
-            <div className="bg-slate-900/40 border border-slate-700/80 rounded-2xl p-4 space-y-2">
-              <div className="flex items-center space-x-2 text-slate-300 font-bold text-xs mb-3">
-                <Clock className="w-4 h-4 text-blue-400" />
+            <div className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 space-y-2">
+              <div className="flex items-center space-x-2 text-slate-700 dark:text-slate-300 font-bold text-xs mb-3">
+                <Clock className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                 <span>OUTLET OPERATING HOURS (Mon – Sun)</span>
               </div>
               {[
@@ -606,9 +606,9 @@ export const Settings: React.FC = () => {
                 { day: 'Sunday', key: 'sundayHours' }
               ].map(({ day, key }) => (
                 <div key={day} className="flex items-center space-x-3">
-                  <span className="text-xs text-slate-400 w-24 shrink-0 font-medium">{day}</span>
+                  <span className="text-xs text-slate-600 dark:text-slate-400 w-24 shrink-0 font-medium">{day}</span>
                   <input
-                    className="flex-1 bg-slate-900/70 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-orange-500/70 transition"
+                    className="flex-1 bg-white dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-orange-500/70 transition"
                     value={s[key as keyof SettingsState] as string}
                     onChange={(e) => u({ [key]: e.target.value })}
                     placeholder="11:00 AM – 11:00 PM"
@@ -630,11 +630,11 @@ export const Settings: React.FC = () => {
               icon={Percent}
               title="Taxation & Compliance"
               sub="GSTIN, FSSAI Food License, and GST tax rate cards for compliant Indian invoicing."
-              color="text-emerald-400"
+              color="text-emerald-500 dark:text-emerald-400"
             />
             <div className="p-3.5 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start space-x-2.5 text-xs">
-              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-              <div className="text-amber-200">
+              <AlertTriangle className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
+              <div className="text-amber-800 dark:text-amber-200">
                 <strong>Legal Requirement:</strong> GSTIN and FSSAI numbers are printed on every customer bill.
                 Ensure tax rates match your business registration.
               </div>
@@ -651,7 +651,7 @@ export const Settings: React.FC = () => {
                   maxLength={15}
                 />
                 {s.gstin && s.gstin.length !== 15 && (
-                  <p className="text-rose-400 text-[11px] mt-1">⚠ GSTIN must be exactly 15 characters</p>
+                  <p className="text-rose-500 dark:text-rose-400 text-[11px] mt-1">⚠ GSTIN must be exactly 15 characters</p>
                 )}
               </div>
 
@@ -686,15 +686,15 @@ export const Settings: React.FC = () => {
                   onChange={(e) => u({ fssaiExpiry: e.target.value })}
                 />
                 {s.fssaiExpiry && new Date(s.fssaiExpiry) < new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) && (
-                  <p className="text-amber-400 text-[11px] mt-1">⚠ FSSAI license renewal due within 30 days</p>
+                  <p className="text-amber-600 dark:text-amber-400 text-[11px] mt-1">⚠ FSSAI license renewal due within 30 days</p>
                 )}
               </div>
             </div>
 
             {/* GST & Service Charge Rate Cards */}
-            <div className="bg-slate-900/40 border border-slate-700/80 rounded-2xl p-4">
-              <div className="text-xs text-slate-300 font-bold mb-4 flex items-center space-x-2">
-                <IndianRupee className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4">
+              <div className="text-xs text-slate-700 dark:text-slate-300 font-bold mb-4 flex items-center space-x-2">
+                <IndianRupee className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                 <span>GST TAX & SERVICE CHARGE RATE CARDS</span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -704,13 +704,13 @@ export const Settings: React.FC = () => {
                   { label: 'Service Charge %', key: 'serviceChargePercent', hint: 'Optional (typically 5–10%)' },
                   { label: 'Packaging ₹', key: 'packagingCharge', hint: 'Per takeaway order' }
                 ].map(({ label, key, hint }) => (
-                  <div key={key} className="bg-slate-900/60 rounded-xl p-3 space-y-1.5 border border-slate-800">
-                    <div className="text-[11px] text-slate-400 font-semibold">{label}</div>
+                  <div key={key} className="bg-white dark:bg-slate-900/60 rounded-xl p-3 space-y-1.5 border border-slate-200 dark:border-slate-800">
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">{label}</div>
                     <input
                       type="number"
                       step="0.5"
                       min="0"
-                      className="w-full bg-transparent text-2xl font-black text-white focus:outline-none font-mono"
+                      className="w-full bg-transparent text-2xl font-black text-slate-900 dark:text-white focus:outline-none font-mono"
                       value={s[key as keyof SettingsState] as string}
                       onChange={(e) => u({ [key]: e.target.value })}
                     />
@@ -718,7 +718,7 @@ export const Settings: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <div className="mt-4 pt-4 border-t border-slate-700/80">
+              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700/80">
                 <Toggle
                   label="Round Off Bills to Nearest ₹1"
                   sub="Eliminates paise fractions for seamless cash & UPI settlements"
@@ -729,9 +729,9 @@ export const Settings: React.FC = () => {
             </div>
 
             {/* Invoice Prefix Series */}
-            <div className="bg-slate-900/40 border border-slate-700/80 rounded-2xl p-4">
-              <div className="text-xs text-slate-300 font-bold mb-4 flex items-center space-x-2">
-                <Hash className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4">
+              <div className="text-xs text-slate-700 dark:text-slate-300 font-bold mb-4 flex items-center space-x-2">
+                <Hash className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                 <span>INVOICE NUMBERING SERIES (FY 2026-27)</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -754,14 +754,14 @@ export const Settings: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="mt-3 p-3 bg-slate-950/50 rounded-xl text-xs font-mono text-slate-300">
+              <div className="mt-3 p-3 bg-slate-100 dark:bg-slate-950/50 rounded-xl text-xs font-mono text-slate-700 dark:text-slate-300">
                 Sequence Sample:{' '}
-                <span className="text-orange-400 font-bold">
+                <span className="text-orange-500 dark:text-orange-400 font-bold">
                   {s.invoicePrefix}
                   {s.invoiceStartNumber}
                 </span>{' '}
                 →{' '}
-                <span className="text-orange-400 font-bold">
+                <span className="text-orange-500 dark:text-orange-400 font-bold">
                   {s.invoicePrefix}
                   {String(parseInt(s.invoiceStartNumber || '1', 10) + 1).padStart(s.invoiceStartNumber?.length || 3, '0')}
                 </span>
@@ -781,27 +781,27 @@ export const Settings: React.FC = () => {
               icon={Printer}
               title="Billing & Thermal Receipts"
               sub="Direct 1-click thermal printing engine — automatic layout for Tax Invoices, Kitchen KOTs, and Daily Summaries."
-              color="text-violet-400"
+              color="text-violet-500 dark:text-violet-400"
             />
 
             {/* Smart Auto-Layout Banner */}
             <div className="p-4 bg-violet-500/10 border border-violet-500/30 rounded-2xl flex items-start space-x-3 text-xs">
-              <div className="p-2 rounded-xl bg-violet-500/20 text-violet-300 shrink-0">
+              <div className="p-2 rounded-xl bg-violet-500/20 text-violet-600 dark:text-violet-300 shrink-0">
                 <Printer className="w-5 h-5" />
               </div>
               <div className="space-y-1">
-                <h4 className="font-bold text-white text-sm">Smart Thermal Printer Auto-Layout</h4>
-                <p className="text-slate-300 leading-relaxed">
+                <h4 className="font-bold text-slate-900 dark:text-white text-sm">Smart Thermal Printer Auto-Layout</h4>
+                <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                   The printer automatically generates the exact layout required:
-                  <strong className="text-violet-300"> Tax Invoice</strong> on settlement,
-                  <strong className="text-orange-300"> Kitchen KOT</strong> on order acceptance, and
-                  <strong className="text-emerald-300"> Shift Z-Report</strong> at end of day on standard continuous roll.
+                  <strong className="text-violet-600 dark:text-violet-300"> Tax Invoice</strong> on settlement,
+                  <strong className="text-orange-600 dark:text-orange-300"> Kitchen KOT</strong> on order acceptance, and
+                  <strong className="text-emerald-600 dark:text-emerald-300"> Shift Z-Report</strong> at end of day on standard continuous roll.
                 </p>
               </div>
             </div>
 
             {/* Auto Print Automation Toggles */}
-            <div className="bg-slate-900/40 border border-slate-700/80 rounded-2xl p-4 space-y-0">
+            <div className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 space-y-0">
               <Toggle
                 label="Auto-Print Kitchen KOT on Order Accepted"
                 sub="Automatically sends slip to kitchen printer when chef accepts an order"
@@ -880,8 +880,8 @@ export const Settings: React.FC = () => {
                   onClick={() => u({ billCopies: c })}
                   className={`p-3.5 rounded-xl border text-center transition cursor-pointer ${
                     s.billCopies === c
-                      ? 'bg-violet-500/20 border-violet-500/50 text-violet-300'
-                      : 'bg-slate-900/60 border-slate-700 text-slate-400'
+                      ? 'bg-violet-500/20 border-violet-500/50 text-violet-700 dark:text-violet-300'
+                      : 'bg-white dark:bg-slate-900/60 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400'
                   }`}
                 >
                   <div className="font-black text-lg">{c} {c === '1' ? 'Copy' : 'Copies'}</div>
@@ -893,19 +893,19 @@ export const Settings: React.FC = () => {
             </div>
 
             {/* Interactive Live Thermal Slip Preview */}
-            <div className="bg-slate-950/60 border border-slate-700/60 rounded-2xl p-4 space-y-3">
+            <div className="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-700/60 rounded-2xl p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <div className="text-xs text-slate-400 font-bold flex items-center space-x-2">
-                  <Eye className="w-3.5 h-3.5 text-violet-400" />
+                <div className="text-xs text-slate-500 dark:text-slate-400 font-bold flex items-center space-x-2">
+                  <Eye className="w-3.5 h-3.5 text-violet-500 dark:text-violet-400" />
                   <span>LIVE THERMAL PRINTER PREVIEW</span>
                 </div>
 
-                <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 space-x-1 text-xs">
+                <div className="flex items-center bg-slate-200 dark:bg-slate-900 p-1 rounded-xl border border-slate-300 dark:border-slate-800 space-x-1 text-xs">
                   <button
                     type="button"
                     onClick={() => setReceiptPreviewMode('FINAL_BILL')}
                     className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
-                      receiptPreviewMode === 'FINAL_BILL' ? 'bg-violet-600 text-white shadow' : 'text-slate-400'
+                      receiptPreviewMode === 'FINAL_BILL' ? 'bg-violet-600 text-white shadow' : 'text-slate-600 dark:text-slate-400'
                     }`}
                   >
                     Tax Invoice
@@ -914,7 +914,7 @@ export const Settings: React.FC = () => {
                     type="button"
                     onClick={() => setReceiptPreviewMode('KITCHEN_KOT')}
                     className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
-                      receiptPreviewMode === 'KITCHEN_KOT' ? 'bg-orange-600 text-white shadow' : 'text-slate-400'
+                      receiptPreviewMode === 'KITCHEN_KOT' ? 'bg-orange-600 text-white shadow' : 'text-slate-600 dark:text-slate-400'
                     }`}
                   >
                     Kitchen KOT
@@ -1010,7 +1010,7 @@ export const Settings: React.FC = () => {
               sub="Table reservations, takeaway enablement, alert volumes, and service call dispatching."
               color="text-amber-400"
             />
-            <div className="bg-slate-900/40 border border-slate-700/80 rounded-2xl p-4 space-y-0">
+            <div className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 space-y-0">
               <Toggle
                 label="Table Reservation & Online Booking Enabled"
                 sub="Allows guests to reserve tables online through the customer portal"
@@ -1070,19 +1070,19 @@ export const Settings: React.FC = () => {
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-xs text-slate-400 font-medium">
-                    Alert Volume: <span className="text-white font-bold">{s.alertVolume}%</span>
+                  <label className="text-xs text-slate-600 dark:text-slate-400 font-medium">
+                    Alert Volume: <span className="text-slate-900 dark:text-white font-bold">{s.alertVolume}%</span>
                   </label>
                   <button
                     type="button"
                     onClick={handleTestAudio}
-                    className="text-[10px] font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1 cursor-pointer"
+                    className="text-[10px] font-bold text-orange-500 hover:text-orange-600 dark:text-orange-400 dark:hover:text-orange-300 flex items-center gap-1 cursor-pointer"
                   >
                     <Volume2 className="w-3 h-3" /> Test Sound
                   </button>
                 </div>
                 <div className="flex items-center space-x-3 mt-2">
-                  <VolumeX className="w-4 h-4 text-slate-400 shrink-0" />
+                  <VolumeX className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                   <input
                     type="range"
                     min="0"
@@ -1091,7 +1091,7 @@ export const Settings: React.FC = () => {
                     value={s.alertVolume}
                     onChange={(e) => u({ alertVolume: e.target.value })}
                   />
-                  <Volume2 className="w-4 h-4 text-slate-400 shrink-0" />
+                  <Volume2 className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 </div>
               </div>
             </div>
@@ -1109,11 +1109,11 @@ export const Settings: React.FC = () => {
               icon={Palette}
               title="Display & Theme"
               sub="Select your preferred UI appearance. Theme changes apply live across the whole application."
-              color="text-pink-400"
+              color="text-pink-500 dark:text-pink-400"
             />
 
             <div>
-              <label className="block text-xs text-slate-400 mb-3 font-bold tracking-wider">APP THEME</label>
+              <label className="block text-xs text-slate-600 dark:text-slate-400 mb-3 font-bold tracking-wider">APP THEME</label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                   {
@@ -1145,13 +1145,13 @@ export const Settings: React.FC = () => {
                     className={`p-4 rounded-2xl border-2 text-left transition cursor-pointer ${
                       appTheme === key
                         ? 'border-orange-500 bg-orange-500/10'
-                        : 'border-slate-700 bg-slate-900/40 hover:border-slate-600'
+                        : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40 hover:border-slate-300 dark:hover:border-slate-600'
                     }`}
                   >
                     <div className={`w-full h-10 rounded-xl mb-3 border ${preview}`} />
                     <div className="flex items-center space-x-2 mb-1">
-                      <Icon className={`w-4 h-4 ${appTheme === key ? 'text-orange-400' : 'text-slate-400'}`} />
-                      <span className={`font-black text-sm ${appTheme === key ? 'text-white' : 'text-slate-300'}`}>
+                      <Icon className={`w-4 h-4 ${appTheme === key ? 'text-orange-500 dark:text-orange-400' : 'text-slate-500 dark:text-slate-400'}`} />
+                      <span className={`font-black text-sm ${appTheme === key ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
                         {label}
                       </span>
                       {appTheme === key && (
@@ -1160,37 +1160,37 @@ export const Settings: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">{desc}</p>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Display Capabilities */}
-            <div className="bg-slate-900/40 border border-slate-700/80 rounded-2xl p-4 space-y-3">
-              <div className="text-xs font-bold text-slate-300">TERMINAL SYNC & STATUS</div>
-              <div className="flex items-center justify-between text-sm border-b border-slate-800 pb-3">
+            <div className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 space-y-3">
+              <div className="text-xs font-bold text-slate-700 dark:text-slate-300">TERMINAL SYNC & STATUS</div>
+              <div className="flex items-center justify-between text-sm border-b border-slate-200 dark:border-slate-800 pb-3">
                 <div>
-                  <div className="font-semibold text-white">WebSocket Real-Time Engine</div>
-                  <div className="text-xs text-slate-400 mt-0.5">Instant sub-100ms sync for kitchen & billing</div>
+                  <div className="font-semibold text-slate-900 dark:text-white">WebSocket Real-Time Engine</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Instant sub-100ms sync for kitchen & billing</div>
                 </div>
-                <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 text-xs rounded-full font-bold border border-emerald-500/30 flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs rounded-full font-bold border border-emerald-500/30 flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                   Live Connected
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm">
                 <div>
-                  <div className="font-semibold text-white">Background Fail-Safe Polling</div>
-                  <div className="text-xs text-slate-400 mt-0.5">4-second heartbeat sync for unstable Wi-Fi</div>
+                  <div className="font-semibold text-slate-900 dark:text-white">Background Fail-Safe Polling</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">4-second heartbeat sync for unstable Wi-Fi</div>
                 </div>
-                <span className="px-2.5 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full font-bold border border-blue-500/30">
+                <span className="px-2.5 py-1 bg-blue-500/20 text-blue-600 dark:text-blue-400 text-xs rounded-full font-bold border border-blue-500/30">
                   Active (4s)
                 </span>
               </div>
             </div>
 
-            <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-xs text-orange-200">
+            <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-xs text-orange-800 dark:text-orange-200">
               💡 <strong>Instant Application</strong> — Theme preferences are saved per device and apply immediately.
             </div>
 
@@ -1207,19 +1207,19 @@ export const Settings: React.FC = () => {
               icon={Bell}
               title="Notifications & Alerts"
               sub="Configure Chrome desktop alerts, sound chimes, and SMS notifications for new orders and low inventory."
-              color="text-sky-400"
+              color="text-sky-500 dark:text-sky-400"
             />
 
             {/* Desktop / Chrome Notifications Card */}
-            <div className="p-4 bg-slate-900/60 border border-slate-700/80 rounded-2xl space-y-3">
+            <div className="p-4 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/80 rounded-2xl space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2.5">
-                  <div className="p-2 rounded-xl bg-sky-500/20 text-sky-400">
+                  <div className="p-2 rounded-xl bg-sky-500/20 text-sky-600 dark:text-sky-400">
                     <Bell className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-white text-sm">Chrome & Desktop Push Notifications</h4>
-                    <p className="text-xs text-slate-400">
+                    <h4 className="font-bold text-slate-900 dark:text-white text-sm">Chrome & Desktop Push Notifications</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                       Pop-up alert banners on your desktop even when DINEDECK is in the background
                     </p>
                   </div>
@@ -1227,10 +1227,10 @@ export const Settings: React.FC = () => {
                 <span
                   className={`px-2.5 py-1 rounded-full text-xs font-bold ${
                     browserNotificationPerm === 'granted'
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
                       : browserNotificationPerm === 'denied'
-                      ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                      : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                      ? 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30'
+                      : 'bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30'
                   }`}
                 >
                   {browserNotificationPerm === 'granted'
@@ -1254,9 +1254,9 @@ export const Settings: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleSendTestNotification}
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
+                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
                   >
-                    <Bell className="w-3.5 h-3.5 text-sky-400" />
+                    <Bell className="w-3.5 h-3.5 text-sky-500 dark:text-sky-400" />
                     <span>Send Test Notification</span>
                   </button>
                 )}
@@ -1264,7 +1264,7 @@ export const Settings: React.FC = () => {
             </div>
 
             {/* Notification Event Toggles */}
-            <div className="bg-slate-900/40 border border-slate-700/80 rounded-2xl p-4 space-y-0">
+            <div className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 space-y-0">
               <Toggle
                 label="New Table Booking Alert"
                 sub="Notify floor captain when an online reservation is placed"
@@ -1284,7 +1284,7 @@ export const Settings: React.FC = () => {
               <div>
                 <label className={lc}>SMS Alert Mobile Number (10 Digits)</label>
                 <div className="flex items-center space-x-2">
-                  <span className="px-3 py-2.5 bg-slate-900/70 border border-slate-700 rounded-xl text-slate-300 text-sm font-mono font-bold">
+                  <span className="px-3 py-2.5 bg-slate-100 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-300 text-sm font-mono font-bold">
                     +91
                   </span>
                   <input
@@ -1298,11 +1298,11 @@ export const Settings: React.FC = () => {
                 </div>
                 <div className="mt-1 text-[11px]">
                   {s.criticalStockSmsNumber.length === 10 ? (
-                    <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                    <span className="text-emerald-500 dark:text-emerald-400 font-semibold flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" /> Valid 10-digit mobile number
                     </span>
                   ) : (
-                    <span className="text-rose-400">
+                    <span className="text-rose-500 dark:text-rose-400">
                       ⚠ Exactly 10 digits required ({10 - s.criticalStockSmsNumber.length} left)
                     </span>
                   )}
@@ -1349,17 +1349,17 @@ export const Settings: React.FC = () => {
               icon={Lock}
               title="Security & Manager PINs"
               sub="Prevent unauthorized bill cancellations, fraudulent voids, and excessive discount overrides."
-              color="text-rose-400"
+              color="text-rose-500 dark:text-rose-400"
             />
             <div className="p-3.5 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-start space-x-2.5 text-xs">
-              <Shield className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-              <div className="text-rose-200">
+              <Shield className="w-4 h-4 text-rose-500 dark:text-rose-400 shrink-0 mt-0.5" />
+              <div className="text-rose-800 dark:text-rose-200">
                 <strong>Revenue Protection:</strong> Manager PIN prevents staff from voiding settled bills or
                 applying arbitrary discounts without supervisory approval.
               </div>
             </div>
 
-            <div className="bg-slate-900/40 border border-slate-700/80 rounded-2xl p-4 space-y-0">
+            <div className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 space-y-0">
               <Toggle
                 label="Require Manager PIN to Void / Cancel a Bill"
                 sub="Prevents unauthorized deletion of customer invoices"
@@ -1390,7 +1390,7 @@ export const Settings: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setShowVoidPin(!showVoidPin)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer"
                     >
                       {showVoidPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -1454,8 +1454,8 @@ export const Settings: React.FC = () => {
       {/* Left Sidebar Navigation */}
       <aside className="w-full lg:w-60 shrink-0 space-y-1">
         <div className="mb-4">
-          <h2 className="text-lg font-black text-white tracking-tight">Settings</h2>
-          <p className="text-xs text-slate-400 mt-0.5">Restaurant & Terminal Preferences</p>
+          <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">Settings</h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Restaurant & Terminal Preferences</p>
         </div>
 
         <div className="flex lg:flex-col overflow-x-auto lg:overflow-visible gap-1 pb-2 lg:pb-0 custom-scrollbar">
@@ -1466,8 +1466,8 @@ export const Settings: React.FC = () => {
               onClick={() => setActiveSection(key)}
               className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-left transition text-sm font-semibold shrink-0 cursor-pointer ${
                 activeSection === key
-                  ? 'bg-slate-700/80 text-white border border-slate-600 shadow-sm'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                  ? 'bg-slate-200 dark:bg-slate-700/80 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               <Icon className={`w-4 h-4 shrink-0 ${activeSection === key ? color : 'text-slate-500'}`} />
@@ -1478,7 +1478,7 @@ export const Settings: React.FC = () => {
       </aside>
 
       {/* Main Settings Content Panel */}
-      <div className="flex-1 min-w-0 bg-[#1E293B] border border-slate-700/80 rounded-2xl p-6 shadow-xl overflow-y-auto">
+      <div className="flex-1 min-w-0 bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/80 rounded-2xl p-6 shadow-sm dark:shadow-xl overflow-y-auto">
         {renderSection()}
       </div>
     </div>

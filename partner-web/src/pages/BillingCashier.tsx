@@ -1309,8 +1309,8 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
           </div>
 
           {/* History Table */}
-          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-            <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111827] shadow-sm">
+            <table className="w-full text-left text-xs text-slate-800 dark:text-slate-200">
               <thead className="bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-4 py-3.5">Invoice #</th>
@@ -1323,7 +1323,7 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
                   <th className="px-4 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80 bg-white dark:bg-slate-950/40">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80 bg-white dark:bg-[#111827]">
                 {filteredHistory.length === 0 ? (
                   <tr>
                     <td colSpan={8} className="px-4 py-12 text-center text-slate-400 dark:text-slate-500">
@@ -1339,17 +1339,17 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
                     const settledDateStr = new Date(h.settledAt || h.paidAt || h.createdAt).toLocaleDateString();
 
                     return (
-                      <tr key={h.billId} className="hover:bg-slate-50 dark:hover:bg-slate-900/60 transition">
+                      <tr key={h.billId} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
                         <td className="px-4 py-3.5 font-mono font-bold text-slate-900 dark:text-white">
                           {h.billNumber || `#${h.billId.slice(0, 8)}`}
                         </td>
                         <td className="px-4 py-3.5 font-bold text-orange-600 dark:text-orange-400">
                           {getFormattedTableTitle(h.tableNumber)}
                         </td>
-                        <td className="px-4 py-3.5 text-slate-800 dark:text-slate-300">
+                        <td className="px-4 py-3.5 text-slate-800 dark:text-slate-200 font-medium">
                           {h.guestName || 'Walk-in Guest'}
                         </td>
-                        <td className="px-4 py-3.5 text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                        <td className="px-4 py-3.5 text-slate-600 dark:text-slate-400 whitespace-nowrap">
                           <div>{settledTimeStr}</div>
                           <div className="text-[10px] text-slate-400 dark:text-slate-500">{settledDateStr}</div>
                         </td>
@@ -1367,17 +1367,17 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
                             <span
                               className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
                                 h.paymentMethod === 'UPI'
-                                  ? 'bg-purple-500/10 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border-purple-500/30'
+                                  ? 'bg-purple-100 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-700'
                                   : h.paymentMethod === 'CASH'
-                                  ? 'bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
-                                  : 'bg-blue-500/10 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-500/30'
+                                  ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700'
+                                  : 'bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-700'
                               }`}
                             >
                               {h.paymentMethod || 'PAID'}
                             </span>
                           )}
                         </td>
-                        <td className="px-4 py-3.5 text-slate-600 dark:text-slate-400">
+                        <td className="px-4 py-3.5 text-slate-700 dark:text-slate-300">
                           {h.settledBy || user?.name || 'Cashier Desk'}
                         </td>
                         <td className="px-4 py-3.5 text-right font-mono font-black text-slate-900 dark:text-white text-sm">
@@ -1387,7 +1387,7 @@ export const BillingCashier: React.FC<BillingCashierProps> = () => {
                           <button
                             type="button"
                             onClick={() => handleDirectPrintCurrentBill({ calculation: h, bill: h })}
-                            className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg text-xs font-bold border border-slate-300 dark:border-slate-700 inline-flex items-center gap-1.5 transition cursor-pointer"
+                            className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-lg text-xs font-bold border border-slate-300 dark:border-slate-700 inline-flex items-center gap-1.5 transition cursor-pointer shadow-sm"
                           >
                             <Printer className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
                             <span>Reprint Receipt</span>

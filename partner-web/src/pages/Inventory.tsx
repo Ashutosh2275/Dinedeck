@@ -595,7 +595,7 @@ export const Inventory: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {/* 1. HEADER & OPERATIONAL METRICS STRIP                         */}
       {/* ------------------------------------------------------------- */}
-      <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl">
+      <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl">
         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
           <div className="flex items-center space-x-3.5">
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/25 shrink-0">
@@ -603,18 +603,18 @@ export const Inventory: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center space-x-2 flex-wrap">
-                <h1 className="text-xl font-black text-white tracking-tight">Stock & Inventory</h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase tracking-wider">
+                <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Stock & Inventory</h1>
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 uppercase tracking-wider">
                   Live Recipe Sync
                 </span>
                 {nearOutOfStockDishes.length > 0 && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
-                    <Zap className="w-3 h-3 text-amber-400" />
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                    <Zap className="w-3 h-3 text-amber-500 dark:text-amber-400" />
                     <span>{nearOutOfStockDishes.length} Dishes Near Out of Stock</span>
                   </span>
                 )}
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Every customer order dynamically consumes raw ingredients. Recommends restocking before items run out without abrupt stockouts.
               </p>
             </div>
@@ -656,48 +656,48 @@ export const Inventory: React.FC = () => {
         </div>
 
         {/* Live Operational Inventory Financial KPIs */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 mt-4 pt-4 border-t border-slate-800/80 text-xs">
-          <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
-            <div className="text-[10px] text-slate-400 uppercase font-bold">Total Stock Valuation</div>
-            <div className="text-sm font-black text-emerald-400 font-mono mt-0.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 mt-4 pt-4 border-t border-slate-200 dark:border-slate-800/80 text-xs">
+          <div className="bg-slate-50 dark:bg-slate-900/90 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Total Stock Valuation</div>
+            <div className="text-sm font-black text-emerald-600 dark:text-emerald-400 font-mono mt-0.5">
               ₹{totalValuation.toLocaleString()}
             </div>
           </div>
-          <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
-            <div className="text-[10px] text-slate-400 uppercase font-bold">Near Out of Stock</div>
-            <div className="text-sm font-black text-amber-400 font-mono mt-0.5">
+          <div className="bg-slate-50 dark:bg-slate-900/90 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Near Out of Stock</div>
+            <div className="text-sm font-black text-amber-600 dark:text-amber-400 font-mono mt-0.5">
               {nearOutOfStockDishes.length} Dishes at Risk
             </div>
           </div>
-          <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
-            <div className="text-[10px] text-slate-400 uppercase font-bold">Tomorrow Restock Budget</div>
-            <div className="text-sm font-black text-purple-300 font-mono mt-0.5">
+          <div className="bg-slate-50 dark:bg-slate-900/90 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Tomorrow Restock Budget</div>
+            <div className="text-sm font-black text-purple-600 dark:text-purple-300 font-mono mt-0.5">
               ₹{totalTomorrowRestockBudget.toLocaleString()}
             </div>
           </div>
-          <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
-            <div className="text-[10px] text-slate-400 uppercase font-bold">Vendor Khata Due</div>
-            <div className="text-sm font-black text-slate-200 font-mono mt-0.5">
+          <div className="bg-slate-50 dark:bg-slate-900/90 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Vendor Khata Due</div>
+            <div className="text-sm font-black text-slate-800 dark:text-slate-200 font-mono mt-0.5">
               ₹{totalVendorDue.toLocaleString()}
             </div>
           </div>
-          <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
-            <div className="text-[10px] text-slate-400 uppercase font-bold">Prepped Gravies Ready</div>
-            <div className="text-sm font-black text-orange-400 mt-0.5">
+          <div className="bg-slate-50 dark:bg-slate-900/90 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Prepped Gravies Ready</div>
+            <div className="text-sm font-black text-orange-600 dark:text-orange-400 mt-0.5">
               {gravyBatches.length} Bases ({gravyBatches.reduce((s, g) => s + g.inStockQuantity, 0).toFixed(0)} L)
             </div>
           </div>
         </div>
 
         {/* 8 Workstation Navigation Tabs */}
-        <div className="flex items-center space-x-1 overflow-x-auto pt-4 border-t border-slate-800/80 mt-4 text-xs font-bold">
+        <div className="flex items-center space-x-1 overflow-x-auto pt-4 border-t border-slate-200 dark:border-slate-800/80 mt-4 text-xs font-bold">
           <button
             type="button"
             onClick={() => setActiveTab('REGISTER')}
             className={`px-3.5 py-2 rounded-xl transition flex items-center space-x-2 whitespace-nowrap ${
               activeTab === 'REGISTER'
                 ? 'bg-orange-500 text-white shadow'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
             }`}
           >
             <Package className="w-4 h-4" />
@@ -710,7 +710,7 @@ export const Inventory: React.FC = () => {
             className={`px-3.5 py-2 rounded-xl transition flex items-center space-x-2 whitespace-nowrap ${
               activeTab === 'SIMULATOR'
                 ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                : 'bg-slate-900 text-blue-400 hover:text-blue-300 border border-slate-800'
+                : 'bg-slate-100 dark:bg-slate-900 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-slate-200 dark:border-slate-800'
             }`}
           >
             <ShoppingCart className="w-4 h-4" />
@@ -723,7 +723,7 @@ export const Inventory: React.FC = () => {
             className={`px-3.5 py-2 rounded-xl transition flex items-center space-x-2 whitespace-nowrap ${
               activeTab === 'RESTOCK_BOM'
                 ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/20'
-                : 'bg-slate-900 text-amber-400 hover:text-amber-300 border border-slate-800'
+                : 'bg-slate-100 dark:bg-slate-900 text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 border border-slate-200 dark:border-slate-800'
             }`}
           >
             <Zap className="w-4 h-4" />
@@ -736,7 +736,7 @@ export const Inventory: React.FC = () => {
             className={`px-3.5 py-2 rounded-xl transition flex items-center space-x-2 whitespace-nowrap ${
               activeTab === 'GRAVY_PREP'
                 ? 'bg-amber-600 text-white shadow'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
             }`}
           >
             <ChefHat className="w-4 h-4" />
@@ -749,7 +749,7 @@ export const Inventory: React.FC = () => {
             className={`px-3.5 py-2 rounded-xl transition flex items-center space-x-2 whitespace-nowrap ${
               activeTab === 'MANDI_INWARD'
                 ? 'bg-emerald-600 text-white shadow'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
             }`}
           >
             <ArrowDownRight className="w-4 h-4" />
@@ -762,7 +762,7 @@ export const Inventory: React.FC = () => {
             className={`px-3.5 py-2 rounded-xl transition flex items-center space-x-2 whitespace-nowrap ${
               activeTab === 'WASTAGE'
                 ? 'bg-rose-600 text-white shadow'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
             }`}
           >
             <TrendingDown className="w-4 h-4" />
@@ -775,7 +775,7 @@ export const Inventory: React.FC = () => {
             className={`px-3.5 py-2 rounded-xl transition flex items-center space-x-2 whitespace-nowrap ${
               activeTab === 'AUDIT'
                 ? 'bg-purple-600 text-white shadow'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
             }`}
           >
             <ClipboardCheck className="w-4 h-4" />
@@ -788,7 +788,7 @@ export const Inventory: React.FC = () => {
             className={`px-3.5 py-2 rounded-xl transition flex items-center space-x-2 whitespace-nowrap ${
               activeTab === 'VENDORS'
                 ? 'bg-indigo-600 text-white shadow'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
             }`}
           >
             <Building2 className="w-4 h-4" />
@@ -800,36 +800,39 @@ export const Inventory: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {/* 2. TAB: LIVE ORDER DEPLETION TESTER & MULTI-ORDER SIMULATOR  */}
       {/* ------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------- */}
+      {/* 2. TAB: LIVE ORDER DEPLETION TESTER & MULTI-ORDER SIMULATOR  */}
+      {/* ------------------------------------------------------------- */}
       {activeTab === 'SIMULATOR' && (
         <div className="space-y-5">
-          <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-            <div className="flex items-center space-x-3 pb-3 border-b border-slate-800">
-              <div className="p-2.5 rounded-2xl bg-blue-500/20 text-blue-400 border border-blue-500/30">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+            <div className="flex items-center space-x-3 pb-3 border-b border-slate-200 dark:border-slate-800">
+              <div className="p-2.5 rounded-2xl bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30">
                 <ShoppingCart className="w-6 h-6" />
               </div>
               <div>
-                <h2 className="text-base font-black text-white">
+                <h2 className="text-base font-black text-slate-900 dark:text-white">
                   Live Order Depletion & Multi-Plate Capacity Simulator
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Simulate live customer orders to see exact gram/kg raw material deductions and real-time portion capacity alerts across all dishes sharing the same ingredient!
                 </p>
               </div>
             </div>
 
             {/* Interactive Simulation Form */}
-            <form onSubmit={handleSimulateOrderPlacement} className="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-4">
-              <div className="text-xs font-bold text-slate-300">
+            <form onSubmit={handleSimulateOrderPlacement} className="p-4 bg-slate-50 dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+              <div className="text-xs font-bold text-slate-700 dark:text-slate-300">
                 ⚡ Select Food Item & Order Quantity to Deduct from Kitchen Inventory:
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1 text-xs">Menu Dish</label>
+                  <label className="block text-slate-600 dark:text-slate-400 font-bold mb-1 text-xs">Menu Dish</label>
                   <select
                     value={simSelectedDish}
                     onChange={(e) => setSimSelectedDish(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold text-xs"
+                    className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold text-xs"
                   >
                     {recipes.map((r) => (
                       <option key={r.dishId} value={r.dishName}>
@@ -840,7 +843,7 @@ export const Inventory: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1 text-xs">Quantity Ordered (Plates)</label>
+                  <label className="block text-slate-600 dark:text-slate-400 font-bold mb-1 text-xs">Quantity Ordered (Plates)</label>
                   <div className="flex items-center space-x-2">
                     {[1, 2, 4, 8].map((qty) => (
                       <button
@@ -850,7 +853,7 @@ export const Inventory: React.FC = () => {
                         className={`px-3 py-2 rounded-xl font-black text-xs transition ${
                           simPortionsCount === qty
                             ? 'bg-blue-600 text-white shadow-md'
-                            : 'bg-slate-950 text-slate-400 border border-slate-800'
+                            : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800'
                         }`}
                       >
                         {qty}x
@@ -861,7 +864,7 @@ export const Inventory: React.FC = () => {
                       min="1"
                       value={simPortionsCount}
                       onChange={(e) => setSimPortionsCount(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="w-16 bg-slate-950 border border-slate-700 rounded-xl px-2 py-1.5 text-center text-white font-mono font-bold text-xs"
+                      className="w-16 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-2 py-1.5 text-center text-slate-900 dark:text-white font-mono font-bold text-xs"
                     />
                   </div>
                 </div>
@@ -884,9 +887,9 @@ export const Inventory: React.FC = () => {
                 const cap = getDishCapacity(simSelectedDish);
 
                 return (
-                  <div className="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-2 text-xs">
+                  <div className="p-3 bg-white dark:bg-slate-950/80 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-300">
+                      <span className="font-bold text-slate-700 dark:text-slate-300">
                         Recipe Consumption per portion ({rec.dishName}):
                       </span>
                       <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${cap.badgeColor}`}>
@@ -901,19 +904,19 @@ export const Inventory: React.FC = () => {
                         const remainingAfter = raw ? Math.max(0, raw.currentStock - totalDeduct) : 0;
 
                         return (
-                          <div key={idx} className="p-2 bg-slate-900 rounded-lg border border-slate-800/80 space-y-0.5">
-                            <div className="font-semibold text-slate-300 truncate">{ing.rawItemName}</div>
-                            <div className="flex justify-between text-slate-400 text-[10px]">
+                          <div key={idx} className="p-2 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800/80 space-y-0.5">
+                            <div className="font-semibold text-slate-800 dark:text-slate-300 truncate">{ing.rawItemName}</div>
+                            <div className="flex justify-between text-slate-500 dark:text-slate-400 text-[10px]">
                               <span>Will Deduct:</span>
-                              <span className="font-mono font-bold text-rose-400">-{totalDeduct.toFixed(2)} {ing.unit}</span>
+                              <span className="font-mono font-bold text-rose-500 dark:text-rose-400">-{totalDeduct.toFixed(2)} {ing.unit}</span>
                             </div>
-                            <div className="flex justify-between text-slate-400 text-[10px]">
+                            <div className="flex justify-between text-slate-500 dark:text-slate-400 text-[10px]">
                               <span>In-Hand Stock:</span>
-                              <span className="font-mono text-white">{raw?.currentStock.toFixed(2)} {ing.unit}</span>
+                              <span className="font-mono text-slate-900 dark:text-white">{raw?.currentStock.toFixed(2)} {ing.unit}</span>
                             </div>
-                            <div className="flex justify-between text-slate-400 text-[10px] pt-1 border-t border-slate-800">
+                            <div className="flex justify-between text-slate-500 dark:text-slate-400 text-[10px] pt-1 border-t border-slate-200 dark:border-slate-800">
                               <span>After Order:</span>
-                              <span className={`font-mono font-black ${remainingAfter < (raw?.minimumThreshold || 0) ? 'text-amber-400' : 'text-emerald-400'}`}>
+                              <span className={`font-mono font-black ${remainingAfter < (raw?.minimumThreshold || 0) ? 'text-amber-500 dark:text-amber-400' : 'text-emerald-500 dark:text-emerald-400'}`}>
                                 {remainingAfter.toFixed(2)} {ing.unit}
                               </span>
                             </div>
@@ -928,8 +931,8 @@ export const Inventory: React.FC = () => {
 
             {/* Recent Simulation Depletion Feed */}
             <div className="space-y-2 pt-2">
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
-                <History className="w-4 h-4 text-blue-400" />
+              <div className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
+                <History className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                 <span>Recent Live Order Depletion History</span>
               </div>
 
@@ -937,10 +940,10 @@ export const Inventory: React.FC = () => {
                 {simRecentEvents.map((evt) => (
                   <div
                     key={evt.id}
-                    className="p-2.5 bg-slate-900/80 border border-slate-800 rounded-xl flex items-center justify-between text-xs text-slate-300"
+                    className="p-2.5 bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-between text-xs text-slate-700 dark:text-slate-300"
                   >
                     <span className="font-medium">{evt.text}</span>
-                    <span className="text-[10px] text-slate-500 font-mono shrink-0 ml-2">{evt.time}</span>
+                    <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono shrink-0 ml-2">{evt.time}</span>
                   </div>
                 ))}
               </div>
@@ -952,33 +955,36 @@ export const Inventory: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {/* 3. TAB: SMART NEXT-DAY RESTOCK & DISH RECIPE BOM              */}
       {/* ------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------- */}
+      {/* 3. TAB: SMART NEXT-DAY RESTOCK & DISH RECIPE BOM              */}
+      {/* ------------------------------------------------------------- */}
       {activeTab === 'RESTOCK_BOM' && (
         <div className="space-y-5">
           {/* Top Recommendation Summary & 1-Click WhatsApp Export */}
-          <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b border-slate-800">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-3">
-                <div className="p-2.5 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                <div className="p-2.5 rounded-2xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">
                   <Zap className="w-6 h-6" />
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
-                    <h2 className="text-base font-black text-white">
+                    <h2 className="text-base font-black text-slate-900 dark:text-white">
                       Next-Day Morning Mandi & Procurement Restock Engine
                     </h2>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/15 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-500/30">
                       Predictive Demand
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     Calculated automatically from today's live dish orders sold + recipe portion BOMs against current shelf stocks.
                   </p>
                 </div>
               </div>
 
               {/* Demand Forecast Multiplier Controls */}
-              <div className="flex items-center space-x-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800 text-xs shrink-0">
-                <span className="text-slate-400 font-bold px-2">Tomorrow's Forecast:</span>
+              <div className="flex items-center space-x-2 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs shrink-0">
+                <span className="text-slate-500 dark:text-slate-400 font-bold px-2">Tomorrow's Forecast:</span>
                 {[
                   { label: 'Normal (1.0x)', val: 1.0 },
                   { label: 'Busy (1.2x)', val: 1.2 },
@@ -992,7 +998,7 @@ export const Inventory: React.FC = () => {
                     className={`px-2.5 py-1 rounded-lg font-bold transition ${
                       demandForecastMultiplier === f.val
                         ? 'bg-amber-500 text-white shadow'
-                        : 'text-slate-400 hover:text-white'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
                     {f.label}
@@ -1004,11 +1010,11 @@ export const Inventory: React.FC = () => {
             {/* Quick Summary Action Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl">
               <div>
-                <div className="text-xs font-bold text-amber-300">
+                <div className="text-xs font-bold text-amber-800 dark:text-amber-300">
                   ⚡ Suggested Procurement for Tomorrow Morning (07:00 AM):
                 </div>
-                <div className="text-[11px] text-slate-300 mt-0.5">
-                  <span className="font-bold text-white">{urgentRestockItems.length} Ingredients</span> require replenishment • Estimated Mandi Bill: <span className="font-mono font-black text-amber-400">₹{totalTomorrowRestockBudget.toLocaleString()}</span>
+                <div className="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5">
+                  <span className="font-bold text-slate-900 dark:text-white">{urgentRestockItems.length} Ingredients</span> require replenishment • Estimated Mandi Bill: <span className="font-mono font-black text-amber-600 dark:text-amber-400">₹{totalTomorrowRestockBudget.toLocaleString()}</span>
                 </div>
               </div>
 
@@ -1039,7 +1045,7 @@ export const Inventory: React.FC = () => {
                       totalEstimatedCost: totalTomorrowRestockBudget
                     });
                   }}
-                  className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs border border-slate-700 transition flex items-center space-x-1.5"
+                  className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl text-xs border border-slate-200 dark:border-slate-700 transition flex items-center space-x-1.5"
                 >
                   <Printer className="w-4 h-4" />
                   <span>Print Mandi Thermal Slip (80mm)</span>
@@ -1048,9 +1054,9 @@ export const Inventory: React.FC = () => {
             </div>
 
             {/* Restock Recommendations Table */}
-            <div className="overflow-x-auto rounded-xl border border-slate-800">
-              <table className="w-full text-left text-xs text-slate-300">
-                <thead className="bg-slate-900 text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-800">
+            <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+              <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+                <thead className="bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200 dark:border-slate-800">
                   <tr>
                     <th className="px-4 py-3">Raw Ingredient</th>
                     <th className="px-4 py-3">Current Shelf Balance</th>
@@ -1062,13 +1068,13 @@ export const Inventory: React.FC = () => {
                     <th className="px-4 py-3">Preferred Supplier</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/80">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                   {nextDayProcurementPlan.length === 0 ? (
                     <tr>
-                      <td colSpan={8} className="px-4 py-12 text-center text-slate-400">
-                        <Zap className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-                        <div className="text-sm font-bold text-slate-300">No Restock Requirements</div>
-                        <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                      <td colSpan={8} className="px-4 py-12 text-center text-slate-400 dark:text-slate-500">
+                        <Zap className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+                        <div className="text-sm font-bold text-slate-700 dark:text-slate-300">No Restock Requirements</div>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
                           All registered raw inventory items are currently well above safety thresholds.
                         </p>
                       </td>
@@ -1079,60 +1085,60 @@ export const Inventory: React.FC = () => {
                       key={item.id}
                       className={`transition ${
                         item.urgency === 'CRITICAL'
-                          ? 'bg-rose-950/20 hover:bg-rose-950/30'
+                          ? 'bg-rose-50 dark:bg-rose-950/20 hover:bg-rose-100 dark:hover:bg-rose-950/30'
                           : item.urgency === 'RECOMMENDED'
-                          ? 'bg-amber-950/10 hover:bg-amber-950/20'
-                          : 'hover:bg-slate-900/60 opacity-80'
+                          ? 'bg-amber-50/50 dark:bg-amber-950/10 hover:bg-amber-100/50 dark:hover:bg-amber-950/20'
+                          : 'hover:bg-slate-50 dark:hover:bg-slate-900/60'
                       }`}
                     >
-                      <td className="px-4 py-3.5 font-bold text-white flex items-center space-x-2">
-                        <Package className="w-4 h-4 text-orange-400 shrink-0" />
+                      <td className="px-4 py-3.5 font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                        <Package className="w-4 h-4 text-orange-500 shrink-0" />
                         <span>{item.name}</span>
                       </td>
 
                       <td className="px-4 py-3.5 font-mono font-bold">
-                        <span className={item.currentStock <= item.minimumThreshold ? 'text-rose-400 font-black' : 'text-white'}>
+                        <span className={item.currentStock <= item.minimumThreshold ? 'text-rose-500 dark:text-rose-400 font-black' : 'text-slate-900 dark:text-white'}>
                           {item.currentStock.toFixed(1)} {item.unit}
                         </span>
                       </td>
 
-                      <td className="px-4 py-3.5 font-mono text-amber-400 font-bold">
+                      <td className="px-4 py-3.5 font-mono text-amber-600 dark:text-amber-400 font-bold">
                         {item.consumedToday > 0 ? `-${item.consumedToday.toFixed(1)} ${item.unit}` : '0.0'}
                       </td>
 
-                      <td className="px-4 py-3.5 font-mono text-slate-300">
+                      <td className="px-4 py-3.5 font-mono text-slate-700 dark:text-slate-300">
                         {item.projectedTomorrowDemand.toFixed(1)} {item.unit}
                       </td>
 
-                      <td className="px-4 py-3.5 font-mono text-slate-500">
+                      <td className="px-4 py-3.5 font-mono text-slate-400 dark:text-slate-500">
                         {item.minimumThreshold.toFixed(1)} {item.unit}
                       </td>
 
                       <td className="px-4 py-3.5 font-mono">
                         {item.recommendedOrderQty > 0 ? (
                           <div className="flex items-center space-x-2">
-                            <span className="font-black text-sm text-emerald-400">
+                            <span className="font-black text-sm text-emerald-600 dark:text-emerald-400">
                               +{item.recommendedOrderQty.toFixed(1)} {item.unit}
                             </span>
                             {item.urgency === 'CRITICAL' && (
-                              <span className="px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-400 text-[9px] font-black border border-rose-500/30">
+                              <span className="px-1.5 py-0.2 rounded bg-rose-500/15 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400 text-[9px] font-black border border-rose-500/30">
                                 URGENT
                               </span>
                             )}
                           </div>
                         ) : (
-                          <span className="text-slate-500 font-semibold">✓ Sufficient Stock</span>
+                          <span className="text-slate-400 dark:text-slate-500 font-semibold">✓ Sufficient Stock</span>
                         )}
                       </td>
 
-                      <td className="px-4 py-3.5 font-mono font-bold text-white">
+                      <td className="px-4 py-3.5 font-mono font-bold text-slate-900 dark:text-white">
                         {item.recommendedOrderQty > 0 ? `₹${item.estimatedCost.toFixed(0)}` : '₹0'}
                       </td>
 
-                      <td className="px-4 py-3.5 text-slate-300">
+                      <td className="px-4 py-3.5 text-slate-700 dark:text-slate-300">
                         <div className="font-semibold text-xs">{item.supplier}</div>
                         {item.supplierContact && (
-                          <div className="text-[10px] text-slate-500 font-mono">{item.supplierContact}</div>
+                          <div className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">{item.supplierContact}</div>
                         )}
                       </td>
                     </tr>
@@ -1144,22 +1150,22 @@ export const Inventory: React.FC = () => {
           </div>
 
           {/* Dish Recipe BOM Matrix */}
-          <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2.5">
-                <UtensilsCrossed className="w-5 h-5 text-orange-400" />
+                <UtensilsCrossed className="w-5 h-5 text-orange-500" />
                 <div>
-                  <h3 className="text-sm font-black text-white">Dish Recipe Bill of Materials (BOM) & Portions Left</h3>
-                  <p className="text-xs text-slate-400">Exact raw ingredients consumed per portion for automatic kitchen stock depletion.</p>
+                  <h3 className="text-sm font-black text-slate-900 dark:text-white">Dish Recipe Bill of Materials (BOM) & Portions Left</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Exact raw ingredients consumed per portion for automatic kitchen stock depletion.</p>
                 </div>
               </div>
             </div>
 
             {recipes.length === 0 ? (
-              <div className="p-8 text-center border border-dashed border-slate-800 rounded-2xl bg-slate-900/40">
-                <UtensilsCrossed className="w-8 h-8 text-slate-600 mx-auto mb-2" />
-                <div className="text-xs font-bold text-slate-300">No Dish Recipes Configured</div>
-                <p className="text-[11px] text-slate-500 mt-1 max-w-sm mx-auto">
+              <div className="p-8 text-center border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50 dark:bg-slate-900/40">
+                <UtensilsCrossed className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto mb-2" />
+                <div className="text-xs font-bold text-slate-700 dark:text-slate-300">No Dish Recipes Configured</div>
+                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto">
                   Recipe Bill of Materials (BOM) linking menu dishes to raw ingredients will be displayed here.
                 </p>
               </div>
@@ -1168,11 +1174,11 @@ export const Inventory: React.FC = () => {
                 {recipes.map((dish) => {
                   const cap = getDishCapacity(dish.dishName);
                   return (
-                    <div key={dish.dishId} className="bg-slate-900/80 rounded-2xl border border-slate-800 p-4 space-y-3">
+                    <div key={dish.dishId} className="bg-slate-50 dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 space-y-3">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h4 className="font-bold text-white text-xs">{dish.dishName}</h4>
-                          <span className="text-[10px] text-slate-400">{dish.category} • Portion Food Cost: ₹{dish.portionCost.toFixed(0)}</span>
+                          <h4 className="font-bold text-slate-900 dark:text-white text-xs">{dish.dishName}</h4>
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400">{dish.category} • Portion Food Cost: ₹{dish.portionCost.toFixed(0)}</span>
                         </div>
 
                         <span className={`px-2.5 py-1 rounded-xl font-mono font-black text-xs border ${cap.badgeColor}`}>
@@ -1180,13 +1186,13 @@ export const Inventory: React.FC = () => {
                         </span>
                       </div>
 
-                      <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
-                        <div className="text-[10px] uppercase font-bold text-slate-400">Raw Ingredients Consumed Per Portion:</div>
+                      <div className="space-y-1.5 pt-2 border-t border-slate-200 dark:border-slate-800/80">
+                        <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">Raw Ingredients Consumed Per Portion:</div>
                         <div className="space-y-1">
                           {dish.ingredients.map((ing, iIdx) => (
-                            <div key={iIdx} className="flex justify-between text-xs text-slate-300">
+                            <div key={iIdx} className="flex justify-between text-xs text-slate-700 dark:text-slate-300">
                               <span>{ing.rawItemName}</span>
-                              <span className="font-mono font-bold text-white">
+                              <span className="font-mono font-bold text-slate-900 dark:text-white">
                                 {ing.qtyPerPortion} {ing.unit} / plate
                               </span>
                             </div>
@@ -1205,8 +1211,11 @@ export const Inventory: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {/* 4. TAB: RAW INGREDIENTS LEDGER                                */}
       {/* ------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------- */}
+      {/* 4. TAB: RAW INGREDIENTS LEDGER                                */}
+      {/* ------------------------------------------------------------- */}
       {activeTab === 'REGISTER' && (
-        <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
           {/* Search and Filters */}
           <div className="flex flex-col md:flex-row items-center gap-3">
             <div className="relative flex-1 w-full">
@@ -1216,13 +1225,13 @@ export const Inventory: React.FC = () => {
                 placeholder="Search raw ingredients by name, supplier, or location..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl pl-9 pr-8 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-orange-500"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -1230,11 +1239,11 @@ export const Inventory: React.FC = () => {
             </div>
 
             {/* Storage Filter */}
-            <div className="flex items-center space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-bold shrink-0">
+            <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-bold shrink-0">
               <select
                 value={storageFilter}
                 onChange={(e) => setStorageFilter(e.target.value)}
-                className="bg-transparent text-slate-300 font-bold px-2 py-1 focus:outline-none text-xs"
+                className="bg-transparent text-slate-700 dark:text-slate-300 font-bold px-2 py-1 focus:outline-none text-xs"
               >
                 <option value="ALL">All Storage Locations</option>
                 {storageLocationsList.filter((s) => s !== 'ALL').map((loc) => (
@@ -1246,7 +1255,7 @@ export const Inventory: React.FC = () => {
             </div>
 
             {/* Status Filter */}
-            <div className="flex items-center space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-bold shrink-0">
+            <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-bold shrink-0">
               {(['ALL', 'LOW_STOCK', 'HEALTHY'] as const).map((st) => (
                 <button
                   key={st}
@@ -1255,7 +1264,7 @@ export const Inventory: React.FC = () => {
                   className={`px-3 py-1 rounded-lg transition ${
                     statusFilter === st
                       ? 'bg-orange-500 text-white shadow'
-                      : 'text-slate-400 hover:text-slate-200'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                   }`}
                 >
                   {st === 'ALL' ? 'All' : st === 'LOW_STOCK' ? 'Low Stock' : 'Healthy'}
@@ -1273,8 +1282,8 @@ export const Inventory: React.FC = () => {
                 onClick={() => setCategoryFilter(cat)}
                 className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition ${
                   categoryFilter === cat
-                    ? 'bg-slate-800 text-white border border-slate-700 shadow-sm'
-                    : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
+                    ? 'bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 shadow-sm'
+                    : 'bg-slate-100 dark:bg-slate-900/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
                 }`}
               >
                 {cat}
@@ -1283,9 +1292,9 @@ export const Inventory: React.FC = () => {
           </div>
 
           {/* Master Table */}
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-slate-900 text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-800">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+              <thead className="bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-4 py-3">Ingredient & Storage Location</th>
                   <th className="px-4 py-3">Category</th>
@@ -1297,13 +1306,13 @@ export const Inventory: React.FC = () => {
                   <th className="px-4 py-3 text-right">Quick Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {filteredItems.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-12 text-center text-slate-400">
-                      <Package className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-                      <div className="text-sm font-bold text-slate-300">No Raw Inventory Items Found</div>
-                      <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                    <td colSpan={8} className="px-4 py-12 text-center text-slate-400 dark:text-slate-500">
+                      <Package className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+                      <div className="text-sm font-bold text-slate-700 dark:text-slate-300">No Raw Inventory Items Found</div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
                         Add raw stock items, ingredients, and consumables using the "Add Raw Item" button.
                       </p>
                     </td>
@@ -1314,53 +1323,53 @@ export const Inventory: React.FC = () => {
                   const valuation = item.currentStock * item.costPerUnit;
 
                   return (
-                    <tr key={item.id} className="hover:bg-slate-900/60 transition">
+                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/60 transition">
                       <td className="px-4 py-3.5">
-                        <div className="font-bold text-white flex items-center space-x-2">
-                          <Package className="w-4 h-4 text-orange-400 shrink-0" />
+                        <div className="font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                          <Package className="w-4 h-4 text-orange-500 shrink-0" />
                           <span>{item.name}</span>
                         </div>
-                        <div className="text-[10px] text-slate-400 mt-0.5">
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
                           📍 {item.storageLocation}
                         </div>
                       </td>
 
-                      <td className="px-4 py-3.5 text-slate-400 font-medium">
+                      <td className="px-4 py-3.5 text-slate-600 dark:text-slate-400 font-medium">
                         {item.category}
                       </td>
 
                       <td className="px-4 py-3.5">
                         <div className="flex items-center space-x-2">
-                          <span className={`font-black font-mono text-sm ${isLow ? 'text-rose-400' : 'text-white'}`}>
+                          <span className={`font-black font-mono text-sm ${isLow ? 'text-rose-500 dark:text-rose-400' : 'text-slate-900 dark:text-white'}`}>
                             {item.currentStock.toFixed(1)} {item.unit}
                           </span>
                           {isLow && (
-                            <span className="px-1.5 py-0.5 rounded-full bg-rose-500/20 text-rose-400 text-[9px] font-extrabold border border-rose-500/30 flex items-center gap-0.5">
+                            <span className="px-1.5 py-0.5 rounded-full bg-rose-500/15 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400 text-[9px] font-extrabold border border-rose-500/30 flex items-center gap-0.5">
                               <AlertTriangle className="w-2.5 h-2.5" /> REORDER
                             </span>
                           )}
                         </div>
                       </td>
 
-                      <td className="px-4 py-3.5 text-slate-400 font-mono">
+                      <td className="px-4 py-3.5 text-slate-500 dark:text-slate-400 font-mono">
                         {item.minimumThreshold.toFixed(1)} {item.unit}
                       </td>
 
-                      <td className="px-4 py-3.5 font-mono font-semibold text-slate-200">
+                      <td className="px-4 py-3.5 font-mono font-semibold text-slate-800 dark:text-slate-200">
                         <div className="flex items-center space-x-1">
                           <span>₹{item.costPerUnit.toFixed(2)}</span>
-                          {item.priceTrend === 'UP' && <span className="text-[9px] text-rose-400 font-bold">▲</span>}
-                          {item.priceTrend === 'DOWN' && <span className="text-[9px] text-emerald-400 font-bold">▼</span>}
+                          {item.priceTrend === 'UP' && <span className="text-[9px] text-rose-500 dark:text-rose-400 font-bold">▲</span>}
+                          {item.priceTrend === 'DOWN' && <span className="text-[9px] text-emerald-500 dark:text-emerald-400 font-bold">▼</span>}
                         </div>
                       </td>
 
-                      <td className="px-4 py-3.5 font-mono font-bold text-emerald-400">
+                      <td className="px-4 py-3.5 font-mono font-bold text-emerald-600 dark:text-emerald-400">
                         ₹{valuation.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                       </td>
 
-                      <td className="px-4 py-3.5 text-slate-300">
+                      <td className="px-4 py-3.5 text-slate-700 dark:text-slate-300">
                         <div className="font-semibold flex items-center gap-1">
-                          <Truck className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                          <Truck className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
                           <span>{item.supplier}</span>
                         </div>
                       </td>
@@ -1375,7 +1384,7 @@ export const Inventory: React.FC = () => {
                               setInwardSupplier(item.supplier);
                               setShowInwardModal(true);
                             }}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 border border-emerald-500/30 font-bold text-[10px] transition"
+                            className="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 font-bold text-[10px] transition"
                             title="Record Inward"
                           >
                             + Inward
@@ -1387,7 +1396,7 @@ export const Inventory: React.FC = () => {
                               setWasteItemId(item.id);
                               setShowWastageModal(true);
                             }}
-                            className="px-2.5 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-400 border border-rose-500/30 font-bold text-[10px] transition"
+                            className="px-2.5 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-600 dark:text-rose-400 border border-rose-500/30 font-bold text-[10px] transition"
                             title="Record Wastage"
                           >
                             - Waste
@@ -1407,21 +1416,21 @@ export const Inventory: React.FC = () => {
       {/* 5. TAB: MASTER GRAVIES & SEMI-FINISHED KITCHEN PREP           */}
       {/* ------------------------------------------------------------- */}
       {activeTab === 'GRAVY_PREP' && (
-        <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
             <div>
-              <h2 className="text-base font-black text-white">Master Gravies & Kitchen Prep Batches</h2>
-              <p className="text-xs text-slate-400">
+              <h2 className="text-base font-black text-slate-900 dark:text-white">Master Gravies & Kitchen Prep Batches</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Track pre-cooked mother gravies (Makhani, Bhuna Masala, Shahi White, Tikka Marinations). Cooking a batch automatically deducts raw onions, tomatoes, butter, and cashews!
               </p>
             </div>
           </div>
 
           {gravyBatches.length === 0 ? (
-            <div className="p-12 text-center border border-dashed border-slate-800 rounded-2xl bg-slate-900/40">
-              <Flame className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-              <h3 className="text-sm font-bold text-slate-300">No Master Gravies or Kitchen Batches</h3>
-              <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+            <div className="p-12 text-center border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50 dark:bg-slate-900/40">
+              <Flame className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">No Master Gravies or Kitchen Batches</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
                 Pre-cooked gravies and master batches prepared in the kitchen will be tracked here.
               </p>
             </div>
@@ -1430,43 +1439,43 @@ export const Inventory: React.FC = () => {
               {gravyBatches.map((gravy) => (
                 <div
                   key={gravy.id}
-                  className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3.5 shadow-md"
+                  className="bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-3.5 shadow-md"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center space-x-2.5">
-                      <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400">
+                      <div className="p-2 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400">
                         <Flame className="w-5 h-5" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-white text-xs leading-snug">{gravy.name}</h3>
-                        <div className="text-[10px] text-slate-400 mt-0.5">
+                        <h3 className="font-bold text-slate-900 dark:text-white text-xs leading-snug">{gravy.name}</h3>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
                           📍 {gravy.storageLocation} • {gravy.shelfLifeHours}h Shelf Life
                         </div>
                       </div>
                     </div>
 
-                    <span className="px-2.5 py-1 rounded-xl bg-amber-500/15 text-amber-300 font-mono font-black text-xs shrink-0 border border-amber-500/30">
+                    <span className="px-2.5 py-1 rounded-xl bg-amber-500/15 text-amber-700 dark:text-amber-300 font-mono font-black text-xs shrink-0 border border-amber-500/30">
                       {gravy.inStockQuantity.toFixed(1)} {gravy.unit} In Hand
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1.5 text-xs">
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  <div className="p-2.5 bg-white dark:bg-slate-950/80 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1.5 text-xs">
+                    <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                       Base Recipe Consumption (Per {gravy.yieldQuantity} {gravy.unit} Batch):
                     </div>
-                    <div className="grid grid-cols-2 gap-1.5 text-[11px] text-slate-300">
+                    <div className="grid grid-cols-2 gap-1.5 text-[11px] text-slate-600 dark:text-slate-300">
                       {gravy.rawRecipeIngredients.map((r, rIdx) => (
                         <div key={rIdx} className="flex items-center space-x-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                           <span className="truncate">{r.itemName}:</span>
-                          <span className="font-mono font-bold text-white">{r.requiredQty} {r.unit}</span>
+                          <span className="font-mono font-bold text-slate-900 dark:text-white">{r.requiredQty} {r.unit}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-1 border-t border-slate-800/80 text-[11px]">
-                    <span className="text-slate-400">
+                  <div className="flex items-center justify-between pt-1 border-t border-slate-200 dark:border-slate-800/80 text-[11px]">
+                    <span className="text-slate-500 dark:text-slate-400">
                       Last prepped: {gravy.preppedAt}
                     </span>
 
@@ -1494,11 +1503,11 @@ export const Inventory: React.FC = () => {
       {/* 6. TAB: GOODS INWARD (GRN & PROCUREMENT BILLS)                */}
       {/* ------------------------------------------------------------- */}
       {activeTab === 'MANDI_INWARD' && (
-        <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
             <div>
-              <h2 className="text-base font-black text-white">Goods Inward Register (GRN & Mandi Delivery)</h2>
-              <p className="text-xs text-slate-400">Digital ledger of supplier bills, delivery challans, cash/credit procurement receipts.</p>
+              <h2 className="text-base font-black text-slate-900 dark:text-white">Goods Inward Register (GRN & Mandi Delivery)</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Digital ledger of supplier bills, delivery challans, cash/credit procurement receipts.</p>
             </div>
 
             <button
@@ -1515,9 +1524,9 @@ export const Inventory: React.FC = () => {
             </button>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-slate-900 text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-800">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+              <thead className="bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-4 py-3">GRN # & Date</th>
                   <th className="px-4 py-3">Ingredient</th>
@@ -1529,41 +1538,41 @@ export const Inventory: React.FC = () => {
                   <th className="px-4 py-3">Received By</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {inwardLogs.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-12 text-center text-slate-400">
-                      <Truck className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-                      <div className="text-sm font-bold text-slate-300">No Goods Inward Records Found</div>
-                      <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                    <td colSpan={8} className="px-4 py-12 text-center text-slate-400 dark:text-slate-500">
+                      <Truck className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+                      <div className="text-sm font-bold text-slate-700 dark:text-slate-300">No Goods Inward Records Found</div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
                         Record inward shipments, mandi procurement bills, and supplier challans using the "Record Inward GRN" button above.
                       </p>
                     </td>
                   </tr>
                 ) : (
                   inwardLogs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-900/60 transition">
+                  <tr key={log.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/60 transition">
                     <td className="px-4 py-3.5">
-                      <span className="font-mono font-bold text-white">{log.id.toUpperCase()}</span>
-                      <div className="text-[10px] text-slate-400 mt-0.5">{log.date}</div>
+                      <span className="font-mono font-bold text-slate-900 dark:text-white">{log.id.toUpperCase()}</span>
+                      <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">{log.date}</div>
                     </td>
 
-                    <td className="px-4 py-3.5 font-bold text-white">
+                    <td className="px-4 py-3.5 font-bold text-slate-900 dark:text-white">
                       {log.itemName}
                       {log.notes && (
-                        <div className="text-[10px] text-slate-400 font-normal mt-0.5">{log.notes}</div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal mt-0.5">{log.notes}</div>
                       )}
                     </td>
 
-                    <td className="px-4 py-3.5 font-mono font-black text-emerald-400 text-sm">
+                    <td className="px-4 py-3.5 font-mono font-black text-emerald-600 dark:text-emerald-400 text-sm">
                       +{log.quantity.toFixed(1)} {log.unit}
                     </td>
 
-                    <td className="px-4 py-3.5 font-mono text-slate-300">
+                    <td className="px-4 py-3.5 font-mono text-slate-700 dark:text-slate-300">
                       ₹{log.costPerUnit.toFixed(2)}
                     </td>
 
-                    <td className="px-4 py-3.5 font-mono font-bold text-white">
+                    <td className="px-4 py-3.5 font-mono font-bold text-slate-900 dark:text-white">
                       ₹{log.totalCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </td>
 
@@ -1571,8 +1580,8 @@ export const Inventory: React.FC = () => {
                       <span
                         className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider ${
                           log.paymentMode === 'VENDOR_CREDIT'
-                            ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
-                            : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                            ? 'bg-purple-500/15 text-purple-600 dark:bg-purple-500/20 dark:text-purple-300 border border-purple-500/30'
+                            : 'bg-emerald-500/15 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 border border-emerald-500/30'
                         }`}
                       >
                         {log.paymentMode === 'VENDOR_CREDIT' ? 'Khata (Credit)' : log.paymentMode}
@@ -1580,11 +1589,11 @@ export const Inventory: React.FC = () => {
                     </td>
 
                     <td className="px-4 py-3.5">
-                      <div className="font-semibold text-slate-200">{log.supplier}</div>
-                      <div className="text-[10px] text-slate-400 font-mono">{log.invoiceNumber}</div>
+                      <div className="font-semibold text-slate-800 dark:text-slate-200">{log.supplier}</div>
+                      <div className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">{log.invoiceNumber}</div>
                     </td>
 
-                    <td className="px-4 py-3.5 text-slate-400">
+                    <td className="px-4 py-3.5 text-slate-500 dark:text-slate-400">
                       {log.receivedBy}
                     </td>
                   </tr>
@@ -1599,11 +1608,11 @@ export const Inventory: React.FC = () => {
       {/* 7. TAB: KITCHEN SCRAP & WASTAGE LOGBOOK                       */}
       {/* ------------------------------------------------------------- */}
       {activeTab === 'WASTAGE' && (
-        <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
             <div>
-              <h2 className="text-base font-black text-white">Kitchen Scrap & Wastage Logbook</h2>
-              <p className="text-xs text-slate-400">Record spoiled items, kitchen preparation trimmings, spills, and calculate financial cost loss.</p>
+              <h2 className="text-base font-black text-slate-900 dark:text-white">Kitchen Scrap & Wastage Logbook</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Record spoiled items, kitchen preparation trimmings, spills, and calculate financial cost loss.</p>
             </div>
 
             <button
@@ -1619,9 +1628,9 @@ export const Inventory: React.FC = () => {
             </button>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-slate-900 text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-800">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+              <thead className="bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-4 py-3">Log # & Time</th>
                   <th className="px-4 py-3">Ingredient</th>
@@ -1632,48 +1641,48 @@ export const Inventory: React.FC = () => {
                   <th className="px-4 py-3">Chef Notes</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {wastageLogs.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-4 py-12 text-center text-slate-400">
-                      <TrendingDown className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-                      <div className="text-sm font-bold text-slate-300">No Kitchen Wastage Recorded</div>
-                      <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                    <td colSpan={7} className="px-4 py-12 text-center text-slate-400 dark:text-slate-500">
+                      <TrendingDown className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+                      <div className="text-sm font-bold text-slate-700 dark:text-slate-300">No Kitchen Wastage Recorded</div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
                         Kitchen prep trimmings, spoiled items, and scrap losses logged by culinary staff will appear here.
                       </p>
                     </td>
                   </tr>
                 ) : (
                   wastageLogs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-900/60 transition">
+                  <tr key={log.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/60 transition">
                     <td className="px-4 py-3.5">
-                      <span className="font-mono font-bold text-white">{log.id.toUpperCase()}</span>
-                      <div className="text-[10px] text-slate-400 mt-0.5">{log.date}</div>
+                      <span className="font-mono font-bold text-slate-900 dark:text-white">{log.id.toUpperCase()}</span>
+                      <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">{log.date}</div>
                     </td>
 
-                    <td className="px-4 py-3.5 font-bold text-white">
+                    <td className="px-4 py-3.5 font-bold text-slate-900 dark:text-white">
                       {log.itemName}
                     </td>
 
-                    <td className="px-4 py-3.5 font-mono font-black text-rose-400 text-sm">
+                    <td className="px-4 py-3.5 font-mono font-black text-rose-500 dark:text-rose-400 text-sm">
                       -{log.quantity.toFixed(1)} {log.unit}
                     </td>
 
                     <td className="px-4 py-3.5">
-                      <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-rose-500/15 text-rose-400 border border-rose-500/30">
+                      <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30">
                         {log.reason.replace(/_/g, ' ')}
                       </span>
                     </td>
 
-                    <td className="px-4 py-3.5 font-mono font-black text-rose-400">
+                    <td className="px-4 py-3.5 font-mono font-black text-rose-500 dark:text-rose-400">
                       ₹{log.financialLoss.toFixed(2)}
                     </td>
 
-                    <td className="px-4 py-3.5 text-slate-300">
+                    <td className="px-4 py-3.5 text-slate-700 dark:text-slate-300">
                       {log.recordedBy}
                     </td>
 
-                    <td className="px-4 py-3.5 text-slate-400">
+                    <td className="px-4 py-3.5 text-slate-500 dark:text-slate-400">
                       {log.notes || '—'}
                     </td>
                   </tr>
@@ -1688,11 +1697,11 @@ export const Inventory: React.FC = () => {
       {/* 8. TAB: PHYSICAL STOCK AUDIT & VARIANCE RECONCILIATION       */}
       {/* ------------------------------------------------------------- */}
       {activeTab === 'AUDIT' && (
-        <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
             <div>
-              <h2 className="text-base font-black text-white">Physical Closing Stock Audit Sheet</h2>
-              <p className="text-xs text-slate-400">Enter shelf physical counts to calculate shrinkage variance and reconcile book balances.</p>
+              <h2 className="text-base font-black text-slate-900 dark:text-white">Physical Closing Stock Audit Sheet</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Enter shelf physical counts to calculate shrinkage variance and reconcile book balances.</p>
             </div>
 
             <button
@@ -1706,15 +1715,15 @@ export const Inventory: React.FC = () => {
           </div>
 
           {auditSuccessMsg && (
-            <div className="p-3 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded-xl text-xs font-bold flex items-center space-x-2">
+            <div className="p-3 bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 rounded-xl text-xs font-bold flex items-center space-x-2">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
               <span>{auditSuccessMsg}</span>
             </div>
           )}
 
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-slate-900 text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-800">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+              <thead className="bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-4 py-3">Ingredient</th>
                   <th className="px-4 py-3">Storage Location</th>
@@ -1724,13 +1733,13 @@ export const Inventory: React.FC = () => {
                   <th className="px-4 py-3">Cost Variance</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {items.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-12 text-center text-slate-400">
-                      <ClipboardCheck className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-                      <div className="text-sm font-bold text-slate-300">No Inventory Items for Stock Audit</div>
-                      <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                    <td colSpan={6} className="px-4 py-12 text-center text-slate-400 dark:text-slate-500">
+                      <ClipboardCheck className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+                      <div className="text-sm font-bold text-slate-700 dark:text-slate-300">No Inventory Items for Stock Audit</div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
                         Stock items must first be registered in your inventory ledger to perform physical shelf audits.
                       </p>
                     </td>
@@ -1743,16 +1752,16 @@ export const Inventory: React.FC = () => {
                   const varianceCost = varianceQty * item.costPerUnit;
 
                   return (
-                    <tr key={item.id} className="hover:bg-slate-900/60 transition">
-                      <td className="px-4 py-3.5 font-bold text-white">
+                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/60 transition">
+                      <td className="px-4 py-3.5 font-bold text-slate-900 dark:text-white">
                         {item.name}
                       </td>
 
-                      <td className="px-4 py-3.5 text-slate-400">
+                      <td className="px-4 py-3.5 text-slate-500 dark:text-slate-400">
                         {item.storageLocation}
                       </td>
 
-                      <td className="px-4 py-3.5 font-mono font-bold text-white">
+                      <td className="px-4 py-3.5 font-mono font-bold text-slate-900 dark:text-white">
                         {item.currentStock.toFixed(1)} {item.unit}
                       </td>
 
@@ -1770,33 +1779,33 @@ export const Inventory: React.FC = () => {
                                 [item.id]: isNaN(val) ? (undefined as any) : val
                               }));
                             }}
-                            className="w-24 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs font-mono font-bold text-white focus:outline-none focus:border-purple-500"
+                            className="w-24 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs font-mono font-bold text-slate-900 dark:text-white focus:outline-none focus:border-purple-500"
                           />
-                          <span className="text-[11px] text-slate-400">{item.unit}</span>
+                          <span className="text-[11px] text-slate-400 dark:text-slate-500">{item.unit}</span>
                         </div>
                       </td>
 
                       <td className="px-4 py-3.5 font-mono font-bold">
                         {!hasInput ? (
-                          <span className="text-slate-500">—</span>
+                          <span className="text-slate-400 dark:text-slate-500">—</span>
                         ) : varianceQty === 0 ? (
-                          <span className="text-emerald-400">0.0 (Matched)</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">0.0 (Matched)</span>
                         ) : varianceQty > 0 ? (
-                          <span className="text-blue-400">+{varianceQty.toFixed(1)} (Surplus)</span>
+                          <span className="text-blue-600 dark:text-blue-400">+{varianceQty.toFixed(1)} (Surplus)</span>
                         ) : (
-                          <span className="text-rose-400">{varianceQty.toFixed(1)} (Shrinkage)</span>
+                          <span className="text-rose-600 dark:text-rose-400">{varianceQty.toFixed(1)} (Shrinkage)</span>
                         )}
                       </td>
 
                       <td className="px-4 py-3.5 font-mono font-bold">
                         {!hasInput ? (
-                          <span className="text-slate-500">—</span>
+                          <span className="text-slate-400 dark:text-slate-500">—</span>
                         ) : varianceCost === 0 ? (
-                          <span className="text-emerald-400">₹0.00</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">₹0.00</span>
                         ) : varianceCost > 0 ? (
-                          <span className="text-blue-400">+₹{varianceCost.toFixed(2)}</span>
+                          <span className="text-blue-600 dark:text-blue-400">+₹{varianceCost.toFixed(2)}</span>
                         ) : (
-                          <span className="text-rose-400">-₹{Math.abs(varianceCost).toFixed(2)}</span>
+                          <span className="text-rose-600 dark:text-rose-400">-₹{Math.abs(varianceCost).toFixed(2)}</span>
                         )}
                       </td>
                     </tr>
@@ -1813,51 +1822,51 @@ export const Inventory: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {activeTab === 'VENDORS' && (
         <div className="space-y-5">
-          <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <Building2 className="w-5 h-5 text-indigo-400" />
-                <h3 className="text-base font-black text-white">Vendor Directory & Khata Ledger</h3>
+                <Building2 className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
+                <h3 className="text-base font-black text-slate-900 dark:text-white">Vendor Directory & Khata Ledger</h3>
               </div>
             </div>
 
             {vendors.length === 0 ? (
-              <div className="p-12 text-center border border-dashed border-slate-800 rounded-2xl bg-slate-900/40">
-                <Building2 className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-                <h3 className="text-sm font-bold text-slate-300">No Vendor Contacts or Khata Ledgers</h3>
-                <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+              <div className="p-12 text-center border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50 dark:bg-slate-900/40">
+                <Building2 className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">No Vendor Contacts or Khata Ledgers</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
                   Supplier khata accounts and vendor balances created during procurement will be cataloged here.
                 </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
                 {vendors.map((ven) => (
-                  <div key={ven.id} className="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 space-y-3 text-xs">
+                  <div key={ven.id} className="p-4 bg-slate-50 dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3 text-xs">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-bold text-white">{ven.name}</h4>
-                      <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-semibold text-[10px]">
+                      <h4 className="font-bold text-slate-900 dark:text-white">{ven.name}</h4>
+                      <span className="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-[10px]">
                         {ven.category}
                       </span>
                     </div>
 
-                    <div className="space-y-1 text-slate-400">
+                    <div className="space-y-1 text-slate-500 dark:text-slate-400">
                       <div className="flex items-center space-x-2">
-                        <Phone className="w-3.5 h-3.5 text-slate-500" />
-                        <span className="font-mono text-slate-200">{ven.phone}</span>
+                        <Phone className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+                        <span className="font-mono text-slate-800 dark:text-slate-200">{ven.phone}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Mail className="w-3.5 h-3.5 text-slate-500" />
+                        <Mail className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                         <span className="truncate">{ven.email}</span>
                       </div>
-                      <div className="text-[10px] text-slate-500 font-mono">
+                      <div className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">
                         GSTIN: {ven.gstin}
                       </div>
                     </div>
 
-                    <div className="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800/80 flex items-center justify-between">
+                    <div className="p-2.5 bg-white dark:bg-slate-950/80 rounded-xl border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
                       <div>
-                        <div className="text-[10px] text-slate-400 uppercase font-semibold">Khata Due Balance:</div>
-                        <div className="font-mono font-black text-sm text-purple-300 mt-0.5">
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold">Khata Due Balance:</div>
+                        <div className="font-mono font-black text-sm text-purple-700 dark:text-purple-300 mt-0.5">
                           ₹{ven.outstandingBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                         </div>
                       </div>
@@ -1886,32 +1895,32 @@ export const Inventory: React.FC = () => {
       {/* 10. COOK GRAVY BATCH MODAL                                    */}
       {/* ------------------------------------------------------------- */}
       {showCookGravyModal && selectedGravy && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111827] border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <Flame className="w-5 h-5 text-amber-400" />
-                <h3 className="text-base font-bold text-white">Cook Gravy Batch</h3>
+                <Flame className="w-5 h-5 text-amber-500" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Cook Gravy Batch</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowCookGravyModal(false)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleExecuteGravyBatchCook} className="space-y-4 text-xs">
-              <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl space-y-1">
-                <div className="font-bold text-white">{selectedGravy.name}</div>
-                <div className="text-slate-400 text-[11px]">
+              <div className="p-3 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-xl space-y-1">
+                <div className="font-bold text-slate-900 dark:text-white">{selectedGravy.name}</div>
+                <div className="text-slate-600 dark:text-slate-400 text-[11px]">
                   Standard batch yield: {selectedGravy.yieldQuantity} {selectedGravy.unit}
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Batch Multiplier</label>
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Batch Multiplier</label>
                 <div className="grid grid-cols-3 gap-2">
                   {[1, 2, 3].map((mul) => (
                     <button
@@ -1921,7 +1930,7 @@ export const Inventory: React.FC = () => {
                       className={`py-2 rounded-xl font-black text-xs transition ${
                         cookBatchMultiplier === mul
                           ? 'bg-amber-500 text-white shadow-md shadow-amber-500/20'
-                          : 'bg-slate-900 text-slate-400 border border-slate-800'
+                          : 'bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-400 border border-slate-200 dark:border-slate-800'
                       }`}
                     >
                       {mul}x ({selectedGravy.yieldQuantity * mul} {selectedGravy.unit})
@@ -1930,11 +1939,11 @@ export const Inventory: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-800 flex items-center justify-end space-x-2">
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-2">
                 <button
                   type="button"
                   onClick={() => setShowCookGravyModal(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-xs border border-slate-200 dark:border-slate-700"
                 >
                   Cancel
                 </button>
@@ -1954,44 +1963,44 @@ export const Inventory: React.FC = () => {
       {/* 11. PAY VENDOR KHATA MODAL                                    */}
       {/* ------------------------------------------------------------- */}
       {showVendorPayModal && selectedVendor && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111827] border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <IndianRupee className="w-5 h-5 text-purple-400" />
-                <h3 className="text-base font-bold text-white">Record Vendor Khata Payment</h3>
+                <IndianRupee className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Record Vendor Khata Payment</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowVendorPayModal(false)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleRecordVendorPayment} className="space-y-4 text-xs">
-              <div className="p-3 bg-purple-500/10 border border-purple-500/20 rounded-xl space-y-1">
-                <div className="font-bold text-white">{selectedVendor.name}</div>
-                <div className="text-slate-400 text-[11px]">
-                  Current Outstanding Due: <span className="font-mono font-black text-purple-300">₹{selectedVendor.outstandingBalance.toFixed(2)}</span>
+              <div className="p-3 bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/20 rounded-xl space-y-1">
+                <div className="font-bold text-slate-900 dark:text-white">{selectedVendor.name}</div>
+                <div className="text-slate-600 dark:text-slate-400 text-[11px]">
+                  Current Outstanding Due: <span className="font-mono font-black text-purple-700 dark:text-purple-300">₹{selectedVendor.outstandingBalance.toFixed(2)}</span>
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Payment Amount (₹)</label>
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Payment Amount (₹)</label>
                 <input
                   type="number"
                   step="1"
                   value={payAmount}
                   onChange={(e) => setPayAmount(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono font-bold text-sm"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono font-bold text-sm"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Payment Mode</label>
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Payment Mode</label>
                 <div className="grid grid-cols-3 gap-2">
                   {(['UPI', 'CASH', 'BANK'] as const).map((m) => (
                     <button
@@ -2001,7 +2010,7 @@ export const Inventory: React.FC = () => {
                       className={`py-2 rounded-xl font-bold text-xs transition ${
                         payMode === m
                           ? 'bg-purple-600 text-white shadow'
-                          : 'bg-slate-900 text-slate-400 border border-slate-800'
+                          : 'bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-400 border border-slate-200 dark:border-slate-800'
                       }`}
                     >
                       {m === 'UPI' ? '📱 UPI' : m === 'CASH' ? '💵 Cash' : '🏦 Bank NEFT'}
@@ -2010,11 +2019,11 @@ export const Inventory: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-800 flex items-center justify-end space-x-2">
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-2">
                 <button
                   type="button"
                   onClick={() => setShowVendorPayModal(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-xs border border-slate-200 dark:border-slate-700"
                 >
                   Cancel
                 </button>
@@ -2034,17 +2043,17 @@ export const Inventory: React.FC = () => {
       {/* 12. GOODS INWARD (GRN) MODAL                                  */}
       {/* ------------------------------------------------------------- */}
       {showInwardModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111827] border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <ArrowDownRight className="w-5 h-5 text-emerald-400" />
-                <h3 className="text-base font-bold text-white">Record Goods Inward (GRN)</h3>
+                <ArrowDownRight className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Record Goods Inward (GRN)</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowInwardModal(false)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -2052,7 +2061,7 @@ export const Inventory: React.FC = () => {
 
             <form onSubmit={handleSaveInward} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Select Raw Ingredient</label>
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Select Raw Ingredient</label>
                 <select
                   value={inwardItemId}
                   onChange={(e) => {
@@ -2063,7 +2072,7 @@ export const Inventory: React.FC = () => {
                       setInwardSupplier(it.supplier);
                     }
                   }}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold"
                 >
                   {items.map((i) => (
                     <option key={i.id} value={i.id}>
@@ -2075,7 +2084,7 @@ export const Inventory: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Received Quantity</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Received Quantity</label>
                   <input
                     type="number"
                     step="0.1"
@@ -2083,19 +2092,19 @@ export const Inventory: React.FC = () => {
                     placeholder="e.g. 10.0"
                     value={inwardQty}
                     onChange={(e) => setInwardQty(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono font-bold"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono font-bold"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Purchase Rate (₹)</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Purchase Rate (₹)</label>
                   <input
                     type="number"
                     step="0.5"
                     value={inwardRate}
                     onChange={(e) => setInwardRate(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono font-bold"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono font-bold"
                     required
                   />
                 </div>
@@ -2103,30 +2112,30 @@ export const Inventory: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Supplier Name</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Supplier Name</label>
                   <input
                     type="text"
                     placeholder="e.g. Local Distributor / Wholesale Market"
                     value={inwardSupplier}
                     onChange={(e) => setInwardSupplier(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-medium"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Invoice / Bill #</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Invoice / Bill #</label>
                   <input
                     type="text"
                     placeholder="INV-99201"
                     value={inwardInvoice}
                     onChange={(e) => setInwardInvoice(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Payment Method</label>
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Payment Method</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
@@ -2134,7 +2143,7 @@ export const Inventory: React.FC = () => {
                     className={`py-2 rounded-xl font-bold text-xs transition ${
                       inwardPayMode === 'VENDOR_CREDIT'
                         ? 'bg-purple-600 text-white shadow'
-                        : 'bg-slate-900 text-slate-400 border border-slate-800'
+                        : 'bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-400 border border-slate-200 dark:border-slate-800'
                     }`}
                   >
                     Vendor Credit (Khata)
@@ -2145,7 +2154,7 @@ export const Inventory: React.FC = () => {
                     className={`py-2 rounded-xl font-bold text-xs transition ${
                       inwardPayMode === 'CASH_DRAWER'
                         ? 'bg-emerald-600 text-white shadow'
-                        : 'bg-slate-900 text-slate-400 border border-slate-800'
+                        : 'bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-400 border border-slate-200 dark:border-slate-800'
                     }`}
                   >
                     Cash Paid on Delivery
@@ -2153,11 +2162,11 @@ export const Inventory: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-800 flex items-center justify-end space-x-2">
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-2">
                 <button
                   type="button"
                   onClick={() => setShowInwardModal(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-xs border border-slate-200 dark:border-slate-700"
                 >
                   Cancel
                 </button>
@@ -2177,17 +2186,17 @@ export const Inventory: React.FC = () => {
       {/* 13. LOG WASTAGE MODAL                                         */}
       {/* ------------------------------------------------------------- */}
       {showWastageModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111827] border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <TrendingDown className="w-5 h-5 text-rose-400" />
-                <h3 className="text-base font-bold text-white">Record Kitchen Wastage / Scrap</h3>
+                <TrendingDown className="w-5 h-5 text-rose-500" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Record Kitchen Wastage / Scrap</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowWastageModal(false)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -2195,11 +2204,11 @@ export const Inventory: React.FC = () => {
 
             <form onSubmit={handleSaveWastage} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Select Wasted Item</label>
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Select Wasted Item</label>
                 <select
                   value={wasteItemId}
                   onChange={(e) => setWasteItemId(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold"
                 >
                   {items.map((i) => (
                     <option key={i.id} value={i.id}>
@@ -2211,7 +2220,7 @@ export const Inventory: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Wasted Quantity</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Wasted Quantity</label>
                   <input
                     type="number"
                     step="0.1"
@@ -2219,17 +2228,17 @@ export const Inventory: React.FC = () => {
                     placeholder="e.g. 1.5"
                     value={wasteQty}
                     onChange={(e) => setWasteQty(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono font-bold"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono font-bold"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Wastage Reason</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Wastage Reason</label>
                   <select
                     value={wasteReason}
                     onChange={(e) => setWasteReason(e.target.value as any)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-medium"
                   >
                     <option value="EXPIRED">Expired / Spoiled</option>
                     <option value="BURNT_SPILL">Burnt / Kitchen Spill</option>
@@ -2241,32 +2250,32 @@ export const Inventory: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Recorded By (Chef Name)</label>
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Recorded By (Chef Name)</label>
                 <input
                   type="text"
                   value={wasteChefName}
                   onChange={(e) => setWasteChefName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-medium"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-medium"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Incident Notes</label>
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Incident Notes</label>
                 <input
                   type="text"
                   placeholder="e.g. Deep freezer cooling dropped overnight"
                   value={wasteNotes}
                   onChange={(e) => setWasteNotes(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white"
                 />
               </div>
 
-              <div className="pt-2 border-t border-slate-800 flex items-center justify-end space-x-2">
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-2">
                 <button
                   type="button"
                   onClick={() => setShowWastageModal(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-xs border border-slate-200 dark:border-slate-700"
                 >
                   Cancel
                 </button>
@@ -2286,17 +2295,17 @@ export const Inventory: React.FC = () => {
       {/* 14. ADD NEW RAW INGREDIENT MODAL                              */}
       {/* ------------------------------------------------------------- */}
       {showAddItemModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111827] border border-slate-800 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <Plus className="w-5 h-5 text-orange-400" />
-                <h3 className="text-base font-bold text-white">Add New Raw Ingredient</h3>
+                <Plus className="w-5 h-5 text-orange-500" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Add New Raw Ingredient</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowAddItemModal(false)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -2304,24 +2313,24 @@ export const Inventory: React.FC = () => {
 
             <form onSubmit={handleAddNewItem} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Ingredient Name</label>
+                <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Ingredient Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Fresh Malai Paneer, Basmati Rice"
                   value={newItemName}
                   onChange={(e) => setNewItemName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Category</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Category</label>
                   <select
                     value={newItemCategory}
                     onChange={(e) => setNewItemCategory(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-medium"
                   >
                     <option value="Dairy & Cheese">Dairy & Cheese</option>
                     <option value="Meat & Poultry">Meat & Poultry</option>
@@ -2335,11 +2344,11 @@ export const Inventory: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Unit of Measure (UOM)</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Unit of Measure (UOM)</label>
                   <select
                     value={newItemUnit}
                     onChange={(e) => setNewItemUnit(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-medium"
                   >
                     <option value="kg">kg (Kilograms)</option>
                     <option value="g">g (Grams)</option>
@@ -2354,40 +2363,40 @@ export const Inventory: React.FC = () => {
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Opening Stock</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Opening Stock</label>
                   <input
                     type="number"
                     step="0.5"
                     placeholder="10.0"
                     value={newItemStock}
                     onChange={(e) => setNewItemStock(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono font-bold"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono font-bold"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Reorder Alert Min</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Reorder Alert Min</label>
                   <input
                     type="number"
                     step="0.5"
                     placeholder="5.0"
                     value={newItemMin}
                     onChange={(e) => setNewItemMin(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono font-bold"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono font-bold"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Cost / Unit (₹)</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Cost / Unit (₹)</label>
                   <input
                     type="number"
                     step="1"
                     placeholder="250"
                     value={newItemCost}
                     onChange={(e) => setNewItemCost(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono font-bold"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono font-bold"
                     required
                   />
                 </div>
@@ -2395,22 +2404,22 @@ export const Inventory: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Primary Supplier</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Primary Supplier</label>
                   <input
                     type="text"
                     placeholder="e.g. Local Distributor / Wholesale Market"
                     value={newItemSupplier}
                     onChange={(e) => setNewItemSupplier(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1">Storage Location</label>
+                  <label className="block text-slate-700 dark:text-slate-400 font-bold mb-1">Storage Location</label>
                   <select
                     value={newItemStorage}
                     onChange={(e) => setNewItemStorage(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-medium"
                   >
                     <option value="Cold Storage / Walk-in">Cold Storage / Walk-in</option>
                     <option value="Deep Freezer Unit">Deep Freezer Unit</option>
@@ -2422,11 +2431,11 @@ export const Inventory: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-800 flex items-center justify-end space-x-2">
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-2">
                 <button
                   type="button"
                   onClick={() => setShowAddItemModal(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-xs border border-slate-200 dark:border-slate-700"
                 >
                   Cancel
                 </button>

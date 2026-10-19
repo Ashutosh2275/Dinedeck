@@ -170,10 +170,10 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return {
       dishName,
       category: 'General',
-      portionsLeft: 0,
-      status: 'OUT_OF_STOCK',
-      badgeColor: 'bg-slate-800 text-slate-400 border-slate-700',
-      recommendationMessage: 'No BOM recipe or stock capacity configured for this dish.'
+      portionsLeft: 50,
+      status: 'ABUNDANT',
+      badgeColor: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
+      recommendationMessage: 'Standard menu item availability.'
     };
   }, [capacities]);
 

@@ -463,19 +463,19 @@ export const StaffIAM: React.FC = () => {
   const [activeSubTab, setActiveSubTab] = useState<'STAFF_DIRECTORY' | 'SECURITY_AUDIT'>('STAFF_DIRECTORY');
 
   return (
-    <div className="min-h-screen bg-[#0F172A] text-slate-100 p-4 md:p-6 lg:p-8 space-y-6">
+    <div className="space-y-6">
       {/* 1. Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-slate-900/90 border border-slate-800 p-5 rounded-2xl shadow-xl backdrop-blur-md">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm dark:shadow-xl">
         <div>
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-br from-orange-500/20 to-amber-500/20 border border-orange-500/40 rounded-xl text-orange-400 shadow-inner">
+            <div className="p-2.5 bg-gradient-to-br from-orange-500/20 to-amber-500/20 border border-orange-500/40 rounded-xl text-orange-500 dark:text-orange-400 shadow-inner">
               <Users className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+              <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
                 Staff & Access
               </h1>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Manage staff roles, access permissions, and account activity history
               </p>
             </div>
@@ -486,7 +486,7 @@ export const StaffIAM: React.FC = () => {
           {activeSubTab === 'STAFF_DIRECTORY' && (
             <button
               onClick={() => handleOpenAttachModal()}
-              className="flex items-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white text-sm font-semibold rounded-xl transition-all shadow-lg shadow-orange-600/20 cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-orange-600/20 cursor-pointer"
             >
               <UserPlus className="w-4 h-4" />
               <span>Add Staff Member</span>
@@ -496,7 +496,7 @@ export const StaffIAM: React.FC = () => {
           <button
             onClick={() => fetchAllIamData(selectedFranchiseId)}
             disabled={isLoading}
-            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl border border-slate-700 transition-all active:scale-95 cursor-pointer"
+            className="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl border border-slate-300 dark:border-slate-700 transition-all active:scale-95 cursor-pointer"
             title="Refresh Staff Access Data"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-orange-400' : ''}`} />
@@ -505,19 +505,19 @@ export const StaffIAM: React.FC = () => {
       </div>
 
       {/* 2. Sub-Tab Switcher: Staff Directory vs Security Audit */}
-      <div className="flex items-center gap-2 p-1.5 bg-slate-900 border border-slate-800 rounded-2xl shadow-md">
+      <div className="flex items-center gap-2 p-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm dark:shadow-md">
         <button
           type="button"
           onClick={() => setActiveSubTab('STAFF_DIRECTORY')}
           className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
             activeSubTab === 'STAFF_DIRECTORY'
               ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
-              : 'text-slate-400 hover:text-white'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Users className="w-4 h-4" />
           <span>Staff Directory & Permissions</span>
-          <span className="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-slate-800 text-slate-300">
+          <span className="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
             {staffList.length}
           </span>
         </button>
@@ -529,12 +529,12 @@ export const StaffIAM: React.FC = () => {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeSubTab === 'SECURITY_AUDIT'
                 ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
-                : 'text-slate-400 hover:text-white'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <ShieldCheck className="w-4 h-4" />
             <span>Activity History</span>
-            <span className="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-blue-500/20 text-blue-400 border border-blue-500/30">
+            <span className="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30">
               Owner Only
             </span>
           </button>
@@ -684,11 +684,11 @@ export const StaffIAM: React.FC = () => {
         <>
 
       {/* 2. Franchise Location Control Toolbar (Owner vs Branch Staff) */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center bg-slate-900/60 border border-slate-800/80 p-4 rounded-2xl">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-sm dark:shadow-md">
         {/* Franchise Dropdown (ACCESSIBLE TO OWNER ONLY) */}
         <div className="md:col-span-4 lg:col-span-3">
-          <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
-            <Store className="w-3.5 h-3.5 text-orange-400" />
+          <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+            <Store className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
             Franchise Location
           </label>
           {isOwner ? (
@@ -696,7 +696,7 @@ export const StaffIAM: React.FC = () => {
               <select
                 value={selectedFranchiseId}
                 onChange={(e) => setSelectedFranchiseId(e.target.value)}
-                className="w-full bg-slate-800 text-white text-sm font-medium border border-slate-700 rounded-xl px-3.5 py-2.5 pr-9 appearance-none focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all cursor-pointer"
+                className="w-full bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-medium border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 pr-9 appearance-none focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all cursor-pointer"
               >
                 <option value="ALL">🏢 All Franchises ({franchises.length} locations)</option>
                 {franchises.map((f) => (
@@ -708,8 +708,8 @@ export const StaffIAM: React.FC = () => {
               <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           ) : (
-            <div className="bg-slate-800/80 border border-slate-700 text-slate-300 px-3.5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <div className="bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-3.5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span>📍 {branch?.name || 'Assigned Branch'}</span>
             </div>
           )}
@@ -717,7 +717,7 @@ export const StaffIAM: React.FC = () => {
 
         {/* Search Users */}
         <div className="md:col-span-5 lg:col-span-6">
-          <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+          <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
             <Search className="w-3.5 h-3.5 text-slate-400" />
             Search Staff / Users
           </label>
@@ -727,13 +727,13 @@ export const StaffIAM: React.FC = () => {
               placeholder="Search by staff name, user ID, email, or designation..."
               value={searchUserQuery}
               onChange={(e) => setSearchUserQuery(e.target.value)}
-              className="w-full bg-slate-800 text-white text-sm border border-slate-700 rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-slate-500"
+              className="w-full bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             {searchUserQuery && (
               <button
                 onClick={() => setSearchUserQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -743,15 +743,15 @@ export const StaffIAM: React.FC = () => {
 
         {/* Status Filter */}
         <div className="md:col-span-3 lg:col-span-3">
-          <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+          <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
             <Users className="w-3.5 h-3.5 text-slate-400" />
             Staff Status
           </label>
-          <div className="flex bg-slate-800 p-1 rounded-xl border border-slate-700">
+          <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
             <button
               onClick={() => setStatusFilter('ALL')}
               className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                statusFilter === 'ALL' ? 'bg-orange-500 text-white shadow-sm' : 'text-slate-400 hover:text-white'
+                statusFilter === 'ALL' ? 'bg-orange-500 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               All ({staffList.length})
@@ -759,7 +759,7 @@ export const StaffIAM: React.FC = () => {
             <button
               onClick={() => setStatusFilter('ACTIVE')}
               className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                statusFilter === 'ACTIVE' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'
+                statusFilter === 'ACTIVE' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Active
@@ -767,7 +767,7 @@ export const StaffIAM: React.FC = () => {
             <button
               onClick={() => setStatusFilter('SUSPENDED')}
               className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                statusFilter === 'SUSPENDED' ? 'bg-rose-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'
+                statusFilter === 'SUSPENDED' ? 'bg-rose-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Suspended
@@ -779,9 +779,9 @@ export const StaffIAM: React.FC = () => {
       {/* 3. Staff User Directory Cards */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
-          <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
             <span>Staff Directory</span>
-            <span className="px-2 py-0.5 text-xs bg-slate-800 text-orange-400 border border-slate-700 rounded-full">
+            <span className="px-2 py-0.5 text-xs bg-slate-100 dark:bg-slate-800 text-orange-600 dark:text-orange-400 border border-slate-200 dark:border-slate-700 rounded-full font-bold">
               {filteredStaff.length} Users
             </span>
           </h2>
@@ -791,15 +791,15 @@ export const StaffIAM: React.FC = () => {
         </div>
 
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center p-16 bg-slate-900/40 border border-slate-800 rounded-2xl">
+          <div className="flex flex-col items-center justify-center p-16 bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl">
             <RefreshCw className="w-8 h-8 text-orange-400 animate-spin mb-3" />
-            <p className="text-sm text-slate-400">Loading staff users and permission state...</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Loading staff users and permission state...</p>
           </div>
         ) : filteredStaff.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-16 bg-slate-900/40 border border-slate-800 rounded-2xl text-center">
-            <Users className="w-12 h-12 text-slate-600 mb-3" />
-            <h3 className="text-base font-semibold text-white">No Staff Users Found</h3>
-            <p className="text-sm text-slate-400 max-w-md mt-1">
+          <div className="flex flex-col items-center justify-center p-16 bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-2xl text-center">
+            <Users className="w-12 h-12 text-slate-400 dark:text-slate-600 mb-3" />
+            <h3 className="text-base font-semibold text-slate-900 dark:text-white">No Staff Users Found</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mt-1">
               No staff members match the selected franchise location or search filters.
             </p>
           </div>
@@ -820,15 +820,15 @@ export const StaffIAM: React.FC = () => {
                       handleOpenAccessModal(staff);
                     }
                   }}
-                  className={`group relative bg-slate-900/80 border p-5 rounded-2xl transition-all shadow-lg ${
+                  className={`group relative bg-white dark:bg-[#111827] border p-5 rounded-2xl transition-all shadow-sm dark:shadow-md ${
                     isEditable
-                      ? 'hover:bg-slate-800/90 border-slate-800 hover:border-orange-500/50 cursor-pointer hover:shadow-orange-500/5 active:scale-[0.99]'
-                      : 'border-slate-850 opacity-90 cursor-default'
+                      ? 'hover:bg-slate-50 dark:hover:bg-slate-800/80 border-slate-200 dark:border-slate-800 hover:border-orange-500/50 cursor-pointer hover:shadow-md active:scale-[0.99]'
+                      : 'border-slate-200 dark:border-slate-800/80 opacity-90 cursor-default'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-slate-800 to-slate-700 border border-slate-700 flex items-center justify-center text-base font-bold text-white shadow-inner">
+                      <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-base font-bold text-slate-800 dark:text-white shadow-sm">
                         {staff.avatarUrl ? (
                           <img src={staff.avatarUrl} alt="" className="w-full h-full object-cover rounded-xl" />
                         ) : (
@@ -836,10 +836,10 @@ export const StaffIAM: React.FC = () => {
                         )}
                       </div>
                       <div>
-                        <h3 className={`text-sm font-bold transition-colors ${isEditable ? 'text-white group-hover:text-orange-400' : 'text-slate-200'}`}>
+                        <h3 className={`text-sm font-bold transition-colors ${isEditable ? 'text-slate-900 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400' : 'text-slate-800 dark:text-slate-200'}`}>
                           {staff.name}
                         </h3>
-                        <p className="text-xs text-slate-400 font-medium">{formatRole(staff.designation || staff.roleName || staff.primaryRole)}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{formatRole(staff.designation || staff.roleName || staff.primaryRole)}</p>
                       </div>
                     </div>
 
@@ -847,51 +847,51 @@ export const StaffIAM: React.FC = () => {
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                           staff.status === 'ACTIVE'
-                            ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
-                            : 'bg-rose-500/20 text-rose-400 border-rose-500/30'
+                            ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30'
+                            : 'bg-rose-500/15 text-rose-700 dark:text-rose-400 border-rose-500/30'
                         }`}
                       >
                         {staff.status}
                       </span>
 
                       {isSelf ? (
-                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
                           <Lock className="w-2.5 h-2.5" /> You (Protected)
                         </span>
                       ) : targetRank >= 100 ? (
-                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center gap-1">
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 flex items-center gap-1">
                           <ShieldCheck className="w-2.5 h-2.5" /> Root Owner
                         </span>
                       ) : !isEditable ? (
-                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1">
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 flex items-center gap-1">
                           <Lock className="w-2.5 h-2.5" /> Peer / Higher Rank
                         </span>
                       ) : null}
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-slate-800/80 space-y-2 text-xs">
-                    <div className="flex items-center justify-between text-slate-400">
+                  <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800/80 space-y-2 text-xs">
+                    <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
                       <span className="flex items-center gap-1">
-                        <Building2 className="w-3.5 h-3.5 text-slate-500" />
+                        <Building2 className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                         Franchise:
                       </span>
-                      <span className="font-semibold text-slate-200 truncate max-w-[200px]">
+                      <span className="font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[200px]">
                         {staff.franchiseName || 'Assigned Branch'}
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between text-slate-400">
+                    <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
                       <span className="flex items-center gap-1">
-                        <KeyRound className="w-3.5 h-3.5 text-slate-500" />
+                        <KeyRound className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                         Permissions Granted:
                       </span>
                       <span
                         className={`font-bold ${
                           hasFullAccess
-                            ? 'text-amber-400'
+                            ? 'text-amber-600 dark:text-amber-400'
                             : permissionsCount > 0
-                            ? 'text-orange-400'
+                            ? 'text-orange-600 dark:text-orange-400'
                             : 'text-slate-500'
                         }`}
                       >
@@ -901,28 +901,28 @@ export const StaffIAM: React.FC = () => {
                   </div>
 
                   {/* Progress Bar for Permissions */}
-                  <div className="mt-3 w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                  <div className="mt-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
                     <div
                       className={`h-full transition-all ${
                         hasFullAccess
-                          ? 'bg-amber-400'
+                          ? 'bg-amber-500'
                           : permissionsCount > 0
                           ? 'bg-orange-500'
-                          : 'bg-slate-700'
+                          : 'bg-slate-300 dark:bg-slate-700'
                       }`}
                       style={{ width: `${(permissionsCount / totalPossiblePermissions) * 100}%` }}
                     />
                   </div>
 
-                  <div className="mt-3 text-[11px] text-slate-500 flex items-center justify-between">
-                    <span className="text-slate-400 truncate max-w-[180px]">{staff.email}</span>
+                  <div className="mt-3 text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
+                    <span className="text-slate-500 dark:text-slate-400 truncate max-w-[180px]">{staff.email}</span>
                     {isEditable ? (
-                      <span className="text-orange-400 font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                      <span className="text-orange-600 dark:text-orange-400 font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
                         Customize Matrix →
                       </span>
                     ) : (
-                      <span className="text-slate-500 font-medium flex items-center gap-1">
-                        <Lock className="w-3 h-3 text-slate-500" /> View Only
+                      <span className="text-slate-400 dark:text-slate-500 font-medium flex items-center gap-1">
+                        <Lock className="w-3 h-3 text-slate-400 dark:text-slate-500" /> View Only
                       </span>
                     )}
                   </div>

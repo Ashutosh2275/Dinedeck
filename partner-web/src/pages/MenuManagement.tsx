@@ -89,8 +89,19 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
     );
   }, [categories]);
 
+  // Deduplicated categories by name
+  const displayCategories = useMemo(() => {
+    const seen = new Set<string>();
+    return categories.filter((cat) => {
+      const lower = cat.name.trim().toLowerCase();
+      if (seen.has(lower)) return false;
+      seen.add(lower);
+      return true;
+    });
+  }, [categories]);
+
   // Counts for Specials and Out of Stock
-  const outOfStockCount = useMemo(() => allItems.filter((i) => !i.isAvailable || getDishCapacity(i.name).status === 'OUT_OF_STOCK').length, [allItems, getDishCapacity]);
+  const outOfStockCount = useMemo(() => allItems.filter((i) => !i.isAvailable).length, [allItems]);
   const todaySpecialCount = useMemo(() => allItems.filter((i) => i.isBestseller).length, [allItems]);
 
   // Filtered menu items
@@ -109,12 +120,12 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
       }
 
       // 2. Category
-      if (
-        selectedCategory !== 'ALL' &&
-        item.category?.id !== selectedCategory &&
-        item.category?.name !== selectedCategory
-      ) {
-        return false;
+      if (selectedCategory !== 'ALL') {
+        const catName = item.category?.name?.toLowerCase();
+        const selLower = selectedCategory.toLowerCase();
+        if (item.category?.id !== selectedCategory && catName !== selLower) {
+          return false;
+        }
       }
 
       // 3. Dietary Filter
@@ -122,10 +133,12 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
       if (dietFilter === 'NON_VEG' && item.isVeg) return false;
 
       // 4. Stock & Specials Filter
-      const cap = getDishCapacity(item.name);
       if (stockFilter === 'TODAYS_SPECIAL' && !item.isBestseller) return false;
-      if (stockFilter === 'OUT_OF_STOCK' && (item.isAvailable && cap.status !== 'OUT_OF_STOCK')) return false;
-      if (stockFilter === 'NEAR_OUT_OF_STOCK' && cap.status !== 'NEAR_OUT_OF_STOCK' && cap.status !== 'CRITICAL') return false;
+      if (stockFilter === 'OUT_OF_STOCK' && item.isAvailable) return false;
+      if (stockFilter === 'NEAR_OUT_OF_STOCK') {
+        const cap = getDishCapacity(item.name);
+        if (cap.status !== 'NEAR_OUT_OF_STOCK' && cap.status !== 'CRITICAL') return false;
+      }
 
       return true;
     });
@@ -478,7 +491,7 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
           <button
             type="button"
             onClick={() => setSelectedCategory('ALL')}
-            className={`px-3.5 py-1.5 rounded-xl font-bold whitespace-nowrap transition ${
+            className={`px-3.5 py-1.5 rounded-xl font-bold whitespace-nowrap transition cursor-pointer ${
               selectedCategory === 'ALL'
                 ? 'bg-orange-500 text-white shadow'
                 : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
@@ -486,20 +499,31 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
           >
             All Categories ({allItems.length})
           </button>
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3.5 py-1.5 rounded-xl font-bold whitespace-nowrap transition ${
-                selectedCategory === cat.id
-                  ? 'bg-orange-500 text-white shadow'
-                  : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
-              }`}
-            >
-              {cat.name} ({cat.items.length})
-            </button>
-          ))}
+          {displayCategories.map((cat) => {
+            const count = allItems.filter(
+              (i) =>
+                i.category?.id === cat.id ||
+                i.category?.name?.trim().toLowerCase() === cat.name.trim().toLowerCase()
+            ).length;
+            const isSelected =
+              selectedCategory === cat.id ||
+              selectedCategory.trim().toLowerCase() === cat.name.trim().toLowerCase();
+
+            return (
+              <button
+                key={cat.id || cat.name}
+                type="button"
+                onClick={() => setSelectedCategory(isSelected ? 'ALL' : cat.name)}
+                className={`px-3.5 py-1.5 rounded-xl font-bold whitespace-nowrap transition cursor-pointer ${
+                  isSelected
+                    ? 'bg-orange-500 text-white shadow'
+                    : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
+                }`}
+              >
+                {cat.name} ({count})
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -558,28 +582,22 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
           {filteredItems.map((item) => {
             const isAvailable = item.isAvailable !== false;
-            const cap = getDishCapacity(item.name);
 
             return (
               <div
                 key={item.id}
                 onClick={() => openEditModal(item)}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 shadow-sm dark:shadow-md hover:scale-[1.02] ${
-                  !isAvailable || cap.status === 'OUT_OF_STOCK'
-                    ? 'bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800/80 opacity-60 hover:opacity-100 hover:border-slate-400 dark:hover:border-slate-700'
-                    : cap.status === 'CRITICAL'
-                    ? 'bg-white dark:bg-[#111827] border-rose-500/40 hover:border-rose-500 shadow-rose-500/5'
-                    : cap.status === 'NEAR_OUT_OF_STOCK'
-                    ? 'bg-white dark:bg-[#111827] border-amber-500/40 hover:border-amber-500 shadow-amber-500/5'
-                    : 'bg-white dark:bg-[#111827] border-slate-200 dark:border-slate-800 hover:border-orange-500/60 hover:shadow-orange-500/10'
+                className={`group p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 shadow-sm hover:shadow-md ${
+                  !isAvailable
+                    ? 'bg-rose-50/50 dark:bg-rose-950/20 border-rose-300 dark:border-rose-900/50'
+                    : 'bg-white dark:bg-[#111827] border-slate-200 dark:border-slate-800 hover:border-orange-500/60'
                 }`}
               >
-                {/* Card Top: Veg Dot, Category & Today's Special / Out of Stock Toggles */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-1.5">
-                    {/* Veg / Non-Veg Indicator Icon */}
+                {/* Card Top: Veg/Non-Veg, Category name & Action toggles */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center space-x-1.5 min-w-0">
                     <div
-                      className={`w-3.5 h-3.5 rounded-sm border flex items-center justify-center ${
+                      className={`w-3.5 h-3.5 rounded-sm border flex items-center justify-center shrink-0 ${
                         item.isVeg
                           ? 'border-emerald-500 bg-emerald-500/10'
                           : 'border-rose-500 bg-rose-500/10'
@@ -592,139 +610,67 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                         }`}
                       />
                     </div>
-                    <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 truncate max-w-[90px]">
+                    <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 truncate">
                       {item.category?.name || 'Dish'}
                     </span>
                   </div>
 
-                  <div className="flex items-center space-x-1">
-                    {/* Today's Special Star Toggle Button */}
+                  <div className="flex items-center space-x-1.5 shrink-0">
+                    {/* Today's Special Toggle */}
                     <button
                       type="button"
                       onClick={(e) => handleToggleTodaySpecial(e, item)}
                       disabled={togglingId === item.id}
                       className={`p-1 rounded-lg text-xs transition cursor-pointer ${
                         item.isBestseller
-                          ? 'bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/40 hover:bg-amber-500/30'
-                          : 'bg-slate-100 dark:bg-slate-800/80 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 hover:text-amber-500'
+                          ? 'bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/40 hover:bg-amber-500/30'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 hover:text-amber-500'
                       }`}
                       title={item.isBestseller ? "Today's Special (Click to remove)" : "Click to mark as Today's Special"}
                     >
-                      <Sparkles className={`w-3 h-3 ${item.isBestseller ? 'text-amber-500 dark:text-amber-400' : ''}`} />
+                      <Sparkles className={`w-3.5 h-3.5 ${item.isBestseller ? 'text-amber-500 dark:text-amber-400' : ''}`} />
                     </button>
 
-                    {/* Out of Stock Toggle Pill */}
+                    {/* In Stock / Out of Stock Pill */}
                     <button
                       type="button"
                       onClick={(e) => handleToggleAvailability(e, item)}
                       disabled={togglingId === item.id}
-                      className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider transition cursor-pointer ${
-                        isAvailable && cap.status !== 'OUT_OF_STOCK'
-                          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25'
-                          : 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-500/25'
+                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider transition cursor-pointer ${
+                        isAvailable
+                          ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25'
+                          : 'bg-rose-500/15 text-rose-700 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-500/25'
                       }`}
                       title="Click to toggle In Stock / Out of Stock"
                     >
-                      {togglingId === item.id ? '...' : isAvailable && cap.status !== 'OUT_OF_STOCK' ? 'In Stock' : 'Out of Stock'}
+                      {togglingId === item.id ? '...' : isAvailable ? 'In Stock' : 'Out of Stock'}
                     </button>
                   </div>
                 </div>
 
-                {/* Food Item Image Visual */}
-                <div className="relative h-28 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 group-hover:border-orange-500/40 transition">
-                  {item.imageUrl ? (
-                    <img
-                      src={item.imageUrl}
-                      alt={item.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 bg-slate-50 dark:bg-slate-900/50">
-                      <Utensils className="w-6 h-6 text-slate-400 dark:text-slate-700 mb-1" />
-                      <span className="text-[9px] font-semibold text-slate-500">No Photo</span>
-                    </div>
-                  )}
-                  {item.imageUrl && (
-                    <div className="absolute bottom-1 right-1.5 px-1.5 py-0.5 rounded bg-black/75 backdrop-blur-md text-[8px] font-mono font-bold text-slate-300">
-                      WebP
-                    </div>
-                  )}
-                </div>
-
                 {/* Dish Name & Description */}
-                <div className="space-y-1">
-                  <h3 className="text-xs font-black text-slate-900 dark:text-white line-clamp-1 leading-snug">
+                <div className="space-y-1 my-1">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
                     {item.name}
                   </h3>
                   {item.description ? (
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-tight">
+                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
                       {item.description}
                     </p>
                   ) : (
-                    <p className="text-[11px] text-slate-400 dark:text-slate-600 italic">No description provided</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-600 italic">No description</p>
                   )}
                 </div>
 
-                {/* Live Recipe Inventory Portions Recommendation Pill */}
-                <div className="pt-1">
-                  {cap.status === 'CRITICAL' ? (
-                    <div
-                      className="px-2 py-1 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-600 dark:text-rose-300 text-[10px] font-black flex items-center justify-between"
-                      title={cap.recommendationMessage}
-                    >
-                      <span className="flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3 text-rose-500 dark:text-rose-400" />
-                        <span>Only ~{cap.portionsLeft} Left</span>
-                      </span>
-                      <span className="text-[9px] text-rose-500 dark:text-rose-400 font-medium truncate max-w-[80px]">
-                        Low {cap.limitingIngredient?.name.split(' ')[0]}
-                      </span>
-                    </div>
-                  ) : cap.status === 'NEAR_OUT_OF_STOCK' ? (
-                    <div
-                      className="px-2 py-1 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-[10px] font-black flex items-center justify-between"
-                      title={cap.recommendationMessage}
-                    >
-                      <span className="flex items-center gap-1">
-                        <AlertTriangle className="w-3 h-3 text-amber-500 dark:text-amber-400" />
-                        <span>~{cap.portionsLeft} Portions Left</span>
-                      </span>
-                      <span className="text-[9px] text-amber-500 dark:text-amber-400 font-medium truncate max-w-[80px]">
-                        Low {cap.limitingIngredient?.name.split(' ')[0]}
-                      </span>
-                    </div>
-                  ) : cap.status === 'OUT_OF_STOCK' ? (
-                    <div
-                      className="px-2 py-1 rounded-xl bg-rose-100 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800/40 text-rose-600 dark:text-rose-400 text-[10px] font-bold flex items-center gap-1"
-                      title={cap.recommendationMessage}
-                    >
-                      <XCircle className="w-3 h-3" />
-                      <span>Raw Materials Depleted (0)</span>
-                    </div>
-                  ) : (
-                    <div
-                      className="px-2 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold flex items-center justify-between"
-                      title={cap.recommendationMessage}
-                    >
-                      <span className="flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-500 dark:text-emerald-400" />
-                        <span>~{cap.portionsLeft} in Stock</span>
-                      </span>
-                      <span className="text-[9px] text-emerald-600 dark:text-emerald-500">Abundant</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Card Bottom: Price, Station & Edit Action */}
-                <div className="pt-2 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
+                {/* Card Bottom: Price, Preparation Time, Station & Edit Icon */}
+                <div className="pt-2.5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
                   <div>
                     <div className="flex items-center space-x-1.5">
-                      <span className="font-mono font-black text-sm text-slate-900 dark:text-white">
+                      <span className="font-mono font-black text-base text-slate-900 dark:text-white">
                         ₹{item.price.toFixed(0)}
                       </span>
                       {item.discountedPrice && item.discountedPrice < item.price && (
-                        <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500 line-through">
+                        <span className="font-mono text-xs text-slate-400 dark:text-slate-500 line-through">
                           ₹{item.discountedPrice.toFixed(0)}
                         </span>
                       )}
@@ -732,14 +678,21 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                   </div>
 
                   <div className="flex items-center space-x-1.5">
+                    {item.preparationTime && (
+                      <span className="flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                        <Clock className="w-3 h-3" />
+                        <span>{item.preparationTime}m</span>
+                      </span>
+                    )}
+
                     {item.stationCode && (
-                      <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[9px] font-bold">
+                      <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[10px] font-bold border border-slate-200 dark:border-slate-700">
                         {item.stationCode}
                       </span>
                     )}
 
-                    <div className="p-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition">
-                      <Edit2 className="w-3 h-3" />
+                    <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:text-orange-500 group-hover:bg-orange-500/10 dark:group-hover:text-orange-400 transition">
+                      <Edit2 className="w-3.5 h-3.5" />
                     </div>
                   </div>
                 </div>
@@ -793,9 +746,12 @@ export const MenuManagement: React.FC<MenuManagementProps> = ({ categories, onRe
                     Food Item Photography
                   </label>
                   <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
-                    Max 200 KB • WebP Optimized
+                    Customer App Only • Max 200 KB
                   </span>
                 </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Photos attached here appear exclusively on the customer-facing mobile & web menu. The kitchen and partner catalog remains text-first and compact.
+                </p>
 
                 {/* Upload or Preview Container */}
                 {imagePreviewUrl || editImageUrl ? (

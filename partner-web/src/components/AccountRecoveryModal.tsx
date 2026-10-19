@@ -65,19 +65,19 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 selection:bg-orange-500">
-      <div className="bg-[#1E293B] border border-slate-700/90 rounded-3xl max-w-lg w-full p-6 sm:p-7 space-y-5 shadow-2xl animate-in fade-in zoom-in duration-200">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 selection:bg-orange-500">
+      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/90 rounded-3xl max-w-lg w-full p-6 sm:p-7 space-y-5 shadow-2xl animate-in fade-in zoom-in duration-200">
         {/* Modal Header */}
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 shrink-0 shadow-md shadow-orange-500/20">
+            <div className="w-10 h-10 rounded-2xl bg-orange-500/10 dark:bg-orange-500/20 border border-orange-500/30 dark:border-orange-500/40 flex items-center justify-center text-orange-600 dark:text-orange-400 shrink-0 shadow-md shadow-orange-500/10">
               <KeyRound className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-black text-white tracking-tight">
+              <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight">
                 Account Access & Login Recovery
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Official Super Admin Security & Credentials Escalation Desk
               </p>
             </div>
@@ -85,7 +85,7 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
           <button
             type="button"
             onClick={handleClose}
-            className="w-8 h-8 rounded-xl bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition cursor-pointer"
+            className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -94,32 +94,32 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
         {ticketNumber ? (
           /* Success Screen */
           <div className="space-y-4 py-3 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto text-emerald-400 shadow-xl shadow-emerald-500/20">
+            <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/20 border border-emerald-500/30 dark:border-emerald-500/40 flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400 shadow-xl shadow-emerald-500/10">
               <CheckCircle2 className="w-8 h-8" />
             </div>
 
             <div className="space-y-1">
-              <h4 className="text-base font-black text-white">Recovery Request Registered</h4>
-              <p className="text-xs text-slate-300">
+              <h4 className="text-base font-black text-slate-900 dark:text-white">Recovery Request Registered</h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300">
                 Your incident ticket has been queued directly to the Super Admin Security Team.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30 text-center space-y-1">
-              <div className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-emerald-500/30 text-center space-y-1">
+              <div className="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Tracking Reference Number
               </div>
-              <div className="text-xl font-mono font-black text-emerald-400">
+              <div className="text-xl font-mono font-black text-emerald-600 dark:text-emerald-400">
                 #{ticketNumber}
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-slate-900/50 border border-slate-800 text-left space-y-1.5 text-xs text-slate-300">
-              <div className="font-extrabold text-white flex items-center gap-1.5">
-                <HelpCircle className="w-3.5 h-3.5 text-orange-400" />
+            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 text-left space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+              <div className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <HelpCircle className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
                 What happens next?
               </div>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
                 An authorized DineDeck security officer will verify your commercial GSTIN / FSSAI onboarding records and reach out via your registered contact details with a secure single-use access link.
               </p>
             </div>
@@ -136,19 +136,19 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
           /* Request Form */
           <form onSubmit={handleSubmit} className="space-y-3.5">
             {error && (
-              <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-semibold flex items-center gap-2">
+              <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-semibold flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               If you cannot access your restaurant owner or general manager account, enter your commercial reference below to initiate a verified identity recovery.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-bold text-slate-300 mb-1">
+                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Registered Email or Phone *
                 </label>
                 <div className="relative">
@@ -159,13 +159,13 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
                     onChange={(e) => setIdentifier(e.target.value)}
                     placeholder="owner@restaurant.in"
                     required
-                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
+                    className="w-full bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-300 mb-1">
+                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Restaurant Name or ID *
                 </label>
                 <div className="relative">
@@ -176,7 +176,7 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
                     onChange={(e) => setRestaurantReference(e.target.value)}
                     placeholder="e.g. Punjab Heritage Grill"
                     required
-                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
+                    className="w-full bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
                   />
                 </div>
               </div>
@@ -184,7 +184,7 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-bold text-slate-300 mb-1">
+                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Owner / Applicant Name
                 </label>
                 <input
@@ -192,12 +192,12 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
                   value={ownerName}
                   onChange={(e) => setOwnerName(e.target.value)}
                   placeholder="e.g. Harpreet Singh"
-                  className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
+                  className="w-full bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-300 mb-1">
+                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Direct Callback Mobile
                 </label>
                 <div className="relative">
@@ -207,14 +207,14 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
                     value={contactPhone}
                     onChange={(e) => setContactPhone(e.target.value)}
                     placeholder="+91 98765 43210"
-                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
+                    className="w-full bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
                   />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-slate-300 mb-1">
+              <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
                 Reason / Failure Details
               </label>
               <textarea
@@ -222,7 +222,7 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe the issue (e.g. lost two-factor device, forgotten master password, lockout)..."
                 rows={2}
-                className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl p-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition resize-none"
+                className="w-full bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700/80 rounded-xl p-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition resize-none"
               />
             </div>
 
@@ -230,7 +230,7 @@ export const AccountRecoveryModal: React.FC<AccountRecoveryModalProps> = ({ isOp
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition"
+                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition border border-slate-300 dark:border-slate-700"
               >
                 Cancel
               </button>

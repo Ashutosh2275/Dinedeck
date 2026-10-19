@@ -126,18 +126,18 @@ export const OrderRejectionModal: React.FC<OrderRejectionModalProps> = ({
       aria-labelledby="reject-dialog-title"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150"
     >
-      <div className="bg-[#111827] dark:bg-[#111827] border border-slate-700/80 rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Modal Header */}
-        <div className="p-5 border-b border-slate-800 flex items-center justify-between shrink-0 bg-slate-900/60">
+        <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between shrink-0 bg-slate-50 dark:bg-slate-900/60">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-500 dark:text-rose-400 flex items-center justify-center shrink-0">
               <Ban className="w-5 h-5" />
             </div>
             <div>
-              <h2 id="reject-dialog-title" className="text-base font-extrabold text-white">
+              <h2 id="reject-dialog-title" className="text-base font-extrabold text-slate-900 dark:text-white">
                 Reject Order #{orderNumber}
               </h2>
-              <p className="text-xs text-slate-400 font-medium">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 Table #{tableNumber} • The customer will be immediately notified with the selected reason.
               </p>
             </div>
@@ -146,7 +146,7 @@ export const OrderRejectionModal: React.FC<OrderRejectionModalProps> = ({
           <button
             onClick={onCancel}
             disabled={isSubmitting}
-            className="p-1.5 rounded-xl text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 transition"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition"
             aria-label="Close dialog"
           >
             <X className="w-4 h-4" />
@@ -155,8 +155,8 @@ export const OrderRejectionModal: React.FC<OrderRejectionModalProps> = ({
 
         {/* Modal Body: Predefined Reasons Grid */}
         <div className="p-5 space-y-4 overflow-y-auto flex-1">
-          <div className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-            Select Rejection Reason <span className="text-rose-400">*</span>
+          <div className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+            Select Rejection Reason <span className="text-rose-500 dark:text-rose-400">*</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -173,15 +173,15 @@ export const OrderRejectionModal: React.FC<OrderRejectionModalProps> = ({
                   }}
                   className={`p-3 rounded-2xl border text-left transition-all flex items-start space-x-2.5 cursor-pointer relative ${
                     isSelected
-                      ? 'bg-rose-500/15 border-rose-500 text-white shadow-md shadow-rose-500/10 ring-1 ring-rose-500'
-                      : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-800/80'
+                      ? 'bg-rose-500/15 border-rose-500 text-rose-700 dark:text-white shadow-md shadow-rose-500/10 ring-1 ring-rose-500'
+                      : 'bg-white dark:bg-slate-900/70 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/80'
                   }`}
                 >
                   <div
                     className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
                       isSelected
                         ? 'bg-rose-500 text-white font-bold'
-                        : 'bg-slate-800 text-slate-400'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                     }`}
                   >
                     {isSelected ? <Check className="w-4 h-4" /> : <Icon className="w-3.5 h-3.5" />}
@@ -189,7 +189,7 @@ export const OrderRejectionModal: React.FC<OrderRejectionModalProps> = ({
 
                   <div className="min-w-0 pr-1">
                     <div className="text-xs font-bold leading-tight">{item.title}</div>
-                    <div className="text-[11px] text-slate-400 mt-0.5 line-clamp-2 leading-relaxed">
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2 leading-relaxed">
                       {item.description}
                     </div>
                   </div>
@@ -208,20 +208,20 @@ export const OrderRejectionModal: React.FC<OrderRejectionModalProps> = ({
               }}
               className={`w-full p-3 rounded-2xl border text-left transition-all flex items-start space-x-2.5 cursor-pointer ${
                 isCustom
-                  ? 'bg-rose-500/15 border-rose-500 text-white ring-1 ring-rose-500'
-                  : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-800/80'
+                  ? 'bg-rose-500/15 border-rose-500 text-rose-700 dark:text-white ring-1 ring-rose-500'
+                  : 'bg-white dark:bg-slate-900/70 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/80'
               }`}
             >
               <div
                 className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
-                  isCustom ? 'bg-rose-500 text-white' : 'bg-slate-800 text-slate-400'
+                  isCustom ? 'bg-rose-500 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                 }`}
               >
                 {isCustom ? <Check className="w-4 h-4" /> : <HelpCircle className="w-3.5 h-3.5" />}
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-bold leading-tight">Other / Custom Reason</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   Provide a customized explanation for the customer.
                 </div>
               </div>
@@ -229,9 +229,9 @@ export const OrderRejectionModal: React.FC<OrderRejectionModalProps> = ({
 
             {isCustom && (
               <div className="mt-3 space-y-1.5 animate-in fade-in duration-150">
-                <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                <div className="flex items-center justify-between text-[11px] font-bold text-slate-600 dark:text-slate-400">
                   <span>Custom Reason Explanation:</span>
-                  <span className={customTrimmed.length > 250 ? 'text-rose-400' : 'text-slate-400'}>
+                  <span className={customTrimmed.length > 250 ? 'text-rose-500 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400'}>
                     {customTrimmed.length} / 250 characters
                   </span>
                 </div>
@@ -244,14 +244,14 @@ export const OrderRejectionModal: React.FC<OrderRejectionModalProps> = ({
                   maxLength={250}
                   placeholder="Explain why this order could not be prepared (e.g. Special ingredient delayed by supplier)..."
                   rows={3}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 transition"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-rose-500 transition"
                 />
               </div>
             )}
           </div>
 
           {validationError && (
-            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-medium flex items-center space-x-2">
+            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-medium flex items-center space-x-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               <span>{validationError}</span>
             </div>
@@ -259,12 +259,12 @@ export const OrderRejectionModal: React.FC<OrderRejectionModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-900/60 flex items-center justify-end space-x-2.5 shrink-0">
+        <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 flex items-center justify-end space-x-2.5 shrink-0">
           <button
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition cursor-pointer"
+            className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition cursor-pointer"
           >
             Cancel
           </button>

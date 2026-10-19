@@ -32,7 +32,7 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
       <div className="flex items-center space-x-3">
         <button
           onClick={onToggleMobileMenu}
-          className="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white lg:hidden border border-slate-700 transition"
+          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white lg:hidden border border-slate-300 dark:border-slate-700 transition"
           title="Toggle Navigation Menu"
         >
           {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -83,21 +83,21 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
       <div className="flex items-center space-x-3">
         <button
           onClick={onOpenSearch}
-          className="md:hidden p-2 rounded-xl bg-slate-900 border border-slate-800 text-cyan-400"
+          className="md:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-cyan-600 dark:text-cyan-400"
           title="Search All"
         >
           <Search className="w-4 h-4" />
         </button>
 
-        <div className="hidden xl:flex items-center space-x-2 px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-400">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <div className="hidden xl:flex items-center space-x-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-600 dark:text-slate-400">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
           <span>System Online</span>
         </div>
 
-        <div className="flex items-center space-x-2 pl-2 border-l border-slate-800">
+        <div className="flex items-center space-x-2 pl-2 border-l border-slate-200 dark:border-slate-800">
           <div className="text-right hidden sm:block">
-            <div className="text-xs font-bold text-white leading-tight">DINEDECK SuperAdmin</div>
-            <div className="text-[10px] text-slate-500">superadmin@dinedeck.in</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white leading-tight">DINEDECK SuperAdmin</div>
+            <div className="text-[10px] text-slate-500 dark:text-slate-400">superadmin@dinedeck.in</div>
           </div>
 
           {(window as any).dinedeckDesktop?.isDesktop && (
@@ -105,7 +105,7 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
               <button
                 type="button"
                 onClick={() => (window as any).dinedeckDesktop?.toggleFullScreen()}
-                className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition shrink-0 cursor-pointer"
+                className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition shrink-0 cursor-pointer"
                 title="Toggle Full-Screen (F11)"
               >
                 <Maximize2 className="w-4 h-4" />

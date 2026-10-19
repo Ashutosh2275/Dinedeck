@@ -364,11 +364,11 @@ export const App: React.FC = () => {
       </div>
 
       {/* Mobile Bottom Navigation Bar */}
-      <div className="md:hidden bg-[#1E293B] border-t border-slate-800 px-4 py-2 flex items-center justify-around z-40">
+      <div className="md:hidden bg-white dark:bg-[#1E293B] border-t border-slate-200 dark:border-slate-800 px-4 py-2 flex items-center justify-around z-40 shadow-lg">
         <button
           onClick={() => setCurrentTab('DASHBOARD')}
           className={`flex flex-col items-center py-1 px-2 rounded-xl transition ${
-            currentTab === 'DASHBOARD' ? 'text-orange-400 font-extrabold' : 'text-slate-400'
+            currentTab === 'DASHBOARD' ? 'text-orange-500 dark:text-orange-400 font-extrabold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           <LayoutDashboard className="w-5 h-5" />

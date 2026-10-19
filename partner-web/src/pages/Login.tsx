@@ -183,13 +183,13 @@ export const Login: React.FC = () => {
               !showContent ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'
             }`}
           >
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug">
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
               Unified Restaurant <br />
-              <span className="bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 dark:from-orange-400 dark:via-amber-300 dark:to-orange-500 bg-clip-text text-transparent">
                 Operations Terminal.
               </span>
             </h2>
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
               Real-time floor dispatch, live kitchen display, and express billing in one streamlined workspace.
             </p>
           </div>
@@ -200,50 +200,50 @@ export const Login: React.FC = () => {
               !showContent ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'
             }`}
           >
-            <div className="flex items-center space-x-3 p-3 rounded-2xl bg-slate-900/40 border border-slate-800/80 hover:border-slate-700/80 transition">
-              <div className="p-2 rounded-xl bg-orange-500/10 text-orange-400 border border-orange-500/20 shrink-0">
+            <div className="flex items-center space-x-3 p-3 rounded-2xl bg-white/80 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:border-slate-300 dark:hover:border-slate-700/80 transition">
+              <div className="p-2 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shrink-0">
                 <UtensilsCrossed className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-white">Live Floor & Table Service</div>
-                <div className="text-[11px] text-slate-400 truncate">QR order dispatch and instant waiter call paging</div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white">Live Floor & Table Service</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">QR order dispatch and instant waiter call paging</div>
               </div>
             </div>
 
-            <div className="flex items-center space-x-3 p-3 rounded-2xl bg-slate-900/40 border border-slate-800/80 hover:border-slate-700/80 transition">
-              <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+            <div className="flex items-center space-x-3 p-3 rounded-2xl bg-white/80 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:border-slate-300 dark:hover:border-slate-700/80 transition">
+              <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
                 <ChefHat className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-white">Kitchen Display System (KDS)</div>
-                <div className="text-[11px] text-slate-400 truncate">Live preparation tickets and station routing</div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white">Kitchen Display System (KDS)</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">Live preparation tickets and station routing</div>
               </div>
             </div>
 
-            <div className="flex items-center space-x-3 p-3 rounded-2xl bg-slate-900/40 border border-slate-800/80 hover:border-slate-700/80 transition">
-              <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20 shrink-0">
+            <div className="flex items-center space-x-3 p-3 rounded-2xl bg-white/80 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:border-slate-300 dark:hover:border-slate-700/80 transition">
+              <div className="p-2 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 shrink-0">
                 <Receipt className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-white">Express Billing & POS</div>
-                <div className="text-[11px] text-slate-400 truncate">Instant settlements and GST thermal invoices</div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white">Express Billing & POS</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">Instant settlements and GST thermal invoices</div>
               </div>
             </div>
           </div>
 
           {/* Minimal Trust Badge */}
           <div
-            className={`pt-1 flex items-center space-x-4 text-[11px] text-slate-400 font-medium transition-all duration-[1600ms] delay-200 ease-out ${
+            className={`pt-1 flex items-center space-x-4 text-[11px] text-slate-500 dark:text-slate-400 font-medium transition-all duration-[1600ms] delay-200 ease-out ${
               !showContent ? 'opacity-0' : 'opacity-100'
             }`}
           >
             <span className="flex items-center space-x-1.5">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
               <span>Role-Governed</span>
             </span>
-            <span className="w-1 h-1 rounded-full bg-slate-700" />
+            <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
             <span className="flex items-center space-x-1.5">
-              <Zap className="w-3.5 h-3.5 text-amber-400" />
+              <Zap className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
               <span>Real-Time Synced</span>
             </span>
           </div>
@@ -251,17 +251,17 @@ export const Login: React.FC = () => {
 
         {/* Right Column: Clean Login Card & Optimized 2-Column Role Grid */}
         <div
-          className={`lg:col-span-7 bg-[#1E293B]/90 backdrop-blur-md rounded-3xl border border-slate-700/80 p-6 sm:p-7 shadow-2xl shadow-black/50 space-y-5 transition-all duration-[1400ms] delay-150 ease-out ${
+          className={`lg:col-span-7 bg-white/95 dark:bg-[#1E293B]/90 backdrop-blur-md rounded-3xl border border-slate-200 dark:border-slate-700/80 p-6 sm:p-7 shadow-xl dark:shadow-2xl dark:shadow-black/50 space-y-5 transition-all duration-[1400ms] delay-150 ease-out ${
             !showContent ? 'opacity-0 translate-y-10 scale-[0.98]' : 'opacity-100 translate-y-0 scale-100'
           }`}
         >
           <div>
-            <h3 className="text-lg font-black text-white tracking-tight">Staff / Owner Login</h3>
-            <p className="text-xs text-slate-400 mt-0.5">Select a role below for instant 1-click access or enter credentials</p>
+            <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">Staff / Owner Login</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Select a role below for instant 1-click access or enter credentials</p>
           </div>
 
           {error && (
-            <div className="p-3 bg-rose-500/15 border border-rose-500/30 text-rose-400 rounded-xl text-xs font-semibold flex items-start space-x-2">
+            <div className="p-3 bg-rose-500/15 border border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-xl text-xs font-semibold flex items-start space-x-2">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
@@ -269,12 +269,12 @@ export const Login: React.FC = () => {
 
           {/* Optimized Instant 1-Click Role Login (2-Column Grid) */}
           <div className="space-y-2.5">
-            <div className="text-[10px] font-black text-slate-400 uppercase tracking-wider flex items-center justify-between">
-              <span className="flex items-center gap-1.5 text-amber-400">
+            <div className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center justify-between">
+              <span className="flex items-center gap-1.5 text-amber-500 dark:text-amber-400">
                 <Zap className="w-3.5 h-3.5" />
                 <span>Instant 1-Click Role Login</span>
               </span>
-              <span className="text-[10px] font-mono text-slate-500">Fast-switch</span>
+              <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500">Fast-switch</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -286,21 +286,21 @@ export const Login: React.FC = () => {
                     type="button"
                     onClick={() => handleQuickPersona(role.email)}
                     disabled={isLoading || submittingEmail !== null}
-                    className={`p-2.5 rounded-xl border text-left transition flex flex-col justify-between group disabled:opacity-50 relative overflow-hidden bg-slate-900/60 hover:bg-slate-800/90 ${role.accent}`}
+                    className={`p-2.5 rounded-xl border text-left transition flex flex-col justify-between group disabled:opacity-50 relative overflow-hidden bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/60 dark:hover:bg-slate-800/90 ${role.accent}`}
                   >
                     <div className="flex items-center justify-between w-full mb-1">
                       <span className="text-base">{role.icon}</span>
-                      <span className="text-[9px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase border bg-black/30 border-current opacity-80">
+                      <span className="text-[9px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase border bg-black/5 dark:bg-black/30 border-current opacity-80">
                         {role.tag}
                       </span>
                     </div>
 
                     <div>
-                      <div className="text-xs font-bold text-white group-hover:text-orange-400 transition flex items-center space-x-1">
+                      <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition flex items-center space-x-1">
                         <span className="truncate">{role.title}</span>
-                        {isSelected && <Loader2 className="w-3 h-3 animate-spin text-orange-400 shrink-0" />}
+                        {isSelected && <Loader2 className="w-3 h-3 animate-spin text-orange-500 dark:text-orange-400 shrink-0" />}
                       </div>
-                      <div className="text-[10px] text-slate-400 truncate mt-0.5">
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
                         {role.desc}
                       </div>
                     </div>
@@ -311,8 +311,8 @@ export const Login: React.FC = () => {
           </div>
 
           <div className="relative flex items-center justify-center my-1">
-            <div className="border-t border-slate-800 w-full" />
-            <span className="bg-[#1E293B] px-3 text-[10px] uppercase font-bold text-slate-500 tracking-widest shrink-0">
+            <div className="border-t border-slate-200 dark:border-slate-800 w-full" />
+            <span className="bg-white dark:bg-[#1E293B] px-3 text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-widest shrink-0">
               Or Manual Sign In
             </span>
           </div>
@@ -320,7 +320,7 @@ export const Login: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-3.5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
                 <div className="relative">
                   <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
                   <input
@@ -329,18 +329,18 @@ export const Login: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@restaurant.in"
                     required
-                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition font-medium"
                   />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs font-semibold text-slate-300">Password</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">Password</label>
                   <button
                     type="button"
                     onClick={() => setShowRecoveryModal(true)}
-                    className="text-[10px] font-bold text-orange-400 hover:text-orange-300 transition hover:underline"
+                    className="text-[10px] font-bold text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 transition hover:underline"
                   >
                     Can't access your account?
                   </button>
@@ -353,12 +353,12 @@ export const Login: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                     required
-                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-9 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
+                    className="w-full bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-9 pr-9 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange-500 transition"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-2.5 text-slate-400 hover:text-white transition"
+                    className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700 dark:hover:text-white transition"
                     title={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
