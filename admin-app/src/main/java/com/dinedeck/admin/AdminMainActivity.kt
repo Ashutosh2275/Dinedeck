@@ -67,10 +67,11 @@ private val AdminLightColorScheme = lightColorScheme(
 
 @Composable
 fun AdminAppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) AdminDarkColorScheme else AdminLightColorScheme
+    // Strictly Light Theme throughout the DineDeck ecosystem
+    val colors = AdminLightColorScheme
     MaterialTheme(
         colorScheme = colors,
         content = content

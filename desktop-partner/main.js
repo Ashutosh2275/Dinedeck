@@ -36,7 +36,7 @@ function createWindow() {
     minWidth: 1024,
     minHeight: 700,
     title: 'DineDeck Partner — Restaurant & Kitchen',
-    backgroundColor: '#0F172A',
+    backgroundColor: '#F8FAFC',
     icon: path.join(__dirname, 'assets', 'icon.ico'),
     autoHideMenuBar: true,
     kiosk: false, // Maintain full Windows system accessibility & Alt+Tab
@@ -88,7 +88,54 @@ function createWindow() {
   mainWindow.webContents.on('render-process-gone', (event, detailed) => {
     console.error('Partner app renderer crashed:', detailed.reason);
   });
+
+  // Prompt user for file path whenever a file download is triggered
+  mainWindow.webContents.session.on('will-download', (event, item) => {
+    const defaultName = item.getFilename();
+    const defaultPath = path.join(app.getPath('documents'), defaultName);
+    item.setSaveDialogOptions({
+      title: 'DineDeck Partner — Save File Location',
+      defaultPath: defaultPath
+    });
+  });
 }
+
+// 📁 File Path & Storage IPC Handlers
+ipcMain.handle('file:save-file', async (event, { defaultName, data, filters }) => {
+  const result = await dialog.showSaveDialog(mainWindow, {
+    title: 'DineDeck Partner — Choose Save File Location',
+    defaultPath: path.join(app.getPath('documents'), defaultName || 'dinedeck_export.csv'),
+    buttonLabel: 'Save File',
+    filters: filters || [
+      { name: 'Spreadsheets & Data (*.csv)', extensions: ['csv'] },
+      { name: 'All Files (*.*)', extensions: ['*'] }
+    ]
+  });
+
+  if (!result.canceled && result.filePath) {
+    try {
+      fs.writeFileSync(result.filePath, data, 'utf-8');
+      return { success: true, filePath: result.filePath };
+    } catch (err) {
+      console.error('Failed to write file to chosen path:', err);
+      return { success: false, error: err.message };
+    }
+  }
+  return { canceled: true };
+});
+
+ipcMain.handle('file:choose-path', async (event, { title, defaultPath }) => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    title: title || 'DineDeck Partner — Select Storage Folder',
+    defaultPath: defaultPath || app.getPath('documents'),
+    properties: ['openDirectory', 'createDirectory']
+  });
+
+  if (!result.canceled && result.filePaths && result.filePaths.length > 0) {
+    return { success: true, path: result.filePaths[0] };
+  }
+  return { canceled: true };
+});
 
 // 🖨️ Thermal Printer IPC Handlers
 ipcMain.handle('printer:get-printers', async () => {

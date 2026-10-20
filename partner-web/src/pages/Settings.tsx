@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
 import {
   Building2,
   MapPin,
   Percent,
   Printer,
   ChefHat,
-  Palette,
   Bell,
   Lock,
-  Sun,
-  Moon,
-  Monitor,
   Volume2,
   VolumeX,
   Save,
@@ -26,7 +21,8 @@ import {
   Shield,
   Users,
   Smartphone,
-  Phone
+  Phone,
+  FolderOpen
 } from 'lucide-react';
 
 type SettingsSection =
@@ -35,11 +31,8 @@ type SettingsSection =
   | 'TAXATION'
   | 'BILLING'
   | 'OPERATIONS'
-  | 'THEME'
   | 'NOTIFICATIONS'
   | 'SECURITY';
-
-type AppTheme = 'DARK' | 'LIGHT' | 'SYSTEM';
 
 interface SettingsState {
   displayName: string;
@@ -108,10 +101,10 @@ interface SettingsState {
   voidPin: string;
   autoLogoutMins: string;
   viewOnlyPassword: string;
+  storagePath?: string;
 }
 
 const STORAGE_KEY = 'dinedeck_restaurant_settings';
-const THEME_KEY = 'dinedeck_app_theme';
 
 const loadSettings = (): Partial<SettingsState> => {
   try {
@@ -128,7 +121,6 @@ const SETTINGS_NAV: { key: SettingsSection; label: string; icon: any; color: str
   { key: 'TAXATION', label: 'Taxation & Compliance', icon: Percent, color: 'text-emerald-400' },
   { key: 'BILLING', label: 'Billing & Receipts', icon: Printer, color: 'text-violet-400' },
   { key: 'OPERATIONS', label: 'Operations & Floor', icon: ChefHat, color: 'text-amber-400' },
-  { key: 'THEME', label: 'Display & Theme', icon: Palette, color: 'text-pink-400' },
   { key: 'NOTIFICATIONS', label: 'Notifications & Alerts', icon: Bell, color: 'text-sky-400' },
   { key: 'SECURITY', label: 'Security & Access', icon: Lock, color: 'text-rose-400' }
 ];
@@ -140,8 +132,6 @@ export const Settings: React.FC = () => {
   const [showVoidPin, setShowVoidPin] = useState(false);
   const [receiptPreviewMode, setReceiptPreviewMode] = useState<'FINAL_BILL' | 'KITCHEN_KOT'>('FINAL_BILL');
   const [browserNotificationPerm, setBrowserNotificationPerm] = useState<NotificationPermission>('default');
-
-  const { theme: appTheme, setTheme: setAppTheme } = useTheme();
 
   // Check notification permission on mount
   useEffect(() => {
@@ -217,7 +207,8 @@ export const Settings: React.FC = () => {
     discountPinThreshold: p.discountPinThreshold ?? '10',
     voidPin: p.voidPin ?? '1234',
     autoLogoutMins: p.autoLogoutMins ?? '30',
-    viewOnlyPassword: p.viewOnlyPassword ?? ''
+    viewOnlyPassword: p.viewOnlyPassword ?? '',
+    storagePath: p.storagePath ?? 'D:\\Dindeck\\Exports'
   });
 
   const u = (patch: Partial<SettingsState>) => setS((prev) => ({ ...prev, ...patch }));
@@ -995,6 +986,51 @@ export const Settings: React.FC = () => {
               )}
             </div>
 
+            {/* Local File Storage & Export Directory (User-Configurable) */}
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <FolderOpen className="w-4 h-4 text-violet-600" />
+                    <span>DineDeck Data & Export Storage Location</span>
+                  </h4>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Choose the folder or drive on your machine where reports, spreadsheets, and backup data are saved.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <input
+                  type="text"
+                  value={s.storagePath || 'D:\\Dindeck\\Exports'}
+                  onChange={(e) => u({ storagePath: e.target.value })}
+                  placeholder="D:\Dindeck\Exports"
+                  className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-900 focus:outline-none focus:border-violet-500"
+                />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (typeof window !== 'undefined' && (window as any).dinedeckDesktop?.choosePath) {
+                      const res = await (window as any).dinedeckDesktop.choosePath({
+                        title: 'Select Storage Folder for DineDeck Exports',
+                        defaultPath: s.storagePath || 'D:\\Dindeck'
+                      });
+                      if (res.success && res.path) {
+                        u({ storagePath: res.path });
+                      }
+                    } else {
+                      alert('You can specify any path on your drive (e.g. D:\\Dindeck\\Exports) in the input field.');
+                    }
+                  }}
+                  className="px-4 py-2.5 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+                >
+                  <FolderOpen className="w-4 h-4" />
+                  <span>Browse Folder</span>
+                </button>
+              </div>
+            </div>
+
             <div className="flex justify-end">
               <Btn section="BILLING" />
             </div>
@@ -1098,104 +1134,6 @@ export const Settings: React.FC = () => {
 
             <div className="flex justify-end">
               <Btn section="OPERATIONS" />
-            </div>
-          </div>
-        );
-
-      case 'THEME':
-        return (
-          <div className="space-y-5">
-            <Hdr
-              icon={Palette}
-              title="Display & Theme"
-              sub="Select your preferred UI appearance. Theme changes apply live across the whole application."
-              color="text-pink-500 dark:text-pink-400"
-            />
-
-            <div>
-              <label className="block text-xs text-slate-600 dark:text-slate-400 mb-3 font-bold tracking-wider">APP THEME</label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {[
-                  {
-                    key: 'DARK' as AppTheme,
-                    label: 'Dark Mode',
-                    icon: Moon,
-                    desc: 'Optimized for low-light kitchens and night shifts to reduce eye strain.',
-                    preview: 'bg-slate-900 border-slate-700'
-                  },
-                  {
-                    key: 'LIGHT' as AppTheme,
-                    label: 'Light Mode',
-                    icon: Sun,
-                    desc: 'High contrast for bright daylight counters and outdoor cashier stations.',
-                    preview: 'bg-white border-slate-300'
-                  },
-                  {
-                    key: 'SYSTEM' as AppTheme,
-                    label: 'System Adaptive',
-                    icon: Monitor,
-                    desc: 'Automatically matches your Windows/Mac/Android system appearance.',
-                    preview: 'bg-gradient-to-br from-slate-900 to-slate-200 border-slate-500'
-                  }
-                ].map(({ key, label, icon: Icon, desc, preview }) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => setAppTheme(key)}
-                    className={`p-4 rounded-2xl border-2 text-left transition cursor-pointer ${
-                      appTheme === key
-                        ? 'border-orange-500 bg-orange-500/10'
-                        : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40 hover:border-slate-300 dark:hover:border-slate-600'
-                    }`}
-                  >
-                    <div className={`w-full h-10 rounded-xl mb-3 border ${preview}`} />
-                    <div className="flex items-center space-x-2 mb-1">
-                      <Icon className={`w-4 h-4 ${appTheme === key ? 'text-orange-500 dark:text-orange-400' : 'text-slate-500 dark:text-slate-400'}`} />
-                      <span className={`font-black text-sm ${appTheme === key ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
-                        {label}
-                      </span>
-                      {appTheme === key && (
-                        <span className="px-1.5 py-0.5 bg-orange-500 text-white text-[9px] rounded-full font-bold">
-                          ACTIVE
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Display Capabilities */}
-            <div className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 space-y-3">
-              <div className="text-xs font-bold text-slate-700 dark:text-slate-300">TERMINAL SYNC & STATUS</div>
-              <div className="flex items-center justify-between text-sm border-b border-slate-200 dark:border-slate-800 pb-3">
-                <div>
-                  <div className="font-semibold text-slate-900 dark:text-white">WebSocket Real-Time Engine</div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Instant sub-100ms sync for kitchen & billing</div>
-                </div>
-                <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs rounded-full font-bold border border-emerald-500/30 flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
-                  Live Connected
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <div>
-                  <div className="font-semibold text-slate-900 dark:text-white">Background Fail-Safe Polling</div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">4-second heartbeat sync for unstable Wi-Fi</div>
-                </div>
-                <span className="px-2.5 py-1 bg-blue-500/20 text-blue-600 dark:text-blue-400 text-xs rounded-full font-bold border border-blue-500/30">
-                  Active (4s)
-                </span>
-              </div>
-            </div>
-
-            <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-xs text-orange-800 dark:text-orange-200">
-              💡 <strong>Instant Application</strong> — Theme preferences are saved per device and apply immediately.
-            </div>
-
-            <div className="flex justify-end">
-              <Btn section="THEME" />
             </div>
           </div>
         );

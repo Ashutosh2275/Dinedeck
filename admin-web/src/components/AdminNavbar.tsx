@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAdminAuth } from '../context/AdminAuthContext';
-import { useTheme } from '../context/ThemeContext';
 import {
   Shield,
   LogOut,
@@ -8,9 +7,7 @@ import {
   Menu,
   X,
   Maximize2,
-  Power,
-  Sun,
-  Moon
+  Power
 } from 'lucide-react';
 
 interface AdminNavbarProps {
@@ -25,14 +22,13 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
   onOpenSearch
 }) => {
   const { logout } = useAdminAuth();
-  const { isDark, toggleTheme } = useTheme();
 
   return (
-    <header className="h-16 bg-white/95 dark:bg-[#0E131F]/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm dark:shadow-lg shrink-0 transition-colors duration-150">
+    <header className="h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm shrink-0 transition-colors duration-150">
       <div className="flex items-center space-x-3">
         <button
           onClick={onToggleMobileMenu}
-          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white lg:hidden border border-slate-300 dark:border-slate-700 transition"
+          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 lg:hidden border border-slate-300 transition"
           title="Toggle Navigation Menu"
         >
           {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -43,14 +39,14 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
             <div className="flex items-center space-x-2">
               <div className="flex items-center gap-2">
                 <img
-                  src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
+                  src="/dinedeck-logo.png"
                   alt="DineDeck"
                   className="h-6 sm:h-7 object-contain"
                   draggable={false}
                 />
-                <span className="font-bold text-xs text-slate-800 dark:text-slate-200 hidden sm:inline">Control Center</span>
+                <span className="font-bold text-xs text-slate-800 hidden sm:inline">Control Center</span>
               </div>
-              <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[9px] font-black bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">
+              <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[9px] font-black bg-cyan-500/10 text-cyan-600 border border-cyan-500/30">
                 ADMIN
               </span>
             </div>
@@ -121,21 +117,6 @@ export const AdminNavbar: React.FC<AdminNavbarProps> = ({
               </button>
             </>
           )}
-
-          {/* Quick Theme Toggle */}
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-cyan-400 transition shrink-0 cursor-pointer shadow-sm active:scale-95"
-            title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
-            aria-label="Toggle visual theme"
-          >
-            {isDark ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-slate-700" />
-            )}
-          </button>
 
           <button
             onClick={logout}

@@ -62,10 +62,11 @@ private val PartnerLightColorScheme = lightColorScheme(
 
 @Composable
 fun PartnerTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) PartnerDarkColorScheme else PartnerLightColorScheme
+    // Strictly Light Theme throughout the DineDeck ecosystem
+    val colors = PartnerLightColorScheme
     MaterialTheme(
         colorScheme = colors,
         content = content

@@ -88,71 +88,37 @@ describe('DINEDECK UI/UX Design System & WCAG 2.2 AA Contrast Compliance', () =>
     });
   });
 
-  describe('2. Universal Theme Architecture & State Transitions', () => {
-    function simulateThemeEngine(
-      preference: 'LIGHT' | 'DARK' | 'SYSTEM',
-      systemPrefersDark: boolean
-    ) {
-      const isDark =
-        preference === 'DARK' || (preference === 'SYSTEM' && systemPrefersDark);
-
+  describe('2. Universal Permanent Light Theme Policy & State Verification', () => {
+    function simulateThemeEngine() {
+      const isDark = false;
       const htmlClasses = new Set<string>();
-      if (isDark) {
-        htmlClasses.add('dark');
-        htmlClasses.delete('light');
-        htmlClasses.delete('light-mode');
-      } else {
-        htmlClasses.add('light');
-        htmlClasses.add('light-mode');
-        htmlClasses.delete('dark');
-      }
+      htmlClasses.add('light');
+      htmlClasses.add('light-mode');
+      htmlClasses.delete('dark');
 
       return {
-        resolvedTheme: isDark ? 'DARK' : 'LIGHT',
-        isDark,
+        resolvedTheme: 'LIGHT',
+        isDark: false,
         classes: Array.from(htmlClasses),
-        dataTheme: isDark ? 'dark' : 'light'
+        dataTheme: 'light'
       };
     }
 
-    it('should resolve LIGHT mode properly regardless of system preference', () => {
-      const darkOsResult = simulateThemeEngine('LIGHT', true);
-      const lightOsResult = simulateThemeEngine('LIGHT', false);
+    it('should strictly resolve to permanent LIGHT mode regardless of device or OS settings', () => {
+      const result = simulateThemeEngine();
 
-      expect(darkOsResult.resolvedTheme).toBe('LIGHT');
-      expect(darkOsResult.isDark).toBe(false);
-      expect(darkOsResult.classes).toContain('light');
-      expect(darkOsResult.classes).toContain('light-mode');
-      expect(darkOsResult.classes).not.toContain('dark');
-
-      expect(lightOsResult.resolvedTheme).toBe('LIGHT');
-      expect(lightOsResult.isDark).toBe(false);
+      expect(result.resolvedTheme).toBe('LIGHT');
+      expect(result.isDark).toBe(false);
+      expect(result.classes).toContain('light');
+      expect(result.classes).toContain('light-mode');
+      expect(result.classes).not.toContain('dark');
+      expect(result.dataTheme).toBe('light');
     });
 
-    it('should resolve DARK mode properly regardless of system preference', () => {
-      const darkOsResult = simulateThemeEngine('DARK', true);
-      const lightOsResult = simulateThemeEngine('DARK', false);
-
-      expect(darkOsResult.resolvedTheme).toBe('DARK');
-      expect(darkOsResult.isDark).toBe(true);
-      expect(darkOsResult.classes).toContain('dark');
-      expect(darkOsResult.classes).not.toContain('light');
-
-      expect(lightOsResult.resolvedTheme).toBe('DARK');
-      expect(lightOsResult.isDark).toBe(true);
-    });
-
-    it('should adapt dynamically in SYSTEM mode to system dark mode preference', () => {
-      const darkSys = simulateThemeEngine('SYSTEM', true);
-      const lightSys = simulateThemeEngine('SYSTEM', false);
-
-      expect(darkSys.resolvedTheme).toBe('DARK');
-      expect(darkSys.isDark).toBe(true);
-      expect(darkSys.classes).toContain('dark');
-
-      expect(lightSys.resolvedTheme).toBe('LIGHT');
-      expect(lightSys.isDark).toBe(false);
-      expect(lightSys.classes).toContain('light');
+    it('should eliminate dark mode switching and maintain crisp daylight visual standards', () => {
+      const result = simulateThemeEngine();
+      expect(result.isDark).toBe(false);
+      expect(result.classes.includes('dark')).toBe(false);
     });
   });
 

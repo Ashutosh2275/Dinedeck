@@ -37,10 +37,11 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun DineDeckTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) DarkColorScheme else LightColorScheme
+    // Strictly Light Theme throughout the DineDeck ecosystem
+    val colors = LightColorScheme
 
     MaterialTheme(
         colorScheme = colors,

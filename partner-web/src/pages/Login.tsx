@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
-import { UtensilsCrossed, Lock, Mail, ArrowRight, ShieldCheck, Zap, Loader2, AlertCircle, ChefHat, Receipt, Eye, EyeOff, HelpCircle, Sun, Moon } from 'lucide-react';
+import { UtensilsCrossed, Lock, Mail, ArrowRight, ShieldCheck, Zap, Loader2, AlertCircle, ChefHat, Receipt, Eye, EyeOff, HelpCircle } from 'lucide-react';
 import { AccountRecoveryModal } from '../components/AccountRecoveryModal';
 
 export const Login: React.FC = () => {
   const { login, isLoading } = useAuth();
-  const { isDark, toggleTheme } = useTheme();
   const [email, setEmail] = useState<string>('owner.punjab@dinedeck.in');
   const [password, setPassword] = useState<string>('Dinedeck@2026');
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -134,20 +132,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#0F172A] flex items-center justify-center p-4 md:p-6 overflow-hidden selection:bg-orange-500 transition-colors duration-150">
-      {/* Top Right Quick Theme Switcher */}
-      <div className="absolute top-4 right-4 z-20">
-        <button
-          type="button"
-          onClick={toggleTheme}
-          className="p-2.5 rounded-2xl bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-orange-400 border border-slate-200 dark:border-slate-700 shadow-md backdrop-blur-md transition flex items-center gap-1.5 cursor-pointer active:scale-95 text-xs font-bold"
-          title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
-        >
-          {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
-          <span className="hidden sm:inline">{isDark ? 'Light' : 'Dark'}</span>
-        </button>
-      </div>
-
+    <div className="relative min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4 md:p-6 overflow-hidden selection:bg-orange-500 transition-colors duration-150">
       {/* Dynamic Ambient Background Glows */}
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-orange-600/15 rounded-full blur-3xl pointer-events-none animate-pulse" />
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDelay: '1s' }} />
@@ -167,7 +152,7 @@ export const Login: React.FC = () => {
             className="flex items-center gap-3 origin-center select-none"
           >
             <img
-              src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
+              src="/dinedeck-logo.png"
               alt="DineDeck"
               className="h-8 sm:h-9 object-contain"
               draggable={false}

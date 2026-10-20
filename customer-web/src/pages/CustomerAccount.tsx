@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { useCustomer } from '../context/CustomerContext';
-import { useTheme, ThemeMode } from '../context/ThemeContext';
 import {
   User,
   Mail,
@@ -28,15 +27,10 @@ import {
   BadgePercent,
   Clock,
   Share2,
-  ArrowRight,
-  Sun,
-  Moon,
-  Monitor,
-  Palette
+  ArrowRight
 } from 'lucide-react';
 
 export const CustomerAccount: React.FC = () => {
-  const { theme, setTheme, isDark } = useTheme();
   const {
     user,
     session,
@@ -573,73 +567,7 @@ export const CustomerAccount: React.FC = () => {
         </div>
       </div>
 
-      {/* 5. APP THEME & VISUAL APPEARANCE */}
-      <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
-          <div>
-            <h2 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-              <Palette className="w-4 h-4 text-pink-500 dark:text-pink-400" />
-              <span>Display Theme & Appearance</span>
-            </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Personalize your visual experience across light and dark modes
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {[
-            {
-              key: 'LIGHT' as ThemeMode,
-              label: 'Light Mode',
-              icon: Sun,
-              desc: 'High contrast for bright daytime dining and outdoors.',
-              preview: 'bg-white border-slate-300'
-            },
-            {
-              key: 'DARK' as ThemeMode,
-              label: 'Dark Mode',
-              icon: Moon,
-              desc: 'Sleek, eye-friendly theme for evening restaurants.',
-              preview: 'bg-[#0B0F19] border-slate-700'
-            },
-            {
-              key: 'SYSTEM' as ThemeMode,
-              label: 'System Adaptive',
-              icon: Monitor,
-              desc: 'Automatically matches your device OS settings.',
-              preview: 'bg-gradient-to-r from-white to-[#0B0F19] border-slate-500'
-            }
-          ].map(({ key, label, icon: Icon, desc, preview }) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setTheme(key)}
-              className={`p-4 rounded-2xl border-2 text-left transition cursor-pointer ${
-                theme === key
-                  ? 'border-orange-500 bg-orange-500/10'
-                  : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 hover:border-slate-300 dark:hover:border-slate-700'
-              }`}
-            >
-              <div className={`w-full h-8 rounded-xl mb-3 border ${preview}`} />
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-2">
-                  <Icon className={`w-4 h-4 ${theme === key ? 'text-orange-500 dark:text-orange-400' : 'text-slate-400'}`} />
-                  <span className="font-black text-xs text-slate-900 dark:text-white">{label}</span>
-                </div>
-                {theme === key && (
-                  <span className="px-1.5 py-0.5 bg-orange-500 text-white text-[9px] font-black rounded-full">
-                    ACTIVE
-                  </span>
-                )}
-              </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{desc}</p>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 6. ACTIVE TABLE STATUS */}
+      {/* 5. ACTIVE TABLE STATUS */}
       <div className="bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>

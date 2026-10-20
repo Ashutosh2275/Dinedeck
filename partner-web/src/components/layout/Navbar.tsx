@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useTheme } from '../../context/ThemeContext';
 import { formatRole } from '../../utils/roleFormatter';
 import {
   UtensilsCrossed,
@@ -15,9 +14,7 @@ import {
   X,
   Maximize2,
   Minimize2,
-  Power,
-  Sun,
-  Moon
+  Power
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -34,16 +31,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   isMobileMenuOpen = false
 }) => {
   const { user, restaurant, branch, wsStatus, logout, assignedRoles } = useAuth();
-  const { isDark, toggleTheme } = useTheme();
   const primaryRole = assignedRoles.length > 0 ? assignedRoles[0] : 'STAFF';
 
   return (
-    <header className="h-16 bg-white/95 dark:bg-[#0F172A]/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-[60] shadow-sm dark:shadow-md transition-colors duration-150">
+    <header className="h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-[60] shadow-sm transition-colors duration-150">
       {/* Left Brand + Restaurant Identity + Mobile Drawer Trigger */}
       <div className="flex items-center space-x-3 sm:space-x-4 min-w-0">
         <button
           onClick={onToggleMobileMenu}
-          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white lg:hidden border border-slate-300 dark:border-slate-700 transition shrink-0"
+          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 lg:hidden border border-slate-300 transition shrink-0"
           title="Toggle Navigation Menu"
         >
           {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -53,16 +49,16 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center space-x-2 shrink-0">
           <div className="flex items-center gap-2">
             <img
-              src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
+              src="/dinedeck-logo.png"
               alt="DineDeck"
               className="h-6 sm:h-7 object-contain"
               draggable={false}
             />
-            <span className="font-bold text-xs text-slate-800 dark:text-slate-200 hidden xl:inline">
+            <span className="font-bold text-xs text-slate-800 hidden xl:inline">
               Partner Operations
             </span>
           </div>
-          <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[9px] font-black bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 border border-orange-500/30">
+          <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[9px] font-black bg-orange-500/10 text-orange-600 border border-orange-500/30">
             PARTNER
           </span>
         </div>
@@ -122,21 +118,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             </>
           )}
         </div>
-
-        {/* Quick Theme Toggle */}
-        <button
-          type="button"
-          onClick={toggleTheme}
-          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-orange-400 transition border border-slate-300 dark:border-slate-700 shrink-0 cursor-pointer shadow-sm active:scale-95"
-          title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
-          aria-label="Toggle visual theme"
-        >
-          {isDark ? (
-            <Sun className="w-4 h-4 text-amber-400" />
-          ) : (
-            <Moon className="w-4 h-4 text-slate-700" />
-          )}
-        </button>
 
         {/* Refresh Action */}
         {onRefresh && (

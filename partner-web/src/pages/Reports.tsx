@@ -153,18 +153,59 @@ export const Reports: React.FC<ReportsProps> = ({ overview, orders }) => {
     return list;
   }, [completedOrders, selectedCategory, searchQuery]);
 
-  // Export to Excel / CSV
-  const handleExportCSV = () => {
+  // Export to Excel / CSV with User-Prompted Storage File Path
+  const handleExportCSV = async () => {
     const headers = ['Dish Name', 'Category', 'Plates Sold', 'Price (Rs)', 'Total Money Earned (Rs)'];
     const rows = dishSales.map((d) => [`"${d.name}"`, `"${d.category}"`, d.units, d.price.toFixed(2), d.revenue.toFixed(2)]);
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
-    const encodedUri = encodeURI(csvContent);
+    const rawCsv = [headers.join(','), ...rows.map((e) => e.join(','))].join('\r\n');
+    const defaultFilename = `dinedeck_sales_report_${new Date().toISOString().slice(0, 10)}.csv`;
+
+    // 1. Electron Desktop Environment: Prompt native Windows Save File dialog
+    if (typeof window !== 'undefined' && (window as any).dinedeckDesktop?.saveFile) {
+      try {
+        await (window as any).dinedeckDesktop.saveFile({
+          defaultName: defaultFilename,
+          data: rawCsv,
+          filters: [
+            { name: 'CSV Spreadsheet (*.csv)', extensions: ['csv'] },
+            { name: 'All Files (*.*)', extensions: ['*'] }
+          ]
+        });
+        return;
+      } catch (err) {
+        console.error('Desktop save dialog failed, falling back to browser picker:', err);
+      }
+    }
+
+    // 2. Modern Browser: Prompt native file picker if supported
+    if (typeof window !== 'undefined' && 'showSaveFilePicker' in window) {
+      try {
+        const fileHandle = await (window as any).showSaveFilePicker({
+          suggestedName: defaultFilename,
+          types: [{
+            description: 'CSV Spreadsheet File',
+            accept: { 'text/csv': ['.csv'] }
+          }]
+        });
+        const writableStream = await fileHandle.createWritable();
+        await writableStream.write(rawCsv);
+        await writableStream.close();
+        return;
+      } catch (err: any) {
+        if (err.name === 'AbortError') return; // User opted to cancel dialog
+      }
+    }
+
+    // 3. Fallback: Standard Blob Download
+    const blob = new Blob([rawCsv], { type: 'text/csv;charset=utf-8;' });
+    const blobUrl = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `dinedeck_sales_report_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.href = blobUrl;
+    link.setAttribute('download', defaultFilename);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
   };
 
   return (
