@@ -97,12 +97,17 @@ jobs:
         run: |
           echo "## DineDeck Daily Maintenance & Health Report" >> $GITHUB_STEP_SUMMARY
           echo "Run Date: $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "Workflow Execution Status: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Checkpoint | Status | Details |" >> $GITHUB_STEP_SUMMARY
-          echo "| :--- | :---: | :--- |" >> $GITHUB_STEP_SUMMARY
-          echo "| Backend API & Vitest Suite | ✅ PASS | Fastify, Prisma 5, PostgreSQL 16 & Redis 7 verified |" >> $GITHUB_STEP_SUMMARY
-          echo "| Web Frontend Builds | ✅ PASS | customer-web, partner-web, and admin-web compiled clean |" >> $GITHUB_STEP_SUMMARY
-          echo "| Docker Compose Architecture | ✅ PASS | docker-compose.yml configuration valid & container ready |" >> $GITHUB_STEP_SUMMARY
-          echo "| Brand Assets & Icon Hashes | ✅ PASS | Official DineDeck emblem & distinct suite identities intact |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "All core commercial platform services are fully operational." >> $GITHUB_STEP_SUMMARY
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "| Checkpoint | Status | Details |" >> $GITHUB_STEP_SUMMARY
+            echo "| :--- | :---: | :--- |" >> $GITHUB_STEP_SUMMARY
+            echo "| Brand Assets & Icon Hashes | ✅ PASS | Official DineDeck emblem & distinct suite identities intact |" >> $GITHUB_STEP_SUMMARY
+            echo "| Backend API & Vitest Suite | ✅ PASS | Fastify, Prisma 5, PostgreSQL 16 & Redis 7 verified |" >> $GITHUB_STEP_SUMMARY
+            echo "| Web Frontend Builds | ✅ PASS | customer-web, partner-web, and admin-web compiled clean |" >> $GITHUB_STEP_SUMMARY
+            echo "| Docker Compose Architecture | ✅ PASS | docker-compose.yml configuration valid & container ready |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "All core commercial platform services are fully operational." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **Maintenance Alert**: One or more pipeline stages failed or were skipped during this run. Review the workflow job steps for diagnostic details." >> $GITHUB_STEP_SUMMARY
+          fi

@@ -9,8 +9,10 @@ import shutil
 from PIL import Image, ImageDraw, ImageFilter
 import numpy as np
 
-SOURCE_IMAGE_PATH = r"C:/Users/ASUS/.gemini/antigravity/brain/0553ec9c-19cd-4d12-b3f4-bf523dc41517/.user_uploaded/media_1792377572069_14f49372.png"
-ROOT_DIR = r"D:/Dindeck"
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+SOURCE_IMAGE_PATH = os.path.join(ROOT_DIR, "brand-assets", "official-dinedeck-source-logo.png")
+if not os.path.exists(SOURCE_IMAGE_PATH):
+    SOURCE_IMAGE_PATH = os.path.join(ROOT_DIR, "brand-assets", "dinedeck-emblem-1024.png")
 BRAND_ASSETS_DIR = os.path.join(ROOT_DIR, "brand-assets")
 
 def ensure_dir(path):

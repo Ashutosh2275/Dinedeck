@@ -19,10 +19,10 @@ import base64
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import numpy as np
 
-ROOT_DIR = r"d:\Dindeck"
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SOURCE_IMAGE_PATH = os.path.join(ROOT_DIR, "brand-assets", "official-dinedeck-source-logo.png")
 if not os.path.exists(SOURCE_IMAGE_PATH):
-    SOURCE_IMAGE_PATH = r"C:\Users\ASUS\.gemini\antigravity\brain\0553ec9c-19cd-4d12-b3f4-bf523dc41517\.user_uploaded\media_1792377572069_14f49372.png"
+    SOURCE_IMAGE_PATH = os.path.join(ROOT_DIR, "brand-assets", "dinedeck-emblem-1024.png")
 
 BRAND_ASSETS_DIR = os.path.join(ROOT_DIR, "brand-assets")
 FONT_PATH = r"C:\Windows\Fonts\segoeuib.ttf"
@@ -31,10 +31,22 @@ def ensure_dir(path):
     os.makedirs(path, exist_ok=True)
 
 def load_font(size):
+    font_candidates = [
+        FONT_PATH,
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+        "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf",
+    ]
+    for candidate in font_candidates:
+        if candidate and os.path.exists(candidate):
+            try:
+                return ImageFont.truetype(candidate, size)
+            except Exception:
+                pass
     try:
-        return ImageFont.truetype(FONT_PATH, size)
-    except Exception:
         return ImageFont.load_default()
+    except Exception:
+        return None
 
 def clean_alpha_noise(img):
     arr = np.array(img)
