@@ -64,6 +64,8 @@ jobs:
 
       - name: Backend Integrity & Prisma Validation
         working-directory: backend
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/dinedeck_prod?schema=public"
         run: |
           npm ci
           npx prisma validate

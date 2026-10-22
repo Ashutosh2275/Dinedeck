@@ -254,9 +254,9 @@ model Order {
   roundOffAmount Float @default(0.0)
   totalAmount    Float
 
-  specialNotes      String?
-  kitchenNotes      String?
-  dietaryAlerts     String? // e.g. "NUT_ALLERGY", "JAIN", "GLUTEN_FREE"
+  specialNotes        String?
+  kitchenNotes        String?
+  dietaryAlerts       String? // e.g. "NUT_ALLERGY", "JAIN", "GLUTEN_FREE"
   rejectionReason     String?
   rejectionReasonCode String? // ITEM_UNAVAILABLE, KITCHEN_CAPACITY, RESTAURANT_CLOSING, PREP_TIME_TOO_LONG, INGREDIENT_UNAVAILABLE, TEMPORARY_OPERATIONAL_ISSUE, OTHER, ACCEPTANCE_TIMEOUT
   rejectedAt          DateTime?
@@ -264,8 +264,8 @@ model Order {
   acceptanceDeadline  DateTime? // Authoritative timestamp for 90s auto-acceptance timeout
   recallReason        String?
   holdReason          String?
-  slaStatus           String  @default("ON_TRACK") // ON_TRACK, AT_RISK, DELAYED, SLA_BREACHED
-  dynamicEtaMinutes   Int     @default(15)
+  slaStatus           String    @default("ON_TRACK") // ON_TRACK, AT_RISK, DELAYED, SLA_BREACHED
+  dynamicEtaMinutes   Int       @default(15)
 
   acceptedAt       DateTime?
   readyAt          DateTime?
