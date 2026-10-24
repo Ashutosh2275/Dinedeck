@@ -36,7 +36,8 @@ import {
 export const App: React.FC = () => {
   const { isLoggedIn, isLoading: authLoading, isInitializing, restaurant, user } = useAuth();
   const [currentTab, setCurrentTab] = useState<TabKey>('DASHBOARD');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // Sidebar always defaults to open on page refresh / initial load
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
   // Core Platform Data State
   const [overview, setOverview] = useState<ShiftOverview | null>(null);
@@ -271,23 +272,25 @@ export const App: React.FC = () => {
         onOpenKds={handleOpenKdsFromAlert}
       />
 
-      {/* 2. Fixed Top Navbar Header */}
+      {/* 2. Fixed Top Navbar Header with Three-Line Options Bar Button */}
       <Navbar
         activeServiceCallsCount={pendingServiceCalls}
         onRefresh={fetchAllData}
-        onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        isMobileMenuOpen={isMobileMenuOpen}
+        onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        isSidebarOpen={isSidebarOpen}
+        onToggleMobileMenu={() => setIsSidebarOpen((prev) => !prev)}
+        isMobileMenuOpen={isSidebarOpen}
       />
 
-      {/* 3. Main Workspace Container with fixed Sidebar and Scrollable Content */}
+      {/* 3. Main Workspace Container with Collapsible Sidebar and Expandable Content */}
       <div className="flex-1 flex overflow-hidden min-h-0">
         <Sidebar
           currentTab={currentTab}
           onSelectTab={setCurrentTab}
           serviceCallsCount={pendingServiceCalls}
           ordersCount={activeOrdersCount}
-          isOpenMobile={isMobileMenuOpen}
-          onCloseMobile={() => setIsMobileMenuOpen(false)}
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
         />
 
         <main className="flex-1 overflow-y-auto min-h-0 p-4 md:p-6 lg:p-8 bg-slate-100 dark:bg-[#0B0F19] transition-colors duration-150">

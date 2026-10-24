@@ -20,6 +20,8 @@ import {
 interface NavbarProps {
   activeServiceCallsCount?: number;
   onRefresh?: () => void;
+  onToggleSidebar?: () => void;
+  isSidebarOpen?: boolean;
   onToggleMobileMenu?: () => void;
   isMobileMenuOpen?: boolean;
 }
@@ -27,22 +29,28 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   activeServiceCallsCount = 0,
   onRefresh,
+  onToggleSidebar,
+  isSidebarOpen = true,
   onToggleMobileMenu,
   isMobileMenuOpen = false
 }) => {
   const { user, restaurant, branch, wsStatus, logout, assignedRoles } = useAuth();
   const primaryRole = assignedRoles.length > 0 ? assignedRoles[0] : 'STAFF';
 
+  const handleToggle = onToggleSidebar || onToggleMobileMenu;
+
   return (
     <header className="h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-[60] shadow-sm transition-colors duration-150">
-      {/* Left Brand + Restaurant Identity + Mobile Drawer Trigger */}
+      {/* Left Brand + Restaurant Identity + Three-Line Options Bar Trigger */}
       <div className="flex items-center space-x-3 sm:space-x-4 min-w-0">
+        {/* Three-Line Options Bar Button (Always Available) */}
         <button
-          onClick={onToggleMobileMenu}
-          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 lg:hidden border border-slate-300 transition shrink-0"
-          title="Toggle Navigation Menu"
+          type="button"
+          onClick={handleToggle}
+          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white border border-slate-300 dark:border-slate-700 transition shrink-0 cursor-pointer shadow-sm active:scale-95 flex items-center justify-center"
+          title={isSidebarOpen ? "Collapse navigation sidebar" : "Open navigation sidebar"}
         >
-          {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          <Menu className="w-5 h-5 text-slate-700 dark:text-slate-200" />
         </button>
 
         {/* 1. Official DineDeck Partner Operations Identity */}

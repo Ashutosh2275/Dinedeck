@@ -35,6 +35,8 @@ interface SidebarProps {
   onSelectTab: (tab: TabKey) => void;
   serviceCallsCount?: number;
   ordersCount?: number;
+  isOpen?: boolean;
+  onClose?: () => void;
   isOpenMobile?: boolean;
   onCloseMobile?: () => void;
 }
@@ -43,11 +45,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
   currentTab,
   onSelectTab,
   ordersCount = 0,
-  isOpenMobile = false,
+  isOpen,
+  onClose,
+  isOpenMobile,
   onCloseMobile
 }) => {
   const { hasAnyRole } = useAuth();
   const { isDark } = useTheme();
+
+  const isSidebarVisible = isOpen !== undefined ? isOpen : (isOpenMobile ?? true);
+  const handleClose = onClose || onCloseMobile;
+
+  const handleSelect = (key: TabKey) => {
+    onSelectTab(key);
+    if (typeof window !== 'undefined' && window.innerWidth < 1024 && handleClose) {
+      handleClose();
+    }
+  };
 
   const navigationGroups = [
     {
@@ -122,29 +136,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   ];
 
-  const handleSelect = (key: TabKey) => {
-    onSelectTab(key);
-    if (onCloseMobile) onCloseMobile();
-  };
-
   return (
     <>
       {/* Mobile Backdrop Overlay */}
-      {isOpenMobile && (
+      {isSidebarVisible && (
         <div
-          onClick={onCloseMobile}
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 lg:hidden animate-in fade-in"
+          onClick={handleClose}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-in fade-in duration-200"
         />
       )}
 
-      {/* Premium Sidebar Container */}
+      {/* Premium Sidebar Container with Smooth Collapsible Width */}
       <aside
-        className={`fixed lg:static top-0 bottom-0 left-0 z-50 w-72 bg-white dark:bg-[#0B1120] border-r border-slate-200 dark:border-slate-800 flex flex-col p-3.5 transition-transform duration-300 ease-in-out lg:translate-x-0 shrink-0 ${
-          isOpenMobile ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'
+        className={`fixed lg:static top-0 bottom-0 left-0 z-50 bg-white dark:bg-[#0B1120] border-r border-slate-200 dark:border-slate-800 flex flex-col transition-all duration-300 ease-in-out shrink-0 ${
+          isSidebarVisible
+            ? 'w-72 p-3.5 translate-x-0 shadow-2xl lg:shadow-none opacity-100'
+            : '-translate-x-full lg:translate-x-0 lg:w-0 lg:p-0 lg:border-none lg:overflow-hidden lg:opacity-0 pointer-events-none'
         }`}
       >
-        {/* Mobile Drawer Close Header */}
-        <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-200 dark:border-slate-800 lg:hidden">
+        {/* Sidebar Header with Brand + Close / Collapse Button */}
+        <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-200 dark:border-slate-800 shrink-0">
           <div className="flex items-center gap-2">
             <img
               src={isDark ? "/dinedeck-logo-dark.png" : "/dinedeck-logo.png"}
@@ -157,9 +168,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </span>
           </div>
           <button
-            onClick={onCloseMobile}
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-            title="Close Menu"
+            type="button"
+            onClick={handleClose}
+            className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition cursor-pointer"
+            title="Close sidebar"
           >
             <X className="w-4 h-4" />
           </button>
