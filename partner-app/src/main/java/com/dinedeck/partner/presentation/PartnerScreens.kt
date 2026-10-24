@@ -1368,6 +1368,9 @@ fun MenuAndSalesView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
             "MENU" -> ManagementMenuView(viewModel = viewModel, uiState = uiState)
             "STAFF_IAM" -> ManagementStaffIamView(viewModel = viewModel, uiState = uiState)
             "AUDIT" -> ManagementAuditView(viewModel = viewModel, uiState = uiState)
+            "INVENTORY" -> ManagementInventoryView(viewModel = viewModel, uiState = uiState)
+            "SETTINGS" -> ManagementSettingsView(viewModel = viewModel, uiState = uiState)
+            "HELP" -> ManagementHelpView(viewModel = viewModel, uiState = uiState)
             "SALES" -> ManagementSalesView(viewModel = viewModel, uiState = uiState)
         }
     } else {
@@ -1385,7 +1388,10 @@ fun MenuAndSalesView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
                 Triple("Staff & Access", "Manage staff permissions, branch access, and roles", "STAFF_IAM"),
                 Triple("Menu Management & 86", "Toggle live stock availability and update prices", "MENU"),
                 Triple("Shift Sales & Reports", "Financial metrics, payment breakdowns, and taxes", "SALES"),
-                Triple("Activity History", "Review staff and system activity records", "AUDIT")
+                Triple("Stock & Inventory", "Ingredient stock levels, low-supply alerts & vendor reorder", "INVENTORY"),
+                Triple("Activity History", "Review staff and system activity records", "AUDIT"),
+                Triple("Restaurant Settings", "Outlet profile, kitchen routing, tax slabs & printers", "SETTINGS"),
+                Triple("Help Desk & Support", "Operations manual, live kitchen support & diagnostics", "HELP")
             )
 
             items(items) { (title, desc, subKey) ->
@@ -1632,4 +1638,208 @@ fun MenuItemEditDialog(
         },
         containerColor = PartnerSurface
     )
+}
+
+
+@Composable
+fun ManagementInventoryView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
+    val sampleInventory = remember {
+        listOf(
+            Triple("Aged Basmati Rice", "54 kg in stock • Min 20 kg", "OPTIMAL"),
+            Triple("Fresh Malai Paneer", "8.5 kg in stock • Min 10 kg", "LOW_STOCK"),
+            Triple("Cold-Pressed Mustard Oil", "32 L in stock • Min 15 L", "OPTIMAL"),
+            Triple("Kashmiri Saffron (Grade A)", "140 g in stock • Min 50 g", "OPTIMAL"),
+            Triple("Chicken Drumsticks & Breast", "18 kg in stock • Min 25 kg", "REORDER"),
+            Triple("Amul Butter & Fresh Cream", "14 kg in stock • Min 10 kg", "OPTIMAL"),
+            Triple("Whole Garam Masala Blend", "6.2 kg in stock • Min 5 kg", "OPTIMAL")
+        )
+    }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        item {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = { viewModel.setManagementSubView(null) }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                }
+                Text("Stock & Kitchen Inventory", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+            }
+        }
+
+        item {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = PartnerSurface),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.padding(14.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text("Live Kitchen Stock Health", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        Text("2 items require replenishment today", fontSize = 11.sp, color = PartnerWarning)
+                    }
+                    Button(
+                        onClick = { viewModel.refreshAll() },
+                        colors = ButtonDefaults.buttonColors(containerColor = PartnerPrimary),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Text("Audit Stock", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+            }
+        }
+
+        items(sampleInventory) { (name, detail, status) ->
+            Card(
+                colors = CardDefaults.cardColors(containerColor = PartnerSurface),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.padding(14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(name, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        Text(detail, fontSize = 11.sp, color = Color(0xFF9CA3AF))
+                    }
+                    Surface(
+                        shape = RoundedCornerShape(6.dp),
+                        color = when (status) {
+                            "LOW_STOCK" -> PartnerWarning.copy(alpha = 0.2f)
+                            "REORDER" -> PartnerError.copy(alpha = 0.2f)
+                            else -> PartnerSuccess.copy(alpha = 0.2f)
+                        }
+                    ) {
+                        Text(
+                            text = status.replace("_", " "),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = when (status) {
+                                "LOW_STOCK" -> PartnerWarning
+                                "REORDER" -> PartnerError
+                                else -> PartnerSuccess
+                            },
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ManagementSettingsView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
+    val rest = uiState.currentRestaurant
+    val branch = uiState.currentBranch
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        item {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = { viewModel.setManagementSubView(null) }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                }
+                Text("Restaurant Settings & Station Config", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+            }
+        }
+
+        item {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = PartnerSurface),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Text("Outlet Profile", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = PartnerPrimary)
+                    Text("Name: " + (rest?.name ?: "DineDeck Partner"), fontSize = 13.sp, color = Color.White)
+                    Text("Branch: " + (branch?.name ?: "Main Dining Hall"), fontSize = 12.sp, color = Color(0xFF9CA3AF))
+                    Text("Address: " + (rest?.fullAddress ?: "${rest?.city ?: "Mumbai"}, ${rest?.state ?: "Maharashtra"}"), fontSize = 12.sp, color = Color(0xFF9CA3AF))
+                    Text("FSSAI: 11522001000843 • GSTIN: 27AABCT3421K1ZZ", fontSize = 11.sp, color = Color(0xFF64748B))
+                }
+            }
+        }
+
+        item {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = PartnerSurface),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Text("Hardware & Station Peripherals", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = PartnerPrimary)
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                        Text("Thermal Bill Printer (ESC/POS)", fontSize = 12.sp, color = Color.White)
+                        Text("192.168.1.120:9100 (ONLINE)", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = PartnerSuccess)
+                    }
+                    HorizontalDivider(color = PartnerBorder)
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                        Text("KDS Chime Audio Alert", fontSize = 12.sp, color = Color.White)
+                        Text("ENABLED (85 dB)", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = PartnerPrimary)
+                    }
+                    HorizontalDivider(color = PartnerBorder)
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                        Text("Table Dining Auto-Vacate", fontSize = 12.sp, color = Color.White)
+                        Text("120 MINS", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF9CA3AF))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ManagementHelpView(viewModel: PartnerViewModel, uiState: PartnerUiState) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        item {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = { viewModel.setManagementSubView(null) }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                }
+                Text("Partner Help Desk & Support", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+            }
+        }
+
+        item {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = PartnerSurface),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Emergency Partner Escalation", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    Text("Toll-Free Priority: 1800-DINEDECK (1800-346-3332)", fontSize = 12.sp, color = PartnerPrimary, fontWeight = FontWeight.Bold)
+                    Text("WhatsApp Desk: +91 98200 45454", fontSize = 12.sp, color = PartnerSuccess, fontWeight = FontWeight.Bold)
+                    Text("Email: partner-support@dinedeck.in", fontSize = 12.sp, color = Color(0xFF9CA3AF))
+                }
+            }
+        }
+
+        item {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = PartnerSurface),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text("Operator Knowledgebase", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    Text("• How to reassign tables to waitstaff during peak dinner hours", fontSize = 11.sp, color = Color(0xFF9CA3AF))
+                    Text("• How to 86 an out-of-stock item instantly across digital QR menus", fontSize = 11.sp, color = Color(0xFF9CA3AF))
+                    Text("• Resolving UPI settlement and split tender invoices at billing terminal", fontSize = 11.sp, color = Color(0xFF9CA3AF))
+                }
+            }
+        }
+    }
 }
