@@ -192,24 +192,24 @@ export const QrScannerModal: React.FC = () => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#121824] border border-slate-700 rounded-3xl max-w-sm w-full p-6 space-y-5 shadow-2xl relative overflow-hidden cursor-default"
+        className="bg-white dark:bg-[#121824] border border-slate-200 dark:border-slate-700 rounded-3xl max-w-sm w-full p-6 space-y-5 shadow-2xl relative overflow-hidden cursor-default"
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400">
+            <div className="w-8 h-8 rounded-xl bg-orange-50 dark:bg-orange-500/20 border border-orange-200 dark:border-orange-500/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
               <Camera className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-black text-white">Scan QR to Browse Menu</h3>
-              <p className="text-[10px] text-slate-400">Point camera at your table's DineDeck QR code</p>
+              <h3 className="text-sm font-black text-slate-900 dark:text-white">Scan QR to Browse Menu</h3>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400">Point camera at your table's DineDeck QR code</p>
             </div>
           </div>
 
           <button
             type="button"
             onClick={handleClose}
-            className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition cursor-pointer"
+            className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>

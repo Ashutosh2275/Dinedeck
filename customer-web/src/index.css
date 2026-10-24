@@ -244,7 +244,13 @@ body.light-mode {
 .light a[class*="bg-gradient-"] .text-white,
 .light button[class*="bg-gradient-"] .text-white,
 .light a[class*="bg-gradient-"],
-.light button[class*="bg-gradient-"] {
+.light button[class*="bg-gradient-"],
+.light .force-text-white,
+.light-mode .force-text-white,
+[data-theme="light"] .force-text-white,
+.light .force-text-white *,
+.light-mode .force-text-white *,
+[data-theme="light"] .force-text-white * {
   color: #FFFFFF !important;
 }
 

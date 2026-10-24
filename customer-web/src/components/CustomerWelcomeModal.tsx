@@ -58,12 +58,12 @@ export const CustomerWelcomeModal: React.FC = () => {
       <div className="absolute inset-0" onClick={handleDismiss} />
 
       {/* Modal / Mobile Bottom Sheet Card */}
-      <div className="relative w-full sm:max-w-md bg-[#121824] border-t sm:border border-slate-800 rounded-t-3xl sm:rounded-3xl p-6 sm:p-7 shadow-2xl shadow-black/80 space-y-6 z-10 animate-in slide-in-from-bottom sm:zoom-in-95 duration-200">
+      <div className="relative w-full sm:max-w-md bg-white dark:bg-[#121824] border-t sm:border border-slate-200 dark:border-slate-800 rounded-t-3xl sm:rounded-3xl p-6 sm:p-7 shadow-2xl shadow-black/20 dark:shadow-black/80 space-y-6 z-10 animate-in slide-in-from-bottom sm:zoom-in-95 duration-200">
         {/* Top Dismiss Button */}
         <button
           type="button"
           onClick={handleDismiss}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition cursor-pointer"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
           title="Dismiss welcome message"
         >
           <X className="w-4 h-4" />
@@ -72,7 +72,7 @@ export const CustomerWelcomeModal: React.FC = () => {
         {/* Brand Emblem & Welcome Header */}
         <div className="flex flex-col items-center text-center space-y-3 pt-2">
           <div className="relative">
-            <div className="w-14 h-14 rounded-2xl bg-[#0B1120] border border-orange-500/40 p-2.5 shadow-xl shadow-orange-500/25 flex items-center justify-center">
+            <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-[#0B1120] border border-orange-500/40 p-2.5 shadow-xl shadow-orange-500/15 flex items-center justify-center">
               <img
                 src="/dinedeck-emblem.png"
                 alt="DineDeck"
@@ -84,44 +84,44 @@ export const CustomerWelcomeModal: React.FC = () => {
           </div>
 
           <div className="space-y-1">
-            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
               Welcome to DineDeck
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-xs mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xs mx-auto leading-relaxed">
               Sign in to see your orders and manage your account.
             </p>
           </div>
         </div>
 
         {/* Benefits List */}
-        <div className="space-y-2.5 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3.5 sm:p-4">
+        <div className="space-y-2.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 rounded-2xl p-3.5 sm:p-4">
           <div className="flex items-start gap-3">
-            <div className="w-7 h-7 rounded-xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 shrink-0 mt-0.5">
+            <div className="w-7 h-7 rounded-xl bg-orange-50 dark:bg-orange-500/15 border border-orange-200 dark:border-orange-500/30 flex items-center justify-center text-orange-600 dark:text-orange-400 shrink-0 mt-0.5">
               <Clock className="w-3.5 h-3.5" />
             </div>
             <div className="text-left">
-              <div className="text-xs font-bold text-white">Live Orders & Status History</div>
-              <p className="text-[11px] text-slate-400">Track table service and order progress in real-time.</p>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Live Orders & Status History</div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Track table service and order progress in real-time.</p>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="w-7 h-7 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
+            <div className="w-7 h-7 rounded-xl bg-amber-50 dark:bg-amber-500/15 border border-amber-200 dark:border-amber-500/30 flex items-center justify-center text-amber-600 dark:text-amber-400 shrink-0 mt-0.5">
               <Receipt className="w-3.5 h-3.5" />
             </div>
             <div className="text-left">
-              <div className="text-xs font-bold text-white">Digital Tax Receipts & History</div>
-              <p className="text-[11px] text-slate-400">Review past dining bills and itemized invoices anytime.</p>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Digital Tax Receipts & History</div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Review past dining bills and itemized invoices anytime.</p>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="w-7 h-7 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+            <div className="w-7 h-7 rounded-xl bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
               <UtensilsCrossed className="w-3.5 h-3.5" />
             </div>
             <div className="text-left">
-              <div className="text-xs font-bold text-white">Custom Spice & Dietary Taste</div>
-              <p className="text-[11px] text-slate-400">Save kitchen preferences so food is cooked just right.</p>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Custom Spice & Dietary Taste</div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Save kitchen preferences so food is cooked just right.</p>
             </div>
           </div>
         </div>
@@ -143,9 +143,9 @@ export const CustomerWelcomeModal: React.FC = () => {
           <button
             type="button"
             onClick={handleRegister}
-            className="w-full py-2.5 sm:py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 hover:border-slate-600 text-slate-200 hover:text-white font-bold text-xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+            className="w-full py-2.5 sm:py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 hover:border-slate-300 dark:hover:border-slate-600 text-slate-800 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white font-bold text-xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-95"
           >
-            <UserPlus className="w-3.5 h-3.5 text-orange-400" />
+            <UserPlus className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
             <span>Create account</span>
           </button>
 
@@ -153,7 +153,7 @@ export const CustomerWelcomeModal: React.FC = () => {
           <button
             type="button"
             onClick={handleDismiss}
-            className="w-full py-2 text-xs font-semibold text-slate-400 hover:text-slate-200 transition text-center cursor-pointer"
+            className="w-full py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition text-center cursor-pointer"
           >
             Continue as guest
           </button>

@@ -447,11 +447,11 @@ export const CustomerHome: React.FC = () => {
             </div>
 
             {/* Headline & Description */}
-            <div className="space-y-1.5 max-w-lg sm:max-w-xl">
-              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug drop-shadow-md">
+            <div className="space-y-1.5 max-w-lg sm:max-w-xl force-text-white">
+              <h2 className="text-xl sm:text-2xl font-black !text-white tracking-tight leading-snug drop-shadow-md">
                 {activeBannersList[activeAdIndex]?.title}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-200 line-clamp-2 leading-relaxed drop-shadow">
+              <p className="text-xs sm:text-sm !text-slate-100 line-clamp-2 leading-relaxed drop-shadow">
                 {activeBannersList[activeAdIndex]?.subtitle}
               </p>
             </div>
@@ -971,25 +971,25 @@ export const CustomerHome: React.FC = () => {
       </div>
 
       {/* 4. DOWNLOAD APP SECTION */}
-      <section className="mt-10 mb-4 rounded-3xl overflow-hidden bg-gradient-to-br from-[#131C31] via-[#0F1726] to-[#0A0F1A] border border-orange-500/25 shadow-2xl relative">
+      <section className="mt-10 mb-4 rounded-3xl overflow-hidden bg-white dark:bg-[#151D30] border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-2xl relative">
         {/* Ambient Glow */}
-        <div className="absolute -top-24 -right-24 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-72 h-72 bg-orange-500/5 dark:bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-500/5 dark:bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="p-6 sm:p-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Column: Minimal & Clean Marketing Pitch */}
             <div className="lg:col-span-7 space-y-3 sm:space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-xs font-black uppercase tracking-wider">
-                <Smartphone className="w-3.5 h-3.5" />
-                <span>DineDeck App</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-500/15 border border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 text-xs font-black uppercase tracking-wider shadow-sm">
+                <Smartphone className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
+                <span className="text-orange-600 dark:text-orange-400">DineDeck App</span>
               </div>
 
               <div className="space-y-1.5">
-                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                   Download the DineDeck App
                 </h2>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
+                <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl font-medium">
                   Order from your table, track your food live from the kitchen, and pay seamlessly — all in one app.
                 </p>
               </div>
@@ -999,18 +999,18 @@ export const CustomerHome: React.FC = () => {
                 <a
                   href="/dinedeck-customer.apk"
                   download="dinedeck-customer.apk"
-                  className="px-6 py-3 rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-extrabold text-xs sm:text-sm shadow-xl shadow-orange-500/25 flex items-center gap-2 transition cursor-pointer transform active:scale-95"
+                  className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 hover:from-orange-600 hover:to-amber-600 !text-white font-extrabold text-xs sm:text-sm shadow-xl shadow-orange-500/25 flex items-center gap-2 transition cursor-pointer transform active:scale-95"
                 >
-                  <Download className="w-4 h-4" />
-                  <span>Download App</span>
+                  <Download className="w-4 h-4 !text-white" />
+                  <span className="!text-white font-black">Download App</span>
                 </a>
               </div>
             </div>
 
             {/* Right Column: Scannable QR (Desktop Highlight) */}
             <div className="lg:col-span-5 hidden sm:flex flex-col items-center justify-center">
-              <div className="flex flex-col items-center bg-white p-5 rounded-3xl shadow-2xl border-4 border-orange-500/30 text-center max-w-xs w-full group transition transform hover:scale-[1.02]">
-                <div className="bg-slate-50 p-2 rounded-2xl border border-slate-200">
+              <div className="flex flex-col items-center bg-slate-50 dark:bg-[#121824] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700/80 text-center max-w-xs w-full group transition transform hover:scale-[1.02]">
+                <div className="bg-white p-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                   <img
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(
                       typeof window !== 'undefined'
@@ -1022,11 +1022,11 @@ export const CustomerHome: React.FC = () => {
                   />
                 </div>
                 <div className="mt-3 space-y-1">
-                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-700 font-extrabold text-[10px] tracking-wider uppercase">
+                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-500/20 text-orange-700 dark:text-orange-300 font-extrabold text-[10px] tracking-wider uppercase">
                     Scan with Phone Camera
                   </span>
-                  <h4 className="font-extrabold text-slate-900 text-xs sm:text-sm">Scan to Download</h4>
-                  <p className="text-[10px] text-slate-500 leading-tight">
+                  <h4 className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">Scan to Download</h4>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">
                     Point your camera to get the app on your phone
                   </p>
                 </div>
