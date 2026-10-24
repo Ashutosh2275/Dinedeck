@@ -250,8 +250,35 @@ body.light-mode {
 [data-theme="light"] .force-text-white,
 .light .force-text-white *,
 .light-mode .force-text-white *,
-[data-theme="light"] .force-text-white * {
+[data-theme="light"] .force-text-white *,
+.banner-title,
+.banner-subtitle,
+.light .banner-title,
+.light-mode .banner-title,
+[data-theme="light"] .banner-title,
+.light .banner-subtitle,
+.light-mode .banner-subtitle,
+[data-theme="light"] .banner-subtitle,
+.light h2.banner-title,
+.light-mode h2.banner-title,
+[data-theme="light"] h2.banner-title,
+.light p.banner-subtitle,
+.light-mode p.banner-subtitle,
+[data-theme="light"] p.banner-subtitle {
   color: #FFFFFF !important;
+}
+
+/* Modal location button text protection in light mode */
+.light .modal-location-title,
+.light-mode .modal-location-title,
+[data-theme="light"] .modal-location-title {
+  color: #0F172A !important;
+}
+
+.light .modal-location-sub,
+.light-mode .modal-location-sub,
+[data-theme="light"] .modal-location-sub {
+  color: #475569 !important;
 }
 
 /* Modals & Dropdown Elevation in Light Mode */
